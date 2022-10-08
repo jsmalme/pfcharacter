@@ -7,7 +7,7 @@ import { debounceTime } from 'rxjs';
 @Component({
   selector: 'app-general',
   templateUrl: './general.component.html',
-  styleUrls: ['./general.component.css', '../../app.component.scss']
+  styleUrls: ['./general.component.scss', '../../app.component.scss']
 })
 export class GeneralComponent implements OnInit {
   generalInfoForm!: FormGroup; 

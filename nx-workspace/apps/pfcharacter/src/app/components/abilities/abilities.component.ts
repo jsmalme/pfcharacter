@@ -31,37 +31,37 @@ export class AbilitiesComponent implements OnInit {
 
     //abilities change listeners
     this.abilitiesForm.get('strForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!this.abilitiesForm.get('strForm')?.valid){
+      if(!this.checkValidForm(this.abilitiesForm, 'strForm')){
         return;
       }
       this.updateStrModifiers(info);
     });
     this.abilitiesForm.get('dexForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!this.abilitiesForm.get('dexForm')?.valid){
+      if(!this.checkValidForm(this.abilitiesForm, 'dexForm')){
         return;
       }
       this.updateDexModifiers(info);
     });
     this.abilitiesForm.get('conForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!this.abilitiesForm.get('conForm')?.valid){
+      if(!this.checkValidForm(this.abilitiesForm, 'conForm')){
         return;
       }
       this.updateConModifiers(info);
     });
     this.abilitiesForm.get('intForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!this.abilitiesForm.get('intForm')?.valid){
+      if(!this.checkValidForm(this.abilitiesForm, 'intForm')){
         return;
       }
       this.updateIntModifiers(info);
     });
     this.abilitiesForm.get('wisForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!this.abilitiesForm.get('wisForm')?.valid){
+      if(!this.checkValidForm(this.abilitiesForm, 'wisForm')){
         return;
       }
       this.updateWisModifiers(info);
     });
     this.abilitiesForm.get('chaForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!this.abilitiesForm.get('chaForm')?.valid){
+      if(!this.checkValidForm(this.abilitiesForm, 'chaForm')){
         return;
       }
       this.updateChaModifiers(info);
@@ -69,7 +69,7 @@ export class AbilitiesComponent implements OnInit {
 
     //saving throw change listeners
     this.savingThrowsForm.get('forForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!this.savingThrowsForm.get('forForm')?.valid){
+      if(!this.checkValidForm(this.savingThrowsForm, 'forForm')){
         return;
       }
       info.forAbility = this.savingThrows.for.forAbility;
@@ -78,7 +78,7 @@ export class AbilitiesComponent implements OnInit {
     });
 
     this.savingThrowsForm.get('refForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!this.savingThrowsForm.get('refForm')?.valid){
+      if(!this.checkValidForm(this.savingThrowsForm, 'refForm')){
         return;
       }
       info.refAbility = this.savingThrows.ref.refAbility;
@@ -87,7 +87,7 @@ export class AbilitiesComponent implements OnInit {
     });
 
     this.savingThrowsForm.get('willForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!this.savingThrowsForm.get('willForm')?.valid){
+      if(!this.checkValidForm(this.savingThrowsForm, 'willForm')){
         return;
       }
       info.willAbility = this.savingThrows.will.willAbility;
@@ -245,5 +245,12 @@ export class AbilitiesComponent implements OnInit {
       return undefined;
     }
     return Math.floor((score - 10)/2);
+  }
+
+  checkValidForm(parentForm: FormGroup, subForm: string){
+    if(!parentForm.get(subForm)?.valid){
+      return false;
+    }
+    return true;
   }
 }

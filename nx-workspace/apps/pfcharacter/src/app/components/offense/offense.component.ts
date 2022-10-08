@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { CharacterService } from '../../services/character.service';
@@ -6,7 +7,7 @@ import { OffenseInfo } from '../../../../../../libs/character-classes/offense-in
 @Component({
   selector: 'app-offense',
   templateUrl: './offense.component.html',
-  styleUrls: ['./offense.component.css']
+  styleUrls: ['./offense.component.scss']
 })
 export class OffenseComponent implements OnInit {
   offenseInfoForm!: FormGroup;
