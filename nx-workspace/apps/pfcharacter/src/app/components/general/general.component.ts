@@ -38,6 +38,14 @@ export class GeneralComponent implements OnInit {
       weight: new FormControl(generalInfo.weight),
       hair: new FormControl(generalInfo.hair),
       eyes: new FormControl(generalInfo.eyes),
+      baseSpeed: new FormControl(generalInfo.baseSpeed),
+      armorSpeed: new FormControl(generalInfo.armorSpeed),
+      flyManeuver: new FormControl(generalInfo.flyManeuver),
+      swimSpeed: new FormControl(generalInfo.swimSpeed),
+      climbSpeed: new FormControl(generalInfo.climbSpeed),
+      burrowSpeed: new FormControl(generalInfo.burrowSpeed),
+      speedTempMods: new FormControl(generalInfo.speedTempMods),
+      languages: new FormControl(generalInfo.languages),
       notes: new FormControl(generalInfo.notes)
     });
   }

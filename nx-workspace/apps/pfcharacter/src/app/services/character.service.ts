@@ -25,7 +25,15 @@ export class CharacterService {
       playerName: "Sir Joseph of Alconbury",
       race: "Dark Elf",
       size: "Medium",
-      weight: "240"
+      weight: "240",
+      baseSpeed: undefined,
+      armorSpeed: undefined,
+      flyManeuver: undefined,
+      swimSpeed: undefined,
+      climbSpeed: undefined,
+      burrowSpeed: undefined,
+      speedTempMods: undefined,
+      languages: undefined
     };
     offenseInfo: OffenseInfo = {
       baseAttackBonus: 3,

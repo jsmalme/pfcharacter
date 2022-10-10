@@ -1,103 +1,162 @@
 <div class="container comp-top-margin">
-    <form [formGroup] = "generalInfoForm">
-        <div class="row">
-            <div class="col-7 col-lg-4">
-                <h2>General Info</h2>
+    <form [formGroup] = "generalInfoForm" autocomplete="off">
+        <mat-card class="mat-elevation-z2">
+            <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px; padding-left: 12px;">
+                <div class="row " style="padding-top: 12px; padding-bottom: 12px;">
+                    <div class="col-7 col-lg-4">
+                        General Info
+                    </div>
+                </div>
+            </mat-card-title>
+            <div class="row">
+                <div class="col-7 col-lg-4">
+                        <h2>Character</h2>
+                        <p>
+                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                                <mat-label>Character Name</mat-label>
+                                <input matInput formControlName="characterName">
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                                <mat-label>Player Name</mat-label>
+                                <input matInput formControlName="playerName">
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                                <mat-label>Alignment</mat-label>
+                                <input matInput formControlName="alignment">
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                                <mat-label>Character Class & Level</mat-label>
+                                <input matInput formControlName="classLevel">
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                                <mat-label>Deity</mat-label>
+                                <input matInput formControlName="deity">
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                                <mat-label>Homeland</mat-label>
+                                <input matInput formControlName="homeland">
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                                <mat-label>Race</mat-label>
+                                <input matInput formControlName="race">
+                            </mat-form-field>
+                        </p>
+                </div>
+                <div class="col-5 col-lg-2">
+                    <h2>Appearance</h2>
                     <p>
-                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                            <mat-label>Character Name</mat-label>
-                            <input matInput formControlName="characterName">
+                        <mat-form-field appearance="outline" color="accent" style="width: 75%;">
+                            <mat-label>Size</mat-label>
+                            <input matInput formControlName="size">
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                            <mat-label>Player Name</mat-label>
-                            <input matInput formControlName="playerName">
+                        <mat-form-field appearance="outline" color="accent" style="width: 75%;">
+                            <mat-label>Gender</mat-label>
+                            <input matInput formControlName="gender">
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                            <mat-label>Alignment</mat-label>
-                            <input matInput formControlName="alignment">
+                        <mat-form-field appearance="outline" color="accent" style="width: 75%;">
+                            <mat-label>Age</mat-label>
+                            <input matInput formControlName="age">
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                            <mat-label>Character Class & Level</mat-label>
-                            <input matInput formControlName="classLevel">
+                        <mat-form-field appearance="outline" color="accent" style="width: 75%;">
+                            <mat-label>Height</mat-label>
+                            <input matInput formControlName="height">
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                            <mat-label>Deity</mat-label>
-                            <input matInput formControlName="deity">
+                        <mat-form-field appearance="outline" color="accent" style="width: 75%;">
+                            <mat-label>Weight</mat-label>
+                            <input matInput formControlName="weight">
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                            <mat-label>Homeland</mat-label>
-                            <input matInput formControlName="homeland">
+                        <mat-form-field appearance="outline" color="accent" style="width: 75%;">
+                            <mat-label>Hair</mat-label>
+                            <input matInput formControlName="hair">
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                            <mat-label>Race</mat-label>
-                            <input matInput formControlName="race">
+                        <mat-form-field appearance="outline" color="accent" style="width: 75%;">
+                            <mat-label>Eyes</mat-label>
+                            <input matInput formControlName="eyes">
                         </mat-form-field>
                     </p>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h2>Speed</h2>
+                    <div class="row">
+                        <div class="col-4">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%">
+                                <mat-label>Base</mat-label>
+                                <input matInput formControlName="baseSpeed">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                                <mat-label>Armor</mat-label>
+                                <input matInput formControlName="armorSpeed">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                                <mat-label>Fly/Maneuver</mat-label>
+                                <input matInput formControlName="flyManeuver">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                                <mat-label>Swim</mat-label>
+                                <input matInput formControlName="swimSpeed">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                                <mat-label>Climb</mat-label>
+                                <input matInput formControlName="climbSpeed">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                                <mat-label>Burrow</mat-label>
+                                <input matInput formControlName="burrowSpeed">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                                <mat-label>Temp Modifiers</mat-label>
+                                <input matInput formControlName="speedTempMods">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <h2>Languages</h2>
+                    <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                        <mat-label>Languages</mat-label>
+                        <input matInput formControlName="languages">
+                    </mat-form-field>
+                    <h2>Notes</h2>
+                    <mat-form-field appearance="fill" color="accent" style="width: 100%;">
+                        <textarea matInput formControlName="notes" style="height: 176px;"></textarea>
+                    </mat-form-field>
+                </div>
             </div>
-            <div class="col-5 col-lg-2">
-                <h2>Appearance</h2>
-                <p>
-                    <mat-form-field appearance="outline" color="accent" style="width: 75%;">
-                        <mat-label>Size</mat-label>
-                        <input matInput formControlName="size">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="outline" color="accent" style="width: 75%;">
-                        <mat-label>Gender</mat-label>
-                        <input matInput formControlName="gender">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="outline" color="accent" style="width: 75%;">
-                        <mat-label>Age</mat-label>
-                        <input matInput formControlName="age">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="outline" color="accent" style="width: 75%;">
-                        <mat-label>Height</mat-label>
-                        <input matInput formControlName="height">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="outline" color="accent" style="width: 75%;">
-                        <mat-label>Weight</mat-label>
-                        <input matInput formControlName="weight">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="outline" color="accent" style="width: 75%;">
-                        <mat-label>Hair</mat-label>
-                        <input matInput formControlName="hair">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="outline" color="accent" style="width: 75%;">
-                        <mat-label>Eyes</mat-label>
-                        <input matInput formControlName="eyes">
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-12 col-lg-6">
-                <h2>Notes</h2>
-                <mat-form-field appearance="fill" color="accent" style="width: 100%;">
-                    <textarea matInput style="height: 627px;" formControlName="notes"></textarea>
-                </mat-form-field>
-            </div>
-        </div>
+        </mat-card>
     </form>
 </div>
 

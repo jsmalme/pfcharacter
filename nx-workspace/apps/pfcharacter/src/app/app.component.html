@@ -12,11 +12,11 @@ body {
 </head>
 <body>
     <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav #sidenav [mode]="'over'">
+        <mat-sidenav #sidenav [mode]="'over'" position="end">
             <mat-nav-list>
-                <a routerLink="/general" mat-list-item>General</a>
-                <a routerLink="/abilities" mat-list-item>Abilities + Saving</a>
-                <a routerLink="/offense" mat-list-item>Offense</a>
+                <a routerLink="/general" mat-list-item (click)="sidenav.toggle()">General</a>
+                <a routerLink="/abilities" mat-list-item (click)="sidenav.toggle()">Abilities + Saving</a>
+                <a routerLink="/offense" mat-list-item (click)="sidenav.toggle()">Offense</a>
                 <a mat-list-item>Defense</a>
                 <a mat-list-item>Skills</a>
                 <a mat-list-item>Feats</a>
@@ -24,16 +24,12 @@ body {
                 <a mat-list-item>Spells</a>
                 <a mat-list-item>Summary</a>
                 <a mat-list-item>Roll</a>
+                <a mat-list-item>Settings</a>
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
             <mat-toolbar color="primary" class="sticky-top">
                 <mat-toolbar-row class="d-flex justify-content-between">
-                        <div class="d-lg-none">
-                            <button mat-icon-button (click)="sidenav.toggle()">
-                                <mat-icon>menu</mat-icon>
-                            </button>
-                        </div> 
                         <div class="d-none d-lg-block d-flex justify-content-between">
                             <a routerLink="/general" mat-button>General</a>
                             <a routerLink="/abilities" mat-button>Abilities + Saving</a>
@@ -47,10 +43,15 @@ body {
                             <a mat-button>Roll</a>
                         </div>
                         <div>
-                            <button mat-icon-button>
+                            <button class="d-none d-lg-block" mat-icon-button>
                                 <mat-icon>settings</mat-icon>
                             </button>
                         </div>
+                        <div class="d-lg-none">
+                            <button mat-icon-button (click)="sidenav.toggle()">
+                                <mat-icon>menu</mat-icon>
+                            </button>
+                        </div> 
                 </mat-toolbar-row>
             </mat-toolbar>        
             <router-outlet></router-outlet>

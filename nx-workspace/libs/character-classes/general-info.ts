@@ -13,9 +13,13 @@ export class GeneralInfo {
     weight: string | undefined;
     hair: string | undefined;
     eyes: string | undefined;
+    baseSpeed: string | undefined;
+    armorSpeed: string | undefined;
+    flyManeuver: string | undefined;
+    swimSpeed: string | undefined;
+    climbSpeed: string | undefined;
+    burrowSpeed: string | undefined;
+    speedTempMods: string | undefined;
+    languages: string | undefined;
     notes: string | undefined;
-    
-    public constructor(init?: Partial<GeneralInfo>) {
-        Object.assign(this, init);
-    }
 }
