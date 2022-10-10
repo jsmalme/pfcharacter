@@ -114,7 +114,7 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.dexTempAdj = info.dexTempAdj;
     this.abilities.dexMod = this.calculateAbilityScore(info.dex);
     this.abilities.dexTempMod = this.calculateAbilityScore(info.dexTempAdj);
-    this.savingThrows.ref.refAbility = info.dex ? this.abilities.dexMod : undefined;
+    this.savingThrows.ref.refAbility = info.dexTempAdj ? this.abilities.dexTempMod : (info.dex ? this.abilities.dexMod : undefined);
     this.updateRefTotal();
     //this.characterService.updateDex(info);
   }
@@ -124,7 +124,7 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.conTempAdj = info.conTempAdj;
     this.abilities.conMod = this.calculateAbilityScore(info.con);
     this.abilities.conTempMod = this.calculateAbilityScore(info.conTempAdj);
-    this.savingThrows.for.forAbility = info.con ? this.abilities.conMod : undefined;
+    this.savingThrows.for.forAbility = info.conTempAdj ? this.abilities.conTempMod : (info.con ? this.abilities.conMod : undefined);
     this.updateForTotal();
     //this.characterService.updateCon(info);
   }
@@ -142,7 +142,7 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.wisTempAdj = info.wisTempAdj;
     this.abilities.wisMod = this.calculateAbilityScore(info.wis);
     this.abilities.wisTempMod = this.calculateAbilityScore(info.wisTempAdj);
-    this.savingThrows.will.willAbility = info.wis ? this.abilities.wisMod : undefined;
+    this.savingThrows.will.willAbility = info.wisTempAdj ? this.abilities.wisTempMod : (info.wis ? this.abilities.wisMod : undefined);
     this.updateWillTotal();
     //this.characterService.updateWis(info);
   }
