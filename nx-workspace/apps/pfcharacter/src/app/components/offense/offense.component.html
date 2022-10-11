@@ -1,7 +1,99 @@
 <div class="container comp-top-margin">
-    <form [formGroup] = "offenseInfoForm">
-        <p>
-            
-        </p>
+    <form [formGroup] = "offenseInfoForm" autocomplete="off">
+        <mat-card class="mat-elevation-z2">
+            <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+                <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+                    Offense
+                </div>
+            </mat-card-title>
+            <br>
+            <div class="row">
+                <div class="row d-flex align-items-center">
+                    <div class="row col-lg-3 col-12">
+                        <div class="col-lg-6 col-md-2 col-6">
+                            <h2>Initiative</h2>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-6 d-flex align-items-center justify-content-start">
+                            <span class="badge badge-pill save-total">
+                                +3
+                            </span> 
+                        </div>
+                    </div>
+                    <div class="row col-lg-3 col-12 ">
+                        <div class="col-6">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                <mat-label>Dex+</mat-label>
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                <mat-label>Misc+</mat-label>
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-lg-6 col-12 d-flex justify-content-end align-items-center">
+                        <div class="col-lg-5 col-md-4 col-4">
+                            <div class="d-none d-md-block">
+                                <h2>Base Attack Bonus</h2>
+                            </div>
+                            <div class="d-md-none">
+                                <h2>BAB</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-8">
+                            <mat-form-field appearance="outline" color="accent" style="width: 75%; text-align: center;">
+                                <mat-label>BAB</mat-label>
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                            </mat-form-field>
+                        </div>
+                    </div>  
+                </div>
+                <div class="row d-flex align-items-center">
+                    <div class="row col-lg-4 col-12">
+                        <div class="col-lg-9 col-md-2 col-6">
+                            <div class="d-none d-lg-block">
+                                <h2>Combat Maneuver Bonus</h2>
+                            </div>
+                            <div class="d-lg-none">
+                                <h2>CMB</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-10 col-6 d-flex align-items-center">
+                            <span class="badge badge-pill save-total">
+                                +3
+                            </span> 
+                        </div>
+                    </div> 
+                    <div class="row col-lg-8 col-12">
+                        <div class="col-lg-3 col-md-3 col-6">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                <mat-label>Base+</mat-label>
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-6">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                <mat-label>Str Mod+</mat-label>
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-6">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                <mat-label>Size Mod+</mat-label>
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-6">
+                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                <mat-label>Misc Mod+</mat-label>
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card> 
     </form>
 </div>
