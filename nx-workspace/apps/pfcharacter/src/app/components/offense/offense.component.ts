@@ -16,7 +16,6 @@ export class OffenseComponent implements OnInit {
 
   ngOnInit(): void {
     this.createFormGroup(this.characterService.getOffenseInfo());
-
   }
 
   createFormGroup(offenseInfo: OffenseInfo): void{
