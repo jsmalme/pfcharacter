@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -41,7 +42,8 @@ import { OffenseComponent } from './components/offense/offense.component';
     MatFormFieldModule,
     MatInputModule,
     MatBadgeModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
