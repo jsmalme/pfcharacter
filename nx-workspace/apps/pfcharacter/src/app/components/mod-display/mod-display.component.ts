@@ -10,10 +10,11 @@ export class ModDisplayComponent implements OnInit {
   constructor() {
     this.form = '';
   }
-  @Input("score") score: string | undefined = '';
-  @Input("control") control: string | undefined = '';
-  @Input("mod") mod: number | undefined = 0;
-  @Input("form") form: any;
+  
+  @Input() score: string | undefined = '';
+  @Input() control: string | undefined = '';
+  @Input() mod: number | undefined = 0;
+  @Input() form: any;
 
 
   ngOnInit(): void {}

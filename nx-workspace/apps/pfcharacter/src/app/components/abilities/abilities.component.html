@@ -268,11 +268,11 @@
                         <h2>Fortitude (Con)</h2>
                     </div>
                     <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                        <span *ngIf="savingThrowsForm.get('forForm')?.valid" class="badge badge-pill save-total">
+                        <span *ngIf="savingThrowsForm.get('forForm')?.valid" class="badge badge-pill save-total badge-total">
                             <span *ngIf="(savingThrows.for.forTotal || 0) >= 0">+</span>{{savingThrows.for.forTotal || 0}}
                         </span> 
-                        <span *ngIf="!savingThrowsForm.get('forForm')?.valid" class="badge badge-pill save-total-error">
-                            x
+                        <span *ngIf="!savingThrowsForm.get('forForm')?.valid" class="badge badge-pill save-total error">
+                            x 
                         </span>
                     </div>
                     <div class="row col-lg-9 col-12">
@@ -319,10 +319,10 @@
                         <h2>Reflex (Dex)</h2>
                     </div>
                     <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                        <span *ngIf="savingThrowsForm.get('refForm')?.valid" class="badge badge-pill save-total">
+                        <span *ngIf="savingThrowsForm.get('refForm')?.valid" class="badge badge-pill save-total badge-total">
                             <span *ngIf="(savingThrows.ref.refTotal || 0) >= 0">+</span>{{savingThrows.ref.refTotal || 0}}
                         </span> 
-                        <span *ngIf="!savingThrowsForm.get('refForm')?.valid" class="badge badge-pill save-total-error">
+                        <span *ngIf="!savingThrowsForm.get('refForm')?.valid" class="badge badge-pill save-total error">
                             x
                         </span>
                     </div>
@@ -370,10 +370,10 @@
                         <h2>Will (Wis)</h2>
                     </div>
                     <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                        <span *ngIf="savingThrowsForm.get('willForm')?.valid" class="badge badge-pill save-total">
+                        <span *ngIf="savingThrowsForm.get('willForm')?.valid" class="badge badge-pill save-total badge-total">
                             <span *ngIf="(savingThrows.will.willTotal || 0) >= 0">+</span>{{savingThrows.will.willTotal || 0}}
                         </span> 
-                        <span *ngIf="!savingThrowsForm.get('willForm')?.valid" class="badge badge-pill save-total-error">
+                        <span *ngIf="!savingThrowsForm.get('willForm')?.valid" class="badge badge-pill save-total error">
                             x
                         </span>
                     </div>

@@ -32,7 +32,7 @@
                             <h2>Initiative</h2>
                         </div>
                         <div class="col-lg-6 col-6 d-flex align-items-center justify-content-start">
-                            <span class="badge badge-pill save-total">
+                            <span class="badge badge-pill save-total badge-total">
                                 +3
                             </span> 
                         </div>
@@ -58,7 +58,7 @@
                             <h2>CMB</h2>
                         </div>
                         <div class="col-lg-6 col-md-6 col-6 d-flex align-items-center">
-                            <span class="badge badge-pill save-total">
+                            <span class="badge badge-pill save-total badge-total">
                                 +3
                             </span> 
                         </div>
@@ -114,18 +114,24 @@
         <br>
         <mat-divider></mat-divider>
         <br>
-        <mat-card-title class="primary-background mat-elevation-z1">
-            <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
-                Weapons
-            </div>
-        </mat-card-title>
-        <br>
-        <mat-card style="height: 200px; width:200px" class="d-flex justify-content-center align-items-center">
-            <button mat-fab color="accent"
-             matTooltip="Add New Weapon"
-             matTooltipPosition="above">
-                <mat-icon>add</mat-icon>
-            </button>
-        </mat-card>
+        <mat-card style="padding-bottom: 0px;">
+            <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+                <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+                    Weapons
+                </div>
+            </mat-card-title>
+        </mat-card> 
+        <br>        
+        <mat-grid-list [cols]="cols" rowHeight="12rem" gutterSize="10px;" class="d-flex justify-content-center">
+            <mat-grid-tile>
+                <app-weapon layoutType="weapon" class="h-100 w-100 d-flex justify-content-center align-items-center"></app-weapon>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <app-weapon layoutType="weapon" class="h-100 w-100 d-flex justify-content-center align-items-center"></app-weapon>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <app-weapon layoutType="addWeapon" class="h-100 w-100 d-flex justify-content-center align-items-center"></app-weapon>
+            </mat-grid-tile>
+        </mat-grid-list>
     </form>
 </div>

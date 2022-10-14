@@ -14,12 +14,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
 import { GeneralComponent } from './components/general/general.component';
 import { ModDisplayComponent } from './components/mod-display/mod-display.component';
 import { OffenseComponent } from './components/offense/offense.component';
+import { WeaponComponent } from './components/weapon/weapon.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { OffenseComponent } from './components/offense/offense.component';
     AbilitiesComponent,
     GeneralComponent,
     ModDisplayComponent,
-    OffenseComponent
+    OffenseComponent,
+    WeaponComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +48,8 @@ import { OffenseComponent } from './components/offense/offense.component';
     MatBadgeModule,
     MatCardModule,
     MatTooltipModule,
+    MatGridListModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent],

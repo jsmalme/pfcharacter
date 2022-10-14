@@ -1,0 +1,84 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$j-green: (
+    50 : #e6efe6,
+    100 : #c0d8c2,
+    200 : #97be99,
+    300 : #6da470,
+    400 : #4d9151,
+    500 : #2e7d32,
+    600 : #29752d,
+    700 : #236a26,
+    800 : #1d601f,
+    900 : #124d13,
+    A100 : #87ff89,
+    A200 : #54ff57,
+    A400 : #21ff25,
+    A700 : #08ff0c,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$j-orange: (
+    50 : #feefe0,
+    100 : #fcd8b3,
+    200 : #fabe80,
+    300 : #f8a34d,
+    400 : #f79026,
+    500 : #f57c00,
+    600 : #f47400,
+    700 : #f26900,
+    800 : #f05f00,
+    900 : #ee4c00,
+    A100 : #ffffff,
+    A200 : #ffe9e1,
+    A400 : #ffc3ae,
+    A700 : #ffb095,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+$my-primary: mat.define-palette($j-green);
+$my-accent: mat.define-palette($j-orange);
+$my-warn: mat.define-palette(mat.$red-palette, 900);
+
+$my-theme: mat.define-dark-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+   warnt: $my-warn
+ )
+));
+
+@include mat.all-component-themes($my-theme);
