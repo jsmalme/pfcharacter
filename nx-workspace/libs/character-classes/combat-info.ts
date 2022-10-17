@@ -1,6 +1,6 @@
 import { Weapon } from "./weapon";
  
-export class OffenseInfo {
+export class CombatInfo {
     initiativeTotal: number | undefined;
     initiativeDexMod: number | undefined;
     initiativeMiscMod: number | undefined;
@@ -19,7 +19,7 @@ export class OffenseInfo {
     cmbTempMod: number | undefined;
     weapons: Array<Weapon> | undefined;
 
-    public constructor(init?: Partial<OffenseInfo>) {
+    public constructor(init?: Partial<CombatInfo>) {
         Object.assign(this, init);
     }
 }

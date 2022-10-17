@@ -71,7 +71,7 @@ $j-orange: (
 
 $my-primary: mat.define-palette($j-green);
 $my-accent: mat.define-palette($j-orange);
-$my-warn: mat.define-palette(mat.$red-palette, 900);
+$my-warn: mat.define-palette(mat.$red-palette, A100);
 
 $my-theme: mat.define-dark-theme((
  color: (

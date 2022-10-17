@@ -2,19 +2,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { CharacterService } from '../../services/character.service';
-import { OffenseInfo } from '../../../../../../libs/character-classes/offense-info';
+import { CombatInfo } from '../../../../../../libs/character-classes/combat-info';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-offense',
-  templateUrl: './offense.component.html',
-  styleUrls: ['./offense.component.scss']
+  selector: 'app-combat',
+  templateUrl: './combat.component.html',
+  styleUrls: ['./combat.component.scss']
 })
 
-export class OffenseComponent implements OnInit { 
+export class CombatComponent implements OnInit { 
   gridWatcher: Subscription | undefined;
-  offenseInfoForm!: FormGroup;
+  combatInfoForm!: FormGroup;
   cols: number | undefined = 2;
   rowHeight: string | number = '3:1';
 
@@ -31,7 +31,7 @@ export class OffenseComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.createFormGroup(this.characterService.getOffenseInfo());
+    this.createFormGroup(this.characterService.getCombatInfo());
 
     //angular grid bootstrapping thingy
     this.gridWatcher = this.mediaObserver
@@ -42,17 +42,17 @@ export class OffenseComponent implements OnInit {
         });
   }
 
-  createFormGroup(offenseInfo: OffenseInfo): void{
-    this.offenseInfoForm = new FormGroup({
-      initiativeTotal: new FormControl(offenseInfo.initiativeTotal),
-      initiativeDexMod: new FormControl(offenseInfo.initiativeDexMod),
-      initiativeMiscMod: new FormControl(offenseInfo.initiativeMiscMod),
-      baseAttackBonus: new FormControl(offenseInfo.baseAttackBonus),
-      cmbTotal: new FormControl(offenseInfo.cmbTotal),
-      cmbStrMod: new FormControl(offenseInfo.cmbStrMod),
-      cmbSizeMod: new FormControl(offenseInfo.cmbSizeMod),
-      cmbMiscMod: new FormControl(offenseInfo.cmbMiscMod),
-      cmbTempMod: new FormControl(offenseInfo.cmbTempMod),
+  createFormGroup(combatInfo: CombatInfo): void{
+    this.combatInfoForm = new FormGroup({
+      initiativeTotal: new FormControl(combatInfo.initiativeTotal),
+      initiativeDexMod: new FormControl(combatInfo.initiativeDexMod),
+      initiativeMiscMod: new FormControl(combatInfo.initiativeMiscMod),
+      baseAttackBonus: new FormControl(combatInfo.baseAttackBonus),
+      cmbTotal: new FormControl(combatInfo.cmbTotal),
+      cmbStrMod: new FormControl(combatInfo.cmbStrMod),
+      cmbSizeMod: new FormControl(combatInfo.cmbSizeMod),
+      cmbMiscMod: new FormControl(combatInfo.cmbMiscMod),
+      cmbTempMod: new FormControl(combatInfo.cmbTempMod),
       weapons: new FormArray([])
     });
   }

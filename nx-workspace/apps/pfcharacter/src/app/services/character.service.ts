@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Abilities } from '../../../../../libs/character-classes/abilities';
 import { Character } from '../../../../../libs/character-classes//character';
 import { GeneralInfo } from '../../../../../libs/character-classes/general-info';
-import { OffenseInfo } from '../../../../../libs/character-classes/offense-info';
+import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { SavingThrows } from '../../../../../libs/character-classes/saving-throws';
 
 @Injectable({
@@ -35,7 +35,7 @@ export class CharacterService {
       speedTempMods: undefined,
       languages: undefined
     };
-    offenseInfo: OffenseInfo = {
+    combatInfo: CombatInfo = {
       baseAttackBonus: 3,
       cmbMiscMod: 0,
       cmbSizeMod: 1, 
@@ -121,8 +121,8 @@ export class CharacterService {
   getGeneralInfo(){
     return this.character.generalInfo = this.generalInfo;
   }
-  getOffenseInfo(){
-    return this.character.offenseInfo = this.offenseInfo;
+  getCombatInfo(){
+    return this.character.combatInfo = this.combatInfo;
   }
   getAbilities(){
     return this.character.abilities = this.abilities;

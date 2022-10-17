@@ -21,7 +21,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AbilitiesComponent } from './components/abilities/abilities.component';
 import { GeneralComponent } from './components/general/general.component';
 import { ModDisplayComponent } from './components/mod-display/mod-display.component';
-import { OffenseComponent } from './components/offense/offense.component';
+import { CombatComponent } from './components/combat/combat.component';
 import { WeaponComponent } from './components/weapon/weapon.component';
 
 @NgModule({
@@ -30,7 +30,7 @@ import { WeaponComponent } from './components/weapon/weapon.component';
     AbilitiesComponent,
     GeneralComponent,
     ModDisplayComponent,
-    OffenseComponent,
+    CombatComponent,
     WeaponComponent,
   ],
   imports: [
