@@ -22,10 +22,35 @@ export class Abilities {
     cha: number | undefined;
     chaMod: number | undefined;
     chaTempAdj: number | undefined;
-    chaTempMod: number | undefined
-    public constructor(init?: Partial<Abilities>) {
-        Object.assign(this, init);
-    }
+    chaTempMod: number | undefined;
+}
 
-    
+export class ChaScore{
+    cha: number | undefined;
+    chaTempAdj: number | undefined;
+}
+
+export class WisScore{
+    wis: number | undefined;
+    wisTempAdj: number | undefined;
+}
+
+export class IntScore{
+    int: number | undefined;
+    intTempAdj: number | undefined;
+}
+
+export class ConScore{
+    con: number | undefined;
+    conTempAdj: number | undefined;
+}
+
+export class DexScore{
+    dex: number | undefined;
+    dexTempAdj: number | undefined;
+}
+
+export class StrScore{
+    str: number | undefined;
+    strTempAdj: number | undefined;
 }

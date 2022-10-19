@@ -22,6 +22,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .badge-total{
     background-color: mat.get-color-from-palette($accent-palette);
+    font-size: 1.3rem;
+    margin-top: -20px;
 }
 
 .error{

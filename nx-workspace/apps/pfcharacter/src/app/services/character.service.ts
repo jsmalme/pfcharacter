@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Abilities } from '../../../../../libs/character-classes/abilities';
 import { Character } from '../../../../../libs/character-classes//character';
-import { GeneralInfo } from '../../../../../libs/character-classes/general-info';
+import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
 import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { SavingThrows } from '../../../../../libs/character-classes/saving-throws';
 
@@ -24,7 +24,7 @@ export class CharacterService {
       notes: `-This character is my favorite.\n-He is also very crazy, don't mess with this boy.`,
       playerName: "Sir Joseph of Alconbury",
       race: "Dark Elf",
-      size: "Medium",
+      size: SizeEnum.medium,
       weight: "240",
       baseSpeed: undefined,
       armorSpeed: undefined,
@@ -36,23 +36,31 @@ export class CharacterService {
       languages: undefined
     };
     combatInfo: CombatInfo = {
-      baseAttackBonus: 3,
+      bab: 3,
       cmbMiscMod: 0,
-      cmbSizeMod: 1, 
-      cmbStrMod: 3,
-      cmbTempMod: 0,
+      cmSizeMod: 1,
+      acSizeMod: 0,
       cmbTotal: 4,
-      initiativeDexMod: 3,
       initiativeMiscMod: 1,
       initiativeTotal: 4,
-      speedArmor: '30 ft', 
-      speedBase: '20 ft', 
-      speedBurrow: '5 ft',
-      speedClimb: '12 ft', 
-      speedFly: '30 ft', 
-      speedSwim: '15 ft',
-      speedTempMod: '0', 
-      weapons: undefined
+      weapons: undefined,
+      hpTotal: undefined,
+      hpCurrent: undefined,
+      hpNonLethal: undefined,
+      spellResistance: undefined,
+      damageReduction: undefined,
+      cmbBabMod: undefined,
+      cmdTotal: undefined,
+      cmdBabMod: undefined,
+      cmdMiscMod: undefined,
+      acTotal: undefined,
+      acArmorMod: undefined,
+      acShieldMod: undefined,
+      acNaturalArmorMod: undefined,
+      acDeflectMod: undefined,
+      acMiscMod: undefined,
+      acTouch: undefined,
+      acFlat: undefined
     };
     abilities: Abilities ={
       str: 13,
@@ -112,56 +120,81 @@ export class CharacterService {
 
   public character: Character = new Character;
   constructor() {
-    this.character.abilities = new Abilities;
-    this.character.savingThrows = new SavingThrows;
+    this.character.generalInfo = this.generalInfo
+    this.character.abilities = this.abilities;
+    this.character.savingThrows = this.savingThrows;
   }
 
   //character getters
   //todo: make a db to grab this info
-  getGeneralInfo(){
-    return this.character.generalInfo = this.generalInfo;
-  }
-  getCombatInfo(){
-    return this.character.combatInfo = this.combatInfo;
-  }
-  getAbilities(){
-    return this.character.abilities = this.abilities;
-  }
-  getSavingThrows(){
-    return this.character.savingThrows = this.savingThrows;
+  getCharacter(){
+    return this.character;
   }
 
   //charater updates
   updateGeneralInfo(generalInfo: GeneralInfo){
-    this.generalInfo = generalInfo;
+    this.character.combatInfo.cmSizeMod = this.calculateCmSizeMod(generalInfo.size);
+    this.character.combatInfo.acSizeMod = this.calculateAcSizeMod(generalInfo.size);
+    this.character.generalInfo = generalInfo;
   }
-  updateAbilities(abilities: Abilities){
-    this.abilities = abilities;
-  }
+
   updateSavingThrows(savingThrows: SavingThrows){
-    this.savingThrows = savingThrows;
+    this.character.savingThrows = savingThrows;
   }
 
-  calculateAbilityScores(abilities: Abilities){
-    abilities.chaMod = this.calculateAbilityScore(abilities.cha);
-    abilities.chaTempMod = this.calculateAbilityScore(abilities.chaTempAdj);
-    abilities.conMod = this.calculateAbilityScore(abilities.con);
-    abilities.conTempMod = this.calculateAbilityScore(abilities.conTempAdj);
-    abilities.dexMod = this.calculateAbilityScore(abilities.dex);
-    abilities.dexTempMod = this.calculateAbilityScore(abilities.dexTempAdj);
-    abilities.intMod = this.calculateAbilityScore(abilities.int);
-    abilities.intTempMod = this.calculateAbilityScore(abilities.intTempAdj);
-    abilities.strMod = this.calculateAbilityScore(abilities.str);
-    abilities.strTempMod = this.calculateAbilityScore(abilities.strTempAdj);
-    abilities.wisMod = this.calculateAbilityScore(abilities.wis);
-    abilities.wisTempMod = this.calculateAbilityScore(abilities.wisTempAdj); 
-    return abilities;
-  }
-
-  calculateAbilityScore(score: number | undefined){
-    if(score === undefined || ""){
-      return undefined;
+  calculateCmSizeMod(size: SizeEnum | undefined){
+    if(size === undefined){
+      return 0;
     }
-    return Math.floor((score - 10)/2);
+    switch(size){
+      case SizeEnum.small:
+        return -1;
+      case SizeEnum.medium:
+        return 0;
+      case SizeEnum.large:
+        return 1;
+      case SizeEnum.tiny:
+        return -2;
+      case SizeEnum.diminutive:
+        return -4;
+      case SizeEnum.fine:
+        return -8;
+      case SizeEnum.huge:
+        return 2;
+      case SizeEnum.gargantuan:
+        return 4;
+      case SizeEnum.colossal:
+        return 8;
+      default:
+        return 0;
+    }
+  }
+
+  calculateAcSizeMod(size: SizeEnum | undefined){
+    if(size === undefined){
+      return 0;
+    }
+    switch(size){
+      case SizeEnum.small:
+        return 1;
+      case SizeEnum.medium:
+        return 0;
+      case SizeEnum.large:
+        return -1;
+      case SizeEnum.tiny:
+        return 2;
+      case SizeEnum.diminutive:
+        return 4;
+      case SizeEnum.fine:
+        return 8;
+      case SizeEnum.huge:
+        return -2;
+      case SizeEnum.gargantuan:
+        return -4;
+      case SizeEnum.colossal:
+        return -8;
+      default:
+        return 0;
+    }
   }
 }

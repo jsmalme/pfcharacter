@@ -1,23 +1,25 @@
+/* eslint-disable @angular-eslint/component-selector */
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-mod-display',
   templateUrl: './mod-display.component.html',
   styleUrls: ['./mod-display.component.scss'],
 })
-export class ModDisplayComponent implements OnInit {
-  constructor() {
-    this.form = '';
+export class ModDisplayComponent implements OnInit{
+
+  @Input() score: string | undefined = '';
+  @Input() control!: string;
+  @Input() mod: number | undefined = 0;
+  form!: FormGroup;
+
+  constructor(private rootFormGroup: FormGroupDirective) {}
+
+  ngOnInit(){
+    this.form = this.rootFormGroup.control;
   }
   
-  @Input() score: string | undefined = '';
-  @Input() control: string | undefined = '';
-  @Input() mod: number | undefined = 0;
-  @Input() form: any;
-
-
-  ngOnInit(): void {}
 
   calculateModColor(modNum: number | undefined){
     if(modNum === undefined){

@@ -16,6 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSelectModule } from '@angular/material/select';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -23,6 +24,7 @@ import { GeneralComponent } from './components/general/general.component';
 import { ModDisplayComponent } from './components/mod-display/mod-display.component';
 import { CombatComponent } from './components/combat/combat.component';
 import { WeaponComponent } from './components/weapon/weapon.component';
+import { TotalDisplayComponent } from './components/total-display/total-display.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { WeaponComponent } from './components/weapon/weapon.component';
     ModDisplayComponent,
     CombatComponent,
     WeaponComponent,
+    TotalDisplayComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,8 @@ import { WeaponComponent } from './components/weapon/weapon.component';
     MatCardModule,
     MatTooltipModule,
     MatGridListModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

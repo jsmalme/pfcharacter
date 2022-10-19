@@ -6,7 +6,7 @@ export class GeneralInfo {
     deity: string | undefined;
     homeland: string | undefined;
     race: string | undefined;
-    size: string | undefined;
+    size: SizeEnum | undefined
     gender: string | undefined;
     age: number | undefined; 
     height: string | undefined;
@@ -22,4 +22,16 @@ export class GeneralInfo {
     speedTempMods: string | undefined;
     languages: string | undefined;
     notes: string | undefined;
+}
+
+export enum SizeEnum {
+    small = "Small", 
+    medium = "Medium", 
+    large = "Large",
+    tiny = "Tiny",
+    diminutive = "Diminutive",
+    fine = "Fine",
+    huge = "Huge",
+    gargantuan = "Gargantuan",
+    colossal = "Colossal"
 }

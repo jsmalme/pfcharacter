@@ -5,4 +5,5 @@ export class Weapon {
     critical: string | undefined;
     type: string | undefined;
     range: string | undefined;
+    ammunition: string | undefined;
 }

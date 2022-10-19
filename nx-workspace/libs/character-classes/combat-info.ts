@@ -1,26 +1,31 @@
 import { Weapon } from "./weapon";
  
 export class CombatInfo {
+    hpTotal: number | undefined;
+    hpCurrent: number | undefined;
+    hpNonLethal: string | undefined;
+    bab: number | undefined;
+    cmSizeMod: number | undefined;
+    acSizeMod: number | undefined;
+    spellResistance: string | undefined;
+    damageReduction: string | undefined;
     initiativeTotal: number | undefined;
-    initiativeDexMod: number | undefined;
     initiativeMiscMod: number | undefined;
-    baseAttackBonus: number | undefined;
-    speedBase: string | undefined;
-    speedArmor: string | undefined;
-    speedFly: string | undefined;
-    speedSwim: string | undefined;
-    speedClimb: string | undefined;
-    speedBurrow: string | undefined;
-    speedTempMod: string | undefined;
     cmbTotal: number | undefined;
-    cmbStrMod: number | undefined;
-    cmbSizeMod: number | undefined;
+    cmbBabMod: number | undefined;
     cmbMiscMod: number | undefined;
-    cmbTempMod: number | undefined;
+    cmdTotal: number | undefined;
+    cmdBabMod: number | undefined;
+    cmdMiscMod: number | undefined;
+    acTotal: number | undefined;
+    acArmorMod: number | undefined;
+    acShieldMod: number | undefined;
+    acNaturalArmorMod: number | undefined;
+    acDeflectMod: number | undefined;
+    acMiscMod: number | undefined;
+    acTouch: number | undefined;
+    acFlat: number | undefined;
+    
     weapons: Array<Weapon> | undefined;
-
-    public constructor(init?: Partial<CombatInfo>) {
-        Object.assign(this, init);
-    }
 }
 

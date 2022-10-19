@@ -59,8 +59,19 @@
                     <p>
                         <mat-form-field appearance="outline" color="accent" style="width: 75%;">
                             <mat-label>Size</mat-label>
-                            <input matInput formControlName="size">
-                        </mat-form-field>
+                            <mat-select formControlName="size">
+                              <mat-optgroup label="Normal">
+                                <mat-option *ngFor="let size of normalSizes" [value]="size">
+                                  {{size}}
+                                </mat-option>
+                              </mat-optgroup>
+                              <mat-optgroup label="Exotic">
+                                <mat-option *ngFor="let size of exoticSizes" [value]="size">
+                                  {{size}}
+                                </mat-option>
+                              </mat-optgroup>
+                            </mat-select>
+                          </mat-form-field>
                     </p>
                     <p>
                         <mat-form-field appearance="outline" color="accent" style="width: 75%;">

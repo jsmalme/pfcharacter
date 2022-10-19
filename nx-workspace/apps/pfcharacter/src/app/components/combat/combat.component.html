@@ -1,5 +1,5 @@
 <div class="container comp-top-margin">
-    <form [formGroup] = "combatInfoForm" autocomplete="off">
+    <form [formGroup]="combatInfoForm" autocomplete="off">
         <mat-card class="mat-elevation-z2">
             <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
                 <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
@@ -7,7 +7,7 @@
                 </div>
             </mat-card-title>
             <br>
-            <div class="row">
+            <div class="row" formGroupName="hpMiscForm">
                 <div class="col-lg-6">
                     <div class="row align-items-center">
                         <div class="col-lg-2">
@@ -16,21 +16,21 @@
                         <div class="col-lg-10">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Total</mat-label>
-                                        <input matInput>
+                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="hpTotal" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-4">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Current</mat-label>
-                                        <input matInput>
+                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="hpCurrent" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-4">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Non-lethal</mat-label>
-                                        <input matInput>
+                                        <input matInput formControlName="hpNonLethal" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -45,22 +45,22 @@
                     </div>
                     <div class="col-lg-10">
                         <div class="row">
-                            <div class="col-lg-4">
-                                <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                            <div class="col-lg-4" formGroupName="babForm">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                     <mat-label>BAB</mat-label>
-                                    <input matInput>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="bab" (focus)="fixTheOutlines()">
                                 </mat-form-field>
                             </div>
                             <div class="col-lg-4">
-                                <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                     <mat-label>SR</mat-label>
-                                    <input matInput>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="spellResistance" (focus)="fixTheOutlines()">
                                 </mat-form-field>
                             </div>
                             <div class="col-lg-4">
-                                <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                     <mat-label>DR</mat-label>
-                                    <input matInput>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="damageReduction" (focus)="fixTheOutlines()">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -69,153 +69,155 @@
             </div>  
             <mat-divider></mat-divider>
             <br>
-            <div class="row d-flex align-items-center">
-                <div class="col-lg-3">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h2>Initiative</h2>
+            <div formGroupName="offenseForm">
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h2>Initiative</h2>
+                            </div>
+                            <div class="col-lg-6">
+                                <span class="badge badge-pill save-total badge-total">
+                                    +3
+                                </span> 
+                            </div>
                         </div>
-                        <div class="col-lg-6">
-                            <span class="badge badge-pill save-total badge-total">
-                                +3
-                            </span> 
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Dex+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="initiativeDexMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-2">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Misc+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="initiativeMiscMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="col-lg-6 ">
+                                <h2>CMB</h2>
+                            </div>
+                            <div class="col-lg-6">
+                                <span class="badge badge-pill save-total badge-total">
+                                    +3
+                                </span> 
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>BAB+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmbBab" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-2">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Str+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmbStrMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Size+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmbSizeMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Misc+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmbMiscMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9">
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Dex+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Misc+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                    </div>  
-                </div>
-            </div>
-            <div class="row d-flex align-items-center">
-                <div class="col-lg-3">
-                    <div class="row">
-                        <div class="col-lg-6 ">
-                            <h2>CMB</h2>
-                        </div>
-                        <div class="col-lg-6">
-                            <span class="badge badge-pill save-total badge-total">
-                                +3
-                            </span> 
-                        </div>
-                    </div>
-                </div> 
-                <div class="col-lg-9">
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>BAB+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Str+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                        <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Size+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                        <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Misc+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
+                <div class="row d-flex align-items-center d-lg-none">
+                    <div class="col-md-5">
+                        <div class="col-md-12"></div>
+                    </div> 
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-6 col-6">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Size+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmbSizeMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6 col-6">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Misc+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmbMiscMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row d-flex align-items-center d-lg-none">
-                <div class="col-md-5">
-                    <div class="col-md-12"></div>
-                </div> 
-                <div class="col-md-7">
-                    <div class="row">
-                        <div class="col-md-6 col-6">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Size+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="col-lg-6 ">
+                                <h2>CMD</h2>
+                            </div>
+                            <div class="col-lg-6">
+                                <span class="badge badge-pill save-total badge-total">
+                                    +3
+                                </span> 
+                            </div>
                         </div>
-                        <div class="col-md-6 col-6">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Misc+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row d-flex align-items-center">
-                <div class="col-lg-3">
-                    <div class="row">
-                        <div class="col-lg-6 ">
-                            <h2>CMD</h2>
-                        </div>
-                        <div class="col-lg-6">
-                            <span class="badge badge-pill save-total badge-total">
-                                +3
-                            </span> 
-                        </div>
-                    </div>
-                </div> 
-                <div class="col-lg-9">
-                    <div class="row align-items-center">
-                        <div class="col-lg-2">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>BAB+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Str+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                        <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Dex+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                        <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Size+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                        <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
-                            <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
-                                <mat-label>Misc+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
-                            </mat-form-field>
-                        </div>
-                        <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
-                            <h1 style="font-weight: 500;">+ 10</h1>
+                    </div> 
+                    <div class="col-lg-9">
+                        <div class="row align-items-center">
+                            <div class="col-lg-2">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>BAB+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmdBab" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-2">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Str+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmdStrMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Dex+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmdDexMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Size+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmdSizeMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
+                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-label>Misc+</mat-label>
+                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmdMiscMod" (focus)="fixTheOutlines()">
+                                </mat-form-field>
+                            </div>
+                            <div class="d-xs-block d-none d-lg-block col-lg-2 col-6">
+                                <h1 style="font-weight: 500;">+ 10</h1>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <mat-divider></mat-divider>
             <br>
-            <div class="row align-items-center">
+            <div class="row align-items-center" formGroupName="acForm">
                 <div class="col-lg-3">
                     <div class="row">
                         <div class="col-lg-6 ">
@@ -233,27 +235,27 @@
                         <div class="col-lg-6">
                             <div class="row">
                                 <div class="col-lg-3">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Armor+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acArmorMod" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-3">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Shield+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acShieldMod" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-3">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Dex+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acDexMod" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-3">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Size+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acSizeMod" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -261,21 +263,21 @@
                         <div class="col-lg-6">
                             <div class="row align-items-center">
                                 <div class="col-lg-3">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Nat. Armor+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acNaturalArmorMod" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-3">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Deflect+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acDeflectMod" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-3">
-                                    <mat-form-field appearance="outline" color="accent" style="width: 100%; text-align: center;">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                         <mat-label>Misc+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" >
+                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acMiscMod" (focus)="fixTheOutlines()">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-3">

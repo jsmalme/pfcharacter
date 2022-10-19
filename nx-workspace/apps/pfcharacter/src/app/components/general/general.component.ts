@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { GeneralInfo } from '../../../../../../libs/character-classes/general-info';
+import { GeneralInfo, SizeEnum } from '../../../../../../libs/character-classes/general-info';
 import { CharacterService } from '../../services/character.service';
 import { debounceTime } from 'rxjs';
 
@@ -11,11 +11,14 @@ import { debounceTime } from 'rxjs';
 })
 export class GeneralComponent implements OnInit {
   generalInfoForm!: FormGroup; 
+  sizeType = SizeEnum;
+  normalSizes = ['Small', 'Medium', 'Large'];
+  exoticSizes = ['Tiny', 'Diminutive', 'Fine', 'Huge', 'Gargantuan', 'Colossal'];
 
   constructor(private characterService: CharacterService) {}
 
   ngOnInit(): void {
-    this.createFormGroup(this.characterService.getGeneralInfo());
+    this.createFormGroup(this.characterService.character.generalInfo);
     this.generalInfoForm?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
       console.log("UpdatingGeneralInfo")
       this.characterService.updateGeneralInfo(info);
