@@ -1,6 +1,6 @@
-<span *ngIf="this.form.get(fgName)?.valid" class="badge badge-pill badge-total">
+<span *ngIf="isValid" class="badge badge-pill badge-total">
     <span *ngIf="(total || 0) >= 0">+</span>{{total || 0}}
 </span> 
-<span *ngIf="!this.form.get(fgName)?.valid" class="badge badge-pill badge-total error">
+<span *ngIf="!isValid" class="badge badge-pill badge-total error">
     x 
 </span>

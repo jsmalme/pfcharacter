@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Abilities } from '../../../../../libs/character-classes/abilities';
+import { Abilities, DexScore } from '../../../../../libs/character-classes/abilities';
 import { Character } from '../../../../../libs/character-classes//character';
 import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
 import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
@@ -37,15 +37,15 @@ export class CharacterService {
     };
     combatInfo: CombatInfo = {
       bab: 3,
-      cmbMiscMod: 0,
-      cmSizeMod: 1,
-      acSizeMod: 0,
-      cmbTotal: 4,
-      initiativeMiscMod: 1,
-      initiativeTotal: 4,
+      cmbMiscMod: undefined,
+      cmSizeMod: undefined,
+      acSizeMod: undefined,
+      cmbTotal: undefined,
+      initiativeMiscMod: undefined,
+      initiativeTotal: undefined,
       weapons: undefined,
-      hpTotal: undefined,
-      hpCurrent: undefined,
+      hpTotal: 20,
+      hpCurrent: 18,
       hpNonLethal: undefined,
       spellResistance: undefined,
       damageReduction: undefined,
@@ -75,7 +75,7 @@ export class CharacterService {
       conMod: 2,
       conTempAdj: undefined,
       conTempMod: undefined,
-      int: 15, 
+      int: 15,
       intMod: 2,
       intTempAdj: undefined,
       intTempMod: undefined,
@@ -86,7 +86,13 @@ export class CharacterService {
       cha: 20,
       chaMod: 5,
       chaTempAdj: undefined,
-      chaTempMod: undefined
+      chaTempMod: undefined,
+      useStrMod: 1,
+      useDexMod: 3,
+      useConMod: 2,
+      useIntMod: 2,
+      useWisMod: 1,
+      useChaMod: 5
     }
     savingThrows: SavingThrows = {
       for: {
@@ -123,6 +129,7 @@ export class CharacterService {
     this.character.generalInfo = this.generalInfo
     this.character.abilities = this.abilities;
     this.character.savingThrows = this.savingThrows;
+    this.character.combatInfo = this.combatInfo;
   }
 
   //character getters
@@ -131,17 +138,73 @@ export class CharacterService {
     return this.character;
   }
 
-  //charater updates
+  //ability/saving updaters--------------------------------------
+  updateStr(info: Abilities){
+    this.character.abilities = info;
+  }
+
+  updateDex(info: Abilities){
+    this.character.abilities = info;
+  }
+
+  updateCon(info: Abilities){
+    this.character.abilities = info;
+  }
+
+  updateInt(info: Abilities){
+    this.character.abilities = info
+  }
+
+  updateWis(info: Abilities){
+    this.character.abilities = info;
+  }
+  
+  updateCha(info: Abilities){
+    this.character.abilities = info;
+  }
+
+  //------------------------------------------------------
+  //combat page updates-----------------------------------
+  updateHpMisc(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: update misc objects to the database
+  }
+  updateBab(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: push up cmd & cmb
+  }
+  updateOffense(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: push up cmb & cmd & initiative
+  }
+  updateAc(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: push ac info
+  }
+  updateWeapons(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: push weapon info 
+  }
+  //------------------------------------------------------
+
+  //charater updates ---------------------------------------
   updateGeneralInfo(generalInfo: GeneralInfo){
-    this.character.combatInfo.cmSizeMod = this.calculateCmSizeMod(generalInfo.size);
-    this.character.combatInfo.acSizeMod = this.calculateAcSizeMod(generalInfo.size);
     this.character.generalInfo = generalInfo;
   }
+
+  updateSize(size: SizeEnum){
+    this.character.combatInfo.cmSizeMod = this.calculateCmSizeMod(size);
+    this.character.combatInfo.acSizeMod = this.calculateAcSizeMod(size);
+  }
+
 
   updateSavingThrows(savingThrows: SavingThrows){
     this.character.savingThrows = savingThrows;
   }
 
+
+
+  //calcuate methods ----------------------------------------------------------------
   calculateCmSizeMod(size: SizeEnum | undefined){
     if(size === undefined){
       return 0;
@@ -196,5 +259,12 @@ export class CharacterService {
       default:
         return 0;
     }
+  }
+
+  calculateAbilityScore(score: number | undefined): number | undefined{
+    if(score === undefined || ""){
+      return undefined;
+    }
+    return Math.floor((score - 10)/2);
   }
 }

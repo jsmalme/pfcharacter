@@ -3,26 +3,32 @@ export class Abilities {
     strMod: number | undefined;
     strTempAdj: number | undefined;
     strTempMod: number | undefined;
+    useStrMod: number | undefined;
     dex: number | undefined;
     dexMod: number | undefined;
     dexTempAdj: number | undefined;
     dexTempMod: number | undefined;
+    useDexMod: number | undefined;
     con: number | undefined;
     conMod: number | undefined;
     conTempAdj: number | undefined;
     conTempMod: number | undefined;
+    useConMod: number | undefined;
     int: number | undefined; 
     intMod: number | undefined;
     intTempAdj: number | undefined;
     intTempMod: number | undefined;
+    useIntMod: number | undefined;
     wis: number | undefined;
     wisMod: number | undefined;
     wisTempAdj: number | undefined;
     wisTempMod: number | undefined;
+    useWisMod: number | undefined;
     cha: number | undefined;
     chaMod: number | undefined;
     chaTempAdj: number | undefined;
     chaTempMod: number | undefined;
+    useChaMod: number | undefined;
 }
 
 export class ChaScore{

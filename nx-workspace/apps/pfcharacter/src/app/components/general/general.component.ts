@@ -20,7 +20,9 @@ export class GeneralComponent implements OnInit {
   ngOnInit(): void {
     this.createFormGroup(this.characterService.character.generalInfo);
     this.generalInfoForm?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      console.log("UpdatingGeneralInfo")
+      if(info.size != this.characterService.character.generalInfo.size){
+        this.characterService.updateSize(info.size);
+      }
       this.characterService.updateGeneralInfo(info);
     })
   }

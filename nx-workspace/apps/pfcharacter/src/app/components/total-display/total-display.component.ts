@@ -8,15 +8,7 @@ import { FormGroup, FormGroupDirective } from '@angular/forms';
   styleUrls: ['./total-display.component.scss'],
 })
 
-export class TotalDisplayComponent implements OnInit {
-
-  @Input() fgName!: string;
+export class TotalDisplayComponent{
+  @Input() isValid: boolean | undefined;
   @Input() total: number | undefined;
-  form!: FormGroup;
-
-  constructor(private rootFormGroup: FormGroupDirective) {}
-
-  ngOnInit(): void {
-    this.form = this.rootFormGroup.control;
-  }
 }

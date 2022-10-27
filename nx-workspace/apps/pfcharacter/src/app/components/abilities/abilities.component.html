@@ -256,7 +256,7 @@
                         <h2>Fortitude (Con)</h2>
                     </div>
                     <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                        <app-total-display [fgName]="'forForm'" [total]="savingThrows.for.forTotal"></app-total-display>
+                        <app-total-display [isValid]="savingThrowsForm.get('forForm')?.valid" [total]="savingThrows.for.forTotal"></app-total-display>
                     </div>
                     <div class="row col-lg-9 col-12">
                         <div class="col-lg-2 col-4">
@@ -268,7 +268,7 @@
                         <div class="col-lg-2 col-4">
                             <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                 <mat-label>Ability+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="forAbility" value="{{savingThrows.for.forAbility}}">
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{savingThrows.for.forAbility}}" disabled="disabled">
                             </mat-form-field>
                         </div>
                         <div class="col-lg-2 col-4">
@@ -302,7 +302,7 @@
                         <h2>Reflex (Dex)</h2>
                     </div>
                     <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                        <app-total-display [fgName]="'refForm'" [total]="savingThrows.ref.refTotal"></app-total-display>
+                        <app-total-display [isValid]="savingThrowsForm.get('refForm')?.valid" [total]="savingThrows.ref.refTotal"></app-total-display>
                     </div>
                     <div class="row col-lg-9 col-12">
                         <div class="col-lg-2 col-4">
@@ -314,7 +314,7 @@
                         <div class="col-lg-2 col-4">
                             <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                 <mat-label>Ability+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="refAbility" value="{{savingThrows.ref.refAbility}}">
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{savingThrows.ref.refAbility}}" disabled="disabled">
                             </mat-form-field>
                         </div>
                         <div class="col-lg-2 col-4">
@@ -348,7 +348,7 @@
                         <h2>Will (Wis)</h2>
                     </div>
                     <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                        <app-total-display [fgName]="'forForm'" [total]="savingThrows.will.willTotal"></app-total-display>
+                        <app-total-display [isValid]="savingThrowsForm.get('willForm')?.valid" [total]="savingThrows.will.willTotal"></app-total-display>
                     </div>
                     <div class="row col-lg-9 col-12">
                         <div class="col-lg-2 col-4">
@@ -360,7 +360,7 @@
                         <div class="col-lg-2 col-4">
                             <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                 <mat-label>Ability+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="willAbility" value="{{savingThrows.will.willAbility}}">
+                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{savingThrows.will.willAbility}}" disabled="disabled">
                             </mat-form-field>
                         </div>
                         <div class="col-lg-2 col-4">

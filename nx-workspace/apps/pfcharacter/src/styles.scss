@@ -29,3 +29,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .error{
     background-color: mat.get-color-from-palette($warn-palette);;
 }
+
+.mat-input-disabled{
+    color: rgba(black, 0.38);
+}
