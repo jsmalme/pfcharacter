@@ -1,5 +1,6 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-weapon',
@@ -7,10 +8,32 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./weapon.component.scss'],
 })
 
-export class WeaponComponent implements OnInit {
-  constructor() {}
+export class WeaponComponent implements OnInit{
 
-  @Input() layoutType: 'weapon' | 'addWeapon' = 'addWeapon';
+  static fb: FormBuilder;
+  @Input() index: number | undefined;
+  @Output() deleteItemEvent = new EventEmitter();
+  @Input() public weaponForm!: FormGroup;
 
-  ngOnInit(): void {}
+  constructor(){}
+
+  static createWeapon(): FormGroup{
+    const fb = new FormBuilder().nonNullable;
+    return fb.group({
+      attackBonus: [undefined],
+      critical: [undefined],
+      type: [undefined],
+      range: [undefined],
+      ammo: [undefined],
+      damage: [undefined]
+    })
+  }
+
+  deleteWeapon(){
+    this.deleteItemEvent.emit(this.index);
+  }
+
+  ngOnInit(): void {
+      console.log(this.weaponForm);
+  }
 }

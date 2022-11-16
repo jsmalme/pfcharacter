@@ -4,6 +4,8 @@ import { Character } from '../../../../../libs/character-classes//character';
 import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
 import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { SavingThrows } from '../../../../../libs/character-classes/saving-throws';
+import { Weapon } from 'libs/character-classes/weapon';
+import { NONE_TYPE } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +45,16 @@ export class CharacterService {
       cmbTotal: undefined,
       initiativeMiscMod: undefined,
       initiativeTotal: undefined,
-      weapons: undefined,
+      weapons: [{
+        ammunition: 'none',
+        attackBonus: 6,
+        critical: 'x3',
+        damage: '2d6',
+        name: 'weapon number one',
+        range: '5ft',
+        type: 'P',
+        weight: '5 lbs'
+      }],
       hpTotal: 20,
       hpCurrent: 18,
       hpNonLethal: undefined,

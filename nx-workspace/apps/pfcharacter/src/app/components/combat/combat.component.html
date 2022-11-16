@@ -214,13 +214,19 @@
                         <div class="col-lg-6">
                             <div class="row">
                                 <div class="col-lg-3">
-                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent" 
+                                    matTooltip="Equip armor to adjust this modifier"
+                                    matTooltipPosition="above"
+                                    matTooltipClass="tooltipFontSize">
                                         <mat-label>Armor+</mat-label>
                                         <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{combatInfo.acArmorMod}}" disabled="disabled">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-3">
-                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent"
+                                    matTooltip="Equip shield to adjust this modifier"
+                                    matTooltipPosition="above"
+                                    matTooltipClass="tooltipFontSize">
                                         <mat-label>Shield+</mat-label>
                                         <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{combatInfo.acShieldMod}}" disabled="disabled">
                                     </mat-form-field>
@@ -309,17 +315,24 @@
                 </div>
             </mat-card-title>
         </mat-card> 
-        <br>        
-        <mat-grid-list [cols]="cols" rowHeight="12rem" gutterSize="10px;" class="d-flex justify-content-center">
-            <mat-grid-tile>
-                <app-weapon layoutType="weapon" class="h-100 w-100 d-flex justify-content-center align-items-center"></app-weapon>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <app-weapon layoutType="weapon" class="h-100 w-100 d-flex justify-content-center align-items-center"></app-weapon>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <app-weapon layoutType="addWeapon" class="h-100 w-100 d-flex justify-content-center align-items-center"></app-weapon>
-            </mat-grid-tile>
-        </mat-grid-list>
+        <br>
+            <mat-grid-list [cols]="cols" rowHeight="12rem" gutterSize="10px;" class="d-flex justify-content-center">
+                <ng-container *ngFor="let weaponForm of weaponArray.controls;  let i = index">
+                    <mat-grid-tile>
+                        <mat-card class="d-flex align-items-center">
+                            <app-weapon [weaponForm]="$any(weaponForm)" [index]="i"></app-weapon>
+                        </mat-card>
+                    </mat-grid-tile>   
+                </ng-container>
+                <mat-grid-tile>
+                    <div class="h-100 w-100 d-flex justify-content-center align-items-center">
+                        <button mat-fab color="accent"
+                            matTooltip="Add New Weapon"
+                            matTooltipPosition="above" (click)="addWeapon()">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                </mat-grid-tile>
+            </mat-grid-list>
     </form>
 </div>

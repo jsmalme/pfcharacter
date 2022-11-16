@@ -10,6 +10,8 @@ import { maxNumberValidator } from '../../functions/max-number-validator';
 import { Abilities } from '../../../../../../libs/character-classes/abilities';
 import { checkValidForm } from '../../functions/check-valid-form';
 import { strUnToNum } from '../../functions/methods';
+import { stringify } from 'querystring';
+import { WeaponComponent } from '../weapon/weapon.component';
 
 @Component({
   selector: 'app-combat',
@@ -109,9 +111,35 @@ export class CombatComponent implements OnInit {
         acDeflectMod: [combatInfo.acDeflectMod, maxNumberValidator()],
         acMiscMod: [combatInfo.acMiscMod, maxNumberValidator()],
       }),
-
-      weapons: new FormArray([])
+      weapons: this.getWeaponFormArray()
     });
+  }
+
+  addWeapon(){
+    console.log('adding a weapon!');
+    this.weaponArray.push(WeaponComponent.createWeapon());
+    console.log(this.weaponArray);
+  }
+
+  get weaponArray(): FormArray{
+    return this.combatInfoForm?.get('weapons') as FormArray;
+  }
+
+  getWeaponFormArray(){
+    if (!this.combatInfo.weapons){
+      return this.fb.array([]);
+    }
+    return this.fb.array(
+      this.combatInfo.weapons.map(x => this.fb.group({
+        name: this.fb.control(x.name),
+        attackBonus: this.fb.control(x.attackBonus),
+        critical: this.fb.control(x.critical),
+        type: this.fb.control(x.type),
+        range: this.fb.control(x.range),
+        ammunition: this.fb.control(x.ammunition),
+        damage: this.fb.control(x.damage)
+      }))
+    )
   }
   
   updateBabInfo(info: CombatInfo){
@@ -161,7 +189,7 @@ export class CombatComponent implements OnInit {
 
 
 
-  //totals-------
+  //totals-----------------------------------------------------------
   getCmbTotal(combatInfo: CombatInfo, abilities: Abilities): number{
     const total = 
     strUnToNum(combatInfo.bab) + 
