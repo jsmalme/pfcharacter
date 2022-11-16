@@ -1,6 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'sass:map';
+@use '@angular/material' as mat;
+@import './theme.scss';
+
+$color-config: mat.get-color-config($my-theme);
+$primary-palette: map.get($color-config, 'primary');
+$accent-palette: map.get($color-config, 'accent');
+$warn-palette: map.get($color-config, 'warn');
+$is-dark-theme: map.get($color-config, 'is-dark');
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .comp-top-margin{
-    margin-top: 5vh;
+    margin-top: 3vh;
+}
+
+.primary-background{
+    border-radius: 4px 4px 1px 1px;
+    background-color: mat.get-color-from-palette($primary-palette);
+}
+
+.badge-total{
+    background-color: mat.get-color-from-palette($accent-palette);
+    font-size: 1.3rem;
+    margin-top: -20px;
+}
+
+.error{
+    background-color: mat.get-color-from-palette($warn-palette);;
+}
+
+.mat-input-disabled{
+    color: rgba(black, 0.38);
+}
+
+.mat-tooltip.tooltipFontSize{
+    font-size: 12px;
 }

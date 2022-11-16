@@ -12,45 +12,44 @@ body {
 </head>
 <body>
     <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav #sidenav [mode]="'over'">
+        <mat-sidenav #sidenav [mode]="'over'" position="end">
             <mat-nav-list>
-                <a routerLink="/general" mat-list-item>General</a>
-                <a routerLink="/abilities" mat-list-item>Abilities + Saving</a>
-                <a routerLink="/offense" mat-list-item>Offense</a>
-                <a mat-list-item>Defense</a>
-                <a mat-list-item>Skills</a>
-                <a mat-list-item>Feats</a>
-                <a mat-list-item>Equipment</a>
-                <a mat-list-item>Spells</a>
-                <a mat-list-item>Summary</a>
-                <a mat-list-item>Roll</a>
+                <mat-list-item routerLink="/general" (click)="sidenav.toggle()">General</mat-list-item>
+                <mat-list-item routerLink="/abilities" (click)="sidenav.toggle()">Abilities + Saving</mat-list-item>
+                <mat-list-item routerLink="/combat" (click)="sidenav.toggle()">Combat</mat-list-item>
+                <mat-list-item>Equipment</mat-list-item>
+                <mat-list-item>Skills</mat-list-item>
+                <mat-list-item>Feats</mat-list-item>
+                <mat-list-item>Spells</mat-list-item>
+                <mat-list-item>Summary</mat-list-item>
+                <mat-list-item>Roll</mat-list-item>
+                <mat-list-item>Settings</mat-list-item>
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
-            <mat-toolbar color="primary">
+            <mat-toolbar color="primary" class="sticky-top">
                 <mat-toolbar-row class="d-flex justify-content-between">
+                        <div class="d-none d-lg-block d-flex justify-content-between">
+                            <button mat-button routerLink="/general" routerLinkActive="selected-tab">General</button>
+                            <button mat-button routerLink="/abilities" routerLinkActive="selected-tab">Abilities + Saving</button>
+                            <button mat-button routerLink="/combat" routerLinkActive="selected-tab">Combat</button>
+                            <button mat-button mat-button routerLinkActive="selected-tab">Equipment</button>
+                            <button mat-button mat-button routerLinkActive="selected-tab">Skills</button>
+                            <button mat-button mat-button routerLinkActive="selected-tab">Feats</button>
+                            <button mat-button mat-button routerLinkActive="selected-tab">Spells</button>
+                            <button mat-button mat-button routerLinkActive="selected-tab">Summary</button>
+                            <button mat-button mat-button routerLinkActive="selected-tab">Roll</button>
+                        </div>
+                        <div>
+                            <button class="d-none d-lg-block" mat-icon-button>
+                                <mat-icon>settings</mat-icon>
+                            </button>
+                        </div>
                         <div class="d-lg-none">
                             <button mat-icon-button (click)="sidenav.toggle()">
                                 <mat-icon>menu</mat-icon>
                             </button>
                         </div> 
-                        <div class="d-none d-lg-block d-flex justify-content-between">
-                            <a routerLink="/general" mat-button>General</a>
-                            <a routerLink="/abilities" mat-button>Abilities + Saving</a>
-                            <a routerLink="/offense" mat-button>Offense</a>
-                            <a mat-button>Defense</a>
-                            <a mat-button>Skills</a>
-                            <a mat-button>Feats</a>
-                            <a mat-button>Equipment</a>
-                            <a mat-button>Spells</a>
-                            <a mat-button>Summary</a>
-                            <a mat-button>Roll</a>
-                        </div>
-                        <div>
-                            <button mat-icon-button>
-                                <mat-icon>settings</mat-icon>
-                            </button>
-                        </div>
                 </mat-toolbar-row>
             </mat-toolbar>        
             <router-outlet></router-outlet>

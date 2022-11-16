@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Abilities } from '../../../../../libs/character-classes/abilities';
+import { Abilities, DexScore } from '../../../../../libs/character-classes/abilities';
 import { Character } from '../../../../../libs/character-classes//character';
-import { GeneralInfo } from '../../../../../libs/character-classes/general-info';
-import { OffenseInfo } from '../../../../../libs/character-classes/offense-info';
+import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
+import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { SavingThrows } from '../../../../../libs/character-classes/saving-throws';
+import { Weapon } from 'libs/character-classes/weapon';
+import { NONE_TYPE } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -24,27 +26,52 @@ export class CharacterService {
       notes: `-This character is my favorite.\n-He is also very crazy, don't mess with this boy.`,
       playerName: "Sir Joseph of Alconbury",
       race: "Dark Elf",
-      size: "Medium",
-      weight: "240"
+      size: SizeEnum.medium,
+      weight: "240",
+      baseSpeed: undefined,
+      armorSpeed: undefined,
+      flyManeuver: undefined,
+      swimSpeed: undefined,
+      climbSpeed: undefined,
+      burrowSpeed: undefined,
+      speedTempMods: undefined,
+      languages: undefined
     };
-    offenseInfo: OffenseInfo = {
-      baseAttackBonus: 3,
-      cmbMiscMod: 0,
-      cmbSizeMod: 1, 
-      cmbStrMod: 3,
-      cmbTempMod: 0,
-      cmbTotal: 4,
-      initiativeDexMod: 3,
-      initiativeMiscMod: 1,
-      initiativeTotal: 4,
-      speedArmor: '30 ft', 
-      speedBase: '20 ft', 
-      speedBurrow: '5 ft',
-      speedClimb: '12 ft', 
-      speedFly: '30 ft', 
-      speedSwim: '15 ft',
-      speedTempMod: '0', 
-      weapons: undefined
+    combatInfo: CombatInfo = {
+      bab: 3,
+      cmbMiscMod: undefined,
+      cmSizeMod: undefined,
+      acSizeMod: undefined,
+      cmbTotal: undefined,
+      initiativeMiscMod: undefined,
+      initiativeTotal: undefined,
+      weapons: [{
+        ammunition: 'none',
+        attackBonus: 6,
+        critical: 'x3',
+        damage: '2d6',
+        name: 'weapon number one',
+        range: '5ft',
+        type: 'P',
+        weight: '5 lbs'
+      }],
+      hpTotal: 20,
+      hpCurrent: 18,
+      hpNonLethal: undefined,
+      spellResistance: undefined,
+      damageReduction: undefined,
+      cmbBabMod: undefined,
+      cmdTotal: undefined,
+      cmdBabMod: undefined,
+      cmdMiscMod: undefined,
+      acTotal: undefined,
+      acArmorMod: undefined,
+      acShieldMod: undefined,
+      acNaturalArmorMod: undefined,
+      acDeflectMod: undefined,
+      acMiscMod: undefined,
+      acTouch: undefined,
+      acFlat: undefined
     };
     abilities: Abilities ={
       str: 13,
@@ -59,7 +86,7 @@ export class CharacterService {
       conMod: 2,
       conTempAdj: undefined,
       conTempMod: undefined,
-      int: 15, 
+      int: 15,
       intMod: 2,
       intTempAdj: undefined,
       intTempMod: undefined,
@@ -70,7 +97,13 @@ export class CharacterService {
       cha: 20,
       chaMod: 5,
       chaTempAdj: undefined,
-      chaTempMod: undefined
+      chaTempMod: undefined,
+      useStrMod: 1,
+      useDexMod: 3,
+      useConMod: 2,
+      useIntMod: 2,
+      useWisMod: 1,
+      useChaMod: 5
     }
     savingThrows: SavingThrows = {
       for: {
@@ -104,53 +137,142 @@ export class CharacterService {
 
   public character: Character = new Character;
   constructor() {
-    this.character.abilities = new Abilities;
-    this.character.savingThrows = new SavingThrows;
+    this.character.generalInfo = this.generalInfo
+    this.character.abilities = this.abilities;
+    this.character.savingThrows = this.savingThrows;
+    this.character.combatInfo = this.combatInfo;
   }
 
   //character getters
   //todo: make a db to grab this info
-  getGeneralInfo(){
-    return this.character.generalInfo = this.generalInfo;
-  }
-  getOffenseInfo(){
-    return this.character.offenseInfo = this.offenseInfo;
-  }
-  getAbilities(){
-    return this.character.abilities = this.abilities;
-  }
-  getSavingThrows(){
-    return this.character.savingThrows = this.savingThrows;
+  getCharacter(){
+    return this.character;
   }
 
-  //charater updates
+  //ability/saving updaters--------------------------------------
+  updateStr(info: Abilities){
+    this.character.abilities = info;
+  }
+
+  updateDex(info: Abilities){
+    this.character.abilities = info;
+  }
+
+  updateCon(info: Abilities){
+    this.character.abilities = info;
+  }
+
+  updateInt(info: Abilities){
+    this.character.abilities = info
+  }
+
+  updateWis(info: Abilities){
+    this.character.abilities = info;
+  }
+  
+  updateCha(info: Abilities){
+    this.character.abilities = info;
+  }
+
+  //------------------------------------------------------
+  //combat page updates-----------------------------------
+  updateHpMisc(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: update misc objects to the database
+  }
+  updateBab(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: push up cmd & cmb
+  }
+  updateOffense(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: push up cmb & cmd & initiative
+  }
+  updateAc(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: push ac info
+  }
+  updateWeapons(info: CombatInfo){
+    this.character.combatInfo = info;
+    //todo: push weapon info 
+  }
+  //------------------------------------------------------
+
+  //charater updates ---------------------------------------
   updateGeneralInfo(generalInfo: GeneralInfo){
-    this.generalInfo = generalInfo;
+    this.character.generalInfo = generalInfo;
   }
-  updateAbilities(abilities: Abilities){
-    this.abilities = abilities;
+
+  updateSize(size: SizeEnum){
+    this.character.combatInfo.cmSizeMod = this.calculateCmSizeMod(size);
+    this.character.combatInfo.acSizeMod = this.calculateAcSizeMod(size);
   }
+
+
   updateSavingThrows(savingThrows: SavingThrows){
-    this.savingThrows = savingThrows;
+    this.character.savingThrows = savingThrows;
   }
 
-  calculateAbilityScores(abilities: Abilities){
-    abilities.chaMod = this.calculateAbilityScore(abilities.cha);
-    abilities.chaTempMod = this.calculateAbilityScore(abilities.chaTempAdj);
-    abilities.conMod = this.calculateAbilityScore(abilities.con);
-    abilities.conTempMod = this.calculateAbilityScore(abilities.conTempAdj);
-    abilities.dexMod = this.calculateAbilityScore(abilities.dex);
-    abilities.dexTempMod = this.calculateAbilityScore(abilities.dexTempAdj);
-    abilities.intMod = this.calculateAbilityScore(abilities.int);
-    abilities.intTempMod = this.calculateAbilityScore(abilities.intTempAdj);
-    abilities.strMod = this.calculateAbilityScore(abilities.str);
-    abilities.strTempMod = this.calculateAbilityScore(abilities.strTempAdj);
-    abilities.wisMod = this.calculateAbilityScore(abilities.wis);
-    abilities.wisTempMod = this.calculateAbilityScore(abilities.wisTempAdj); 
-    return abilities;
+
+
+  //calcuate methods ----------------------------------------------------------------
+  calculateCmSizeMod(size: SizeEnum | undefined){
+    if(size === undefined){
+      return 0;
+    }
+    switch(size){
+      case SizeEnum.small:
+        return -1;
+      case SizeEnum.medium:
+        return 0;
+      case SizeEnum.large:
+        return 1;
+      case SizeEnum.tiny:
+        return -2;
+      case SizeEnum.diminutive:
+        return -4;
+      case SizeEnum.fine:
+        return -8;
+      case SizeEnum.huge:
+        return 2;
+      case SizeEnum.gargantuan:
+        return 4;
+      case SizeEnum.colossal:
+        return 8;
+      default:
+        return 0;
+    }
   }
 
-  calculateAbilityScore(score: number | undefined){
+  calculateAcSizeMod(size: SizeEnum | undefined){
+    if(size === undefined){
+      return 0;
+    }
+    switch(size){
+      case SizeEnum.small:
+        return 1;
+      case SizeEnum.medium:
+        return 0;
+      case SizeEnum.large:
+        return -1;
+      case SizeEnum.tiny:
+        return 2;
+      case SizeEnum.diminutive:
+        return 4;
+      case SizeEnum.fine:
+        return 8;
+      case SizeEnum.huge:
+        return -2;
+      case SizeEnum.gargantuan:
+        return -4;
+      case SizeEnum.colossal:
+        return -8;
+      default:
+        return 0;
+    }
+  }
+
+  calculateAbilityScore(score: number | undefined): number | undefined{
     if(score === undefined || ""){
       return undefined;
     }

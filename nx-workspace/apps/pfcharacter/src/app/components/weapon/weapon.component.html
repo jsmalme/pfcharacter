@@ -1,0 +1,58 @@
+<form autocomplete="off" [formGroup]="weaponForm">
+    <div class="row d-flex align-items-center">
+        <div class="col-6">
+            <div class="row" >
+                <mat-form-field appearance="standard" color="accent" style="width: 100%;">
+                    <mat-label>Weapon</mat-label>
+                    <input matInput formControlName="name">
+                    <mat-icon matSuffix color="warn" style="cursor: pointer;" (onClick)="deleteWeapon()">delete</mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-3">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                <mat-label>Attack Bonus</mat-label>
+                <input matInput formControlName="attackBonus">
+            </mat-form-field>
+        </div>
+        <div class="col-3">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                <mat-label>Critical</mat-label>
+                <input matInput formControlName="critical">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                <mat-label>Weight(lbs)</mat-label>
+                <input matInput formControlName="weight">
+            </mat-form-field>  
+        </div>
+        <div class="col-2">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                <mat-label>Type</mat-label>
+                <input matInput formControlName="type">
+            </mat-form-field>
+        </div>
+        <div class="col-2">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                <mat-label>Range(ft)</mat-label>
+                <input matInput formControlName="range">
+            </mat-form-field>
+        </div>
+        <div class="col-3">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                <mat-label>Ammunition</mat-label>
+                <input matInput formControlName="ammunition">
+            </mat-form-field>
+        </div>
+        <div class="col-3">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                <mat-label>Damage</mat-label>
+                <input matInput formControlName="damage">
+            </mat-form-field>
+        </div>
+    </div>
+</form>
+

@@ -13,12 +13,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSelectModule } from '@angular/material/select';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
 import { GeneralComponent } from './components/general/general.component';
 import { ModDisplayComponent } from './components/mod-display/mod-display.component';
-import { OffenseComponent } from './components/offense/offense.component';
+import { CombatComponent } from './components/combat/combat.component';
+import { WeaponComponent } from './components/weapon/weapon.component';
+import { TotalDisplayComponent } from './components/total-display/total-display.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +32,9 @@ import { OffenseComponent } from './components/offense/offense.component';
     AbilitiesComponent,
     GeneralComponent,
     ModDisplayComponent,
-    OffenseComponent
+    CombatComponent,
+    WeaponComponent,
+    TotalDisplayComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +49,11 @@ import { OffenseComponent } from './components/offense/offense.component';
     MatFormFieldModule,
     MatInputModule,
     MatBadgeModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule,
+    MatGridListModule,
+    FlexLayoutModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
