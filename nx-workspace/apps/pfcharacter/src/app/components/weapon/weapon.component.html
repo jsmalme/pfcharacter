@@ -1,11 +1,13 @@
+<div>
 <form autocomplete="off" [formGroup]="weaponForm">
+    <div>
+        <mat-icon matSuffix color="warn" style="cursor: pointer;" (click)="deleteWeapon()">delete</mat-icon>
+    </div>
     <div class="row d-flex align-items-center">
         <div class="col-6">
             <div class="row" >
                 <mat-form-field appearance="standard" color="accent" style="width: 100%;">
-                    <mat-label>Weapon</mat-label>
-                    <input matInput formControlName="name">
-                    <mat-icon matSuffix color="warn" style="cursor: pointer;" (onClick)="deleteWeapon()">delete</mat-icon>
+                    <input matInput placeholder="Weapon Name" formControlName="name">
                 </mat-form-field>
             </div>
         </div>
@@ -25,7 +27,7 @@
     <div class="row">
         <div class="col-2">
             <mat-form-field appearance="outline" color="accent" style="width: 100%;">
-                <mat-label>Weight(lbs)</mat-label>
+                <mat-label>Weight</mat-label>
                 <input matInput formControlName="weight">
             </mat-form-field>  
         </div>
@@ -37,7 +39,7 @@
         </div>
         <div class="col-2">
             <mat-form-field appearance="outline" color="accent" style="width: 100%;">
-                <mat-label>Range(ft)</mat-label>
+                <mat-label>Range</mat-label>
                 <input matInput formControlName="range">
             </mat-form-field>
         </div>
@@ -55,4 +57,4 @@
         </div>
     </div>
 </form>
-
+</div>

@@ -2,21 +2,24 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+//Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -25,6 +28,7 @@ import { ModDisplayComponent } from './components/mod-display/mod-display.compon
 import { CombatComponent } from './components/combat/combat.component';
 import { WeaponComponent } from './components/weapon/weapon.component';
 import { TotalDisplayComponent } from './components/total-display/total-display.component';
+import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +39,7 @@ import { TotalDisplayComponent } from './components/total-display/total-display.
     CombatComponent,
     WeaponComponent,
     TotalDisplayComponent,
+    DeleteWeponDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +59,7 @@ import { TotalDisplayComponent } from './components/total-display/total-display.
     MatGridListModule,
     FlexLayoutModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

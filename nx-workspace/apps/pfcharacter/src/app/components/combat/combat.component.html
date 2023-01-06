@@ -1,4 +1,4 @@
-<div class="container comp-top-margin">
+<div class="container comp-top-margin" style="margin-bottom: 20px;">
     <form [formGroup]="combatInfoForm" autocomplete="off">
         <mat-card class="mat-elevation-z2">
             <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
@@ -316,23 +316,24 @@
             </mat-card-title>
         </mat-card> 
         <br>
-            <mat-grid-list [cols]="cols" rowHeight="12rem" gutterSize="10px;" class="d-flex justify-content-center">
-                <ng-container *ngFor="let weaponForm of weaponArray.controls;  let i = index">
-                    <mat-grid-tile>
-                        <mat-card class="d-flex align-items-center">
-                            <app-weapon [weaponForm]="$any(weaponForm)" [index]="i"></app-weapon>
-                        </mat-card>
-                    </mat-grid-tile>   
-                </ng-container>
+        <mat-grid-list [cols]="cols" rowHeight="15em" gutterSize="10px" class="justify-content-center">
+            <ng-container *ngFor="let weaponForm of weaponArray.controls;  let i = index">
                 <mat-grid-tile>
+                    <mat-card class="d-flex align-items-center">
+                        <app-weapon [weaponForm]="$any(weaponForm)" [index]="i" (deleteWeaponEvent)="deleteWeapon($event)"></app-weapon>
+                    </mat-card>
+                </mat-grid-tile>   
+            </ng-container>
+            <mat-grid-tile>
+                <mat-card class="h-100 w-100">
                     <div class="h-100 w-100 d-flex justify-content-center align-items-center">
-                        <button mat-fab color="accent"
-                            matTooltip="Add New Weapon"
-                            matTooltipPosition="above" (click)="addWeapon()">
+                        <button mat-raised-button color="primary" (click)="addWeapon()">
                             <mat-icon>add</mat-icon>
+                            Add Weapon
                         </button>
                     </div>
-                </mat-grid-tile>
-            </mat-grid-list>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
     </form>
 </div>

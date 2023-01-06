@@ -116,9 +116,9 @@ export class CombatComponent implements OnInit {
   }
 
   addWeapon(){
-    console.log('adding a weapon!');
     this.weaponArray.push(WeaponComponent.createWeapon());
-    console.log(this.weaponArray);
+    this.combatInfo.weapons = this.weaponArray.value;
+    this.characterService.updateWeapons(this.combatInfo);
   }
 
   get weaponArray(): FormArray{
@@ -135,11 +135,16 @@ export class CombatComponent implements OnInit {
         attackBonus: this.fb.control(x.attackBonus),
         critical: this.fb.control(x.critical),
         type: this.fb.control(x.type),
+        weight: this.fb.control(x.weight),
         range: this.fb.control(x.range),
         ammunition: this.fb.control(x.ammunition),
         damage: this.fb.control(x.damage)
       }))
     )
+  }
+
+  deleteWeapon(index: number){
+    this.weaponArray.removeAt(index);
   }
   
   updateBabInfo(info: CombatInfo){
@@ -165,7 +170,7 @@ export class CombatComponent implements OnInit {
     this.combatInfo.cmbTotal = this.getCmbTotal(this.combatInfo, this.abilities);
     this.combatInfo.cmdTotal = this.getCmdTotal(this.combatInfo, this.abilities);
     this.combatInfo.initiativeTotal = this.getInitiativeTotal(this.combatInfo, this.abilities);
-    this.characterService.updateOffense(info);
+    this.characterService.updateOffense(this.combatInfo);
   }
 
   updateAcInfo(info: CombatInfo){
@@ -175,7 +180,7 @@ export class CombatComponent implements OnInit {
     this.combatInfo.acTotal = this.getAcTotal(this.combatInfo, this.abilities);
     this.combatInfo.acTouch = this.getAcTouchTotal(this.combatInfo, this.abilities);
     this.combatInfo.acFlat = this.getAcFlatTotal(this.combatInfo);
-    this.characterService.updateAc(info);
+    this.characterService.updateAc(this.combatInfo);
   }
 
   calculateTotals(combatInfo: CombatInfo, abilities: Abilities){
