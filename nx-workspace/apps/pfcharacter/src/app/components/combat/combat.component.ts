@@ -1,17 +1,17 @@
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
+import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CharacterService } from '../../services/character.service';
 import { CombatInfo } from '../../../../../../libs/character-classes/combat-info';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { Subscription, debounceTime } from 'rxjs';
+import { Subscription, debounceTime, Subject} from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
-import { maxNumberValidator } from '../../functions/max-number-validator';
+import { maxNumberValidator } from '../../functions/validators';
 import { Abilities } from '../../../../../../libs/character-classes/abilities';
 import { checkValidForm } from '../../functions/check-valid-form';
 import { strUnToNum } from '../../functions/methods';
-import { stringify } from 'querystring';
 import { WeaponComponent } from '../weapon/weapon.component';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-combat',
@@ -25,34 +25,32 @@ export class CombatComponent implements OnInit {
   combatInfoForm!: FormGroup;
   combatInfo!: CombatInfo;
   abilities!: Abilities;
-  cols: number | undefined = 2;
+  cols = 2;
+  weaponObjectHeight = '15em';
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
-
-  colMap = new Map([
-    ['xs', 1],
-    ['sm', 1],
-    ['md', 2],
-    ['lg', 2],
-    ['xl', 2]
-  ]);
+  changesUnsubscribe = new Subject<void>();
 
   constructor(private characterService: CharacterService,
-    private mediaObserver: MediaObserver,
+    private breakpointObserver: BreakpointObserver,
     private fb: FormBuilder) {}
 
 
   ngOnInit(): void {
-    console.log(this.characterService.character.abilities);
     this.combatInfo = this.characterService.character.combatInfo;
     this.abilities = this.characterService.character.abilities;
     this.calculateTotals(this.combatInfo, this.abilities);
     this.createFormGroup(this.combatInfo);
 
     //angular grid bootstrapping thingy
-    this.gridWatcher = this.mediaObserver.asObservable()
-      .subscribe((change: MediaChange[]) => {
-          this.cols = this.colMap.get(change[0].mqAlias) as number;
-        });
+   this.breakpointObserver.observe(['(min-width:992px)'])
+    .subscribe((state: BreakpointState) => {
+      state.matches ? this.cols = 2 : this.cols = 1;
+    });
+
+    this.breakpointObserver.observe(['(min-width:768px)'])
+    .subscribe((state: BreakpointState) => {
+      state.matches ? this.weaponObjectHeight = '15em' : this.weaponObjectHeight = '20em';
+    });
 
     //combat form change listeners
     this.combatInfoForm.get('hpMiscForm')?.get('babForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
@@ -82,11 +80,23 @@ export class CombatComponent implements OnInit {
       }
       this.updateAcInfo(info);
     });
+
+    this.combatInfoForm.get('weapons')?.valueChanges.pipe(debounceTime(1000)).subscribe(info =>{
+      if(!checkValidForm(this.combatInfoForm, 'weapons')){
+        return;
+      }
+      this.combatInfo.weapons = info;
+      this.characterService.updateWeapons(this.combatInfo);
+    })
   }
 
   fixTheOutlines(){
     setTimeout(()=> this.formFields.forEach(ff =>{
       ff.updateOutlineGap()}), 100);
+  }
+
+  onWeaponValueChanged(data: any){
+    console.log(data);
   }
 
   createFormGroup(combatInfo: CombatInfo): void{
@@ -115,14 +125,21 @@ export class CombatComponent implements OnInit {
     });
   }
 
-  addWeapon(){
-    console.log('adding a weapon!');
-    this.weaponArray.push(WeaponComponent.createWeapon());
-    console.log(this.weaponArray);
-  }
-
+//weapons ---------------------------------------------------------
   get weaponArray(): FormArray{
     return this.combatInfoForm?.get('weapons') as FormArray;
+  }
+
+  addWeapon(){
+    this.weaponArray.push(WeaponComponent.createWeapon());
+    this.combatInfo.weapons = this.weaponArray.value;
+    this.characterService.updateWeapons(this.combatInfo);
+  }
+
+  deleteWeapon(index: number){
+    this.weaponArray.removeAt(index);
+    this.combatInfo.weapons = this.weaponArray.value;
+    this.characterService.updateWeapons(this.combatInfo);
   }
 
   getWeaponFormArray(){
@@ -131,17 +148,29 @@ export class CombatComponent implements OnInit {
     }
     return this.fb.array(
       this.combatInfo.weapons.map(x => this.fb.group({
-        name: this.fb.control(x.name),
-        attackBonus: this.fb.control(x.attackBonus),
-        critical: this.fb.control(x.critical),
-        type: this.fb.control(x.type),
-        range: this.fb.control(x.range),
-        ammunition: this.fb.control(x.ammunition),
-        damage: this.fb.control(x.damage)
+        name: this.fb.control(x.name, Validators.maxLength(50)),
+        attackBonus: this.fb.control(x.attackBonus, Validators.maxLength(10)),
+        critical: this.fb.control(x.critical, Validators.maxLength(10)),
+        type: this.fb.control(x.type, Validators.maxLength(10)),
+        weight: this.fb.control(x.weight, Validators.maxLength(10)),
+        range: this.fb.control(x.range, Validators.maxLength(10)),
+        ammunition: this.fb.control(x.ammunition, Validators.maxLength(10)),
+        damage: this.fb.control(x.damage, Validators.maxLength(10))
       }))
     )
   }
-  
+  //----------------------------------------------------------------
+//updaters 
+  updateWeapons(info: CombatInfo){
+    this.combatInfo.acNaturalArmorMod = info.acNaturalArmorMod;
+    this.combatInfo.acDeflectMod = info.acDeflectMod;
+    this.combatInfo.acMiscMod = info.acMiscMod;
+    this.combatInfo.acTotal = this.getAcTotal(this.combatInfo, this.abilities);
+    this.combatInfo.acTouch = this.getAcTouchTotal(this.combatInfo, this.abilities);
+    this.combatInfo.acFlat = this.getAcFlatTotal(this.combatInfo);
+    this.characterService.updateAc(this.combatInfo);
+  }
+
   updateBabInfo(info: CombatInfo){
     this.combatInfo.bab = info.bab;
     this.combatInfo.cmbTotal = this.getCmbTotal(this.combatInfo, this.abilities);
@@ -165,7 +194,7 @@ export class CombatComponent implements OnInit {
     this.combatInfo.cmbTotal = this.getCmbTotal(this.combatInfo, this.abilities);
     this.combatInfo.cmdTotal = this.getCmdTotal(this.combatInfo, this.abilities);
     this.combatInfo.initiativeTotal = this.getInitiativeTotal(this.combatInfo, this.abilities);
-    this.characterService.updateOffense(info);
+    this.characterService.updateOffense(this.combatInfo);
   }
 
   updateAcInfo(info: CombatInfo){
@@ -175,7 +204,7 @@ export class CombatComponent implements OnInit {
     this.combatInfo.acTotal = this.getAcTotal(this.combatInfo, this.abilities);
     this.combatInfo.acTouch = this.getAcTouchTotal(this.combatInfo, this.abilities);
     this.combatInfo.acFlat = this.getAcFlatTotal(this.combatInfo);
-    this.characterService.updateAc(info);
+    this.characterService.updateAc(this.combatInfo);
   }
 
   calculateTotals(combatInfo: CombatInfo, abilities: Abilities){
@@ -200,7 +229,6 @@ export class CombatComponent implements OnInit {
   }
 
   getCmdTotal(combatInfo: CombatInfo, abilities: Abilities): number{
-    console.log(combatInfo, abilities);
     const total = 
     strUnToNum(combatInfo.bab) + 
     strUnToNum(abilities.useStrMod) + 
@@ -249,3 +277,4 @@ export class CombatComponent implements OnInit {
     return total;
   }
 }
+
