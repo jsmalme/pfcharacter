@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @angular-eslint/component-selector */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { subscribeOn } from 'rxjs';
 import { DeleteWeponDialogComponent } from '../delete-wepon-dialog/delete-wepon-dialog.component';
 
 @Component({
@@ -13,7 +12,7 @@ import { DeleteWeponDialogComponent } from '../delete-wepon-dialog/delete-wepon-
   styleUrls: ['./weapon.component.scss'],
 })
 
-export class WeaponComponent implements OnInit{
+export class WeaponComponent {
 
   static fb: FormBuilder;
   @Input() index: number | undefined;
@@ -37,16 +36,11 @@ export class WeaponComponent implements OnInit{
   }
 
   deleteWeapon(){
-    console.log("deleting");
     const dialogRef = this.dialog.open(DeleteWeponDialogComponent);
     dialogRef.afterClosed().subscribe(result =>{
       if(result){
         this.deleteWeaponEvent.emit(this.index);
       }
     });
-  }
-
-  ngOnInit(): void {
-      console.log(this.weaponForm);
-  }
+  }  
 }

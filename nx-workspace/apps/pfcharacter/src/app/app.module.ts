@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { LayoutModule } from '@angular/cdk/layout';
 
 //Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -57,7 +57,7 @@ import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/del
     MatCardModule,
     MatTooltipModule,
     MatGridListModule,
-    FlexLayoutModule,
+    LayoutModule,
     MatSelectModule,
     MatDialogModule,
   ],

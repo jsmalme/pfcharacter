@@ -37,3 +37,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-tooltip.tooltipFontSize{
     font-size: 12px;
 }
+
+.fix-suffix.mat-form-field-appearance-outline .mat-form-field-suffix {
+    top: 0;
+  }

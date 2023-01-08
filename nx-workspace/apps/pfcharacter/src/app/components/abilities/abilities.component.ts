@@ -6,7 +6,7 @@ import { CharacterService } from '../../services/character.service';
 import { debounceTime } from 'rxjs';
 import { SavingThrows } from '../../../../../../libs/character-classes/saving-throws';
 import { MatFormField } from '@angular/material/form-field';
-import { maxNumberValidator } from '../../functions/max-number-validator';
+import { maxNumberValidator } from '../../functions/validators';
 import { checkValidForm } from '../../functions/check-valid-form';
 
 @Component({
