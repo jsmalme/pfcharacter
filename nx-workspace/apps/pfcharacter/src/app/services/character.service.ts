@@ -4,7 +4,6 @@ import { Character } from '../../../../../libs/character-classes//character';
 import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
 import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { SavingThrows } from '../../../../../libs/character-classes/saving-throws';
-import { Weapon } from 'libs/character-classes/weapon';
 import { NONE_TYPE } from '@angular/compiler';
 
 @Injectable({

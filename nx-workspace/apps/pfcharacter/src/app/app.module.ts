@@ -29,6 +29,7 @@ import { CombatComponent } from './components/combat/combat.component';
 import { WeaponComponent } from './components/weapon/weapon.component';
 import { TotalDisplayComponent } from './components/total-display/total-display.component';
 import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
+import { SkillsComponent } from './components/skills/skills.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/del
     WeaponComponent,
     TotalDisplayComponent,
     DeleteWeponDialogComponent,
+    SkillsComponent,
   ],
   imports: [
     BrowserModule,
