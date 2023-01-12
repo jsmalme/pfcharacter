@@ -4,7 +4,8 @@ import { Character } from '../../../../../libs/character-classes//character';
 import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
 import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { SavingThrows } from '../../../../../libs/character-classes/saving-throws';
-import { NONE_TYPE } from '@angular/compiler';
+import { Skill } from '../../../../../libs/character-classes/skills';
+import { CalcTotService } from './calc-tot.service';
 
 @Injectable({
   providedIn: 'root'
@@ -135,7 +136,9 @@ export class CharacterService {
     }
 
   public character: Character = new Character;
-  constructor() {
+  constructor(
+    private totService: CalcTotService
+  ) {
     this.character.generalInfo = this.generalInfo
     this.character.abilities = this.abilities;
     this.character.savingThrows = this.savingThrows;
@@ -151,10 +154,19 @@ export class CharacterService {
   //ability/saving updaters--------------------------------------
   updateStr(info: Abilities){
     this.character.abilities = info;
+    this.character.combatInfo.cmbTotal = this.totService.getCmbTotal(this.character.combatInfo, info);
+    this.character.combatInfo.cmdTotal = this.totService.getCmdTotal(this.character.combatInfo, info);
+    this.updateSkills(info, this.character.skillList, 'Str', ['Climb', 'Swim']);
   }
 
   updateDex(info: Abilities){
     this.character.abilities = info;
+    this.character.combatInfo.initiativeTotal = this.totService.getInitiativeTotal(this.character.combatInfo, info);
+    this.character.combatInfo.cmdTotal = this.totService.getCmdTotal(this.character.combatInfo, info);
+    this.character.combatInfo.acTotal = this.totService.getAcTotal(this.character.combatInfo, info);
+    this.character.combatInfo.acTouch = this.totService.getAcTouchTotal(this.character.combatInfo, info);
+    const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
+    this.updateSkills(info, this.character.skillList, 'Dex', dexSkills);
   }
 
   updateCon(info: Abilities){
@@ -163,14 +175,22 @@ export class CharacterService {
 
   updateInt(info: Abilities){
     this.character.abilities = info
+    const intSkills = ['Appraise', 'Craft1', 'Craft2', 'Craft3', 'Knowledge (Arcana)', 'Knowledge (Dungeoneering)', 'Knowledge (Engineering)',
+      'Knowledge (Geography)', 'Knowledge (History)', 'Knowledge (Local)', 'Knowledge (Nature)', 'Knowledge (Nobility)', 'Knowledge (Planes)',
+      'Knowledge (Religion)', 'Linguistics', 'Spellcraft'];
+    this.updateSkills(info, this.character.skillList, 'Int', intSkills);
   }
 
   updateWis(info: Abilities){
     this.character.abilities = info;
+    const wisSkills = ['Heal', 'Perception', 'Profession1', 'Profession2', 'Sense Motive', 'Survival'];
+    this.updateSkills(info, this.character.skillList, 'Wis', wisSkills);
   }
   
   updateCha(info: Abilities){
     this.character.abilities = info;
+    const chaSkills = ['Bluff', 'Diplomacy', 'Disguise', 'Handle Animal', 'Intimidate', 'Perform1', 'Perform2', 'Use Magic Device'];
+    this.updateSkills(info, this.character.skillList, 'Cha', chaSkills);
   }
 
   //------------------------------------------------------
@@ -211,6 +231,14 @@ export class CharacterService {
   updateSavingThrows(savingThrows: SavingThrows){
     this.character.savingThrows = savingThrows;
   }
+  //-----------------------------------------------------------
+
+  //Skill updates --------------------------------------------------
+  updateSkills(abilities: Abilities, skillList: Skill[], ability: string, skillIds: string[]){
+    const updatedSkillList = this.updateSkillAbilityScore(ability, skillIds, skillList, abilities);
+    this.character.skillList = this.totService.getSkillsTotals(skillIds, updatedSkillList)
+  }
+  //----------------------------------------------------------------
 
 
 
@@ -276,5 +304,34 @@ export class CharacterService {
       return undefined;
     }
     return Math.floor((score - 10)/2);
+  }
+
+  updateSkillAbilityScore(ability: string, skillIds: string[], skillList: Skill[], abilities: Abilities): Skill[]{
+    return skillList.map(skill => {
+      if(skillIds.some(s => s === skill.id)){
+        switch(ability){
+          case 'Dex':
+            skill.abilityMod = abilities.useDexMod || 0;
+            break; 
+          case 'Str': 
+            skill.abilityMod = abilities.useStrMod || 0;
+            break;
+          case 'Wis': 
+            skill.abilityMod = abilities.useWisMod || 0;
+            break;
+          case 'Int': 
+            skill.abilityMod = abilities.useIntMod || 0;
+            break;
+          case 'Cha':
+            skill.abilityMod = abilities.useChaMod || 0;
+            break;
+          case 'Con':
+            skill.abilityMod = abilities.useConMod || 0;
+            break;
+        }
+      }
+      return skill;
+    });
+
   }
 }

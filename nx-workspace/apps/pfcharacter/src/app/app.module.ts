@@ -20,6 +20,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatTableModule} from '@angular/material/table';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -58,10 +60,12 @@ import { SkillsComponent } from './components/skills/skills.component';
     MatBadgeModule,
     MatCardModule,
     MatTooltipModule,
+    MatTableModule,
     MatGridListModule,
     LayoutModule,
     MatSelectModule,
     MatDialogModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -110,7 +110,6 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.strTempMod = this.calculateAbilityScore(info.strTempAdj);
     this.abilities.useStrMod = info.strTempAdj ? this.abilities.strTempMod : (info.str ? this.abilities.strMod : undefined);
     this.characterService.updateStr(this.abilities);
-    //this.characterService.updateStr(info);
   }
   
   updateDexModifiers(info: DexScore){

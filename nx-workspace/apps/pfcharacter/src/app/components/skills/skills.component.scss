@@ -1,0 +1,50 @@
+table{
+    width: 100%;
+}
+
+td.mat-cell, th.mat-header-cell{
+    text-align: center;
+    justify-content: center;
+}
+
+.mat-column-favorite{
+    width: 5%;
+}
+
+.mat-column-classSkill{
+    width: 10%;
+}
+
+.mat-column-name{
+    text-align: left !important;
+    justify-content: left !important;
+    width: 15%;
+}
+
+.mat-column-total{
+    width: 10%;
+}
+
+.mat-column-abilty{
+    width: 10%;
+}
+
+.mat-column-abilityMod{
+    width: 10%;
+}
+
+.mat-column-ranks{
+    width: 10%;
+}
+
+.mat-column-class{
+    width: 10%;
+}
+
+.mat-column-racial{
+    width: 10%;
+}
+
+.mat-column-misc{
+    width: 10%;
+}
