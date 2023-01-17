@@ -48,3 +48,23 @@ td.mat-cell, th.mat-header-cell{
 .mat-column-misc{
     width: 10%;
 }
+
+@media (max-width: 540px){
+    .mat-column-favorite{
+        width: 20%;
+    }
+    
+    .mat-column-classSkill{
+        width: 20%;
+    }
+    
+    .mat-column-name{
+        text-align: left !important;
+        justify-content: left !important;
+        width: 35%;
+    }
+    
+    .mat-column-total{
+        width: 25%;
+    }
+}
