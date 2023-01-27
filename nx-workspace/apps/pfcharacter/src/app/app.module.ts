@@ -22,6 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -65,7 +66,8 @@ import { SkillsComponent } from './components/skills/skills.component';
     LayoutModule,
     MatSelectModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent],

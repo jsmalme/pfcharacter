@@ -29,7 +29,7 @@ body {
         <mat-sidenav-content>
             <mat-toolbar color="primary" class="sticky-top">
                 <mat-toolbar-row class="d-flex justify-content-between">
-                        <div class="d-none d-lg-block d-flex justify-content-between">
+                        <div class="d-none d-md-block d-flex justify-content-between">
                             <button mat-button routerLink="/general" routerLinkActive="selected-tab">General</button>
                             <button mat-button routerLink="/abilities" routerLinkActive="selected-tab">Abilities + Saving</button>
                             <button mat-button routerLink="/skills" routerLinkActive="selected-tab">Skills</button>
@@ -41,11 +41,11 @@ body {
                             <button mat-button mat-button routerLinkActive="selected-tab">Roll</button>
                         </div>
                         <div>
-                            <button class="d-none d-lg-block" mat-icon-button>
+                            <button class="d-none d-md-block" mat-icon-button>
                                 <mat-icon>settings</mat-icon>
                             </button>
                         </div>
-                        <div class="d-lg-none">
+                        <div class="d-md-none">
                             <button mat-icon-button (click)="sidenav.toggle()">
                                 <mat-icon>menu</mat-icon>
                             </button>

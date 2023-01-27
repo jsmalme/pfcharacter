@@ -2,35 +2,29 @@ table{
     width: 100%;
 }
 
-td.mat-cell, th.mat-header-cell{
-    text-align: center;
-    justify-content: center;
-}
-
 .mat-column-favorite{
-    width: 5%;
+    width: 7.5%;
 }
 
 .mat-column-classSkill{
-    width: 10%;
+    justify-content: center;
+    width: 7.5%;
 }
 
 .mat-column-name{
-    text-align: left !important;
-    justify-content: left !important;
-    width: 15%;
+    width: 22.5%;
 }
 
 .mat-column-total{
     width: 10%;
 }
 
-.mat-column-abilty{
-    width: 10%;
+.mat-column-ability{
+    width: 7.5%;
 }
 
 .mat-column-abilityMod{
-    width: 10%;
+    width: 7.5%;
 }
 
 .mat-column-ranks{
@@ -38,7 +32,7 @@ td.mat-cell, th.mat-header-cell{
 }
 
 .mat-column-class{
-    width: 10%;
+    width: 7.5%;
 }
 
 .mat-column-racial{
@@ -47,4 +41,45 @@ td.mat-cell, th.mat-header-cell{
 
 .mat-column-misc{
     width: 10%;
+}
+
+tr.queue-detail-row {
+    height: 0;
+}
+
+tr.queue-element-row:not(.queue-expanded-row):hover {
+    cursor: pointer;
+}
+
+tr.queue-element-row:not(.queue-expanded-row):active {
+    cursor: pointer;
+}
+
+.queue-element-row {
+    border-bottom-width: 0;
+    cursor: pointer;
+}
+
+.queue-element-detail {
+    overflow: hidden;
+}
+
+.marginTop{
+    margin-top: 16px;
+}
+
+.expanded-row{
+    background-color: #2e7d32;
+}
+
+@media (max-width: 540px){
+    .mat-column-name{
+        text-align: left !important;
+        justify-content: left !important;
+    }
+
+    .mat-column-ability{
+        text-align: left !important;
+        justify-content: left !important;
+    }
 }

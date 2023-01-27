@@ -31,6 +31,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: mat.get-color-from-palette($warn-palette);;
 }
 
+.grey-bg{
+    background-color: grey;
+}
+
 .mat-input-disabled{
     color: rgba(black, 0.38);
 }
