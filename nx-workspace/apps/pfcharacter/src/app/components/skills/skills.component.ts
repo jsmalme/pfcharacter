@@ -3,7 +3,7 @@ import { CharacterService } from '../../services/character.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Abilities } from '../../../../../../libs/character-classes/abilities';
 import { Skill } from '../../../../../../libs/character-classes/skills';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, UntypedFormArray, Validators } from '@angular/forms';
 import { maxNumberValidator } from '../../functions/validators';
 import { debounceTime } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,7 +17,7 @@ import { MatSort, Sort } from '@angular/material/sort';
   animations: [
     trigger('detailExpand', [
         state('collapsed', style({height: '0px', minHeight: '0'})),
-        state('expanded', style({height: '*'})),
+        state('expanded, void', style({height: '*'})),
         transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
 ],
@@ -49,7 +49,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     this.skillsForm = this.fb.group({
       skills: this.getSkillsFormArray()
     })
-    this.dataSource = new MatTableDataSource((this.skillsForm.get('skills') as FormArray).controls);
+    this.dataSource = new MatTableDataSource(this.skillsArray().controls);
 
     //angular grid bootstrapping thingy
     this.breakpointObserver.observe(['(min-width:768px)'])
@@ -67,8 +67,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
       const value: any = data.value[sortHeaderId];
       return typeof value === 'string' ? value.toLocaleLowerCase() : value;
     }
-
-    this.dataSource.sort = this.sort
+    this.dataSource.sort = this.sort;
 
     const filterPredicate = this.dataSource.filterPredicate;
     this.dataSource.filterPredicate = (data: AbstractControl, filter) => {
@@ -76,9 +75,14 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  skillsArray(){
+    return this.skillsForm.get('skills') as FormArray;
+  }
+
   getSkillsFormArray(){
     return this.fb.array(
       this.skills.map(skill => this.fb.group({
+        id: this.fb.control(skill.id),
         favorite: this.fb.control(skill.favorite),
         classSkill: this.fb.control(skill.classSkill),
         name: this.fb.control(skill.name),
@@ -91,4 +95,19 @@ export class SkillsComponent implements OnInit, AfterViewInit {
       }))
     )
   }
+
+  toggleFavorite(skillId: string){
+    const form = this.skillsArray().controls.find((skill: AbstractControl) => {
+      const skillFormGroup = skill as FormGroup;
+      if(skillFormGroup.controls['id'].value === skillId){
+        return skill;
+      }
+      return null;
+    });
+
+    form?.patchValue({
+      favorite: !form.value.favorite
+    });
+  }
+
 }
