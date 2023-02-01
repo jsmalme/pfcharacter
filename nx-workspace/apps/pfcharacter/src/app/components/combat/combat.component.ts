@@ -197,14 +197,5 @@ export class CombatComponent implements OnInit {
     this.combatInfo.acFlat = this.totService.getAcFlatTotal(this.combatInfo);
     this.characterService.updateAc(this.combatInfo);
   }
-
-  calculateTotals(combatInfo: CombatInfo, abilities: Abilities){
-    this.combatInfo.initiativeTotal = this.totService.getInitiativeTotal(combatInfo, abilities);
-    this.combatInfo.cmbTotal = this.totService.getCmbTotal(combatInfo, abilities);
-    this.combatInfo.cmdTotal = this.totService.getCmdTotal(combatInfo, abilities);
-    this.combatInfo.acTotal = this.totService.getAcTotal(combatInfo, abilities);
-    this.combatInfo.acTouch = this.totService.getAcTouchTotal(combatInfo, abilities);
-    this.combatInfo.acFlat = this.totService.getAcFlatTotal(combatInfo);
-  }
 }
 

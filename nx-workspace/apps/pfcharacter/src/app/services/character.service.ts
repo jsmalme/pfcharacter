@@ -156,7 +156,7 @@ export class CharacterService {
     this.character.abilities = info;
     this.character.combatInfo.cmbTotal = this.totService.getCmbTotal(this.character.combatInfo, info);
     this.character.combatInfo.cmdTotal = this.totService.getCmdTotal(this.character.combatInfo, info);
-    this.updateSkills(info, this.character.skillList, 'Str', ['Climb', 'Swim']);
+    this.updateSkillAbilities(info, this.character.skillList, 'Str', ['Climb', 'Swim']);
   }
 
   updateDex(info: Abilities){
@@ -166,7 +166,7 @@ export class CharacterService {
     this.character.combatInfo.acTotal = this.totService.getAcTotal(this.character.combatInfo, info);
     this.character.combatInfo.acTouch = this.totService.getAcTouchTotal(this.character.combatInfo, info);
     const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
-    this.updateSkills(info, this.character.skillList, 'Dex', dexSkills);
+    this.updateSkillAbilities(info, this.character.skillList, 'Dex', dexSkills);
   }
 
   updateCon(info: Abilities){
@@ -178,19 +178,19 @@ export class CharacterService {
     const intSkills = ['Appraise', 'Craft1', 'Craft2', 'Craft3', 'Knowledge (Arcana)', 'Knowledge (Dungeoneering)', 'Knowledge (Engineering)',
       'Knowledge (Geography)', 'Knowledge (History)', 'Knowledge (Local)', 'Knowledge (Nature)', 'Knowledge (Nobility)', 'Knowledge (Planes)',
       'Knowledge (Religion)', 'Linguistics', 'Spellcraft'];
-    this.updateSkills(info, this.character.skillList, 'Int', intSkills);
+    this.updateSkillAbilities(info, this.character.skillList, 'Int', intSkills);
   }
 
   updateWis(info: Abilities){
     this.character.abilities = info;
     const wisSkills = ['Heal', 'Perception', 'Profession1', 'Profession2', 'Sense Motive', 'Survival'];
-    this.updateSkills(info, this.character.skillList, 'Wis', wisSkills);
+    this.updateSkillAbilities(info, this.character.skillList, 'Wis', wisSkills);
   }
   
   updateCha(info: Abilities){
     this.character.abilities = info;
     const chaSkills = ['Bluff', 'Diplomacy', 'Disguise', 'Handle Animal', 'Intimidate', 'Perform1', 'Perform2', 'Use Magic Device'];
-    this.updateSkills(info, this.character.skillList, 'Cha', chaSkills);
+    this.updateSkillAbilities(info, this.character.skillList, 'Cha', chaSkills);
   }
 
   //------------------------------------------------------
@@ -234,9 +234,14 @@ export class CharacterService {
   //-----------------------------------------------------------
 
   //Skill updates --------------------------------------------------
-  updateSkills(abilities: Abilities, skillList: Skill[], ability: string, skillIds: string[]){
+  updateSkillAbilities(abilities: Abilities, skillList: Skill[], ability: string, skillIds: string[]){
     const updatedSkillList = this.updateSkillAbilityScore(ability, skillIds, skillList, abilities);
-    this.character.skillList = this.totService.getSkillsTotals(skillIds, updatedSkillList)
+    this.character.skillList = this.totService.getSkillsTotals(updatedSkillList, skillIds);
+  }
+
+  updateSkills(skillList: Skill[]){
+    console.log('triggered');
+    this.character.skillList = skillList;
   }
   //----------------------------------------------------------------
 

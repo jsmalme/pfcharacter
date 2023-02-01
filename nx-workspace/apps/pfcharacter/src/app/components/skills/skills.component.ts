@@ -3,12 +3,13 @@ import { CharacterService } from '../../services/character.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Abilities } from '../../../../../../libs/character-classes/abilities';
 import { Skill } from '../../../../../../libs/character-classes/skills';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, UntypedFormArray, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { maxNumberValidator } from '../../functions/validators';
 import { debounceTime } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort} from '@angular/material/sort';
+import { CalcTotService } from '../../services/calc-tot.service';
 
 @Component({
   selector: 'nx-workspace-skills',
@@ -31,24 +32,26 @@ export class SkillsComponent implements OnInit, AfterViewInit {
 
   constructor(private characterService: CharacterService,
     private breakpointObserver: BreakpointObserver,
-    private fb: FormBuilder) {}
+    private fb: FormBuilder,
+    private totService: CalcTotService) {}
          
 
   nonMobileColumns: string[] = ['favorite', 'classSkill', 'name', 'ability',
   'total', 'abilityMod', 'class', 'ranks', 'racial', 'misc'];
   mobileColumns: string[] = ['favorite', 'classSkill', 'name', 'ability', 'total'];
-
   displayedColumns: string[] = new Array<string>(); 
   dataSource = new MatTableDataSource<AbstractControl<unknown, unknown>>;
 
   @ViewChild(MatSort) sort!: MatSort;
   
   ngOnInit(): void {
+    console.log(this.characterService.character.skillList);
     this.skills = this.characterService.character.skillList;
     this.abilities = this.characterService.abilities;
     this.skillsForm = this.fb.group({
       skills: this.getSkillsFormArray()
     })
+    console.log(this.skillsArray());
     this.dataSource = new MatTableDataSource(this.skillsArray().controls);
 
     //angular grid bootstrapping thingy
@@ -58,7 +61,10 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     });
 
     this.skillsForm.get('skills')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      console.log(info);
+      console.log('triggered');
+      // this.skills = this.totService.getSkillsTotals(info);
+      // this.skillsForm.get('skills')?.setValue(this.skills); 
+      // this.characterService.updateSkills(this.skills);
     })
   }
 
@@ -108,6 +114,13 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     form?.patchValue({
       favorite: !form.value.favorite
     });
+
+    this.skills.map(skill => {
+      if(skill.id === skillId){
+        skill.favorite == !form?.value.favorite;
+      }
+    });
+    this.characterService.updateSkills(this.skills);
   }
 
 }

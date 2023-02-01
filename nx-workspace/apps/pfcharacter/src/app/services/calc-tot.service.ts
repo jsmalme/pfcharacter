@@ -65,17 +65,25 @@ export class CalcTotService {
   getSkillTotal(skill: Skill): number{
     return strUnToNum(skill?.abilityMod) + 
     strUnToNum(skill?.ranks) + 
-    strUnToNum(skill?.class) + 
     strUnToNum(skill?.racial) + 
-    strUnToNum(skill?.misc);
+    strUnToNum(skill?.misc) + 
+    (skill?.classSkill ? 3 : 0);
   }
 
-  getSkillsTotals(skillIds: string[], skillList: Skill[]): Skill[]{
+  getSkillsTotals(skillList: Skill[], skillIds: string[] = []): Skill[]{
+    if(skillIds.length === 0){
+      return skillList.map(skill => {
+        skill.total = this.getSkillTotal(skill);
+        return skill
+      });
+    }
+    else{
     return skillList.map(skill => {
       if(skillIds.some(s => s === skill.id)){
         skill.total = this.getSkillTotal(skill);
       }
       return skill;
     });
+  }
   }
 }
