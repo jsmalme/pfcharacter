@@ -1,0 +1,84 @@
+table{
+    width: 100%;
+}
+
+.mat-column-favorite{
+    width: 9%;
+}
+
+.mat-column-classSkill{
+    width: 6%;
+}
+
+.mat-column-name{
+    width: 22.5%;
+}
+
+.mat-column-total{
+    width: 10%;
+}
+
+.mat-column-ability{
+    width: 7.5%;
+}
+
+.mat-column-abilityMod{
+    width: 7.5%;
+}
+
+.mat-column-ranks{
+    width: 10%;
+}
+
+.mat-column-class{
+    width: 7.5%;
+}
+
+.mat-column-racial{
+    width: 10%;
+}
+
+.mat-column-misc{
+    width: 10%;
+}
+
+tr.queue-detail-row {
+    height: 0;
+}
+
+tr.queue-element-row:not(.queue-expanded-row):hover {
+    cursor: pointer;
+}
+
+tr.queue-element-row:not(.queue-expanded-row):active {
+    cursor: pointer;
+}
+
+.queue-element-row {
+    border-bottom-width: 0;
+    cursor: pointer;
+}
+
+.queue-element-detail {
+    overflow: hidden;
+}
+
+.marginTop{
+    margin-top: 16px;
+}
+
+.expanded-row{
+    background-color: #2e7d32;
+}
+
+@media (max-width: 540px){
+    .mat-column-name{
+        text-align: left !important;
+        justify-content: left !important;
+    }
+
+    .mat-column-ability{
+        text-align: left !important;
+        justify-content: left !important;
+    }
+}

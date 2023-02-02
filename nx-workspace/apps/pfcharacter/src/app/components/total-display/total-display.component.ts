@@ -11,4 +11,5 @@ import { FormGroup, FormGroupDirective } from '@angular/forms';
 export class TotalDisplayComponent{
   @Input() isValid: boolean | undefined;
   @Input() total: number | undefined;
+  @Input()showGreyZeros: boolean | undefined;
 }

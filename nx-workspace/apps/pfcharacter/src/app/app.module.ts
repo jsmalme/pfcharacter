@@ -20,6 +20,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatTableModule} from '@angular/material/table';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -29,6 +32,7 @@ import { CombatComponent } from './components/combat/combat.component';
 import { WeaponComponent } from './components/weapon/weapon.component';
 import { TotalDisplayComponent } from './components/total-display/total-display.component';
 import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
+import { SkillsComponent } from './components/skills/skills.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +44,7 @@ import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/del
     WeaponComponent,
     TotalDisplayComponent,
     DeleteWeponDialogComponent,
+    SkillsComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,10 +61,13 @@ import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/del
     MatBadgeModule,
     MatCardModule,
     MatTooltipModule,
+    MatTableModule,
     MatGridListModule,
     LayoutModule,
     MatSelectModule,
     MatDialogModule,
+    MatCheckboxModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent],

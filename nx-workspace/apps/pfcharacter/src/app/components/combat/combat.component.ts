@@ -9,9 +9,9 @@ import { MatFormField } from '@angular/material/form-field';
 import { maxNumberValidator } from '../../functions/validators';
 import { Abilities } from '../../../../../../libs/character-classes/abilities';
 import { checkValidForm } from '../../functions/check-valid-form';
-import { strUnToNum } from '../../functions/methods';
 import { WeaponComponent } from '../weapon/weapon.component';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { CalcTotService } from '../../services/calc-tot.service';
 
 @Component({
   selector: 'app-combat',
@@ -30,7 +30,9 @@ export class CombatComponent implements OnInit {
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
   changesUnsubscribe = new Subject<void>();
 
-  constructor(private characterService: CharacterService,
+  constructor(
+    private characterService: CharacterService,
+    private totService: CalcTotService,
     private breakpointObserver: BreakpointObserver,
     private fb: FormBuilder) {}
 
@@ -38,7 +40,6 @@ export class CombatComponent implements OnInit {
   ngOnInit(): void {
     this.combatInfo = this.characterService.character.combatInfo;
     this.abilities = this.characterService.character.abilities;
-    this.calculateTotals(this.combatInfo, this.abilities);
     this.createFormGroup(this.combatInfo);
 
     //angular grid bootstrapping thingy
@@ -161,20 +162,10 @@ export class CombatComponent implements OnInit {
   }
   //----------------------------------------------------------------
 //updaters 
-  updateWeapons(info: CombatInfo){
-    this.combatInfo.acNaturalArmorMod = info.acNaturalArmorMod;
-    this.combatInfo.acDeflectMod = info.acDeflectMod;
-    this.combatInfo.acMiscMod = info.acMiscMod;
-    this.combatInfo.acTotal = this.getAcTotal(this.combatInfo, this.abilities);
-    this.combatInfo.acTouch = this.getAcTouchTotal(this.combatInfo, this.abilities);
-    this.combatInfo.acFlat = this.getAcFlatTotal(this.combatInfo);
-    this.characterService.updateAc(this.combatInfo);
-  }
-
   updateBabInfo(info: CombatInfo){
     this.combatInfo.bab = info.bab;
-    this.combatInfo.cmbTotal = this.getCmbTotal(this.combatInfo, this.abilities);
-    this.combatInfo.cmdTotal = this.getCmdTotal(this.combatInfo, this.abilities);
+    this.combatInfo.cmbTotal = this.totService.getCmbTotal(this.combatInfo, this.abilities);
+    this.combatInfo.cmdTotal = this.totService.getCmdTotal(this.combatInfo, this.abilities);
     this.characterService.updateBab(this.combatInfo);
   }
 
@@ -191,9 +182,9 @@ export class CombatComponent implements OnInit {
     this.combatInfo.initiativeMiscMod = info.initiativeMiscMod;
     this.combatInfo.cmbMiscMod = info.cmbMiscMod;
     this.combatInfo.cmdMiscMod = info.cmdMiscMod;
-    this.combatInfo.cmbTotal = this.getCmbTotal(this.combatInfo, this.abilities);
-    this.combatInfo.cmdTotal = this.getCmdTotal(this.combatInfo, this.abilities);
-    this.combatInfo.initiativeTotal = this.getInitiativeTotal(this.combatInfo, this.abilities);
+    this.combatInfo.cmbTotal = this.totService.getCmbTotal(this.combatInfo, this.abilities);
+    this.combatInfo.cmdTotal = this.totService.getCmdTotal(this.combatInfo, this.abilities);
+    this.combatInfo.initiativeTotal = this.totService.getInitiativeTotal(this.combatInfo, this.abilities);
     this.characterService.updateOffense(this.combatInfo);
   }
 
@@ -201,80 +192,10 @@ export class CombatComponent implements OnInit {
     this.combatInfo.acNaturalArmorMod = info.acNaturalArmorMod;
     this.combatInfo.acDeflectMod = info.acDeflectMod;
     this.combatInfo.acMiscMod = info.acMiscMod;
-    this.combatInfo.acTotal = this.getAcTotal(this.combatInfo, this.abilities);
-    this.combatInfo.acTouch = this.getAcTouchTotal(this.combatInfo, this.abilities);
-    this.combatInfo.acFlat = this.getAcFlatTotal(this.combatInfo);
+    this.combatInfo.acTotal = this.totService.getAcTotal(this.combatInfo, this.abilities);
+    this.combatInfo.acTouch = this.totService.getAcTouchTotal(this.combatInfo, this.abilities);
+    this.combatInfo.acFlat = this.totService.getAcFlatTotal(this.combatInfo);
     this.characterService.updateAc(this.combatInfo);
-  }
-
-  calculateTotals(combatInfo: CombatInfo, abilities: Abilities){
-    this.combatInfo.initiativeTotal = this.getInitiativeTotal(combatInfo, abilities);
-    this.combatInfo.cmbTotal = this.getCmbTotal(combatInfo, abilities);
-    this.combatInfo.cmdTotal = this.getCmdTotal(combatInfo, abilities);
-    this.combatInfo.acTotal = this.getAcTotal(combatInfo, abilities);
-    this.combatInfo.acTouch = this.getAcTouchTotal(combatInfo, abilities);
-    this.combatInfo.acFlat = this.getAcFlatTotal(combatInfo);
-  }
-
-
-
-  //totals-----------------------------------------------------------
-  getCmbTotal(combatInfo: CombatInfo, abilities: Abilities): number{
-    const total = 
-    strUnToNum(combatInfo.bab) + 
-    strUnToNum(abilities.useStrMod) + 
-    strUnToNum(combatInfo.cmSizeMod) + 
-    strUnToNum(combatInfo.cmbMiscMod);
-    return total; 
-  }
-
-  getCmdTotal(combatInfo: CombatInfo, abilities: Abilities): number{
-    const total = 
-    strUnToNum(combatInfo.bab) + 
-    strUnToNum(abilities.useStrMod) + 
-    strUnToNum(abilities.useDexMod) + 
-    strUnToNum(combatInfo.cmSizeMod) + 
-    strUnToNum(combatInfo.cmdMiscMod) + 10;
-    return total;
-  }
-
-  getInitiativeTotal(combatInfo: CombatInfo, abilities: Abilities): number{
-    const total =  
-    strUnToNum(abilities.useDexMod) +  
-    strUnToNum(combatInfo.initiativeMiscMod);
-    return total;
-  }
-
-  getAcTotal(combatInfo: CombatInfo, abilities: Abilities): number{
-    const total = 
-    strUnToNum(combatInfo.acArmorMod) + 
-    strUnToNum(combatInfo.acShieldMod) + 
-    strUnToNum(abilities.useDexMod) + 
-    strUnToNum(combatInfo.acSizeMod) + 
-    strUnToNum(combatInfo.acNaturalArmorMod) +
-    strUnToNum(combatInfo.acDeflectMod) + 
-    strUnToNum(combatInfo.acMiscMod) + 10;
-    return total;
-  }
-
-  getAcTouchTotal(combatInfo: CombatInfo, abilities: Abilities): number{
-    const total = 
-    strUnToNum(abilities.useDexMod) + 
-    strUnToNum(combatInfo.acDeflectMod) + 
-    strUnToNum(combatInfo.acSizeMod) + 
-    strUnToNum(combatInfo.acMiscMod) + 10;
-    return total;
-  }
-
-  getAcFlatTotal(combatInfo: CombatInfo): number{
-    const total = 
-    strUnToNum(combatInfo.acArmorMod) + 
-    strUnToNum(combatInfo.acShieldMod) + 
-    strUnToNum(combatInfo.acSizeMod) + 
-    strUnToNum(combatInfo.acNaturalArmorMod) +
-    strUnToNum(combatInfo.acDeflectMod) + 
-    strUnToNum(combatInfo.acMiscMod) + 10;
-    return total;
   }
 }
 
