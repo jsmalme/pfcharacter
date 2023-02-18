@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Abilities } from 'libs/character-classes/abilities';
 import { CombatInfo } from 'libs/character-classes/combat-info';
 import { Skill } from 'libs/character-classes/skills';
+import { combineLatestInit } from 'rxjs/internal/observable/combineLatest';
 import { strUnToNum } from '../functions/methods';
 
 @Injectable({
@@ -14,6 +15,16 @@ export class CalcTotService {
   constructor() { }
 
   //COMBAT STATS ---------------------------------------------------------------------
+  getCombatInfoTotals(combatInfo: CombatInfo, abilities: Abilities): CombatInfo{
+    combatInfo.cmbTotal = this.getCmbTotal(combatInfo, abilities);
+    combatInfo.cmdTotal = this.getCmdTotal(combatInfo, abilities);
+    combatInfo.initiativeTotal = this.getInitiativeTotal(combatInfo, abilities);
+    combatInfo.acTotal = this.getAcTotal(combatInfo, abilities);
+    combatInfo.acTouch = this.getAcTouchTotal(combatInfo, abilities);
+    combatInfo.acFlat = this.getAcFlatTotal(combatInfo);
+    return combatInfo;
+  }
+
   getCmbTotal(combatInfo: CombatInfo, abilities: Abilities): number{
     return strUnToNum(combatInfo.bab) + 
     strUnToNum(abilities.useStrMod) + 

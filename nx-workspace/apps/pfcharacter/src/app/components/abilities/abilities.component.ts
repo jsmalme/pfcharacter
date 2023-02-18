@@ -2,7 +2,7 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Abilities, ChaScore, ConScore, DexScore, IntScore, StrScore, WisScore } from '../../../../../../libs/character-classes/abilities';
-import { CharacterService } from '../../services/character.service';
+import { CharacterDataService } from '../../services/character-data.service';
 import { debounceTime } from 'rxjs';
 import { SavingThrows } from '../../../../../../libs/character-classes/saving-throws';
 import { MatFormField } from '@angular/material/form-field';
@@ -21,10 +21,10 @@ export class AbilitiesComponent implements OnInit {
   savingThrows!: SavingThrows;
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
 
-  constructor(public characterService: CharacterService,
+  constructor(public store: CharacterDataService,
     private fb: FormBuilder) { 
-    this.abilities = characterService.character.abilities;
-    this.savingThrows = characterService.character.savingThrows;
+    // this.abilities = store.character.abilities;
+    // this.savingThrows = store.character.savingThrows;
   }
 
   ngOnInit(): void {
@@ -109,7 +109,7 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.strMod = this.calculateAbilityScore(info.str);
     this.abilities.strTempMod = this.calculateAbilityScore(info.strTempAdj);
     this.abilities.useStrMod = info.strTempAdj ? this.abilities.strTempMod : (info.str ? this.abilities.strMod : undefined);
-    this.characterService.updateStr(this.abilities);
+    this.store.updateStr(this.abilities);
   }
   
   updateDexModifiers(info: DexScore){
@@ -119,7 +119,7 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.dexTempMod = this.calculateAbilityScore(info.dexTempAdj);
     this.abilities.useDexMod = info.dexTempAdj ? this.abilities.dexTempMod : (info.dex ? this.abilities.dexMod : undefined);
     this.savingThrows.ref.refAbility = this.abilities.useDexMod;
-    this.characterService.updateDex(this.abilities);
+    this.store.updateDex(this.abilities);
     this.updateRefTotal();
   }
 
@@ -130,7 +130,7 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.conTempMod = this.calculateAbilityScore(info.conTempAdj);
     this.abilities.useConMod = info.conTempAdj ? this.abilities.conTempMod : (info.con ? this.abilities.conMod : undefined);
     this.savingThrows.for.forAbility = this.abilities.useConMod;
-    this.characterService.updateCon(this.abilities);
+    this.store.updateCon(this.abilities);
     this.updateForTotal();
   }
 
@@ -140,7 +140,7 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.intMod = this.calculateAbilityScore(info.int);
     this.abilities.intTempMod = this.calculateAbilityScore(info.intTempAdj);
     this.abilities.useIntMod = info.intTempAdj ? this.abilities.intTempMod : (info.int ? this.abilities.intMod : undefined);
-    this.characterService.updateInt(this.abilities);
+    this.store.updateInt(this.abilities);
   }
 
   updateWisModifiers(info: WisScore){
@@ -150,9 +150,9 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.wisTempMod = this.calculateAbilityScore(info.wisTempAdj);
     this.abilities.useWisMod = info.wisTempAdj ? this.abilities.wisTempMod : (info.wis ? this.abilities.wisMod : undefined);
     this.savingThrows.will.willAbility = this.abilities.useWisMod;
-    this.characterService.updateWis(this.abilities);
+    this.store.updateWis(this.abilities);
     this.updateWillTotal();
-    //this.characterService.updateWis(info);
+    //this.store.updateWis(info);
   }
 
   updateChaModifiers(info: ChaScore){
@@ -161,8 +161,8 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.chaMod = this.calculateAbilityScore(info.cha);
     this.abilities.chaTempMod = this.calculateAbilityScore(info.chaTempAdj);
     this.abilities.useChaMod = info.chaTempAdj ? this.abilities.chaTempMod : (info.cha ? this.abilities.chaMod : undefined);
-    this.characterService.updateCha(this.abilities);
-    //this.characterService.updateCha(info);
+    this.store.updateCha(this.abilities);
+    //this.store.updateCha(info);
   }
 
   createAbilitiesFormGroup(abilities: Abilities): void {

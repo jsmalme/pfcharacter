@@ -1,15 +1,16 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { CharacterService } from '../../services/character.service';
+import { CharacterDataService } from '../../services/character-data.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Abilities } from '../../../../../../libs/character-classes/abilities';
 import { Skill } from '../../../../../../libs/character-classes/skills';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { maxNumberValidator } from '../../functions/validators';
-import { debounceTime } from 'rxjs';
+import { debounceTime, Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort} from '@angular/material/sort';
 import { CalcTotService } from '../../services/calc-tot.service';
+import { Character } from 'libs/character-classes/character';
 
 @Component({
   selector: 'nx-workspace-skills',
@@ -26,11 +27,11 @@ import { CalcTotService } from '../../services/calc-tot.service';
 
 
 export class SkillsComponent implements OnInit, AfterViewInit {
-  skills!: Skill[];   
   abilities!: Abilities; 
   skillsForm!: FormGroup;  
+  skills: Skill[];
 
-  constructor(private characterService: CharacterService,
+  constructor(private store: CharacterDataService,
     private breakpointObserver: BreakpointObserver,
     private fb: FormBuilder,
     private totService: CalcTotService) {}
@@ -45,9 +46,9 @@ export class SkillsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   
   ngOnInit(): void {
-    console.log(this.characterService.character.skillList);
-    this.skills = this.characterService.character.skillList;
-    this.abilities = this.characterService.abilities;
+    // console.log(this.store.GetCh.skillList);
+    // // this.skills = this.store.character.skillList;
+    // this.abilities = this.store.abilities;
     this.skillsForm = this.fb.group({
       skills: this.getSkillsFormArray()
     })
@@ -120,7 +121,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
         skill.favorite == !form?.value.favorite;
       }
     });
-    this.characterService.updateSkills(this.skills);
+    this.store.updateSkills(this.skills);
   }
 
 }

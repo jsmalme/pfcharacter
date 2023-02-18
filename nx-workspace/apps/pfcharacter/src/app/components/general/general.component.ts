@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { GeneralInfo, SizeEnum } from '../../../../../../libs/character-classes/general-info';
-import { CharacterService } from '../../services/character.service';
+import { CharacterDataService } from '../../services/character-data.service';
 import { debounceTime } from 'rxjs';
 
 @Component({
@@ -15,16 +15,17 @@ export class GeneralComponent implements OnInit {
   normalSizes = ['Small', 'Medium', 'Large'];
   exoticSizes = ['Tiny', 'Diminutive', 'Fine', 'Huge', 'Gargantuan', 'Colossal'];
 
-  constructor(private characterService: CharacterService) {}
+  constructor(private store: CharacterDataService) {}
 
   ngOnInit(): void {
-    this.createFormGroup(this.characterService.character.generalInfo);
-    this.generalInfoForm?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(info.size != this.characterService.character.generalInfo.size){
-        this.characterService.updateSize(info.size);
-      }
-      this.characterService.updateGeneralInfo(info);
-    })
+    // this.createFormGroup(this.store.character.generalInfo);
+    // this.generalInfoForm?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+    //   if(info.size != this.store.character.generalInfo.size){
+    //     this.store.updateSize(info.size);
+    //   }
+    //   this.store.updateGeneralInfo(info);
+    // })
+    this.generalInfoForm = new FormGroup({});
   }
 
   createFormGroup(generalInfo: GeneralInfo): void {

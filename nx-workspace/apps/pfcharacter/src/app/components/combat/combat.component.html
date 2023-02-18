@@ -1,4 +1,5 @@
 <div class="container comp-top-margin" style="margin-bottom: 20px;">
+    <ng-container *ngIf="character$ | async">
     <form [formGroup]="combatInfoForm" autocomplete="off">
         <mat-card class="mat-elevation-z2">
             <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
@@ -7,7 +8,7 @@
                 </div>
             </mat-card-title>
             <br>
-            <div class="row" formGroupName="hpMiscForm">
+            <div class="row">
                 <div class="col-lg-6 col-12 d-flex justify-content-end align-items-center">
                     <div class="col-lg-2 col-3">
                         <h2>HP</h2>
@@ -43,7 +44,7 @@
                     </div>
                     <div class="col-lg-8 col-9">
                         <div class="row">
-                            <div class="col-4" formGroupName="babForm">
+                            <div class="col-4">
                                 <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                                     <mat-label>BAB</mat-label>
                                     <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="bab" (focus)="fixTheOutlines()">
@@ -67,7 +68,7 @@
             </div>  
             <mat-divider></mat-divider>
             <br>
-            <div formGroupName="offenseForm">
+            <div>
                 <div class="row d-flex align-items-center">
                     <div class="col-lg-3 col-12">
                         <div class="row">
@@ -75,7 +76,7 @@
                                 <h2>Initiative</h2>
                             </div>
                             <div class="col-lg-6 col-9">
-                                <app-total-display [isValid]="combatInfoForm.get('offenseForm')?.get('initiativeMiscMod')?.valid"
+                                <app-total-display [isValid]="combatInfoForm.valid"
                                  [total]="combatInfo.initiativeTotal">
                                 </app-total-display>
                             </div>
@@ -105,7 +106,7 @@
                                 <h2>CMB</h2>
                             </div>
                             <div class="col-lg-6 col-9">
-                                <app-total-display [isValid]="combatInfoForm.get('offenseForm')?.get('cmbMiscMod')?.valid"
+                                <app-total-display [isValid]="combatInfoForm.valid"
                                  [total]="combatInfo.cmbTotal">
                                 </app-total-display>
                             </div>
@@ -147,7 +148,7 @@
                                 <h2>CMD</h2>
                             </div>
                             <div class="col-lg-6 col-9">
-                                <app-total-display [isValid]="combatInfoForm.get('offenseForm')?.get('cmdMiscMod')?.valid"
+                                <app-total-display [isValid]="combatInfoForm.valid"
                                 [total]="combatInfo.cmdTotal">
                                </app-total-display>
                             </div>
@@ -194,14 +195,14 @@
             </div>
             <mat-divider></mat-divider>
             <br>
-            <div class="row align-items-center" formGroupName="acForm">
+            <div class="row align-items-center">
                 <div class="col-lg-3 col-12">
                     <div class="row">
                         <div class="col-lg-6 col-3">
                             <h2>AC</h2>
                         </div>
                         <div class="col-lg-6 col-9">
-                            <app-total-display [isValid]="combatInfoForm.get('acForm')?.valid"
+                            <app-total-display [isValid]="combatInfoForm.valid"
                             [total]="combatInfo.acTotal">
                            </app-total-display>
                         </div>
@@ -281,7 +282,7 @@
                                     <h2>Touch</h2>
                                 </div>
                                 <div class="col-lg-4 col-8">
-                                    <app-total-display [isValid]="combatInfoForm.get('acForm')?.valid"
+                                    <app-total-display [isValid]="combatInfoForm.valid"
                                     [total]="combatInfo.acTouch">
                                    </app-total-display>
                                 </div>
@@ -293,7 +294,7 @@
                                     <h2>Flat-Footed</h2>
                                 </div>
                                 <div class="col-lg-4 col-6">
-                                    <app-total-display [isValid]="combatInfoForm.get('acForm')?.valid"
+                                    <app-total-display [isValid]="combatInfoForm.valid"
                                     [total]="combatInfo.acFlat">
                                    </app-total-display>
                                 </div>
@@ -315,7 +316,7 @@
         </mat-card> 
         <br>
         <mat-grid-list [cols]="cols" [rowHeight]="weaponObjectHeight" gutterSize="10px" class="justify-content-center">
-            <ng-container *ngFor="let weaponForm of weaponArray.controls;  let i = index">
+            <ng-container *ngFor="let weaponForm of weaponArrayControls;  let i = index">
                 <mat-grid-tile>
                     <mat-card class="d-flex align-items-center">
                         <app-weapon [weaponForm]="$any(weaponForm)" [index]="i" (deleteWeaponEvent)="deleteWeapon($event)"></app-weapon>
@@ -334,4 +335,5 @@
             </mat-grid-tile>
         </mat-grid-list>
     </form>
+    </ng-container>
 </div>
