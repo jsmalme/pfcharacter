@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
 import { Abilities, DexScore } from '../../../../../libs/character-classes/abilities';
 import { Character } from '../../../../../libs/character-classes/character';
@@ -6,7 +7,7 @@ import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { SavingThrows } from '../../../../../libs/character-classes/saving-throws';
 import { Skill } from '../../../../../libs/character-classes/skills';
 import { CalcTotService } from './calc-tot.service';
-import { BehaviorSubject, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 import { CharacterService } from './character-http.service';
 import { FormGroup } from '@angular/forms';
 import { SnackbarService } from './snackbar.service';
@@ -20,143 +21,141 @@ export class CharacterDataService {
   constructor(
     private totService: CalcTotService,
     private http: CharacterService,
-    private snackBar: SnackbarService){}
+    private snackBar: SnackbarService) { }
 
-  private _character: Character;
-  
-  // private combatInfoSource = new BehaviorSubject<CombatInfo | null>(null);
-  // combatInfoChange$ = this.combatInfoSource.asObservable();
+  private character = new BehaviorSubject<Character>(new Character());
+  characterUpdate$ = this.character.asObservable();
 
-  // dispatchCombatInfo(combatInfo: CombatInfo | null){
-  //   this.combatInfoSource.next(combatInfo);
-  // }
+  private tempChar: Character;
+  private rollback: Character;
 
-  private set combatInfo(info: CombatInfo){
-    this._character.combatInfo = info;
+  get combatInfo() {
+    return this.character.value.combatInfo;
+  }
+  get abilities() {
+    return this.character.value.abilities;
   }
 
-  get combatInfo(){
-    return this._character.combatInfo;
+  tempRollback() {
+    const char = { ...this.character.value };
+    this.tempChar = char;
+    this.rollback = char;
   }
-  get abilities(){
-    return this._character.abilities;
-  }
-
-  getCharacter(): Observable<Character>{
-    if(this._character){
-      console.log('GOT THE CHARACTER FROM THE DATA STORE');
-      return of(this._character);
-    }
-    return this.http.getCharacter().pipe( 
-      tap(() => console.log("RETRIEVING CHARACTER FROM THE DB")),
-      tap(data => this._character = data)
-    );
+  loadCharacter() {
+    this.http.getCharacter().subscribe((data) => {
+      console.log('loading character');
+      this.character.next(data);
+    })
   }
 
   //ability/saving updaters--------------------------------------
-  updateStr(info: Abilities){
-    this._character.abilities = info;
-    this._character.combatInfo.cmbTotal = this.totService.getCmbTotal(this._character.combatInfo, info);
-    this._character.combatInfo.cmdTotal = this.totService.getCmdTotal(this._character.combatInfo, info);
-    this.updateSkillAbilities(info, this._character.skillList, 'Str', ['Climb', 'Swim']);
+  updateStr(info: Abilities) {
+    // this._character.abilities = info;
+    // this._character.combatInfo.cmbTotal = this.totService.getCmbTotal(this._character.combatInfo, info);
+    // this._character.combatInfo.cmdTotal = this.totService.getCmdTotal(this._character.combatInfo, info);
+    // this.updateSkillAbilities(info, this._character.skillList, 'Str', ['Climb', 'Swim']);
   }
 
-  updateDex(info: Abilities){
-    this._character.abilities = info;
-    this._character.combatInfo.initiativeTotal = this.totService.getInitiativeTotal(this._character.combatInfo, info);
-    this._character.combatInfo.cmdTotal = this.totService.getCmdTotal(this._character.combatInfo, info);
-    this._character.combatInfo.acTotal = this.totService.getAcTotal(this._character.combatInfo, info);
-    this._character.combatInfo.acTouch = this.totService.getAcTouchTotal(this._character.combatInfo, info);
-    const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
-    this.updateSkillAbilities(info, this._character.skillList, 'Dex', dexSkills);
+  updateDex(info: Abilities) {
+    // this._character.abilities = info;
+    // this._character.combatInfo.initiativeTotal = this.totService.getInitiativeTotal(this._character.combatInfo, info);
+    // this._character.combatInfo.cmdTotal = this.totService.getCmdTotal(this._character.combatInfo, info);
+    // this._character.combatInfo.acTotal = this.totService.getAcTotal(this._character.combatInfo, info);
+    // this._character.combatInfo.acTouch = this.totService.getAcTouchTotal(this._character.combatInfo, info);
+    // const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
+    // this.updateSkillAbilities(info, this._character.skillList, 'Dex', dexSkills);
   }
 
-  updateCon(info: Abilities){
-    this._character.abilities = info;
+  updateCon(info: Abilities) {
+    // this._character.abilities = info;
   }
 
-  updateInt(info: Abilities){
-    this._character.abilities = info
-    const intSkills = ['Appraise', 'Craft1', 'Craft2', 'Craft3', 'Knowledge (Arcana)', 'Knowledge (Dungeoneering)', 'Knowledge (Engineering)',
-      'Knowledge (Geography)', 'Knowledge (History)', 'Knowledge (Local)', 'Knowledge (Nature)', 'Knowledge (Nobility)', 'Knowledge (Planes)',
-      'Knowledge (Religion)', 'Linguistics', 'Spellcraft'];
-    this.updateSkillAbilities(info, this._character.skillList, 'Int', intSkills);
+  updateInt(info: Abilities) {
+    // this._character.abilities = info
+    // const intSkills = ['Appraise', 'Craft1', 'Craft2', 'Craft3', 'Knowledge (Arcana)', 'Knowledge (Dungeoneering)', 'Knowledge (Engineering)',
+    //   'Knowledge (Geography)', 'Knowledge (History)', 'Knowledge (Local)', 'Knowledge (Nature)', 'Knowledge (Nobility)', 'Knowledge (Planes)',
+    //   'Knowledge (Religion)', 'Linguistics', 'Spellcraft'];
+    // this.updateSkillAbilities(info, this._character.skillList, 'Int', intSkills);
   }
 
-  updateWis(info: Abilities){
-    this._character.abilities = info;
-    const wisSkills = ['Heal', 'Perception', 'Profession1', 'Profession2', 'Sense Motive', 'Survival'];
-    this.updateSkillAbilities(info, this._character.skillList, 'Wis', wisSkills);
+  updateWis(info: Abilities) {
+    // this._character.abilities = info;
+    // const wisSkills = ['Heal', 'Perception', 'Profession1', 'Profession2', 'Sense Motive', 'Survival'];
+    // this.updateSkillAbilities(info, this._character.skillList, 'Wis', wisSkills);
   }
-  
-  updateCha(info: Abilities){
-    this._character.abilities = info;
-    const chaSkills = ['Bluff', 'Diplomacy', 'Disguise', 'Handle Animal', 'Intimidate', 'Perform1', 'Perform2', 'Use Magic Device'];
-    this.updateSkillAbilities(info, this._character.skillList, 'Cha', chaSkills);
+
+  updateCha(info: Abilities) {
+    // this._character.abilities = info;
+    // const chaSkills = ['Bluff', 'Diplomacy', 'Disguise', 'Handle Animal', 'Intimidate', 'Perform1', 'Perform2', 'Use Magic Device'];
+    // this.updateSkillAbilities(info, this._character.skillList, 'Cha', chaSkills);
   }
 
   //------------------------------------------------------
   //combat page updates-----------------------------------
-  updateCombatInfo(info: CombatInfo){
-    info = this.totService.getCombatInfoTotals(info, this.abilities);
-    const tempInfo = this._character;
+  updateCombatInfo(info: CombatInfo) {
+    this.tempRollback();
+    this.tempChar.combatInfo = { ...this.tempChar.combatInfo, ...info };
+    this.tempChar.combatInfo = this.totService.getCombatInfoTotals(this.tempChar.combatInfo, this.abilities);
+    this.character.next(this.tempChar);
 
-    this.http.updateCharacter(tempInfo).subscribe({
-      next: () => { 
-        this.combatInfo = info;
-      },
-      error: (e) => {this.snackBar.openSnackBar(e);}
+    this.http.updateCharacter(this.tempChar).subscribe({
+      error: (e) => {
+        this.snackBar.openSnackBar(e);
+        this.character.next(this.rollback);
+      }
     })
   }
-  
-  updateWeapons(weapons: Weapon[]){
-    const tempInfo = this._character;
 
-    this.http.updateCharacter(tempInfo).subscribe({
-      next: () => { 
-        this.combatInfo.weapons = weapons;
-      },
-      error: (e) => {this.snackBar.openSnackBar(e);}
+  updateWeapons(weapons: Weapon[]) {
+    this.tempRollback();
+    this.tempChar.combatInfo.weapons = weapons;
+    this.character.next(this.tempChar);
+
+    this.http.updateCharacter(this.tempChar).subscribe({
+      error: (e) => {
+        this.snackBar.openSnackBar(e);
+        this.character.next(this.rollback);
+      }
     })
   }
   //------------------------------------------------------
 
   //charater updates ---------------------------------------
-  updateGeneralInfo(generalInfo: GeneralInfo){
-    this._character.generalInfo = generalInfo;
+  updateGeneralInfo(generalInfo: GeneralInfo) {
+    // this._character.generalInfo = generalInfo;
   }
 
-  updateSize(size: SizeEnum){
-    this._character.combatInfo.cmSizeMod = this.calculateCmSizeMod(size);
-    this._character.combatInfo.acSizeMod = this.calculateAcSizeMod(size);
+  updateSize(size: SizeEnum) {
+    // this._character.combatInfo.cmSizeMod = this.calculateCmSizeMod(size);
+    // this._character.combatInfo.acSizeMod = this.calculateAcSizeMod(size);
   }
 
 
-  updateSavingThrows(savingThrows: SavingThrows){
-    this._character.savingThrows = savingThrows;
+  updateSavingThrows(savingThrows: SavingThrows) {
+    // this._character.savingThrows = savingThrows;
   }
   //-----------------------------------------------------------
 
   //Skill updates --------------------------------------------------
-  updateSkillAbilities(abilities: Abilities, skillList: Skill[], ability: string, skillIds: string[]){
-    const updatedSkillList = this.updateSkillAbilityScore(ability, skillIds, skillList, abilities);
-    this._character.skillList = this.totService.getSkillsTotals(updatedSkillList, skillIds);
+  updateSkillAbilities(abilities: Abilities, skillList: Skill[], ability: string, skillIds: string[]) {
+    // const updatedSkillList = this.updateSkillAbilityScore(ability, skillIds, skillList, abilities);
+    // this._character.skillList = this.totService.getSkillsTotals(updatedSkillList, skillIds);
   }
 
-  updateSkills(skillList: Skill[]){
-    console.log('triggered');
-    this._character.skillList = skillList;
+  updateSkills(skillList: Skill[]) {
+    // console.log('triggered');
+    // this._character.skillList = skillList;
   }
   //----------------------------------------------------------------
 
 
 
   //calcuate methods ----------------------------------------------------------------
-  calculateCmSizeMod(size: SizeEnum | undefined){
-    if(size === undefined){
+  calculateCmSizeMod(size: SizeEnum | undefined) {
+    if (size === undefined) {
       return 0;
     }
-    switch(size){
+    switch (size) {
       case SizeEnum.small:
         return -1;
       case SizeEnum.medium:
@@ -180,11 +179,11 @@ export class CharacterDataService {
     }
   }
 
-  calculateAcSizeMod(size: SizeEnum | undefined){
-    if(size === undefined){
+  calculateAcSizeMod(size: SizeEnum | undefined) {
+    if (size === undefined) {
       return 0;
     }
-    switch(size){
+    switch (size) {
       case SizeEnum.small:
         return 1;
       case SizeEnum.medium:
@@ -208,27 +207,27 @@ export class CharacterDataService {
     }
   }
 
-  calculateAbilityScore(score: number | undefined): number | undefined{
-    if(score === undefined || ""){
+  calculateAbilityScore(score: number | undefined): number | undefined {
+    if (score === undefined || "") {
       return undefined;
     }
-    return Math.floor((score - 10)/2);
+    return Math.floor((score - 10) / 2);
   }
 
-  updateSkillAbilityScore(ability: string, skillIds: string[], skillList: Skill[], abilities: Abilities): Skill[]{
+  updateSkillAbilityScore(ability: string, skillIds: string[], skillList: Skill[], abilities: Abilities): Skill[] {
     return skillList.map(skill => {
-      if(skillIds.some(s => s === skill.id)){
-        switch(ability){
+      if (skillIds.some(s => s === skill.id)) {
+        switch (ability) {
           case 'Dex':
             skill.abilityMod = abilities.useDexMod || 0;
-            break; 
-          case 'Str': 
+            break;
+          case 'Str':
             skill.abilityMod = abilities.useStrMod || 0;
             break;
-          case 'Wis': 
+          case 'Wis':
             skill.abilityMod = abilities.useWisMod || 0;
             break;
-          case 'Int': 
+          case 'Int':
             skill.abilityMod = abilities.useIntMod || 0;
             break;
           case 'Cha':

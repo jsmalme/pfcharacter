@@ -10,7 +10,7 @@ import { Skill } from 'libs/character-classes/skills';
 })
 export class InMemoryDataService implements InMemoryDataService {
 
-  createDb(){
+  createDb() {
     const character: Character[] = [{
       id: 1,
       generalInfo: {
@@ -35,7 +35,7 @@ export class InMemoryDataService implements InMemoryDataService {
         swimSpeed: '10',
         climbSpeed: '10',
         burrowSpeed: '5',
-        speedTempMods:'0',
+        speedTempMods: '0',
         languages: 'elven, normal, dwarven'
       },
       combatInfo: {
@@ -177,6 +177,6 @@ export class InMemoryDataService implements InMemoryDataService {
         new Skill('Use Magic Device', 'Cha', true)
       ]
     }]
-    return {character: character};
+    return { character: character };
   }
 }
