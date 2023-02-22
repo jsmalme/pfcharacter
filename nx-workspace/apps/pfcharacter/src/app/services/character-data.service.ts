@@ -7,11 +7,13 @@ import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { SavingThrows } from '../../../../../libs/character-classes/saving-throws';
 import { Skill } from '../../../../../libs/character-classes/skills';
 import { CalcTotService } from './calc-tot.service';
-import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, concatMap, map, mergeMap, Observable, of, tap } from 'rxjs';
 import { CharacterService } from './character-http.service';
 import { FormGroup } from '@angular/forms';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
+import { groupEnd } from 'console';
+import { computeMsgId } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +27,6 @@ export class CharacterDataService {
 
   private character = new BehaviorSubject<Character>(new Character());
   characterUpdate$ = this.character.asObservable();
-
   private tempChar: Character;
   private rollback: Character;
 
@@ -37,9 +38,8 @@ export class CharacterDataService {
   }
 
   tempRollback() {
-    const char = { ...this.character.value };
-    this.tempChar = char;
-    this.rollback = char;
+    this.tempChar = { ...this.character.value };
+    this.rollback = { ...this.character.value };
   }
   loadCharacter() {
     this.http.getCharacter().subscribe((data) => {
@@ -109,7 +109,6 @@ export class CharacterDataService {
   updateWeapons(weapons: Weapon[]) {
     this.tempRollback();
     this.tempChar.combatInfo.weapons = weapons;
-    console.log(this.tempChar.combatInfo);
     this.character.next(this.tempChar);
 
     this.http.updateCharacter(this.tempChar).subscribe({
@@ -123,7 +122,25 @@ export class CharacterDataService {
 
   //charater updates ---------------------------------------
   updateGeneralInfo(generalInfo: GeneralInfo) {
-    // this._character.generalInfo = generalInfo;
+    this.tempRollback();
+    this.tempChar.generalInfo = generalInfo;
+    console.log(generalInfo.size + " : " + this.rollback.generalInfo.size);
+    if (generalInfo.size !== this.rollback.generalInfo.size) {
+      this.tempChar.combatInfo.cmSizeMod = this.calculateCmSizeMod(generalInfo.size);
+      this.tempChar.combatInfo.acSizeMod = this.calculateAcSizeMod(generalInfo.size);
+      this.tempChar.combatInfo = this.totService.getCombatInfoTotals(this.tempChar.combatInfo, this.abilities);
+    }
+    this.tempChar.combatInfo = this.totService.getCombatInfoTotals(this.tempChar.combatInfo, this.abilities);
+    this.character.next(this.tempChar);
+
+    this.http.updateCharacter(this.tempChar).pipe(
+      mergeMap(() => this.http.updateCharacter(this.tempChar))
+    ).subscribe({
+      error: (e) => {
+        this.snackBar.openSnackBar(e);
+        this.character.next(this.rollback);
+      }
+    })
   }
 
   updateSize(size: SizeEnum) {

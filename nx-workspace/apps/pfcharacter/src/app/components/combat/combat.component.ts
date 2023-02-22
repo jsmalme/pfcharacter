@@ -51,11 +51,11 @@ export class CombatComponent implements OnInit {
       if (!this.combatInfoForm?.valid) {
         return;
       }
-      this.updateCombatInfo(info);
+      this.store.updateCombatInfo(info);
     });
 
     this.character$ = this.store.characterUpdate$;
-    this.store.characterUpdate$.subscribe((char: Character) => {
+    this.character$.subscribe((char: Character) => {
       this.weaponForm = this.initWeaponForm();
       this.setFormGroup(char.combatInfo);
       this.setWeaponArray(char.combatInfo.weapons);
@@ -153,10 +153,5 @@ export class CombatComponent implements OnInit {
     });
   }
   //----------------------------------------------------------------
-  //updaters
-
-  updateCombatInfo(info: CombatInfo) {
-    this.store.updateCombatInfo(info);
-  }
 }
 

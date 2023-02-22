@@ -1,8 +1,9 @@
+import { Character } from './../../../../../../libs/character-classes/character';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { GeneralInfo, SizeEnum } from '../../../../../../libs/character-classes/general-info';
 import { CharacterDataService } from '../../services/character-data.service';
-import { debounceTime } from 'rxjs';
+import { debounceTime, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-general',
@@ -10,49 +11,57 @@ import { debounceTime } from 'rxjs';
   styleUrls: ['./general.component.scss', '../../app.component.scss']
 })
 export class GeneralComponent implements OnInit {
-  generalInfoForm!: FormGroup; 
-  sizeType = SizeEnum;
+  generalInfoForm: FormGroup;
+  character$: Observable<Character>;
   normalSizes = ['Small', 'Medium', 'Large'];
   exoticSizes = ['Tiny', 'Diminutive', 'Fine', 'Huge', 'Gargantuan', 'Colossal'];
 
-  constructor(private store: CharacterDataService) {}
+  constructor(private store: CharacterDataService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    // this.createFormGroup(this.store.character.generalInfo);
-    // this.generalInfoForm?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-    //   if(info.size != this.store.character.generalInfo.size){
-    //     this.store.updateSize(info.size);
-    //   }
-    //   this.store.updateGeneralInfo(info);
-    // })
-    this.generalInfoForm = new FormGroup({});
+    this.generalInfoForm = this.initGeneralForm();
+
+    this.character$ = this.store.characterUpdate$;
+    this.character$.subscribe((char: Character) => {
+      this.setFormGroup(char.generalInfo);
+    });
+
+
+    this.generalInfoForm?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+      this.store.updateGeneralInfo(info);
+    })
   }
 
-  createFormGroup(generalInfo: GeneralInfo): void {
-    this.generalInfoForm = new FormGroup({
-      characterName: new FormControl(generalInfo.characterName),
-      playerName: new FormControl(generalInfo.playerName),
-      alignment: new FormControl(generalInfo.alignment),
-      classLevel: new FormControl(generalInfo.classLevel),
-      deity: new FormControl(generalInfo.deity),
-      homeland: new FormControl(generalInfo.homeland),
-      race: new FormControl(generalInfo.race),
-      size: new FormControl(generalInfo.size),
-      gender: new FormControl(generalInfo.gender),
-      age: new FormControl(generalInfo.age), 
-      height: new FormControl(generalInfo.height),
-      weight: new FormControl(generalInfo.weight),
-      hair: new FormControl(generalInfo.hair),
-      eyes: new FormControl(generalInfo.eyes),
-      baseSpeed: new FormControl(generalInfo.baseSpeed),
-      armorSpeed: new FormControl(generalInfo.armorSpeed),
-      flyManeuver: new FormControl(generalInfo.flyManeuver),
-      swimSpeed: new FormControl(generalInfo.swimSpeed),
-      climbSpeed: new FormControl(generalInfo.climbSpeed),
-      burrowSpeed: new FormControl(generalInfo.burrowSpeed),
-      speedTempMods: new FormControl(generalInfo.speedTempMods),
-      languages: new FormControl(generalInfo.languages),
-      notes: new FormControl(generalInfo.notes)
+  setFormGroup(info: GeneralInfo) {
+    this.generalInfoForm.patchValue(info, { emitEvent: false });
+  }
+
+  initGeneralForm(): FormGroup {
+    return this.fb.group({
+      characterName: ['', Validators.maxLength(50)],
+      playerName: ['', Validators.maxLength(50)],
+      alignment: ['', Validators.maxLength(50)],
+      classLevel: ['', Validators.maxLength(50)],
+      deity: ['', Validators.maxLength(50)],
+      homeland: ['', Validators.maxLength(50)],
+      race: ['', Validators.maxLength(50)],
+      size: ['', Validators.maxLength(50)],
+      gender: ['', Validators.maxLength(50)],
+      age: ['', Validators.maxLength(50)],
+      height: ['', Validators.maxLength(50)],
+      weight: ['', Validators.maxLength(50)],
+      hair: ['', Validators.maxLength(50)],
+      eyes: ['', Validators.maxLength(50)],
+      baseSpeed: ['', Validators.maxLength(50)],
+      armorSpeed: ['', Validators.maxLength(50)],
+      flyManeuver: ['', Validators.maxLength(50)],
+      swimSpeed: ['', Validators.maxLength(50)],
+      climbSpeed: ['', Validators.maxLength(50)],
+      burrowSpeed: ['', Validators.maxLength(50)],
+      speedTempMods: ['', Validators.maxLength(50)],
+      languages: ['', Validators.maxLength(50)],
+      notes: ['', Validators.maxLength(500)],
     });
   }
 }
