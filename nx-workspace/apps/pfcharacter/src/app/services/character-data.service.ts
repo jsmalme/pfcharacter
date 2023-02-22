@@ -109,6 +109,7 @@ export class CharacterDataService {
   updateWeapons(weapons: Weapon[]) {
     this.tempRollback();
     this.tempChar.combatInfo.weapons = weapons;
+    console.log(this.tempChar.combatInfo);
     this.character.next(this.tempChar);
 
     this.http.updateCharacter(this.tempChar).subscribe({

@@ -54,21 +54,11 @@ export class CombatComponent implements OnInit {
       this.updateCombatInfo(info);
     });
 
-    //wepon form change listener
-    this.weaponArray.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      console.log('updating');
-      if (!this.weaponForm?.valid) {
-        return;
-      }
-      this.store.updateWeapons(info.value);
-    });
-
     this.character$ = this.store.characterUpdate$;
     this.store.characterUpdate$.subscribe((char: Character) => {
-      console.log('character .next() => {}');
       this.weaponForm = this.initWeaponForm();
       this.setFormGroup(char.combatInfo);
-      this.setWeaponArray(char.combatInfo);
+      this.setWeaponArray(char.combatInfo.weapons);
     });
 
     //angular grid bootstrapping thingy
@@ -116,10 +106,21 @@ export class CombatComponent implements OnInit {
     this.combatInfoForm.patchValue(info, { emitEvent: false });
   }
 
-  setWeaponArray(info: CombatInfo) {
-    info.weapons?.forEach(weapon => {
+  setWeaponArray(weapons: Weapon[]) {
+    if (weapons === undefined) {
+      return;
+    }
+    weapons.map(weapon => {
       this.weaponArray.push(this.getWeaponFormGroup(weapon));
     })
+
+    //wepon form change listener
+    this.weaponForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+      if (!this.weaponForm?.valid) {
+        return;
+      }
+      this.store.updateWeapons(info.weapons);
+    });
   }
 
   //weapons ---------------------------------------------------------
