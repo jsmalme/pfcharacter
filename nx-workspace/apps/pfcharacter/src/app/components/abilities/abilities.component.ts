@@ -17,53 +17,50 @@ import { checkValidForm } from '../../functions/check-valid-form';
 export class AbilitiesComponent implements OnInit {
   abilitiesForm!: FormGroup;
   savingThrowsForm!: FormGroup;
-  abilities!: Abilities; 
+  abilities!: Abilities;
   savingThrows!: SavingThrows;
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
 
   constructor(public store: CharacterDataService,
-    private fb: FormBuilder) { 
-    // this.abilities = store.character.abilities;
-    // this.savingThrows = store.character.savingThrows;
-  }
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.createAbilitiesFormGroup(this.abilities);
-    this.createSavingThrowFormGroup(this.savingThrows);
+    this.abilitiesForm = this.initAbilitiesForm();
+    this.savingThrowsForm = this.initSavingThrowForm();
 
     //abilities change listeners
     this.abilitiesForm.get('strForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!checkValidForm(this.abilitiesForm, 'strForm')){
+      if (!checkValidForm(this.abilitiesForm, 'strForm')) {
         return;
       }
       this.updateStrModifiers(info);
     });
     this.abilitiesForm.get('dexForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!checkValidForm(this.abilitiesForm, 'dexForm')){
+      if (!checkValidForm(this.abilitiesForm, 'dexForm')) {
         return;
       }
       this.updateDexModifiers(info);
     });
     this.abilitiesForm.get('conForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!checkValidForm(this.abilitiesForm, 'conForm')){
+      if (!checkValidForm(this.abilitiesForm, 'conForm')) {
         return;
       }
       this.updateConModifiers(info);
     });
     this.abilitiesForm.get('intForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!checkValidForm(this.abilitiesForm, 'intForm')){
+      if (!checkValidForm(this.abilitiesForm, 'intForm')) {
         return;
       }
       this.updateIntModifiers(info);
     });
     this.abilitiesForm.get('wisForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!checkValidForm(this.abilitiesForm, 'wisForm')){
+      if (!checkValidForm(this.abilitiesForm, 'wisForm')) {
         return;
       }
       this.updateWisModifiers(info);
     });
     this.abilitiesForm.get('chaForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!checkValidForm(this.abilitiesForm, 'chaForm')){
+      if (!checkValidForm(this.abilitiesForm, 'chaForm')) {
         return;
       }
       this.updateChaModifiers(info);
@@ -71,7 +68,7 @@ export class AbilitiesComponent implements OnInit {
 
     //saving throw change listeners
     this.savingThrowsForm.get('forForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!checkValidForm(this.savingThrowsForm, 'forForm')){
+      if (!checkValidForm(this.savingThrowsForm, 'forForm')) {
         return;
       }
       info.forAbility = this.savingThrows.for.forAbility;
@@ -80,7 +77,7 @@ export class AbilitiesComponent implements OnInit {
     });
 
     this.savingThrowsForm.get('refForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!checkValidForm(this.savingThrowsForm, 'refForm')){
+      if (!checkValidForm(this.savingThrowsForm, 'refForm')) {
         return;
       }
       info.refAbility = this.savingThrows.ref.refAbility;
@@ -89,7 +86,7 @@ export class AbilitiesComponent implements OnInit {
     });
 
     this.savingThrowsForm.get('willForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if(!checkValidForm(this.savingThrowsForm, 'willForm')){
+      if (!checkValidForm(this.savingThrowsForm, 'willForm')) {
         return;
       }
       info.willAbility = this.savingThrows.will.willAbility;
@@ -98,9 +95,10 @@ export class AbilitiesComponent implements OnInit {
     });
   }
 
-  fixTheOutlines(){
-    setTimeout(()=> this.formFields.forEach(ff =>{
-      ff.updateOutlineGap()}), 100);
+  fixTheOutlines() {
+    setTimeout(() => this.formFields.forEach(ff => {
+      ff.updateOutlineGap()
+    }), 100);
   }
 
   updateStrModifiers(info: StrScore) {
@@ -111,8 +109,8 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.useStrMod = info.strTempAdj ? this.abilities.strTempMod : (info.str ? this.abilities.strMod : undefined);
     this.store.updateStr(this.abilities);
   }
-  
-  updateDexModifiers(info: DexScore){
+
+  updateDexModifiers(info: DexScore) {
     this.abilities.dex = info.dex;
     this.abilities.dexTempAdj = info.dexTempAdj;
     this.abilities.dexMod = this.calculateAbilityScore(info.dex);
@@ -123,7 +121,7 @@ export class AbilitiesComponent implements OnInit {
     this.updateRefTotal();
   }
 
-  updateConModifiers(info: ConScore){
+  updateConModifiers(info: ConScore) {
     this.abilities.con = info.con;
     this.abilities.conTempAdj = info.conTempAdj;
     this.abilities.conMod = this.calculateAbilityScore(info.con);
@@ -134,7 +132,7 @@ export class AbilitiesComponent implements OnInit {
     this.updateForTotal();
   }
 
-  updateIntModifiers(info: IntScore){
+  updateIntModifiers(info: IntScore) {
     this.abilities.int = info.int;
     this.abilities.intTempAdj = info.intTempAdj;
     this.abilities.intMod = this.calculateAbilityScore(info.int);
@@ -143,7 +141,7 @@ export class AbilitiesComponent implements OnInit {
     this.store.updateInt(this.abilities);
   }
 
-  updateWisModifiers(info: WisScore){
+  updateWisModifiers(info: WisScore) {
     this.abilities.wis = info.wis;
     this.abilities.wisTempAdj = info.wisTempAdj;
     this.abilities.wisMod = this.calculateAbilityScore(info.wis);
@@ -155,7 +153,7 @@ export class AbilitiesComponent implements OnInit {
     //this.store.updateWis(info);
   }
 
-  updateChaModifiers(info: ChaScore){
+  updateChaModifiers(info: ChaScore) {
     this.abilities.cha = info.cha;
     this.abilities.chaTempAdj = info.chaTempAdj;
     this.abilities.chaMod = this.calculateAbilityScore(info.cha);
@@ -165,93 +163,93 @@ export class AbilitiesComponent implements OnInit {
     //this.store.updateCha(info);
   }
 
-  createAbilitiesFormGroup(abilities: Abilities): void {
-    this.abilitiesForm = this.fb.group({
+  initAbilitiesForm(): FormGroup {
+    return this.fb.group({
       strForm: this.fb.group({
-        str: [abilities.str, maxNumberValidator()],
-        strTempAdj: [abilities.strTempAdj, maxNumberValidator()],
+        str: ['', maxNumberValidator()],
+        strTempAdj: ['', maxNumberValidator()],
       }),
       dexForm: this.fb.group({
-        dex: [abilities.dex, maxNumberValidator()],
-        dexTempAdj: [abilities.dexTempAdj, maxNumberValidator()],
+        dex: ['', maxNumberValidator()],
+        dexTempAdj: ['', maxNumberValidator()],
       }),
       conForm: this.fb.group({
-        con: [abilities.con, maxNumberValidator()],
-        conTempAdj: [abilities.conTempAdj, maxNumberValidator()],
+        con: ['', maxNumberValidator()],
+        conTempAdj: ['', maxNumberValidator()],
       }),
       intForm: this.fb.group({
-        int: [abilities.int, maxNumberValidator()],
-        intTempAdj: [abilities.intTempAdj, maxNumberValidator()],
+        int: ['', maxNumberValidator()],
+        intTempAdj: ['', maxNumberValidator()],
       }),
       wisForm: this.fb.group({
-        wis: [abilities.wis, maxNumberValidator()],
-        wisTempAdj: [abilities.wisTempAdj, maxNumberValidator()],
+        wis: ['', maxNumberValidator()],
+        wisTempAdj: ['', maxNumberValidator()],
       }),
       chaForm: this.fb.group({
-        cha: [abilities.cha, maxNumberValidator()],
-        chaTempAdj: [abilities.chaTempAdj, maxNumberValidator()],
+        cha: ['', maxNumberValidator()],
+        chaTempAdj: ['', maxNumberValidator()],
       })
     });
   }
 
-  createSavingThrowFormGroup(savingThrows: SavingThrows): void {
-    this.savingThrowsForm = this.fb.group({
+  initSavingThrowForm(): FormGroup {
+    return this.fb.group({
       forForm: this.fb.group({
-        forBase: [savingThrows.for.forBase, maxNumberValidator()],
-        forMagic: [savingThrows.for.forMagic, maxNumberValidator()],
-        forMisc: [savingThrows.for.forMisc, maxNumberValidator()],
-        forTemp: [savingThrows.for.forTemp, maxNumberValidator()],
-        forOther: [savingThrows.for.forOther, maxNumberValidator()],
+        forBase: ['', maxNumberValidator()],
+        forMagic: ['', maxNumberValidator()],
+        forMisc: ['', maxNumberValidator()],
+        forTemp: ['', maxNumberValidator()],
+        forOther: ['', maxNumberValidator()],
       }),
       refForm: this.fb.group({
-        refBase: [savingThrows.ref.refBase, maxNumberValidator()],
-        refMagic: [savingThrows.ref.refMagic, maxNumberValidator()],
-        refMisc: [savingThrows.ref.refMisc, maxNumberValidator()],
-        refTemp: [savingThrows.ref.refTemp, maxNumberValidator()],
-        refOther: [savingThrows.ref.refOther, maxNumberValidator()],
+        refBase: ['', maxNumberValidator()],
+        refMagic: ['', maxNumberValidator()],
+        refMisc: ['', maxNumberValidator()],
+        refTemp: ['', maxNumberValidator()],
+        refOther: ['', maxNumberValidator()],
       }),
-      willForm: this.fb.group({        
-        willBase: [savingThrows.will.willBase, maxNumberValidator()],
-        willMagic: [savingThrows.will.willMagic, maxNumberValidator()],
-        willMisc: [savingThrows.will.willMisc, maxNumberValidator()],
-        willTemp: [savingThrows.will.willTemp, maxNumberValidator()],
-        willOther: [savingThrows.will.willOther, maxNumberValidator()],
+      willForm: this.fb.group({
+        willBase: ['', maxNumberValidator()],
+        willMagic: ['', maxNumberValidator()],
+        willMisc: ['', maxNumberValidator()],
+        willTemp: ['', maxNumberValidator()],
+        willOther: ['', maxNumberValidator()],
       })
     });
   }
-  
 
-  private updateForTotal(){
-    this.savingThrows.for.forTotal =  +(this.savingThrows.for?.forBase || 0) + 
-    +(this.savingThrows.for?.forAbility || 0) + 
-    +(this.savingThrows.for?.forMagic || 0) + 
-    +(this.savingThrows.for?.forMisc || 0) +
-    +(this.savingThrows.for?.forTemp || 0) + 
-    +(this.savingThrows.for?.forOther || 0);
+
+  private updateForTotal() {
+    this.savingThrows.for.forTotal = +(this.savingThrows.for?.forBase || 0) +
+      +(this.savingThrows.for?.forAbility || 0) +
+      +(this.savingThrows.for?.forMagic || 0) +
+      +(this.savingThrows.for?.forMisc || 0) +
+      +(this.savingThrows.for?.forTemp || 0) +
+      +(this.savingThrows.for?.forOther || 0);
   }
 
-  private updateRefTotal(){
-    this.savingThrows.ref.refTotal =  +(this.savingThrows.ref?.refBase || 0) + 
-    +(this.savingThrows.ref?.refAbility || 0) + 
-    +(this.savingThrows.ref?.refMagic || 0) + 
-    +(this.savingThrows.ref?.refMisc || 0) +
-    +(this.savingThrows.ref?.refTemp || 0) + 
-    +(this.savingThrows.ref?.refOther || 0);
+  private updateRefTotal() {
+    this.savingThrows.ref.refTotal = +(this.savingThrows.ref?.refBase || 0) +
+      +(this.savingThrows.ref?.refAbility || 0) +
+      +(this.savingThrows.ref?.refMagic || 0) +
+      +(this.savingThrows.ref?.refMisc || 0) +
+      +(this.savingThrows.ref?.refTemp || 0) +
+      +(this.savingThrows.ref?.refOther || 0);
   }
 
-  private updateWillTotal(){
-    this.savingThrows.will.willTotal =  +(this.savingThrows.will?.willBase || 0) + 
-    +(this.savingThrows.will?.willAbility || 0) + 
-    +(this.savingThrows.will?.willMagic || 0) + 
-    +(this.savingThrows.will?.willMisc || 0) +
-    +(this.savingThrows.will?.willTemp || 0) + 
-    +(this.savingThrows.will?.willOther || 0);
+  private updateWillTotal() {
+    this.savingThrows.will.willTotal = +(this.savingThrows.will?.willBase || 0) +
+      +(this.savingThrows.will?.willAbility || 0) +
+      +(this.savingThrows.will?.willMagic || 0) +
+      +(this.savingThrows.will?.willMisc || 0) +
+      +(this.savingThrows.will?.willTemp || 0) +
+      +(this.savingThrows.will?.willOther || 0);
   }
 
-  calculateAbilityScore(score: number | undefined){
-    if(score === undefined || ""){
+  calculateAbilityScore(score: number | undefined) {
+    if (score === undefined || "") {
       return undefined;
     }
-    return Math.floor((score - 10)/2);
+    return Math.floor((score - 10) / 2);
   }
 }
