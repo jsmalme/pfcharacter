@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Abilities, DexScore } from '../../../../../libs/character-classes/abilities';
 import { Character } from '../../../../../libs/character-classes/character';
 import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
-import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
+import { CombatInfo, ICombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { SavingThrows } from '../../../../../libs/character-classes/saving-throws';
 import { Skill } from '../../../../../libs/character-classes/skills';
 import { CalcTotService } from './calc-tot.service';
@@ -37,6 +37,10 @@ export class CharacterDataService {
     return this.character.value.abilities;
   }
 
+  get skillList() {
+    return this.character.value.skillList;
+  }
+
   tempRollback() {
     this.tempChar = { ...this.character.value };
     this.rollback = { ...this.character.value };
@@ -50,20 +54,35 @@ export class CharacterDataService {
 
   //ability/saving updaters--------------------------------------
   updateStr(info: Abilities) {
-    // this._character.abilities = info;
-    // this._character.combatInfo.cmbTotal = this.totService.getCmbTotal(this._character.combatInfo, info);
-    // this._character.combatInfo.cmdTotal = this.totService.getCmdTotal(this._character.combatInfo, info);
-    // this.updateSkillAbilities(info, this._character.skillList, 'Str', ['Climb', 'Swim']);
+    this.tempRollback();
+    this.tempChar.abilities.updateStr(info);
+    this.tempChar.combatInfo.updateStr(info);
+    this.updateSkillAbilities(info, this.skillList, 'Str', ['Climb', 'Swim']);
+
+    this.character.next(this.tempChar);
+
+    this.http.updateCharacter(this.tempChar).subscribe({
+      error: (e) => {
+        this.snackBar.openSnackBar(e);
+        this.character.next(this.rollback);
+      }
+    });
   }
 
   updateDex(info: Abilities) {
-    // this._character.abilities = info;
-    // this._character.combatInfo.initiativeTotal = this.totService.getInitiativeTotal(this._character.combatInfo, info);
-    // this._character.combatInfo.cmdTotal = this.totService.getCmdTotal(this._character.combatInfo, info);
-    // this._character.combatInfo.acTotal = this.totService.getAcTotal(this._character.combatInfo, info);
-    // this._character.combatInfo.acTouch = this.totService.getAcTouchTotal(this._character.combatInfo, info);
-    // const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
-    // this.updateSkillAbilities(info, this._character.skillList, 'Dex', dexSkills);
+    this.tempRollback();
+    this.tempChar.abilities.updateDex(info);
+    const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
+    this.updateSkillAbilities(info, this.tempChar.skillList, 'Dex', dexSkills);
+
+    this.character.next(this.tempChar);
+
+    this.http.updateCharacter(this.tempChar).subscribe({
+      error: (e) => {
+        this.snackBar.openSnackBar(e);
+        this.character.next(this.rollback);
+      }
+    });
   }
 
   updateCon(info: Abilities) {
@@ -89,13 +108,12 @@ export class CharacterDataService {
     // const chaSkills = ['Bluff', 'Diplomacy', 'Disguise', 'Handle Animal', 'Intimidate', 'Perform1', 'Perform2', 'Use Magic Device'];
     // this.updateSkillAbilities(info, this._character.skillList, 'Cha', chaSkills);
   }
-
   //------------------------------------------------------
   //combat page updates-----------------------------------
   updateCombatInfo(info: CombatInfo) {
     this.tempRollback();
-    this.tempChar.combatInfo = { ...this.tempChar.combatInfo, ...info };
-    this.tempChar.combatInfo = this.totService.getCombatInfoTotals(this.tempChar.combatInfo, this.abilities);
+    this.tempChar.combatInfo = Object.assign(info);
+    this.tempChar.combatInfo.updateCombatInfoTotals(this.abilities);
     this.character.next(this.tempChar);
 
     this.http.updateCharacter(this.tempChar).subscribe({
@@ -103,7 +121,7 @@ export class CharacterDataService {
         this.snackBar.openSnackBar(e);
         this.character.next(this.rollback);
       }
-    })
+    });
   }
 
   updateWeapons(weapons: Weapon[]) {
@@ -156,8 +174,8 @@ export class CharacterDataService {
 
   //Skill updates --------------------------------------------------
   updateSkillAbilities(abilities: Abilities, skillList: Skill[], ability: string, skillIds: string[]) {
-    // const updatedSkillList = this.updateSkillAbilityScore(ability, skillIds, skillList, abilities);
-    // this._character.skillList = this.totService.getSkillsTotals(updatedSkillList, skillIds);
+    const updatedSkillList = this.updateSkillAbilityScore(ability, skillIds, skillList, abilities);
+    this.tempChar.skillList = this.totService.getSkillsTotals(updatedSkillList, skillIds);
   }
 
   updateSkills(skillList: Skill[]) {
@@ -165,72 +183,6 @@ export class CharacterDataService {
     // this._character.skillList = skillList;
   }
   //----------------------------------------------------------------
-
-
-
-  //calcuate methods ----------------------------------------------------------------
-  calculateCmSizeMod(size: SizeEnum | undefined) {
-    if (size === undefined) {
-      return 0;
-    }
-    switch (size) {
-      case SizeEnum.small:
-        return -1;
-      case SizeEnum.medium:
-        return 0;
-      case SizeEnum.large:
-        return 1;
-      case SizeEnum.tiny:
-        return -2;
-      case SizeEnum.diminutive:
-        return -4;
-      case SizeEnum.fine:
-        return -8;
-      case SizeEnum.huge:
-        return 2;
-      case SizeEnum.gargantuan:
-        return 4;
-      case SizeEnum.colossal:
-        return 8;
-      default:
-        return 0;
-    }
-  }
-
-  calculateAcSizeMod(size: SizeEnum | undefined) {
-    if (size === undefined) {
-      return 0;
-    }
-    switch (size) {
-      case SizeEnum.small:
-        return 1;
-      case SizeEnum.medium:
-        return 0;
-      case SizeEnum.large:
-        return -1;
-      case SizeEnum.tiny:
-        return 2;
-      case SizeEnum.diminutive:
-        return 4;
-      case SizeEnum.fine:
-        return 8;
-      case SizeEnum.huge:
-        return -2;
-      case SizeEnum.gargantuan:
-        return -4;
-      case SizeEnum.colossal:
-        return -8;
-      default:
-        return 0;
-    }
-  }
-
-  calculateAbilityScore(score: number | undefined): number | undefined {
-    if (score === undefined || "") {
-      return undefined;
-    }
-    return Math.floor((score - 10) / 2);
-  }
 
   updateSkillAbilityScore(ability: string, skillIds: string[], skillList: Skill[], abilities: Abilities): Skill[] {
     return skillList.map(skill => {

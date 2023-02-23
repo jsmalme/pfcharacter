@@ -11,7 +11,7 @@ import { Skill } from 'libs/character-classes/skills';
 export class InMemoryDataService implements InMemoryDataService {
 
   createDb() {
-    const character: Character[] = [{
+    const character = [{
       id: 1,
       generalInfo: {
         age: 27,

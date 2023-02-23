@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/component-selector */
 import { Character } from './../../../../../../libs/character-classes/character';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
@@ -27,8 +28,7 @@ export class GeneralComponent implements OnInit {
       this.setFormGroup(char.generalInfo);
     });
 
-
-    this.generalInfoForm?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+    this.generalInfoForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
       this.store.updateGeneralInfo(info);
     })
   }

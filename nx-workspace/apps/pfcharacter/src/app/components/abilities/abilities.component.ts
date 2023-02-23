@@ -1,3 +1,5 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+import { Observable } from 'rxjs';
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -8,6 +10,7 @@ import { SavingThrows } from '../../../../../../libs/character-classes/saving-th
 import { MatFormField } from '@angular/material/form-field';
 import { maxNumberValidator } from '../../functions/validators';
 import { checkValidForm } from '../../functions/check-valid-form';
+import { Character } from 'libs/character-classes/character';
 
 @Component({
   selector: 'app-abilities',
@@ -19,6 +22,7 @@ export class AbilitiesComponent implements OnInit {
   savingThrowsForm!: FormGroup;
   abilities!: Abilities;
   savingThrows!: SavingThrows;
+  character$: Observable<Character>;
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
 
   constructor(public store: CharacterDataService,
@@ -27,13 +31,19 @@ export class AbilitiesComponent implements OnInit {
   ngOnInit(): void {
     this.abilitiesForm = this.initAbilitiesForm();
     this.savingThrowsForm = this.initSavingThrowForm();
+    this.character$ = this.store.characterUpdate$;
+    this.character$.subscribe((char: Character) => {
+      console.log(char);
+      this.setAbilitiesForm(char.abilities);
+      this.setSavingThrowsForm(char.savingThrows);
+    });
 
     //abilities change listeners
     this.abilitiesForm.get('strForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
       if (!checkValidForm(this.abilitiesForm, 'strForm')) {
         return;
       }
-      this.updateStrModifiers(info);
+      this.store.updateStr(info);
     });
     this.abilitiesForm.get('dexForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
       if (!checkValidForm(this.abilitiesForm, 'dexForm')) {
@@ -102,11 +112,11 @@ export class AbilitiesComponent implements OnInit {
   }
 
   updateStrModifiers(info: StrScore) {
-    this.abilities.str = info.str;
-    this.abilities.strTempAdj = info.strTempAdj;
-    this.abilities.strMod = this.calculateAbilityScore(info.str);
-    this.abilities.strTempMod = this.calculateAbilityScore(info.strTempAdj);
-    this.abilities.useStrMod = info.strTempAdj ? this.abilities.strTempMod : (info.str ? this.abilities.strMod : undefined);
+    // this.abilities.str = info.str;
+    // this.abilities.strTempAdj = info.strTempAdj;
+    // this.abilities.strMod = this.calculateAbilityScore(info.str);
+    // this.abilities.strTempMod = this.calculateAbilityScore(info.strTempAdj);
+    // this.abilities.useStrMod = info.strTempAdj ? this.abilities.strTempMod : (info.str ? this.abilities.strMod : undefined);
     this.store.updateStr(this.abilities);
   }
 
@@ -117,7 +127,6 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.dexTempMod = this.calculateAbilityScore(info.dexTempAdj);
     this.abilities.useDexMod = info.dexTempAdj ? this.abilities.dexTempMod : (info.dex ? this.abilities.dexMod : undefined);
     this.savingThrows.ref.refAbility = this.abilities.useDexMod;
-    this.store.updateDex(this.abilities);
     this.updateRefTotal();
   }
 
@@ -129,7 +138,6 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.useConMod = info.conTempAdj ? this.abilities.conTempMod : (info.con ? this.abilities.conMod : undefined);
     this.savingThrows.for.forAbility = this.abilities.useConMod;
     this.store.updateCon(this.abilities);
-    this.updateForTotal();
   }
 
   updateIntModifiers(info: IntScore) {
@@ -149,8 +157,6 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.useWisMod = info.wisTempAdj ? this.abilities.wisTempMod : (info.wis ? this.abilities.wisMod : undefined);
     this.savingThrows.will.willAbility = this.abilities.useWisMod;
     this.store.updateWis(this.abilities);
-    this.updateWillTotal();
-    //this.store.updateWis(info);
   }
 
   updateChaModifiers(info: ChaScore) {
@@ -160,7 +166,6 @@ export class AbilitiesComponent implements OnInit {
     this.abilities.chaTempMod = this.calculateAbilityScore(info.chaTempAdj);
     this.abilities.useChaMod = info.chaTempAdj ? this.abilities.chaTempMod : (info.cha ? this.abilities.chaMod : undefined);
     this.store.updateCha(this.abilities);
-    //this.store.updateCha(info);
   }
 
   initAbilitiesForm(): FormGroup {
@@ -192,6 +197,35 @@ export class AbilitiesComponent implements OnInit {
     });
   }
 
+  setAbilitiesForm(abilities: Abilities) {
+    this.abilitiesForm.patchValue({
+      strForm: {
+        str: abilities.str,
+        strTempAdj: abilities.strTempAdj
+      },
+      dexForm: {
+        dex: abilities.dex,
+        dexTempAdj: abilities.dexTempAdj
+      },
+      conForm: {
+        con: abilities.con,
+        conTempAdj: abilities.conTempAdj
+      },
+      intForm: {
+        int: abilities.int,
+        intTempAdj: abilities.intTempAdj
+      },
+      wisForm: {
+        wis: abilities.wis,
+        wisTempAdj: abilities.wisTempAdj
+      },
+      chaForm: {
+        cha: abilities.cha,
+        chaTempAdj: abilities.chaTempAdj
+      }
+    }, { emitEvent: false });
+  }
+
   initSavingThrowForm(): FormGroup {
     return this.fb.group({
       forForm: this.fb.group({
@@ -216,6 +250,32 @@ export class AbilitiesComponent implements OnInit {
         willOther: ['', maxNumberValidator()],
       })
     });
+  }
+
+  setSavingThrowsForm(throws: SavingThrows) {
+    this.savingThrowsForm.patchValue({
+      forForm: {
+        forBase: throws.for.forBase,
+        forMagic: throws.for.forMagic,
+        forMisc: throws.for.forMisc,
+        forTemp: throws.for.forTemp,
+        forOther: throws.for.forOther
+      },
+      refForm: {
+        refBase: throws.ref.refBase,
+        refMagic: throws.ref.refMagic,
+        refMisc: throws.ref.refMisc,
+        refTemp: throws.ref.refTemp,
+        refOther: throws.ref.refOther,
+      },
+      willForm: {
+        willBase: throws.will.willBase,
+        willMagic: throws.will.willMagic,
+        willMisc: throws.will.willMisc,
+        willTemp: throws.will.willTemp,
+        willOther: throws.will.willOther,
+      }
+    }, { emitEvent: false });
   }
 
 
