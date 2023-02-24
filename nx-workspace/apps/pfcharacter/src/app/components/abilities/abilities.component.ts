@@ -111,15 +111,6 @@ export class AbilitiesComponent implements OnInit {
     }), 100);
   }
 
-  updateStrModifiers(info: StrScore) {
-    // this.abilities.str = info.str;
-    // this.abilities.strTempAdj = info.strTempAdj;
-    // this.abilities.strMod = this.calculateAbilityScore(info.str);
-    // this.abilities.strTempMod = this.calculateAbilityScore(info.strTempAdj);
-    // this.abilities.useStrMod = info.strTempAdj ? this.abilities.strTempMod : (info.str ? this.abilities.strMod : undefined);
-    this.store.updateStr(this.abilities);
-  }
-
   updateDexModifiers(info: DexScore) {
     this.abilities.dex = info.dex;
     this.abilities.dexTempAdj = info.dexTempAdj;

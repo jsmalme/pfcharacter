@@ -72,6 +72,7 @@ export class CharacterDataService {
   updateDex(info: Abilities) {
     this.tempRollback();
     this.tempChar.abilities.updateDex(info);
+    this.tempChar.savingThrows.updateDex(info);
     const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
     this.updateSkillAbilities(info, this.tempChar.skillList, 'Dex', dexSkills);
 
@@ -142,13 +143,9 @@ export class CharacterDataService {
   updateGeneralInfo(generalInfo: GeneralInfo) {
     this.tempRollback();
     this.tempChar.generalInfo = generalInfo;
-    console.log(generalInfo.size + " : " + this.rollback.generalInfo.size);
-    if (generalInfo.size !== this.rollback.generalInfo.size) {
-      this.tempChar.combatInfo.cmSizeMod = this.calculateCmSizeMod(generalInfo.size);
-      this.tempChar.combatInfo.acSizeMod = this.calculateAcSizeMod(generalInfo.size);
-      this.tempChar.combatInfo = this.totService.getCombatInfoTotals(this.tempChar.combatInfo, this.abilities);
+    if (generalInfo.size !== undefined && generalInfo.size !== this.rollback.generalInfo.size) {
+      this.tempChar.combatInfo.updateSize(generalInfo.size, this.abilities);
     }
-    this.tempChar.combatInfo = this.totService.getCombatInfoTotals(this.tempChar.combatInfo, this.abilities);
     this.character.next(this.tempChar);
 
     this.http.updateCharacter(this.tempChar).pipe(
@@ -160,12 +157,6 @@ export class CharacterDataService {
       }
     })
   }
-
-  updateSize(size: SizeEnum) {
-    // this._character.combatInfo.cmSizeMod = this.calculateCmSizeMod(size);
-    // this._character.combatInfo.acSizeMod = this.calculateAcSizeMod(size);
-  }
-
 
   updateSavingThrows(savingThrows: SavingThrows) {
     // this._character.savingThrows = savingThrows;

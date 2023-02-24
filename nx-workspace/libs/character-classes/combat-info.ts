@@ -44,6 +44,11 @@ export class CombatInfo {
   updateSize(size: SizeEnum, abilities: Abilities) {
     this.cmSizeMod = this.cmSizeEnumMap[size];
     this.acSizeMod = this.acSizeEnumMap[size];
+    this.cmbTotal = this.getCmbTotal(abilities);
+    this.cmdTotal = this.getCmdTotal(abilities);
+    this.acTotal = this.getAcTotal(abilities);
+    this.acTouch = this.getAcTouchTotal(abilities);
+    this.acFlat = this.getAcFlatTotal();
   }
 
   updateCombatInfoTotals(abilities: Abilities) {
