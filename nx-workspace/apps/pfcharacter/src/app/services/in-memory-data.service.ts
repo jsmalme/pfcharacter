@@ -1,6 +1,6 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
-import { Character } from 'libs/character-classes/character';
+import { Character, ICharacter } from 'libs/character-classes/character';
 import { SizeEnum } from 'libs/character-classes/general-info';
 import { Skill } from 'libs/character-classes/skills';
 
@@ -11,7 +11,7 @@ import { Skill } from 'libs/character-classes/skills';
 export class InMemoryDataService implements InMemoryDataService {
 
   createDb() {
-    const character = [{
+    const character: ICharacter[] = [{
       id: 1,
       generalInfo: {
         age: 27,
@@ -75,64 +75,76 @@ export class InMemoryDataService implements InMemoryDataService {
         }]
       },
       abilities: {
-        str: 13,
-        strMod: 1,
-        strTempAdj: undefined,
-        strTempMod: undefined,
-        dex: 17,
-        dexMod: 3,
-        dexTempAdj: undefined,
-        dexTempMod: undefined,
-        con: 15,
-        conMod: 2,
-        conTempAdj: undefined,
-        conTempMod: undefined,
-        int: 15,
-        intMod: 2,
-        intTempAdj: undefined,
-        intTempMod: undefined,
-        wis: 12,
-        wisMod: 1,
-        wisTempAdj: undefined,
-        wisTempMod: undefined,
-        cha: 20,
-        chaMod: 5,
-        chaTempAdj: undefined,
-        chaTempMod: undefined,
-        useStrMod: 1,
-        useDexMod: 3,
-        useConMod: 2,
-        useIntMod: 2,
-        useWisMod: 1,
-        useChaMod: 5
+        str: {
+          ability: 13,
+          mod: 1,
+          tempAdj: undefined,
+          tempMod: undefined,
+          useMod: 1
+        },
+        dex: {
+          ability: 17,
+          mod: 3,
+          tempAdj: undefined,
+          tempMod: undefined,
+          useMod: 3
+        },
+        con: {
+          ability: 15,
+          mod: 2,
+          tempAdj: undefined,
+          tempMod: undefined,
+          useMod: 2
+        },
+        int: {
+          ability: 15,
+          mod: 2,
+          tempAdj: undefined,
+          tempMod: undefined,
+          useMod: 2
+        },
+        wis: {
+          ability: 12,
+          mod: 1,
+          tempAdj: undefined,
+          tempMod: undefined,
+          useMod: 1
+        },
+        cha: {
+          ability: 20,
+          mod: 5,
+          tempAdj: undefined,
+          tempMod: undefined,
+          useMod: 5
+        }
       },
       savingThrows: {
         for: {
-          forBase: 1,
-          forAbility: 2,
-          forMagic: undefined,
-          forMisc: undefined,
-          forTemp: undefined,
-          forOther: undefined,
-          forTotal: 3
+          base: 1,
+          ability: 2,
+          magic: undefined,
+          misc: undefined,
+          temp: undefined,
+          other: undefined,
+          total: 3
         },
         ref: {
-          refBase: 2,
-          refAbility: 3,
-          refMagic: 2,
-          refMisc: undefined,
-          refTemp: undefined,
-          refOther: undefined,
-          refTotal: 7
+          base: 1,
+          ability: 2,
+          magic: undefined,
+          misc: undefined,
+          temp: undefined,
+          other: undefined,
+          total: 3
         },
         will: {
-          willBase: 3,
-          willAbility: 1,
-          willMagic: undefined,
-          willMisc: 1,
-          willTemp: 1,
-          willOther: undefined,
-          willTotal: 6
+          base: 1,
+          ability: 2,
+          magic: undefined,
+          misc: undefined,
+          temp: undefined,
+          other: undefined,
+          total: 3
         }
       },
       skillList: [

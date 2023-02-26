@@ -2,9 +2,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Abilities } from 'libs/character-classes/abilities';
-import { Character } from 'libs/character-classes/character';
+import { Character, ICharacter } from 'libs/character-classes/character';
 import { CombatInfo } from 'libs/character-classes/combat-info';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,15 +26,19 @@ export class CharacterService {
   }
 
   getCharacter(): Observable<Character> {
-    return this.http.get<Character>(this.characterUrl).pipe(
+    return this.http.get<ICharacter>(this.characterUrl).pipe(
+      map((data) => {
+        return new Character(data);
+      }),
       catchError(err => this.handleError(err))
     );
   }
 
-  updateCharacter(character: Character): Observable<Character> {
+  updateCharacter(character: ICharacter): Observable<ICharacter> {
+    console.log(character);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.characterUrl} + ${character.id}`;
-    return this.http.put<Character>(url, character, { headers: headers }).pipe(
+    return this.http.put<ICharacter>(url, character, { headers: headers }).pipe(
       catchError(err => this.handleError(err))
     );
   }

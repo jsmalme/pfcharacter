@@ -1,53 +1,46 @@
-export class Abilities {
-  str: number | undefined;
-  strMod: number | undefined;
-  strTempAdj: number | undefined;
-  strTempMod: number | undefined;
-  useStrMod: number | undefined;
-  dex: number | undefined;
-  dexMod: number | undefined;
-  dexTempAdj: number | undefined;
-  dexTempMod: number | undefined;
-  useDexMod: number | undefined;
-  con: number | undefined;
-  conMod: number | undefined;
-  conTempAdj: number | undefined;
-  conTempMod: number | undefined;
-  useConMod: number | undefined;
-  int: number | undefined;
-  intMod: number | undefined;
-  intTempAdj: number | undefined;
-  intTempMod: number | undefined;
-  useIntMod: number | undefined;
-  wis: number | undefined;
-  wisMod: number | undefined;
-  wisTempAdj: number | undefined;
-  wisTempMod: number | undefined;
-  useWisMod: number | undefined;
-  cha: number | undefined;
-  chaMod: number | undefined;
-  chaTempAdj: number | undefined;
-  chaTempMod: number | undefined;
-  useChaMod: number | undefined;
+export interface IAbilities {
+  str: IAbility;
+  dex: IAbility;
+  con: IAbility;
+  int: IAbility;
+  wis: IAbility;
+  cha: IAbility;
+}
 
-  updateStr(info: Abilities) {
-    this.str = info.str;
-    this.strTempAdj = info.strTempAdj;
-    this.strMod = this.calculateAbilityScore(info.str);
-    this.strTempMod = this.calculateAbilityScore(info.strTempAdj);
-    this.useStrMod = info.strTempAdj ? this.strTempMod : (info.str ? this.strMod : undefined);
+export interface IAbility {
+  ability: number | undefined;
+  mod: number | undefined;
+  tempAdj: number | undefined;
+  tempMod: number | undefined;
+  useMod: number | undefined; 
+}
+
+export class Ability implements IAbility{
+  constructor(ability?: IAbility){
+    if(ability){
+      this.ability = ability.ability;
+      this.mod = ability.mod;
+      this.tempAdj = ability.tempAdj;
+      this.tempMod = ability.tempMod;
+      this.useMod = ability.useMod;
+    }
   }
+  ability: number | undefined = undefined;
+  mod: number | undefined = undefined;
+  tempAdj: number | undefined = undefined;
+  tempMod: number | undefined = undefined;
+  useMod: number | undefined = undefined; 
 
-  updateDex(info: Abilities) {
-    this.dex = info.dex;
-    this.dexTempAdj = info.dexTempAdj;
-    this.dexMod = this.calculateAbilityScore(info.dex);
-    this.dexTempMod = this.calculateAbilityScore(info.dexTempAdj);
-    this.useDexMod = info.dexTempAdj ? this.dexTempMod : (info.dex ? this.dexMod : undefined);
+  update(info: Ability){
+    console.log(info);
+    this.ability = info.ability;
+    this.tempAdj = info.tempAdj;
+    this.mod = this.calculateAbilityScore(info.ability);
+    this.tempMod = this.calculateAbilityScore(info.tempAdj);
+
+    console.log(`${this.ability}, ${this.tempAdj}, ${this.mod}, ${this.tempMod}`);
+    this.useMod = info.tempAdj ? this.tempMod : (info.ability ? this.mod : undefined);
   }
-
-
-
 
   private calculateAbilityScore(score: number | undefined): number | undefined {
     if (score === undefined || "") {
@@ -55,6 +48,24 @@ export class Abilities {
     }
     return Math.floor((score - 10) / 2);
   }
+}
+export class Abilities implements IAbilities {
+  constructor(abilities?: IAbilities){
+    if(abilities){
+      this.str = new Ability(abilities.str);
+      this.dex = new Ability(abilities.dex);
+      this.con = new Ability(abilities.con);
+      this.int = new Ability(abilities.int);
+      this.wis = new Ability(abilities.wis);
+      this.cha = new Ability(abilities.cha);
+    }
+  }
+  str: Ability = new Ability();
+  dex: Ability = new Ability();
+  con: Ability = new Ability();
+  int: Ability = new Ability();
+  wis: Ability = new Ability();
+  cha: Ability = new Ability();
 }
 
 export class ChaScore {

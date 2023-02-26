@@ -2,7 +2,8 @@ import { SizeEnum } from './general-info';
 import { strUnToNum } from 'apps/pfcharacter/src/app/functions/methods';
 import { Abilities } from 'libs/character-classes/abilities';
 import { Weapon } from "./weapon";
-export class CombatInfo {
+
+export interface ICombatInfo{
   hpTotal: number | undefined;
   hpCurrent: number | undefined;
   hpNonLethal: string | undefined;
@@ -28,6 +29,38 @@ export class CombatInfo {
   acTouch: number | undefined;
   acFlat: number | undefined;
   weapons: Array<Weapon>;
+}
+export class CombatInfo implements ICombatInfo{
+  constructor(info?: ICombatInfo){
+    if(info){
+      Object.assign(this, info);
+    }
+  }
+  hpTotal: number | undefined = undefined;
+  hpCurrent: number | undefined = undefined;
+  hpNonLethal: string | undefined = undefined;
+  bab: number | undefined = undefined;
+  cmSizeMod: number | undefined = undefined;
+  acSizeMod: number | undefined = undefined;
+  spellResistance: string | undefined = undefined;
+  damageReduction: string | undefined = undefined;
+  initiativeTotal: number | undefined = undefined;
+  initiativeMiscMod: number | undefined = undefined;
+  cmbTotal: number | undefined = undefined;
+  cmbBabMod: number | undefined = undefined;
+  cmbMiscMod: number | undefined = undefined;
+  cmdTotal: number | undefined = undefined;
+  cmdBabMod: number | undefined = undefined;
+  cmdMiscMod: number | undefined = undefined;
+  acTotal: number | undefined = undefined;
+  acArmorMod: number | undefined = undefined;
+  acShieldMod: number | undefined = undefined;
+  acNaturalArmorMod: number | undefined = undefined;
+  acDeflectMod: number | undefined = undefined;
+  acMiscMod: number | undefined = undefined;
+  acTouch: number | undefined = undefined;
+  acFlat: number | undefined = undefined;
+  weapons: Array<Weapon> = [];
 
   updateStr(abilities: Abilities) {
     this.cmbTotal = this.getCmbTotal(abilities);
@@ -62,28 +95,28 @@ export class CombatInfo {
 
   private getCmbTotal(abilities: Abilities): number {
     return strUnToNum(this.bab) +
-      strUnToNum(abilities.useStrMod) +
+      strUnToNum(abilities.str.useMod) +
       strUnToNum(this.cmSizeMod) +
       strUnToNum(this.cmbMiscMod);
   }
 
   private getCmdTotal(abilities: Abilities): number {
     return strUnToNum(this.bab) +
-      strUnToNum(abilities.useStrMod) +
-      strUnToNum(abilities.useDexMod) +
+      strUnToNum(abilities.str.useMod) +
+      strUnToNum(abilities.dex.useMod) +
       strUnToNum(this.cmSizeMod) +
       strUnToNum(this.cmdMiscMod) + 10;
   }
 
   private getInitiativeTotal(abilities: Abilities): number {
-    return strUnToNum(abilities.useDexMod) +
+    return strUnToNum(abilities.dex.useMod) +
       strUnToNum(this.initiativeMiscMod);
   }
 
   private getAcTotal(abilities: Abilities): number {
     return strUnToNum(this.acArmorMod) +
       strUnToNum(this.acShieldMod) +
-      strUnToNum(abilities.useDexMod) +
+      strUnToNum(abilities.dex.useMod) +
       strUnToNum(this.acSizeMod) +
       strUnToNum(this.acNaturalArmorMod) +
       strUnToNum(this.acDeflectMod) +
@@ -91,7 +124,7 @@ export class CombatInfo {
   }
 
   private getAcTouchTotal(abilities: Abilities): number {
-    return strUnToNum(abilities.useDexMod) +
+    return strUnToNum(abilities.dex.useMod) +
       strUnToNum(this.acDeflectMod) +
       strUnToNum(this.acSizeMod) +
       strUnToNum(this.acMiscMod) + 10;
