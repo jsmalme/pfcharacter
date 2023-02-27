@@ -1,15 +1,38 @@
-import { Abilities } from "./abilities";
+import { Abilities, IAbilities } from "./abilities";
 import { GeneralInfo } from "./general-info";
-import { CombatInfo } from "./combat-info";
-import { SavingThrows } from "./saving-throws";
+import { CombatInfo, ICombatInfo } from "./combat-info";
+import { ISavingThrows, SavingThrows } from "./saving-throws";
 import { Skill } from "./skills";
 
+export interface ICharacter{
+  id: number;
+  abilities: IAbilities;
+  generalInfo: GeneralInfo;
+  combatInfo: ICombatInfo;
+  savingThrows: ISavingThrows;
+  skillList: Skill[];
+}
 export class Character {
-    generalInfo: GeneralInfo = new GeneralInfo;
-    combatInfo: CombatInfo = new CombatInfo;
-    abilities: Abilities = new Abilities; 
-    savingThrows: SavingThrows = new SavingThrows;
-    skillList: Skill[] = [
+  id: number;
+  generalInfo: GeneralInfo;
+  combatInfo: CombatInfo;
+  abilities: Abilities;
+  savingThrows: SavingThrows;
+  skillList: Skill[]
+  constructor(char?: ICharacter) {
+    if(char){
+      this.abilities = new Abilities(char.abilities);
+      this.generalInfo = new GeneralInfo(char.generalInfo);
+      this.combatInfo = new CombatInfo(char.combatInfo);
+      this.savingThrows = new SavingThrows(char.savingThrows);
+      this.skillList = char.skillList;
+    }
+    else{
+      this.abilities = new Abilities();
+      this.generalInfo = new GeneralInfo();
+      this.combatInfo = new CombatInfo();
+      this.savingThrows = new SavingThrows();
+      this.skillList = [
         new Skill('Acrobatics', 'Dex'),
         new Skill('Appraise', 'Int'),
         new Skill('Bluff', 'Cha'),
@@ -49,7 +72,7 @@ export class Character {
         new Skill('Survival', 'Wis'),
         new Skill('Swim', 'Str'),
         new Skill('Use Magic Device', 'Cha', true)
-    ]
-    constructor(){
-    };
+      ]
+    } 
+  }
 }

@@ -1,337 +1,357 @@
 <div class="container comp-top-margin" style="margin-bottom: 20px;">
+  <ng-container *ngIf="character$ | async as char">
     <form [formGroup]="combatInfoForm" autocomplete="off">
-        <mat-card class="mat-elevation-z2">
-            <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
-                <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
-                    Combat Stats
-                </div>
-            </mat-card-title>
-            <br>
-            <div class="row" formGroupName="hpMiscForm">
-                <div class="col-lg-6 col-12 d-flex justify-content-end align-items-center">
-                    <div class="col-lg-2 col-3">
-                        <h2>HP</h2>
-                    </div>
-                    <div class="col-lg-10 col-9">
-                        <div class="row">
-                            <div class="col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Total</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="hpTotal" (focus)="fixTheOutlines()">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Current</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="hpCurrent" (focus)="fixTheOutlines()">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Non-lethal</mat-label>
-                                    <input matInput formControlName="hpNonLethal" (focus)="fixTheOutlines()">
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-1">
-                </div>
-                <div class="col-lg-5 col-12 d-flex justify-content-end align-items-center">
-                    <div class="col-lg-4 col-3" style="overflow-wrap: break-word;">
-                        <h2>BAB / Reduce</h2>
-                    </div>
-                    <div class="col-lg-8 col-9">
-                        <div class="row">
-                            <div class="col-4" formGroupName="babForm">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>BAB</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="bab" (focus)="fixTheOutlines()">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>SR</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="spellResistance" (focus)="fixTheOutlines()">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>DR</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="damageReduction" (focus)="fixTheOutlines()">
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>  
-            <mat-divider></mat-divider>
-            <br>
-            <div formGroupName="offenseForm">
-                <div class="row d-flex align-items-center">
-                    <div class="col-lg-3 col-12">
-                        <div class="row">
-                            <div class="col-lg-6 col-3">
-                                <h2>Initiative</h2>
-                            </div>
-                            <div class="col-lg-6 col-9">
-                                <app-total-display [isValid]="combatInfoForm.get('offenseForm')?.get('initiativeMiscMod')?.valid"
-                                 [total]="combatInfo.initiativeTotal">
-                                </app-total-display>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-12">
-                        <div class="row">
-                            <div class="col-lg-2 col-6">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Dex+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{abilities.useDexMod}}" disabled="disabled">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-lg-2 col-6">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Misc+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="initiativeMiscMod" (focus)="fixTheOutlines()">
-                                </mat-form-field>
-                            </div>
-                        </div>  
-                    </div>
-                </div>
-                <div class="row d-flex align-items-center">
-                    <div class="col-lg-3 col-12">
-                        <div class="row">
-                            <div class="col-lg-6 col-3">
-                                <h2>CMB</h2>
-                            </div>
-                            <div class="col-lg-6 col-9">
-                                <app-total-display [isValid]="combatInfoForm.get('offenseForm')?.get('cmbMiscMod')?.valid"
-                                 [total]="combatInfo.cmbTotal">
-                                </app-total-display>
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="col-lg-9 col-12">
-                        <div class="row">
-                            <div class="col-lg-2 col-3">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>BAB+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{combatInfo.bab}}" disabled="disabled">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-lg-2 col-3">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Str+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{abilities.useStrMod}}" disabled="disabled">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-lg-2 col-3">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Size+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{combatInfo.cmSizeMod}}" disabled="disabled">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-lg-2 col-3">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Misc+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmbMiscMod" (focus)="fixTheOutlines()">
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row d-flex align-items-center">
-                    <div class="col-lg-3 col-12">
-                        <div class="row">
-                            <div class="col-lg-6 col-3">
-                                <h2>CMD</h2>
-                            </div>
-                            <div class="col-lg-6 col-9">
-                                <app-total-display [isValid]="combatInfoForm.get('offenseForm')?.get('cmdMiscMod')?.valid"
-                                [total]="combatInfo.cmdTotal">
-                               </app-total-display>
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="col-lg-9 col-12">
-                        <div class="row align-items-center">
-                            <div class="col-lg-2 col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>BAB+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{combatInfo.bab}}" disabled="disabled">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-lg-2 col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Str+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{abilities.useStrMod}}" disabled="disabled">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-lg-2 col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Dex+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{abilities.useDexMod}}" disabled="disabled">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-lg-2 col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Size+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{combatInfo.cmSizeMod}}" disabled="disabled">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-lg-2 col-4">
-                                <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                    <mat-label>Misc+</mat-label>
-                                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmdMiscMod" (focus)="fixTheOutlines()">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-lg-2 col-4 d-flex justify-content justify-content-center justify-content-lg-start">
-                                <h1 style="font-weight: 500;">+ 10</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <mat-divider></mat-divider>
-            <br>
-            <div class="row align-items-center" formGroupName="acForm">
-                <div class="col-lg-3 col-12">
-                    <div class="row">
-                        <div class="col-lg-6 col-3">
-                            <h2>AC</h2>
-                        </div>
-                        <div class="col-lg-6 col-9">
-                            <app-total-display [isValid]="combatInfoForm.get('acForm')?.valid"
-                            [total]="combatInfo.acTotal">
-                           </app-total-display>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 col-12">
-                    <div class="row">
-                        <div class="col-lg-6 col-12">
-                            <div class="row">
-                                <div class="col-3">
-                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent" 
-                                    matTooltip="Equip armor to adjust this modifier"
-                                    matTooltipPosition="above"
-                                    matTooltipClass="tooltipFontSize">
-                                        <mat-label>Armor+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{combatInfo.acArmorMod}}" disabled="disabled">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-3">
-                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent"
-                                    matTooltip="Equip shield to adjust this modifier"
-                                    matTooltipPosition="above"
-                                    matTooltipClass="tooltipFontSize">
-                                        <mat-label>Shield+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{combatInfo.acShieldMod}}" disabled="disabled">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-3">
-                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                        <mat-label>Dex+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{abilities.useDexMod}}" disabled="disabled">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-3">
-                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                        <mat-label>Size+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{combatInfo.acSizeMod}}" disabled="disabled">
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-12">
-                            <div class="row align-items-center">
-                                <div class="col-3">
-                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                        <mat-label>Nat. Armor+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acNaturalArmorMod" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-3">
-                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                        <mat-label>Deflect+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acDeflectMod" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-3">
-                                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                        <mat-label>Misc+</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acMiscMod" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-3 d-flex justify-content justify-content-center justify-content-lg-start">
-                                    <h1 style="font-weight: 500;">+ 10</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-            <div class="row align-items-center">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-9 col-12">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-lg-4 col-4">
-                                    <h2>Touch</h2>
-                                </div>
-                                <div class="col-lg-4 col-8">
-                                    <app-total-display [isValid]="combatInfoForm.get('acForm')?.valid"
-                                    [total]="combatInfo.acTouch">
-                                   </app-total-display>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-lg-4 col-6">
-                                    <h2>Flat-Footed</h2>
-                                </div>
-                                <div class="col-lg-4 col-6">
-                                    <app-total-display [isValid]="combatInfoForm.get('acForm')?.valid"
-                                    [total]="combatInfo.acFlat">
-                                   </app-total-display>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-            </div>
-        </mat-card>
+      <mat-card class="mat-elevation-z2">
+        <mat-card-title class="primary-background mat-elevation-z1"
+          style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+          <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+            Combat Stats
+          </div>
+        </mat-card-title>
         <br>
+        <div class="row">
+          <div class="col-lg-6 col-12 d-flex justify-content-end align-items-center">
+            <div class="col-lg-2 col-3">
+              <h2>HP</h2>
+            </div>
+            <div class="col-lg-10 col-9">
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Total</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="hpTotal"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Current</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="hpCurrent"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Non-lethal</mat-label>
+                    <input matInput formControlName="hpNonLethal" (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-1">
+          </div>
+          <div class="col-lg-5 col-12 d-flex justify-content-end align-items-center">
+            <div class="col-lg-4 col-3" style="overflow-wrap: break-word;">
+              <h2>BAB / Reduce</h2>
+            </div>
+            <div class="col-lg-8 col-9">
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>BAB</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="bab"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>SR</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="spellResistance"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>DR</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="damageReduction"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <mat-divider></mat-divider>
         <br>
-        <mat-card style="padding-bottom: 0px;">
-            <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
-                <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
-                    Weapons
+        <div>
+          <div class="row d-flex align-items-center">
+            <div class="col-lg-3 col-12">
+              <div class="row">
+                <div class="col-lg-6 col-3">
+                  <h2>Initiative</h2>
                 </div>
-            </mat-card-title>
-        </mat-card> 
+                <div class="col-lg-6 col-9">
+                  <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.initiativeTotal">
+                  </app-total-display>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-9 col-12">
+              <div class="row">
+                <div class="col-lg-2 col-6">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Dex+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      value="{{char.abilities.dex.useMod}}" disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-6">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Misc+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      formControlName="initiativeMiscMod" (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row d-flex align-items-center">
+            <div class="col-lg-3 col-12">
+              <div class="row">
+                <div class="col-lg-6 col-3">
+                  <h2>CMB</h2>
+                </div>
+                <div class="col-lg-6 col-9">
+                  <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.cmbTotal">
+                  </app-total-display>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-9 col-12">
+              <div class="row">
+                <div class="col-lg-2 col-3">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>BAB+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{char.combatInfo.bab}}"
+                      disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-3">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Str+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      value="{{char.abilities.str.useMod}}" disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-3">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Size+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      value="{{char.combatInfo.cmSizeMod}}" disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-3">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Misc+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmbMiscMod"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row d-flex align-items-center">
+            <div class="col-lg-3 col-12">
+              <div class="row">
+                <div class="col-lg-6 col-3">
+                  <h2>CMD</h2>
+                </div>
+                <div class="col-lg-6 col-9">
+                  <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.cmdTotal">
+                  </app-total-display>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-9 col-12">
+              <div class="row align-items-center">
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>BAB+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{char.combatInfo.bab}}"
+                      disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Str+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      value="{{char.abilities.str.useMod}}" disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Dex+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      value="{{char.abilities.str.useMod}}" disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Size+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      value="{{char.combatInfo.cmSizeMod}}" disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Misc+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cmdMiscMod"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4 d-flex justify-content justify-content-center justify-content-lg-start">
+                  <h1 style="font-weight: 500;">+ 10</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
         <br>
-        <mat-grid-list [cols]="cols" [rowHeight]="weaponObjectHeight" gutterSize="10px" class="justify-content-center">
-            <ng-container *ngFor="let weaponForm of weaponArray.controls;  let i = index">
-                <mat-grid-tile>
-                    <mat-card class="d-flex align-items-center">
-                        <app-weapon [weaponForm]="$any(weaponForm)" [index]="i" (deleteWeaponEvent)="deleteWeapon($event)"></app-weapon>
-                    </mat-card>
-                </mat-grid-tile>   
-            </ng-container>
-            <mat-grid-tile>
-                <mat-card class="h-100 w-100">
-                    <div class="h-100 w-100 d-flex justify-content-center align-items-center">
-                        <button mat-raised-button color="primary" (click)="addWeapon()">
-                            <mat-icon>add</mat-icon>
-                            Add Weapon
-                        </button>
-                    </div>
-                </mat-card>
-            </mat-grid-tile>
-        </mat-grid-list>
+        <div class="row align-items-center">
+          <div class="col-lg-3 col-12">
+            <div class="row">
+              <div class="col-lg-6 col-3">
+                <h2>AC</h2>
+              </div>
+              <div class="col-lg-6 col-9">
+                <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.acTotal">
+                </app-total-display>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-9 col-12">
+            <div class="row">
+              <div class="col-lg-6 col-12">
+                <div class="row">
+                  <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent"
+                      matTooltip="Equip armor to adjust this modifier" matTooltipPosition="above"
+                      matTooltipClass="tooltipFontSize">
+                      <mat-label>Armor+</mat-label>
+                      <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                        value="{{char.combatInfo.acArmorMod}}" disabled="disabled">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent"
+                      matTooltip="Equip shield to adjust this modifier" matTooltipPosition="above"
+                      matTooltipClass="tooltipFontSize">
+                      <mat-label>Shield+</mat-label>
+                      <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                        value="{{char.combatInfo.acShieldMod}}" disabled="disabled">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                      <mat-label>Dex+</mat-label>
+                      <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                        value="{{char.abilities.dex.useMod}}" disabled="disabled">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                      <mat-label>Size+</mat-label>
+                      <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                        value="{{char.combatInfo.acSizeMod}}" disabled="disabled">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-12">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                      <mat-label>Nat. Armor+</mat-label>
+                      <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                        formControlName="acNaturalArmorMod" (focus)="fixTheOutlines()">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                      <mat-label>Deflect+</mat-label>
+                      <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acDeflectMod"
+                        (focus)="fixTheOutlines()">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                      <mat-label>Misc+</mat-label>
+                      <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="acMiscMod"
+                        (focus)="fixTheOutlines()">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-3 d-flex justify-content justify-content-center justify-content-lg-start">
+                    <h1 style="font-weight: 500;">+ 10</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-9 col-12">
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-lg-4 col-4">
+                    <h2>Touch</h2>
+                  </div>
+                  <div class="col-lg-4 col-8">
+                    <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.acTouch">
+                    </app-total-display>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-lg-4 col-6">
+                    <h2>Flat-Footed</h2>
+                  </div>
+                  <div class="col-lg-4 col-6">
+                    <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.acFlat">
+                    </app-total-display>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <mat-card style="padding-bottom: 0px;">
+        <mat-card-title class="primary-background mat-elevation-z1"
+          style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+          <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+            Weapons
+          </div>
+        </mat-card-title>
+      </mat-card>
+      <br>
+      <mat-grid-list [cols]="cols" [rowHeight]="weaponObjectHeight" gutterSize="10px" class="justify-content-center">
+        <ng-container *ngFor="let weaponForm of weaponArrayControls;  let i = index">
+          <mat-grid-tile>
+            <mat-card class="d-flex align-items-center">
+              <app-weapon [weaponForm]="$any(weaponForm)" [index]="i"
+                (deleteWeaponEvent)="deleteWeapon($event)"></app-weapon>
+            </mat-card>
+          </mat-grid-tile>
+        </ng-container>
+        <mat-grid-tile>
+          <mat-card class="h-100 w-100">
+            <div class="h-100 w-100 d-flex justify-content-center align-items-center">
+              <button mat-raised-button color="primary" (click)="addWeapon()">
+                <mat-icon>add</mat-icon>
+                Add Weapon
+              </button>
+            </div>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
     </form>
+  </ng-container>
 </div>

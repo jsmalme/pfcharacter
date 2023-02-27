@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/component-selector */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteWeponDialogComponent } from '../delete-wepon-dialog/delete-wepon-dialog.component';
 
@@ -24,14 +24,14 @@ export class WeaponComponent {
   static createWeapon(): FormGroup{
     const fb = new FormBuilder().nonNullable;
     return fb.group({
-      name: [undefined],
-      weight: [undefined],
-      ammunition: [undefined],
-      attackBonus: [undefined],
-      critical: [undefined],
-      type: [undefined],
-      damage: [undefined],
-      range: [undefined]
+      name: fb.control('', Validators.maxLength(50)),
+      attackBonus: fb.control('', Validators.maxLength(10)),
+      critical: fb.control('', Validators.maxLength(10)),
+      type: fb.control('', Validators.maxLength(10)),
+      weight: fb.control('', Validators.maxLength(10)),
+      range: fb.control('', Validators.maxLength(10)),
+      ammunition: fb.control('', Validators.maxLength(10)),
+      damage: fb.control('', Validators.maxLength(10))
     })
   }
 

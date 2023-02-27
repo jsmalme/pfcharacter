@@ -1,397 +1,427 @@
 <div class="container comp-top-margin">
+  <ng-container *ngIf="character$ | async as char">
     <form [formGroup]="abilitiesForm" autocomplete="off">
-    <mat-card class="mat-elevation-z2">
-        <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
-            <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
-                Abilities
-            </div>
+      <mat-card class="mat-elevation-z2">
+        <mat-card-title class="primary-background mat-elevation-z1"
+          style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+          <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+            Abilities
+          </div>
         </mat-card-title>
         <br>
         <div class="row">
-            <div class="col-12 col-lg-6">
-                <div class="row">
-                    <div class="row d-flex align-items-center">
-                        <div class="col-2">
-                            <h2>Str</h2>
-                        </div>
-                        <div class="col-10" formGroupName="strForm">
-                            <div class="row d-flex align-items-center">
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Score</mat-label>
-                                        <input id="strInput" matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="str" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                    
-                                </div>  
-                                <div class="col-2"> 
-                                    <app-mod-display 
-                                        [control]="'strForm.str'"
-                                        [score]="abilitiesForm.get('strForm')?.get('str')?.value"
-                                        [mod]="abilities.strMod">
-                                    </app-mod-display>
-                                </div> 
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Temp</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="strTempAdj" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2">
-                                    <app-mod-display 
-                                        [control]="'strForm.strTempAdj'"
-                                        [score]="abilitiesForm.get('strForm')?.get('strTempAdj')?.value"
-                                        [mod]="abilities.strTempMod">
-                                    </app-mod-display>
-                                </div> 
-                            </div>
-                        </div>
-                    </div>
+          <div class="col-12 col-lg-6">
+            <div class="row">
+              <div class="row d-flex align-items-center">
+                <div class="col-2">
+                  <h2>Str</h2>
                 </div>
-                <div class="row">
-                    <div class="row d-flex align-items-center">
-                        <div class="col-2">
-                            <h2>Dex</h2>
-                        </div>
-                        <div class="col-10" formGroupName="dexForm">
-                            <div class="row d-flex align-items-center">
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Score</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="dex" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2"> 
-                                    <app-mod-display 
-                                        [control]="'dexForm.dex'"
-                                        [score]="abilitiesForm.get('dexForm')?.get('dex')?.value"
-                                        [mod]="abilities.dexMod">
-                                    </app-mod-display>
-                                </div> 
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Temp</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="dexTempAdj" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2">
-                                    <app-mod-display 
-                                        [control]="'dexForm.dexTempAdj'"
-                                        [score]="abilitiesForm.get('dexForm')?.get('dexTempAdj')?.value"
-                                        [mod]="abilities.dexTempMod">
-                                    </app-mod-display>
-                                </div> 
-                            </div>
-                        </div>
+                <div class="col-10" formGroupName="strForm">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Score</mat-label>
+                        <input id="strInput" matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                          formControlName="ability" (focus)="fixTheOutlines()">
+                      </mat-form-field>
+
                     </div>
-                </div>
-                <div class="row">
-                    <div class="row d-flex align-items-center">
-                        <div class="col-2">
-                            <h2>Con</h2>
-                        </div>
-                        <div class="col-10" formGroupName="conForm">
-                            <div class="row d-flex align-items-center">
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Score</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="con" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2"> 
-                                    <app-mod-display 
-                                        [control]="'conForm.con'"
-                                        [score]="abilitiesForm.get('conForm')?.get('con')?.value"
-                                        [mod]="abilities.conMod">
-                                    </app-mod-display>  
-                                </div> 
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Temp</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="conTempAdj" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2">
-                                    <app-mod-display 
-                                        [control]="'conForm.conTempAdj'"
-                                        [score]="abilitiesForm.get('conForm')?.get('conTempAdj')?.value"
-                                        [mod]="abilities.conTempMod">
-                                    </app-mod-display>
-                                </div> 
-                            </div>
-                        </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'strForm.ability'"
+                        [score]="abilitiesForm.get('strForm')?.get('ability')?.value" [mod]="char.abilities.str.mod">
+                      </app-mod-display>
                     </div>
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Temp</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="tempAdj"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'strForm.tempAdj'"
+                        [score]="abilitiesForm.get('strForm')?.get('tempAdj')?.value"
+                        [mod]="char.abilities.str.tempMod">
+                      </app-mod-display>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
-            <div class="col-12 col-lg-6">
-                <div class="row">
-                    <div class="row d-flex align-items-center">
-                        <div class="col-2">
-                            <h2>Int</h2>
-                        </div>
-                        <div class="col-10" formGroupName="intForm">
-                            <div class="row d-flex align-items-center">
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Score</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="int" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2"> 
-                                    <app-mod-display 
-                                        [control]="'intForm.int'"
-                                        [score]="abilitiesForm.get('intForm')?.get('int')?.value"
-                                        [mod]="abilities.intMod">
-                                    </app-mod-display>
-                                </div> 
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Temp</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="intTempAdj" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2">
-                                    <app-mod-display 
-                                        [control]="'intForm.intTempAdj'"
-                                        [score]="abilitiesForm.get('intForm')?.get('intTempAdj')?.value"
-                                        [mod]="abilities.intTempMod">
-                                    </app-mod-display>
-                                </div> 
-                            </div>
-                        </div>
-                    </div>
+            <div class="row">
+              <div class="row d-flex align-items-center">
+                <div class="col-2">
+                  <h2>Dex</h2>
                 </div>
-                <div class="row">
-                    <div class="row d-flex align-items-center">
-                        <div class="col-2">
-                            <h2>Wis</h2>
-                        </div>
-                        <div class="col-10" formGroupName="wisForm">
-                            <div class="row d-flex align-items-center">
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Score</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="wis" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2"> 
-                                    <app-mod-display 
-                                        [control]="'wisForm.wis'"
-                                        [score]="abilitiesForm.get('wisForm')?.get('wis')?.value"
-                                        [mod]="abilities.wisMod">
-                                    </app-mod-display>
-                                </div> 
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Temp</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="wisTempAdj" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2">
-                                    <app-mod-display 
-                                        [control]="'wisForm.wisTempAdj'"
-                                        [score]="abilitiesForm.get('wisForm')?.get('wisTempAdj')?.value"
-                                        [mod]="abilities.wisTempMod">
-                                    </app-mod-display>
-                                </div> 
-                            </div>
-                        </div>
+                <div class="col-10" formGroupName="dexForm">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Score</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="ability"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="row d-flex align-items-center">
-                        <div class="col-2">
-                            <h2>Cha</h2>
-                        </div>
-                        <div class="col-10" formGroupName="chaForm">
-                            <div class="row d-flex align-items-center">
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Score</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="cha" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2"> 
-                                    <app-mod-display 
-                                        [control]="'chaForm.cha'"
-                                        [score]="abilitiesForm.get('chaForm')?.get('cha')?.value"
-                                        [mod]="abilities.chaMod">
-                                    </app-mod-display>
-                                </div> 
-                                <div class="col-4">
-                                    <mat-form-field class="float-start text-center" appearance="outline" color="accent" style="width: 80%; text-align: center;">
-                                        <mat-label>Temp</mat-label>
-                                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="chaTempAdj" (focus)="fixTheOutlines()">
-                                    </mat-form-field>
-                                </div>  
-                                <div class="col-2">
-                                    <app-mod-display 
-                                        [control]="'chaForm.chaTempAdj'"
-                                        [score]="abilitiesForm.get('chaForm')?.get('chaTempAdj')?.value"
-                                        [mod]="abilities.chaTempMod">
-                                    </app-mod-display>
-                                </div> 
-                            </div>
-                        </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'dexForm.ability'"
+                        [score]="abilitiesForm.get('dexForm')?.get('ability')?.value" [mod]="char.abilities.dex.mod">
+                      </app-mod-display>
                     </div>
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Temp</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="tempAdj"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'dexForm.tempAdj'"
+                        [score]="abilitiesForm.get('dexForm')?.get('tempAdj')?.value"
+                        [mod]="char.abilities.dex.tempMod">
+                      </app-mod-display>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+            <div class="row">
+              <div class="row d-flex align-items-center">
+                <div class="col-2">
+                  <h2>Con</h2>
+                </div>
+                <div class="col-10" formGroupName="conForm">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Score</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="ability"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'conForm.ability'"
+                        [score]="abilitiesForm.get('conForm')?.get('ability')?.value" [mod]="char.abilities.con.mod">
+                      </app-mod-display>
+                    </div>
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Temp</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="tempAdj"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'conForm.tempAdj'"
+                        [score]="abilitiesForm.get('conForm')?.get('tempAdj')?.value"
+                        [mod]="char.abilities.con.tempMod">
+                      </app-mod-display>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="row">
+              <div class="row d-flex align-items-center">
+                <div class="col-2">
+                  <h2>Int</h2>
+                </div>
+                <div class="col-10" formGroupName="intForm">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Score</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="ability"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'intForm.ability'"
+                        [score]="abilitiesForm.get('intForm')?.get('ability')?.value" [mod]="char.abilities.int.mod">
+                      </app-mod-display>
+                    </div>
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Temp</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="tempAdj"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'intForm.tempAdj'"
+                        [score]="abilitiesForm.get('intForm')?.get('tempAdj')?.value"
+                        [mod]="char.abilities.int.tempMod">
+                      </app-mod-display>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="row d-flex align-items-center">
+                <div class="col-2">
+                  <h2>Wis</h2>
+                </div>
+                <div class="col-10" formGroupName="wisForm">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Score</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="ability"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'wisForm.ability'"
+                        [score]="abilitiesForm.get('wisForm')?.get('ability')?.value" [mod]="char.abilities.wis.mod">
+                      </app-mod-display>
+                    </div>
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Temp</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="tempAdj"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'wisForm.tempAdj'"
+                        [score]="abilitiesForm.get('wisForm')?.get('tempAdj')?.value"
+                        [mod]="char.abilities.wis.tempMod">
+                      </app-mod-display>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="row d-flex align-items-center">
+                <div class="col-2">
+                  <h2>Cha</h2>
+                </div>
+                <div class="col-10" formGroupName="chaForm">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Score</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="ability"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'chaForm.ability'"
+                        [score]="abilitiesForm.get('chaForm')?.get('ability')?.value" [mod]="char.abilities.cha.mod">
+                      </app-mod-display>
+                    </div>
+                    <div class="col-4">
+                      <mat-form-field class="float-start text-center" appearance="outline" color="accent"
+                        style="width: 80%; text-align: center;">
+                        <mat-label>Temp</mat-label>
+                        <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="tempAdj"
+                          (focus)="fixTheOutlines()">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                      <app-mod-display [control]="'chaForm.tempAdj'"
+                        [score]="abilitiesForm.get('chaForm')?.get('tempAdj')?.value"
+                        [mod]="char.abilities.cha.tempMod">
+                      </app-mod-display>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </mat-card>
+      </mat-card>
     </form>
     <br>
     <mat-divider></mat-divider>
     <br>
     <form [formGroup]="savingThrowsForm" autocomplete="off">
-        <mat-card class="mat-elevation-z2">
-            <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
-                <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
-                    Saving Throws
-                </div>
-            </mat-card-title>
+      <mat-card class="mat-elevation-z2">
+        <mat-card-title class="primary-background mat-elevation-z1"
+          style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+          <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+            Saving Throws
+          </div>
+        </mat-card-title>
         <br>
         <div class="row">
-            <div class="col-12">
-                <div class="row d-flex align-items-center" formGroupName="forForm">
-                    <div class="col-lg-2 col-sm-3 col-5">
-                        <h2>Fortitude (Con)</h2>
-                    </div>
-                    <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                        <app-total-display [isValid]="savingThrowsForm.get('forForm')?.valid" [total]="savingThrows.for.forTotal"></app-total-display>
-                    </div>
-                    <div class="row col-lg-9 col-12">
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Base+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="forBase" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Ability+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{savingThrows.for.forAbility}}" disabled="disabled">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Magic+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="forMagic" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Misc+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="forMisc" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Temp+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="forTemp" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Other+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="forOther" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                    </div>
+          <div class="col-12">
+            <div class="row d-flex align-items-center" formGroupName="forForm">
+              <div class="col-lg-2 col-sm-3 col-5">
+                <h2>Fortitude (Con)</h2>
+              </div>
+              <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
+                <app-total-display [isValid]="savingThrowsForm.get('forForm')?.valid"
+                  [total]="char.savingThrows.for.total"></app-total-display>
+              </div>
+              <div class="row col-lg-9 col-12">
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Base+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="base"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
                 </div>
-                <div class="row d-flex align-items-center" formGroupName="refForm"> 
-                    <div class="col-lg-2 col-sm-3 col-5">
-                        <h2>Reflex (Dex)</h2>
-                    </div>
-                    <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                        <app-total-display [isValid]="savingThrowsForm.get('refForm')?.valid" [total]="savingThrows.ref.refTotal"></app-total-display>
-                    </div>
-                    <div class="row col-lg-9 col-12">
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Base+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="refBase" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Ability+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{savingThrows.ref.refAbility}}" disabled="disabled">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Magic+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="refMagic" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Misc+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="refMisc" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Temp+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="refTemp" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Other+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="refOther" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                    </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Ability+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      value="{{char.savingThrows.for.ability}}" disabled="disabled">
+                  </mat-form-field>
                 </div>
-                <div class="row d-flex align-items-center" formGroupName="willForm">
-                    <div class="col-lg-2 col-sm-3 col-5">
-                        <h2>Will (Wis)</h2>
-                    </div>
-                    <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                        <app-total-display [isValid]="savingThrowsForm.get('willForm')?.valid" [total]="savingThrows.will.willTotal"></app-total-display>
-                    </div>
-                    <div class="row col-lg-9 col-12">
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Base+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="willBase" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Ability+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" value="{{savingThrows.will.willAbility}}" disabled="disabled">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Magic+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="willMagic" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Misc+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="willMisc" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Temp+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="willTemp" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-lg-2 col-4">
-                            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                                <mat-label>Other+</mat-label>
-                                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="willOther" (focus)="fixTheOutlines()">
-                            </mat-form-field>
-                        </div>
-                    </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Magic+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="magic"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
                 </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Misc+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="misc"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Temp+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="temp"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Other+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="other"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
+            <div class="row d-flex align-items-center" formGroupName="refForm">
+              <div class="col-lg-2 col-sm-3 col-5">
+                <h2>Reflex (Dex)</h2>
+              </div>
+              <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
+                <app-total-display [isValid]="savingThrowsForm.get('refForm')?.valid"
+                  [total]="char.savingThrows.ref.total"></app-total-display>
+              </div>
+              <div class="row col-lg-9 col-12">
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Base+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="base"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Ability+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      value="{{char.savingThrows.ref.ability}}" disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Magic+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="magic"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Misc+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="misc"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Temp+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="temp"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Other+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="other"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="row d-flex align-items-center" formGroupName="willForm">
+              <div class="col-lg-2 col-sm-3 col-5">
+                <h2>Will (Wis)</h2>
+              </div>
+              <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
+                <app-total-display [isValid]="savingThrowsForm.get('willForm')?.valid"
+                  [total]="char.savingThrows.will.total"></app-total-display>
+              </div>
+              <div class="row col-lg-9 col-12">
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Base+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="base"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Ability+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*"
+                      value="{{char.savingThrows.will.ability}}" disabled="disabled">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Magic+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="magic"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Misc+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="misc"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Temp+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="temp"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-2 col-4">
+                  <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                    <mat-label>Other+</mat-label>
+                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="other"
+                      (focus)="fixTheOutlines()">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </mat-card>
+      </mat-card>
     </form>
+  </ng-container>
 </div>
-
