@@ -57,9 +57,9 @@ export class CharacterDataService {
   }
 
   //ability/saving updaters--------------------------------------
-  updateStr(info: Abilities) {
+  updateStr(info: Ability) {
     this.tempRollback();
-    this.tempChar.abilities.str.update(info.str);
+    this.tempChar.abilities.str.update(info);
     this.tempChar.combatInfo.updateStr(this.tempChar.abilities);
     this.updateSkillAbilities(this.tempChar.abilities, this.skillList, 'Str', ['Climb', 'Swim']);
     this.character.next(this.tempChar);
@@ -90,9 +90,9 @@ export class CharacterDataService {
     // });
   }
 
-  updateCon(info: Abilities) {
+  updateCon(info: Ability) {
     this.tempRollback();
-    this.tempChar.abilities.con.update(info.con);
+    this.tempChar.abilities.con.update(info);
     this.tempChar.savingThrows.for.updateMod(this.tempChar.abilities.con.useMod);
 
     this.character.next(this.tempChar);
@@ -105,9 +105,9 @@ export class CharacterDataService {
     // });
   }
 
-  updateInt(info: Abilities) {
+  updateInt(info: Ability) {
     this.tempRollback();
-    this.tempChar.abilities.int.update(info.int);
+    this.tempChar.abilities.int.update(info);
     const intSkills = ['Appraise', 'Craft1', 'Craft2', 'Craft3', 'Knowledge (Arcana)', 'Knowledge (Dungeoneering)', 'Knowledge (Engineering)',
       'Knowledge (Geography)', 'Knowledge (History)', 'Knowledge (Local)', 'Knowledge (Nature)', 'Knowledge (Nobility)', 'Knowledge (Planes)',
       'Knowledge (Religion)', 'Linguistics', 'Spellcraft'];
@@ -123,9 +123,9 @@ export class CharacterDataService {
     // });
   }
 
-  updateWis(info: Abilities) {
+  updateWis(info: Ability) {
     this.tempRollback();
-    this.tempChar.abilities.wis.update(info.wis);
+    this.tempChar.abilities.wis.update(info);
     this.tempChar.savingThrows.will.updateMod(this.tempChar.abilities.wis.useMod);
 
     const wisSkills = ['Heal', 'Perception', 'Profession1', 'Profession2', 'Sense Motive', 'Survival'];
@@ -141,9 +141,9 @@ export class CharacterDataService {
     // });
   }
 
-  updateCha(info: Abilities) {
+  updateCha(info: Ability) {
     this.tempRollback();
-    this.tempChar.abilities.cha.update(info.cha);
+    this.tempChar.abilities.cha.update(info);
     const chaSkills = ['Bluff', 'Diplomacy', 'Disguise', 'Handle Animal', 'Intimidate', 'Perform1', 'Perform2', 'Use Magic Device'];
     this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skillList, 'Cha', chaSkills);
 
@@ -245,9 +245,18 @@ export class CharacterDataService {
     this.tempChar.skillList = this.totService.getSkillsTotals(updatedSkillList, skillIds);
   }
 
-  updateSkills(skillList: Skill[]) {
-    // console.log('triggered');
-    // this._character.skillList = skillList;
+  updateSkills(skills: Skill[]) {
+    this.tempRollback();
+    this.tempChar.skillList = skills;
+
+    this.character.next(this.tempChar);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
   }
   //----------------------------------------------------------------
 

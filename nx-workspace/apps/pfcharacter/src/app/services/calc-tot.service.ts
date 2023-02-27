@@ -15,11 +15,11 @@ export class CalcTotService {
   constructor() { }
   //SKILLS------------------------------------------------------------------------
   getSkillTotal(skill: Skill): number {
-    return strUnToNum(skill?.abilityMod) +
-      strUnToNum(skill?.ranks) +
-      strUnToNum(skill?.racial) +
-      strUnToNum(skill?.misc) +
-      (skill?.classSkill ? 3 : 0);
+    return strUnToNum(skill.abilityMod) +
+      strUnToNum(skill.ranks) +
+      strUnToNum(skill.racial) +
+      strUnToNum(skill.misc) +
+      (skill.classSkill ? 3 : 0);
   }
 
   getSkillsTotals(skillList: Skill[], skillIds: string[] = []): Skill[] {
