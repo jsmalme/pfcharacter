@@ -38,6 +38,9 @@ import { TotalDisplayComponent } from './components/total-display/total-display.
 import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
+import { EquipmentComponent } from './components/equipment/equipment.component';
+import { GearComponent } from './components/equipment/gear/gear.component';
+import { AcItemsComponent } from './components/equipment/ac-items/ac-items.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { InMemoryDataService } from './services/in-memory-data.service';
     WeaponComponent,
     TotalDisplayComponent,
     DeleteWeponDialogComponent,
-    SkillsComponent
+    SkillsComponent,
+    EquipmentComponent,
+    GearComponent,
+    AcItemsComponent,
   ],
   imports: [
     HttpClientModule,

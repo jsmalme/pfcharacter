@@ -1,19 +1,16 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
-import { Abilities, Ability, DexScore } from '../../../../../libs/character-classes/abilities';
-import { Character, ICharacter } from '../../../../../libs/character-classes/character';
-import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
+import { Abilities, Ability } from '../../../../../libs/character-classes/abilities';
+import { Character } from '../../../../../libs/character-classes/character';
+import { GeneralInfo } from '../../../../../libs/character-classes/general-info';
 import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
-import { SavingThrows, Throw } from '../../../../../libs/character-classes/saving-throws';
+import { Throw } from '../../../../../libs/character-classes/saving-throws';
 import { Skill } from '../../../../../libs/character-classes/skills';
 import { CalcTotService } from './calc-tot.service';
-import { BehaviorSubject, concatMap, map, mergeMap, Observable, of, tap, ThrottleConfig } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { CharacterService } from './character-http.service';
-import { FormGroup } from '@angular/forms';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
-import { groupEnd } from 'console';
-import { computeMsgId } from '@angular/compiler';
 import * as _ from "lodash"; 
 
 @Injectable({

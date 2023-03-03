@@ -17,7 +17,7 @@ body {
                 <mat-list-item routerLink="/general" (click)="sidenav.toggle()">General</mat-list-item>
                 <mat-list-item routerLink="/abilities" (click)="sidenav.toggle()">Abilities + Saving</mat-list-item>
                 <mat-list-item routerLink="/skills" (click)="sidenav.toggle()">Skills</mat-list-item>
-                <mat-list-item>Equipment</mat-list-item>
+                <mat-list-item routerLink="/equipment" (click)="sidenav.toggle()">Equipment</mat-list-item>
                 <mat-list-item>Feats</mat-list-item>
                 <mat-list-item routerLink="/combat" (click)="sidenav.toggle()">Combat</mat-list-item>
                 <mat-list-item>Spells</mat-list-item>
@@ -33,7 +33,7 @@ body {
                             <button mat-button routerLink="/general" routerLinkActive="selected-tab">General</button>
                             <button mat-button routerLink="/abilities" routerLinkActive="selected-tab">Abilities + Saving</button>
                             <button mat-button routerLink="/skills" routerLinkActive="selected-tab">Skills</button>
-                            <button mat-button mat-button routerLinkActive="selected-tab">Equipment</button>
+                            <button mat-button routerLink="/equipment" routerLinkActive="selected-tab">Equipment</button>
                             <button mat-button mat-button routerLinkActive="selected-tab">Feats</button>
                             <button mat-button routerLink="/combat" routerLinkActive="selected-tab">Combat</button>
                             <button mat-button mat-button routerLinkActive="selected-tab">Spells</button>
