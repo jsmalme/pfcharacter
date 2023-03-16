@@ -41,6 +41,8 @@ import { InMemoryDataService } from './services/in-memory-data.service';
 import { EquipmentComponent } from './components/equipment/equipment.component';
 import { GearComponent } from './components/equipment/gear/gear.component';
 import { AcItemsComponent } from './components/equipment/ac-items/ac-items.component';
+import { MoneyComponent } from './components/equipment/money/money.component';
+import { WeightCapacityComponent } from './components/equipment/weight-capacity/weight-capacity.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { AcItemsComponent } from './components/equipment/ac-items/ac-items.compo
     EquipmentComponent,
     GearComponent,
     AcItemsComponent,
+    MoneyComponent,
+    WeightCapacityComponent,
   ],
   imports: [
     HttpClientModule,

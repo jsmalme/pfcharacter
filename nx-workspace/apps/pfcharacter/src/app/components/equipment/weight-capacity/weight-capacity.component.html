@@ -1,0 +1,60 @@
+<mat-card class="mat-elevation-z2">
+    <mat-card-title class="primary-background mat-elevation-z1"
+        style="margin-top: -16px; margin-left: -16px; margin-right: -16px">
+        <div class="container" style="padding-top: 12px; padding-bottom: 12px">
+            Weight Capacity
+        </div>
+    </mat-card-title>
+    <br>
+    <div class="row">
+        <div class="col-4">
+            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                <mat-label>Light Load</mat-label>
+                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" (focus)="fixTheOutlines()">
+            </mat-form-field>
+        </div>
+        <div class="col-4">
+            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                <mat-label>Medium Load</mat-label>
+                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" (focus)="fixTheOutlines()">
+            </mat-form-field>
+        </div>
+        <div class="col-4">
+            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                <mat-label>Heavy Load</mat-label>
+                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" (focus)="fixTheOutlines()">
+            </mat-form-field>
+        </div>
+        <div class="col-4">
+            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                <mat-label>Lift Over Head</mat-label>
+                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" (focus)="fixTheOutlines()">
+            </mat-form-field>
+        </div>
+        <div class="col-4">
+            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                <mat-label>Lift Off Ground</mat-label>
+                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" (focus)="fixTheOutlines()">
+            </mat-form-field>
+        </div>
+        <div class="col-4">
+            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                <mat-label>Drag/Push</mat-label>
+                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" (focus)="fixTheOutlines()">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 d-flex align-items-center">
+            <h2>
+                Current Burden
+            </h2>
+        </div>
+        <div class="col-8">
+            <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                <mat-label></mat-label>
+                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" (focus)="fixTheOutlines()">
+            </mat-form-field>
+        </div>
+    </div>
+</mat-card>

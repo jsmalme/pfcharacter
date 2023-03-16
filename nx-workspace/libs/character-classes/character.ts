@@ -3,6 +3,7 @@ import { GeneralInfo } from "./general-info";
 import { CombatInfo, ICombatInfo } from "./combat-info";
 import { ISavingThrows, SavingThrows } from "./saving-throws";
 import { Skill } from "./skills";
+import { Equipment, IEquipment } from "./equipment";
 
 export interface ICharacter{
   id: number;
@@ -10,6 +11,7 @@ export interface ICharacter{
   generalInfo: GeneralInfo;
   combatInfo: ICombatInfo;
   savingThrows: ISavingThrows;
+  equipment: IEquipment;
   skillList: Skill[];
 }
 export class Character {
@@ -18,20 +20,25 @@ export class Character {
   combatInfo: CombatInfo;
   abilities: Abilities;
   savingThrows: SavingThrows;
-  skillList: Skill[]
+  skillList: Skill[];
+  equipment: Equipment;
+  // equipment: Equipment;
   constructor(char?: ICharacter) {
     if(char){
       this.abilities = new Abilities(char.abilities);
       this.generalInfo = new GeneralInfo(char.generalInfo);
       this.combatInfo = new CombatInfo(char.combatInfo);
       this.savingThrows = new SavingThrows(char.savingThrows);
+      this.equipment = new Equipment(char.equipment);
       this.skillList = char.skillList;
+      // this.equipment = new Equipment(char.equipment);
     }
     else{
       this.abilities = new Abilities();
       this.generalInfo = new GeneralInfo();
       this.combatInfo = new CombatInfo();
       this.savingThrows = new SavingThrows();
+      this.equipment = new Equipment();
       this.skillList = [
         new Skill('Acrobatics', 'Dex'),
         new Skill('Appraise', 'Int'),

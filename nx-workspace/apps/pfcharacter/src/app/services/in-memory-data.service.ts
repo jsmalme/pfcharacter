@@ -147,6 +147,25 @@ export class InMemoryDataService implements InMemoryDataService {
           total: 3
         }
       },
+      equipment:{
+        money: {
+          cp: 10,
+          sp: 10,
+          gp: 10,
+          pp: 10
+        },
+        acItems:[],
+        gear:[],
+        totalWeight: 20,
+        weightCaps: {
+          lightLoad: 10,
+          mediumLoad: 10,
+          heavyLoad: 10,
+          liftOverHead: 10,
+          liftOffGround: 10,
+          dragOrPush: 10,
+        }
+      },
       skillList: [
         new Skill('Acrobatics', 'Dex'),
         new Skill('Appraise', 'Int'),
