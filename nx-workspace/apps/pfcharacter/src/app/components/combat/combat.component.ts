@@ -31,7 +31,7 @@ export class CombatComponent implements OnInit {
   weaponForm: FormGroup;
   counter = 0;
 
-  cols = 2;
+  cols = 1;
   weaponObjectHeight = '15em';
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
   changesUnsubscribe = new Subject<void>();

@@ -17,7 +17,7 @@ export class AcItem{
 
 export class Gear{
     name: string | undefined = undefined;
-    weight : string | undefined = undefined;
+    weight : number | undefined = undefined;
 }
 
 export class Money{
@@ -28,12 +28,12 @@ export class Money{
 }
 
 export class WeightCapacity{
-    lightLoad: number | undefined = undefined;
-    mediumLoad: number | undefined = undefined;
-    heavyLoad: number | undefined = undefined;
-    liftOverHead: number | undefined = undefined;
-    liftOffGround: number | undefined = undefined;
-    dragOrPush: number | undefined = undefined;
+    lightLoad: string | undefined = undefined;
+    medLoad: string | undefined = undefined;
+    heavyLoad: string | undefined = undefined;
+    liftOverHead: string | undefined = undefined;
+    liftOffGround: string | undefined = undefined;
+    dragOrPush: string | undefined = undefined;
 }
 
 export class Equipment implements IEquipment{

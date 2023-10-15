@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Character, ICharacter } from 'libs/character-classes/character';
 import { SizeEnum } from 'libs/character-classes/general-info';
 import { Skill } from 'libs/character-classes/skills';
+import { acTypeEnum } from 'libs/character-classes/equipment';
 
 
 @Injectable({
@@ -73,6 +74,34 @@ export class InMemoryDataService implements InMemoryDataService {
           type: 'P',
           weight: '5'
         }]
+      },
+      equipment: {
+        acItems: [{
+          bonus: 10,
+          checkPen: 2,
+          name: 'longsword', 
+          properties: '',
+          spellFailure: 10,
+          type: acTypeEnum.light
+        }],
+        gear: [
+          {name: 'rope', weight: 10},
+          {name: 'torch', weight: 3}],
+        money: {
+          cp: 35,
+          gp: 23, 
+          pp: 3,
+          sp: 1
+        },
+        totalWeight: 45,
+        weightCaps: {
+          dragOrPush: '0',
+          heavyLoad: '0',
+          liftOffGround: '0',
+          liftOverHead: '0',
+          lightLoad: '0',
+          medLoad: '0'
+        }
       },
       abilities: {
         str: {
@@ -145,25 +174,6 @@ export class InMemoryDataService implements InMemoryDataService {
           temp: undefined,
           other: undefined,
           total: 3
-        }
-      },
-      equipment:{
-        money: {
-          cp: 10,
-          sp: 10,
-          gp: 10,
-          pp: 10
-        },
-        acItems:[],
-        gear:[],
-        totalWeight: 20,
-        weightCaps: {
-          lightLoad: 10,
-          mediumLoad: 10,
-          heavyLoad: 10,
-          liftOverHead: 10,
-          liftOffGround: 10,
-          dragOrPush: 10,
         }
       },
       skillList: [

@@ -1,8 +1,28 @@
-<mat-card class="mat-elevation-z2">
+<mat-card style="padding-bottom: 0px;">
     <mat-card-title class="primary-background mat-elevation-z1"
-        style="margin-top: -16px; margin-left: -16px; margin-right: -16px">
-        <div class="container" style="padding-top: 12px; padding-bottom: 12px">
+        style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+        <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
             AC Items
         </div>
     </mat-card-title>
 </mat-card>
+<br>
+<mat-grid-list [cols]="1" [rowHeight]="'15em'" gutterSize="10px" class="justify-content-center">
+    <ng-template *ngIf="character$">
+        <ng-container *ngFor="let item of acItemsArrayControls;  let i = index">
+            <mat-grid-tile>
+                <p>hello</p>
+            </mat-grid-tile>
+        </ng-container>
+    </ng-template>
+    <mat-grid-tile>
+        <mat-card class="h-100 w-100">
+            <div class="h-100 w-100 d-flex justify-content-center align-items-center">
+                <button mat-raised-button color="primary" (click)="addAcItem()">
+                    <mat-icon>add</mat-icon>
+                    Add AC Item
+                </button>
+            </div>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>

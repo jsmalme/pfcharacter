@@ -1,6 +1,7 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
 import { Character } from 'libs/character-classes/character';
 import { AcItem } from 'libs/character-classes/equipment';
 import { Observable } from 'rxjs';
@@ -29,7 +30,6 @@ export class AcItemsComponent implements OnInit {
     });
   }
 
-
   getAcItemsFormArray(acItems: AcItem[]){
     return this.fb.array(
       acItems.map(item => this.fb.group({
@@ -43,4 +43,30 @@ export class AcItemsComponent implements OnInit {
     );
   }
 
+  get acItemsArray(): FormArray {
+    return this.acItemsForm?.get('weapons') as FormArray;
+  }
+  get acItemsArrayControls() {
+    return (this.acItemsArray?.get('weapons') as FormArray).controls;
+  }
+
+  createAcItem(): FormGroup{
+    const fb = new FormBuilder().nonNullable;
+    return fb.group({
+      name: ['', Validators.maxLength(20)],
+      bonus: ['', Validators.max(100)],
+      type: [''],
+      checkPen: ['', Validators.max(100)],
+      spellFailure: ['', Validators.max(100)],
+      properties: ['', Validators.maxLength(50)],
+    })
+  }
+
+  addAcItem(){
+    this.acItemsArray.push(this.createAcItem());
+  }
+
+  deleteAcItem(index: number){
+    this.acItemsArray.removeAt(index);
+  }
 }
