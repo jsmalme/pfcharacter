@@ -1,6 +1,6 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
-import { Character, ICharacter } from 'libs/character-classes/character';
+import { ICharacter } from 'libs/character-classes/character';
 import { SizeEnum } from 'libs/character-classes/general-info';
 import { Skill } from 'libs/character-classes/skills';
 import { acTypeEnum } from 'libs/character-classes/equipment';

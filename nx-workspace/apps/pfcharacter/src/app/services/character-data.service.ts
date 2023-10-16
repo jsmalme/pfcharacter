@@ -12,7 +12,6 @@ import { CharacterService } from './character-http.service';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash"; 
-import { WeightCapacity } from 'libs/character-classes/equipment';
 
 @Injectable({
   providedIn: 'root'
