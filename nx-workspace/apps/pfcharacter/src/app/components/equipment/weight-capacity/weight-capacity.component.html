@@ -12,25 +12,25 @@
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Light Load</mat-label>
-                        <input matInput type="text" formControlName="lightLoad" (focus)="fixTheOutlines()">
+                        <input #lightLoad matInput readonly type="text" formControlName="lightLoad">
                     </mat-form-field>
                 </div>
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Medium Load</mat-label>
-                        <input matInput type="text" formControlName="mediumLoad" (focus)="fixTheOutlines()">
+                        <input #medLoad matInput readonly type="text" formControlName="medLoad">
                     </mat-form-field>
                 </div>
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Heavy Load</mat-label>
-                        <input matInput type="text" formControlName="heavyLoad" (focus)="fixTheOutlines()">
+                        <input #heavyLoad matInput readonly type="text" formControlName="heavyLoad">
                     </mat-form-field>
                 </div>
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Lift Over Head</mat-label>
-                        <input matInput type="text" formControlName="liftOverHead" (focus)="fixTheOutlines()">
+                        <input matInput readonly type="text" formControlName="liftOverHead">
                     </mat-form-field>
                 </div>
             </div>
@@ -38,13 +38,13 @@
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Lift Off Ground</mat-label>
-                        <input matInput type="text" formControlName="liftOffGround" (focus)="fixTheOutlines()">
+                        <input matInput readonly type="text" formControlName="liftOffGround">
                     </mat-form-field>
                 </div>
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Drag/Push</mat-label>
-                        <input matInput type="text" formControlName="dragPush" (focus)="fixTheOutlines()">
+                        <input matInput readonly type="text" formControlName="dragOrPush">
                     </mat-form-field>
                 </div>
                 <div class="col-3 d-flex align-items-center">
@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
-                        <input matInput type="text" formControlName="currentBurden" (focus)="fixTheOutlines()">
+                        <input matInput readonly type="text" formControlName="currentBurden">
                     </mat-form-field>
                 </div>
             </div>

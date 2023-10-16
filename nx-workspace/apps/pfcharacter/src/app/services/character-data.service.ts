@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Abilities, Ability } from '../../../../../libs/character-classes/abilities';
 import { Character } from '../../../../../libs/character-classes/character';
-import { GeneralInfo } from '../../../../../libs/character-classes/general-info';
+import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
 import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { Throw } from '../../../../../libs/character-classes/saving-throws';
 import { Skill } from '../../../../../libs/character-classes/skills';
@@ -59,8 +59,8 @@ export class CharacterDataService {
     this.tempRollback();
     this.tempChar.abilities.str.update(info);
     this.tempChar.combatInfo.updateStr(this.tempChar.abilities);
+    this.tempChar.equipment.weightCaps.updateCarryCapacities(info, this.tempChar.generalInfo.size ?? SizeEnum.medium);
     this.updateSkillAbilities(this.tempChar.abilities, this.skillList, 'Str', ['Climb', 'Swim']);
-    this.setCarryCapacities(info);
     this.character.next(this.tempChar);
 
     // this.http.updateCharacter(this.tempChar).subscribe({
@@ -191,6 +191,7 @@ export class CharacterDataService {
     this.tempChar.generalInfo = generalInfo;
     if (generalInfo.size !== undefined && generalInfo.size !== this.rollback.generalInfo.size) {
       this.tempChar.combatInfo.updateSize(generalInfo.size, this.abilities);
+      this.tempChar.equipment.weightCaps.updateCarryCapacities(this.tempChar.abilities.str, generalInfo.size);
     }
     this.character.next(this.tempChar);
 
@@ -285,25 +286,5 @@ export class CharacterDataService {
       return skill;
     });
 
-  }
-
-  setCarryCapacities(str: Ability): void {
-    const strScore = str.tempAdj ?? str.ability ?? 0;
-    let maxLoad = 0;
-    if(strScore <= 10){
-      maxLoad = strScore * 10;
-    }
-    else{
-      maxLoad = 25 * (2^(strScore/5));
-    }
-    const lightLoadMax = Math.floor(1/3 * maxLoad);
-    const mediumLoadMax = Math.floor(2/3 * maxLoad);
-    
-    this.tempChar.equipment.weightCaps.lightLoad = ` < ${lightLoadMax} lbs`; 
-    this.tempChar.equipment.weightCaps.medLoad = `${lightLoadMax + 1} - ${mediumLoadMax} lbs`;
-    this.tempChar.equipment.weightCaps.heavyLoad = `${mediumLoadMax + 1}  - ${maxLoad} lbs`;
-    this.tempChar.equipment.weightCaps.dragOrPush = `${5 * maxLoad} lbs`;
-    this.tempChar.equipment.weightCaps.liftOffGround = `${2 * maxLoad} lbs`;
-    this.tempChar.equipment.weightCaps.liftOverHead = `${maxLoad} lbs`
   }
 }

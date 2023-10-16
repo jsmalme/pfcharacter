@@ -95,12 +95,12 @@ export class InMemoryDataService implements InMemoryDataService {
         },
         totalWeight: 45,
         weightCaps: {
-          dragOrPush: '0',
-          heavyLoad: '0',
-          liftOffGround: '0',
-          liftOverHead: '0',
-          lightLoad: '0',
-          medLoad: '0'
+          dragOrPush: 0,
+          heavyLoad: {min: 0, max: 0},
+          liftOffGround: 0,
+          liftOverHead: 0,
+          lightLoad: 0,
+          medLoad: {min: 0, max: 0},
         }
       },
       abilities: {
