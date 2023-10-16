@@ -9,32 +9,46 @@
             </mat-card-title>
             <br>
             <div class="row">
-                <div class="col-3">
-                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                <div class="col-4">
+                    <mat-form-field class="w-100 text-center highlighted-form-field" appearance="outline"
+                        color="accent">
                         <mat-label>Light Load</mat-label>
+                        <span *ngIf="currentLoad === 'light'"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                            <span class="material-icons">done</span>
+                        </span>
                         <input #lightLoad matInput readonly type="text" formControlName="lightLoad">
                     </mat-form-field>
                 </div>
-                <div class="col-3">
+                <div class="col-4">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Medium Load</mat-label>
+                        <span *ngIf="currentLoad === 'medium'"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                            <span class="material-icons">done</span>
+                        </span>
                         <input #medLoad matInput readonly type="text" formControlName="medLoad">
                     </mat-form-field>
                 </div>
-                <div class="col-3">
+                <div class="col-4">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Heavy Load</mat-label>
+                        <span *ngIf="currentLoad === 'heavy'"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <span class="material-icons">done</span>
+                        </span>
                         <input #heavyLoad matInput readonly type="text" formControlName="heavyLoad">
                     </mat-form-field>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Lift Over Head</mat-label>
                         <input matInput readonly type="text" formControlName="liftOverHead">
                     </mat-form-field>
                 </div>
-            </div>
-            <div class="row">
+
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Lift Off Ground</mat-label>
@@ -47,13 +61,9 @@
                         <input matInput readonly type="text" formControlName="dragOrPush">
                     </mat-form-field>
                 </div>
-                <div class="col-3 d-flex align-items-center">
-                    <h2 class="ms-auto">
-                        Current Burden:
-                    </h2>
-                </div>
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>Total Weight</mat-label>
                         <input matInput readonly type="text" formControlName="currentBurden">
                     </mat-form-field>
                 </div>

@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'sass:map';
 @use '@angular/material' as mat;
-@import './theme.scss';
+@import '../theme.scss';
 
 $color-config: mat.get-color-config($my-theme);
 $primary-palette: map.get($color-config, 'primary');
@@ -45,4 +45,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .fix-suffix.mat-form-field-appearance-outline .mat-form-field-suffix {
     top: 0;
-  }
+}

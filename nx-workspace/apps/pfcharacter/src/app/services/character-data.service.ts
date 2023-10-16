@@ -11,7 +11,8 @@ import { BehaviorSubject } from 'rxjs';
 import { CharacterService } from './character-http.service';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
-import * as _ from "lodash"; 
+import * as _ from "lodash";
+import { Money } from 'libs/character-classes/equipment';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class CharacterDataService {
     return this.character.value.abilities;
   }
 
-  get generalInfo(){
+  get generalInfo() {
     return this.character.value.generalInfo;
   }
 
@@ -215,14 +216,14 @@ export class CharacterDataService {
   updateSavingThrows(info: Throw, type: string) {
     console.log(info);
     this.tempRollback();
-    switch(type){
+    switch (type) {
       case 'FOR':
         this.tempChar.savingThrows.for.update(info);
         break;
-      case 'REF': 
+      case 'REF':
         this.tempChar.savingThrows.ref.update(info);
         break;
-      case 'WILL': 
+      case 'WILL':
         this.tempChar.savingThrows.will.update(info);
         break;
     }
@@ -257,6 +258,21 @@ export class CharacterDataService {
     // });
   }
   //----------------------------------------------------------------
+  //Equipment updates -----------------------------------------------
+  updateMoney(info: Money) {
+    this.tempRollback();
+    this.tempChar.equipment.money = info;
+    this.character.next(this.tempChar);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+  }
+  //----------------------------------------------------------------
+
 
   updateSkillAbilityScore(ability: string, skillIds: string[], skillList: Skill[], abilities: Abilities): Skill[] {
     return skillList.map(skill => {
