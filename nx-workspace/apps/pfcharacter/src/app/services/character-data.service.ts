@@ -13,6 +13,7 @@ import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash";
 import { Gear, Money } from 'libs/character-classes/equipment';
+import { Gear, Money } from 'libs/character-classes/equipment';
 
 @Injectable({
   providedIn: 'root'
@@ -74,7 +75,6 @@ export class CharacterDataService {
   updateDex(info: Ability) {
     this.tempRollback();
     this.tempChar.abilities.dex.update(info);
-    console.log(this.tempChar);
     this.tempChar.savingThrows.ref.updateMod(this.tempChar.abilities.dex.useMod);
     const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
     this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skillList, 'Dex', dexSkills);
@@ -214,7 +214,6 @@ export class CharacterDataService {
   }
 
   updateSavingThrows(info: Throw, type: string) {
-    console.log(info);
     this.tempRollback();
     switch (type) {
       case 'FOR':

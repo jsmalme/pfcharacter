@@ -54,6 +54,7 @@ export class GearComponent implements OnInit {
     });
   }
 
+
   deleteGearItem(index: number) {
     this.gearItems.removeAt(index);
   }

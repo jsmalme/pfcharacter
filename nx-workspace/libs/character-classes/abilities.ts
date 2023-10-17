@@ -32,13 +32,10 @@ export class Ability implements IAbility{
   useMod: number | undefined = undefined; 
 
   update(info: Ability){
-    console.log(info);
     this.ability = info.ability;
     this.tempAdj = info.tempAdj;
     this.mod = this.calculateAbilityScore(info.ability);
     this.tempMod = this.calculateAbilityScore(info.tempAdj);
-
-    console.log(`${this.ability}, ${this.tempAdj}, ${this.mod}, ${this.tempMod}`);
     this.useMod = info.tempAdj ? this.tempMod : (info.ability ? this.mod : undefined);
   }
 
