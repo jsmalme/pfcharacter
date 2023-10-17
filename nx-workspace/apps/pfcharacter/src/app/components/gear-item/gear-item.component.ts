@@ -30,7 +30,7 @@ export class GearItemComponent {
     const dialogRef = this.dialog.open(DeleteItemDialogComponent);
     const instance = dialogRef.componentInstance;
     instance.title = 'Delete Gear Item';
-    instance.message = 'Are you sure you want to delete this gear item?';
+    instance.message = `Are you sure you want to delete this gear item ${this.gearItemForm.get('name')?.value}?`;
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

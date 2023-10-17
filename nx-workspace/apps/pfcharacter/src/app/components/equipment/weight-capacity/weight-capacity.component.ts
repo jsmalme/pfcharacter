@@ -30,7 +30,7 @@ export class WeightCapacityComponent implements OnInit, AfterViewInit, OnDestroy
       console.log('weight capacity component character$ subscribe');
       this.carryingCapacityForm = this.initCarryingCapacityForm();
       this.setCarryingCapacityForm(char.equipment.weightCaps, char.equipment.totalWeight);
-      this.setCurrentLoad(char.equipment.weightCaps, char.equipment.totalWeight);
+      this.setLoadIndicator(char.equipment.weightCaps, char.equipment.totalWeight);
     });
   }
 
@@ -74,7 +74,7 @@ export class WeightCapacityComponent implements OnInit, AfterViewInit, OnDestroy
     })
   }
 
-  setCurrentLoad(info: IWeightCapacity, totalWeight: number | undefined) {
+  setLoadIndicator(info: IWeightCapacity, totalWeight: number | undefined) {
     if (totalWeight && info) {
       if (totalWeight <= (info.lightLoad ?? 0)) {
         this.currentLoad = 'light';

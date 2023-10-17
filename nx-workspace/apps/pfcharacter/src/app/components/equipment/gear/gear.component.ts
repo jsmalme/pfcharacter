@@ -50,6 +50,9 @@ export class GearComponent implements OnInit {
     });
 
     this.gearForm.valueChanges.subscribe((info) => {
+      if (!this.gearForm.valid) {
+        return;
+      }
       this.store.updateGear(info.gearItems as Gear[]);
     });
   }
