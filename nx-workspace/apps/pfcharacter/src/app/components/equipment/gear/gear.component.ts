@@ -38,11 +38,11 @@ export class GearComponent implements OnInit {
     return this.gearForm.controls.gearItems as FormArray;
   }
 
-  setGearFormGroup(gear: Gear[]): void {
-    if (gear === undefined) {
+  setGearFormGroup(items: Gear[]): void {
+    if (items === undefined) {
       return;
     }
-    gear.map((item) => {
+    items.map((item) => {
       this.gearItems.push(this.fb.group({
         name: [item.name, Validators.maxLength(50)],
         weight: [item.weight, Validators.maxLength(10)]

@@ -9,22 +9,24 @@
             </mat-card-title>
         </mat-card>
         <br>
-        <mat-grid-list [cols]="1" [rowHeight]="'4em'" gutterSize="5px" class="justify-content-center">
+        <mat-grid-list [cols]="1" [rowHeight]="'3.85em'" gutterSize="5px" class="justify-content-center">
             <ng-container *ngFor="let gearForm of gearItems.controls;  let i = index">
                 <mat-grid-tile>
-                    <mat-card class="w-100">
+                    <mat-card class="h-100 w-100 pt-2">
                         <app-gear-item [gearItemForm]="$any(gearForm)" [index]="i"
                             (deleteGearItemEvent)="deleteGearItem($event)"></app-gear-item>
                     </mat-card>
                 </mat-grid-tile>
             </ng-container>
             <mat-grid-tile>
-                <div class="h-100 w-100 d-flex justify-content-center align-items-center">
-                    <button mat-raised-button color="primary" (click)="addGearItem()">
-                        <mat-icon>add</mat-icon>
-                        Add Gear Item
-                    </button>
-                </div>
+                <mat-card class="h-100 w-100">
+                    <div class="h-100 w-100 d-flex justify-content-center align-items-center">
+                        <button mat-raised-button color="primary" (click)="addGearItem()">
+                            <mat-icon>add</mat-icon>
+                            Add Gear Item
+                        </button>
+                    </div>
+                </mat-card>
             </mat-grid-tile>
         </mat-grid-list>
     </form>

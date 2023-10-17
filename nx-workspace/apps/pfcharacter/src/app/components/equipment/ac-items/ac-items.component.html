@@ -7,9 +7,9 @@
     </mat-card-title>
 </mat-card>
 <br>
-<mat-grid-list [cols]="1" [rowHeight]="'10em'" gutterSize="10px" class="justify-content-center">
+<mat-grid-list [cols]="1" [rowHeight]="'15em'" gutterSize="10px" class="justify-content-center">
     <ng-template *ngIf="character$">
-        <ng-container *ngFor="let item of acItemsArrayControls;  let i = index">
+        <ng-container *ngFor="let item of acItems.controls;  let i = index">
             <mat-grid-tile>
                 <p>hello</p>
             </mat-grid-tile>
@@ -18,7 +18,7 @@
     <mat-grid-tile>
         <mat-card class="h-100 w-100">
             <div class="h-100 w-100 d-flex justify-content-center align-items-center">
-                <button mat-raised-button color="primary" (click)="addAcItem()">
+                <button mat-raised-button color="primary">
                     <mat-icon>add</mat-icon>
                     Add AC Item
                 </button>
