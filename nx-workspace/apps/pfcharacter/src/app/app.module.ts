@@ -35,7 +35,7 @@ import { ModDisplayComponent } from './components/mod-display/mod-display.compon
 import { CombatComponent } from './components/combat/combat.component';
 import { WeaponComponent } from './components/weapon/weapon.component';
 import { TotalDisplayComponent } from './components/total-display/total-display.component';
-import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
+import { DeleteItemDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
 import { EquipmentComponent } from './components/equipment/equipment.component';
@@ -43,6 +43,7 @@ import { GearComponent } from './components/equipment/gear/gear.component';
 import { AcItemsComponent } from './components/equipment/ac-items/ac-items.component';
 import { MoneyComponent } from './components/equipment/money/money.component';
 import { WeightCapacityComponent } from './components/equipment/weight-capacity/weight-capacity.component';
+import { GearItemComponent } from './components/gear-item/gear-item.component';
 
 @NgModule({
   declarations: [
@@ -53,13 +54,14 @@ import { WeightCapacityComponent } from './components/equipment/weight-capacity/
     CombatComponent,
     WeaponComponent,
     TotalDisplayComponent,
-    DeleteWeponDialogComponent,
+    DeleteItemDialogComponent,
     SkillsComponent,
     EquipmentComponent,
     GearComponent,
     AcItemsComponent,
     MoneyComponent,
     WeightCapacityComponent,
+    GearItemComponent,
   ],
   imports: [
     HttpClientModule,
@@ -92,4 +94,4 @@ import { WeightCapacityComponent } from './components/equipment/weight-capacity/
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
