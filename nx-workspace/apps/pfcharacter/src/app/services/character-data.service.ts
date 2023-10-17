@@ -12,7 +12,7 @@ import { CharacterService } from './character-http.service';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash";
-import { Money } from 'libs/character-classes/equipment';
+import { Gear, Money } from 'libs/character-classes/equipment';
 
 @Injectable({
   providedIn: 'root'
@@ -74,7 +74,6 @@ export class CharacterDataService {
   updateDex(info: Ability) {
     this.tempRollback();
     this.tempChar.abilities.dex.update(info);
-    console.log(this.tempChar);
     this.tempChar.savingThrows.ref.updateMod(this.tempChar.abilities.dex.useMod);
     const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
     this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skillList, 'Dex', dexSkills);
@@ -214,7 +213,6 @@ export class CharacterDataService {
   }
 
   updateSavingThrows(info: Throw, type: string) {
-    console.log(info);
     this.tempRollback();
     switch (type) {
       case 'FOR':
@@ -262,6 +260,19 @@ export class CharacterDataService {
   updateMoney(info: Money) {
     this.tempRollback();
     this.tempChar.equipment.money = info;
+    this.character.next(this.tempChar);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+  }
+
+  updateGear(info: Gear[]){
+    this.tempRollback();
+    this.tempChar.equipment.gear = info;
     this.character.next(this.tempChar);
 
     // this.http.updateCharacter(this.tempChar).subscribe({

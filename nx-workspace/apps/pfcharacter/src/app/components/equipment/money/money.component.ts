@@ -31,7 +31,6 @@ export class MoneyComponent implements OnInit {
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
     this.character$.subscribe((char: Character) => {
-      console.log('char money', char.equipment.money);
       this.setMoneyForm(char.equipment.money);
     });
 
@@ -45,7 +44,6 @@ export class MoneyComponent implements OnInit {
   }
 
   setMoneyForm(money: Money) {
-    console.log('money', money);
     this.moneyForm.setValue({
       cp: money.cp,
       sp: money.sp,
