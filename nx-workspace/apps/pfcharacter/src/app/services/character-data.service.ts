@@ -13,7 +13,6 @@ import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash";
 import { Gear, Money } from 'libs/character-classes/equipment';
-import { Gear, Money } from 'libs/character-classes/equipment';
 
 @Injectable({
   providedIn: 'root'
