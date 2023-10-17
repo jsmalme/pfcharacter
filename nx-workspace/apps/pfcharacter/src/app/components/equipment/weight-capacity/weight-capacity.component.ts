@@ -1,9 +1,9 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatFormField } from '@angular/material/form-field';
 import { Character } from 'libs/character-classes/character';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { CharacterDataService } from '../../../services/character-data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IWeightCapacity, WeightCapacity } from 'libs/character-classes/equipment';
@@ -13,11 +13,12 @@ import { IWeightCapacity, WeightCapacity } from 'libs/character-classes/equipmen
   templateUrl: './weight-capacity.component.html',
   styleUrls: ['./weight-capacity.component.scss'],
 })
-export class WeightCapacityComponent implements OnInit, AfterViewInit {
+export class WeightCapacityComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
   currentLoad: 'light' | 'medium' | 'heavy';
   character$: Observable<Character>;
   carryingCapacityForm: FormGroup;
+  destroy$ = new Subject<void>();
 
   constructor(
     private store: CharacterDataService,
@@ -25,7 +26,8 @@ export class WeightCapacityComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
-    this.character$.subscribe((char: Character) => {
+    this.character$.pipe(takeUntil(this.destroy$)).subscribe((char: Character) => {
+      console.log('weight capacity component character$ subscribe');
       this.carryingCapacityForm = this.initCarryingCapacityForm();
       this.setCarryingCapacityForm(char.equipment.weightCaps, char.equipment.totalWeight);
       this.setCurrentLoad(char.equipment.weightCaps, char.equipment.totalWeight);
@@ -34,6 +36,12 @@ export class WeightCapacityComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.fixTheOutlines();
+  }
+
+  ngOnDestroy(): void {
+    console.log('weight capacity component destroy');
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   fixTheOutlines() {

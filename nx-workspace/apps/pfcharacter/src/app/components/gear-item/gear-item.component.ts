@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialogComponent } from '../delete-wepon-dialog/delete-wepon-dialog.component';
 
@@ -10,6 +10,7 @@ import { DeleteItemDialogComponent } from '../delete-wepon-dialog/delete-wepon-d
   styleUrls: ['./gear-item.component.scss'],
 })
 export class GearItemComponent {
+
   static fb: FormBuilder;
   @Input() index: number | undefined;
   @Output() deleteGearItemEvent = new EventEmitter();
@@ -18,8 +19,8 @@ export class GearItemComponent {
   static createGearItem(): FormGroup {
     const fb = new FormBuilder().nonNullable;
     return fb.group({
-      name: [''],
-      weight: [undefined as number | undefined],
+      name: ['', Validators.maxLength(50)],
+      weight: [undefined as number | undefined, Validators.maxLength(10)],
     });
   }
 

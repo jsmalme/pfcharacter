@@ -10,7 +10,7 @@
         </mat-card>
         <br>
         <mat-grid-list [cols]="1" [rowHeight]="'4em'" gutterSize="5px" class="justify-content-center">
-            <ng-container *ngFor="let gearForm of gearArray.controls;  let i = index">
+            <ng-container *ngFor="let gearForm of gearItems.controls;  let i = index">
                 <mat-grid-tile>
                     <mat-card class="w-100">
                         <app-gear-item [gearItemForm]="$any(gearForm)" [index]="i"

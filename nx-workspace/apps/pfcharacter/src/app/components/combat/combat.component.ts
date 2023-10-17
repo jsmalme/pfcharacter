@@ -4,7 +4,7 @@ import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, QueryLis
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CharacterDataService } from '../../services/character-data.service';
 import { CombatInfo } from '../../../../../../libs/character-classes/combat-info';
-import { Subscription, debounceTime, Subject, Observable, tap } from 'rxjs';
+import { Subscription, debounceTime, Subject, Observable, tap, first } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
 import { maxNumberValidator } from '../../functions/validators';
 import { Abilities } from '../../../../../../libs/character-classes/abilities';
@@ -55,7 +55,7 @@ export class CombatComponent implements OnInit {
     });
 
     this.character$ = this.store.characterUpdate$;
-    this.character$.subscribe((char: Character) => {
+    this.character$.pipe(first()).subscribe((char: Character) => {
       this.weaponForm = this.initWeaponForm();
       this.setFormGroup(char.combatInfo);
       this.setWeaponArray(char.combatInfo.weapons);

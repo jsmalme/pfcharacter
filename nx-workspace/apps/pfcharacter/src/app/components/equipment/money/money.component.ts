@@ -5,7 +5,7 @@ import { FormBuilder, NonNullableFormBuilder, Validators } from '@angular/forms'
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatFormField } from '@angular/material/form-field';
 import { CharacterDataService } from '../../../services/character-data.service';
-import { Observable, debounceTime } from 'rxjs';
+import { Observable, debounceTime, first } from 'rxjs';
 import { Money } from 'libs/character-classes/equipment';
 
 @Component({
@@ -30,8 +30,7 @@ export class MoneyComponent implements OnInit {
 
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
-    this.character$.subscribe((char: Character) => {
-      console.log('char money', char.equipment.money);
+    this.character$.pipe(first()).subscribe((char: Character) => {
       this.setMoneyForm(char.equipment.money);
     });
 
@@ -45,7 +44,6 @@ export class MoneyComponent implements OnInit {
   }
 
   setMoneyForm(money: Money) {
-    console.log('money', money);
     this.moneyForm.setValue({
       cp: money.cp,
       sp: money.sp,

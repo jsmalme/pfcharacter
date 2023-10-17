@@ -12,7 +12,7 @@ import { CharacterService } from './character-http.service';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash";
-import { Money } from 'libs/character-classes/equipment';
+import { Gear, Money } from 'libs/character-classes/equipment';
 
 @Injectable({
   providedIn: 'root'
@@ -262,6 +262,19 @@ export class CharacterDataService {
   updateMoney(info: Money) {
     this.tempRollback();
     this.tempChar.equipment.money = info;
+    this.character.next(this.tempChar);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+  }
+
+  updateGear(info: Gear[]) {
+    this.tempRollback();
+    this.tempChar.equipment.gear = info;
     this.character.next(this.tempChar);
 
     // this.http.updateCharacter(this.tempChar).subscribe({
