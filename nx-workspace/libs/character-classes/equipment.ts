@@ -39,8 +39,9 @@ export class AcItem {
     bonus: number | undefined = undefined;
     type: acTypeEnum | undefined = undefined;
     checkPen: number | undefined = undefined;
-    spellFailure: number | undefined = undefined;
+    spellFailure: string | undefined = undefined;
     properties: string | undefined = undefined;
+    equipped: boolean = false;
 }
 
 export class Gear {

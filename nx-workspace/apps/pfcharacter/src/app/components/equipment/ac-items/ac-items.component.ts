@@ -7,13 +7,7 @@ import { Character } from 'libs/character-classes/character';
 import { AcItem } from 'libs/character-classes/equipment';
 import { Observable, Subject, first, takeUntil } from 'rxjs';
 import { CharacterDataService } from '../../../services/character-data.service';
-
-enum ArmorTypeEnum {
-  Light = 'Light',
-  Medium = 'Medium',
-  Heavy = 'Heavy',
-  Shield = 'Shield'
-}
+import { AcListItemComponent } from '../ac-list-item/ac-list-item.component';
 
 @Component({
   selector: 'app-ac-items',
@@ -27,16 +21,6 @@ export class AcItemsComponent implements OnInit, OnDestroy {
     acItems: this.fb.array([])
   });
 
-  // acItemsForm = this.fb.group({
-  //   name: ['', Validators.maxLength(20)],
-  //   bonus: [undefined as number | undefined, Validators.max(100)],
-  //   type: [undefined as ArmorTypeEnum | undefined],
-  //   checkPen: [undefined as number | undefined, Validators.max(100)],
-  //   spellFailure: ['', Validators.maxLength(4)],
-  //   properties: ['', Validators.maxLength(50)],
-  // })
-
-
   constructor(
     private store: CharacterDataService,
     private fb: FormBuilder
@@ -45,6 +29,7 @@ export class AcItemsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
+      console.log('ac items', char.equipment.acItems);
       this.setAcItemsFormGroup(char.equipment.acItems);
     });
   }
@@ -78,6 +63,7 @@ export class AcItemsComponent implements OnInit, OnDestroy {
       checkPen: [item.checkPen, Validators.max(100)],
       spellFailure: [item.spellFailure, Validators.max(100)],
       properties: [item.properties, Validators.maxLength(50)],
+      equipped: [item.equipped]
     });
   }
 
@@ -85,23 +71,11 @@ export class AcItemsComponent implements OnInit, OnDestroy {
     return this.acItemsForm.controls.acItems as FormArray;
   }
 
-  // createAcItem(): FormGroup {
-  //   const fb = new FormBuilder().nonNullable;
-  //   return fb.group({
-  //     name: ['', Validators.maxLength(20)],
-  //     bonus: ['', Validators.max(100)],
-  //     type: [''],
-  //     checkPen: ['', Validators.max(100)],
-  //     spellFailure: ['', Validators.max(100)],
-  //     properties: ['', Validators.maxLength(50)],
-  //   })
-  // }
+  addAcItem() {
+    this.acItems.push(AcListItemComponent.createAcListItem());
+  }
 
-  // addAcItem() {
-  //   this.acItemsArray.push(t);
-  // }
-
-  // deleteAcItem(index: number) {
-  //   this.acItemsArray.removeAt(index);
-  // }
+  deleteAcItem(index: number) {
+    this.acItems.removeAt(index);
+  }
 }

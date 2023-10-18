@@ -1,0 +1,64 @@
+<form autocomplete="off" [formGroup]="acItemForm">
+    <div class="container">
+        <div class="row">
+            <div class="d-flex">
+                <div>
+                    <mat-icon matSuffix color="warn" style="cursor: pointer;"
+                        (click)="deleteAcListItem()">delete</mat-icon>
+                </div>
+                <div *ngIf="!acItemForm.valid">
+                    <mat-icon color="warn">warning</mat-icon>
+                </div>
+                <div class="ms-auto">
+                    <mat-slide-toggle color="primary" formControlName="equipped">Equipped
+                    </mat-slide-toggle>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex align-items-center">
+            <div class="col-6">
+                <mat-form-field color="accent" style="width: 100%;">
+                    <input matInput placeholder="Item Name" formControlName="name">
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Properties</mat-label>
+                    <input matInput formControlName="properties">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-between">
+            <div class="col-3">
+                <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Type</mat-label>
+                    <input matInput formControlName="type">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Spell Failure%</mat-label>
+                    <input matInput formControlName="spellFailure">
+                </mat-form-field>
+            </div>
+            <div class="col-2">
+                <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Bonus</mat-label>
+                    <input matInput formControlName="bonus">
+                </mat-form-field>
+            </div>
+            <div class="col-2">
+                <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Penalty</mat-label>
+                    <input matInput formControlName="checkPen">
+                </mat-form-field>
+            </div>
+            <div class="col-2">
+                <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Weight</mat-label>
+                    <input matInput>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</form>

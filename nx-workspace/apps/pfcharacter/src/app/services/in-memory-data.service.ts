@@ -79,28 +79,29 @@ export class InMemoryDataService implements InMemoryDataService {
         acItems: [{
           bonus: 10,
           checkPen: 2,
-          name: 'longsword', 
+          name: 'longsword',
           properties: '',
-          spellFailure: 10,
-          type: acTypeEnum.light
+          spellFailure: '10%',
+          type: acTypeEnum.light,
+          equipped: false
         }],
         gear: [
-          {name: 'rope', weight: 10},
-          {name: 'torch', weight: 3}],
+          { name: 'rope', weight: 10 },
+          { name: 'torch', weight: 3 }],
         money: {
           cp: 35,
-          gp: 23, 
+          gp: 23,
           pp: 3,
           sp: 1
         },
         totalWeight: 45,
         weightCaps: {
           dragOrPush: 0,
-          heavyLoad: {min: 0, max: 0},
+          heavyLoad: { min: 0, max: 0 },
           liftOffGround: 0,
           liftOverHead: 0,
           lightLoad: 0,
-          medLoad: {min: 0, max: 0},
+          medLoad: { min: 0, max: 0 },
         }
       },
       abilities: {

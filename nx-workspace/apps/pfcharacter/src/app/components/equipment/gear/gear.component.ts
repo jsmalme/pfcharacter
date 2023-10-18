@@ -7,7 +7,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { Observable, first } from 'rxjs';
 import { Character } from 'libs/character-classes/character';
 import { Gear } from 'libs/character-classes/equipment';
-import { GearItemComponent } from '../../gear-item/gear-item.component';
+import { GearItemComponent } from '../gear-item/gear-item.component';
 
 @Component({
   selector: 'app-gear',

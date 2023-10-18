@@ -27,6 +27,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -43,7 +44,8 @@ import { GearComponent } from './components/equipment/gear/gear.component';
 import { AcItemsComponent } from './components/equipment/ac-items/ac-items.component';
 import { MoneyComponent } from './components/equipment/money/money.component';
 import { WeightCapacityComponent } from './components/equipment/weight-capacity/weight-capacity.component';
-import { GearItemComponent } from './components/gear-item/gear-item.component';
+import { GearItemComponent } from './components/equipment/gear-item/gear-item.component';
+import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list-item.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,7 @@ import { GearItemComponent } from './components/gear-item/gear-item.component';
     MoneyComponent,
     WeightCapacityComponent,
     GearItemComponent,
+    AcListItemComponent,
   ],
   imports: [
     HttpClientModule,
@@ -87,6 +90,7 @@ import { GearItemComponent } from './components/gear-item/gear-item.component';
     MatCheckboxModule,
     MatSortModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),
