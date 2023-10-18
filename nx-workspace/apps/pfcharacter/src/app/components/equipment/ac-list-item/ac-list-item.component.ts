@@ -27,6 +27,7 @@ export class AcListItemComponent {
       checkPen: [undefined as number | undefined, Validators.max(100)],
       spellFailure: ['', Validators.maxLength(4)],
       properties: ['', Validators.maxLength(50)],
+      weight: [undefined as number | undefined, Validators.max(5000)],
       equipped: [false]
     });
   }
