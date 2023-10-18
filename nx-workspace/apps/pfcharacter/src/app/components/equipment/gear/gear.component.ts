@@ -19,7 +19,7 @@ export class GearComponent implements OnInit {
   character$: Observable<Character>;
 
   gearForm = this.fb.group({
-    gearItems: this.fb.array([]),
+    gearItems: this.fb.array<Gear>([]),
   });
 
   constructor(
@@ -53,6 +53,7 @@ export class GearComponent implements OnInit {
       if (!this.gearForm.valid) {
         return;
       }
+
       this.store.updateGear(info.gearItems as Gear[]);
     });
   }

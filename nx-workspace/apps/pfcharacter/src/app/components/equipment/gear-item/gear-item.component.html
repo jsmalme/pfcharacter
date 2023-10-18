@@ -13,8 +13,7 @@
             <div class="col-2">
                 <mat-form-field color="accent" style="width: 100%;">
                     <mat-label>Weight</mat-label>
-                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" placeholder="lbs"
-                        formControlName="weight">
+                    <input matInput type="number" placeholder="lbs" formControlName="weight">
                 </mat-form-field>
             </div>
             <div class="col-1" *ngIf="!gearItemForm.valid">

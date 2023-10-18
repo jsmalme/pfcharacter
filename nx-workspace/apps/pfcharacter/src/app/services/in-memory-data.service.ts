@@ -72,7 +72,7 @@ export class InMemoryDataService implements InMemoryDataService {
           name: 'weapon number one',
           range: '5ft',
           type: 'P',
-          weight: '5'
+          weight: 5
         }]
       },
       equipment: {
@@ -83,7 +83,8 @@ export class InMemoryDataService implements InMemoryDataService {
           properties: '',
           spellFailure: '10%',
           type: acTypeEnum.light,
-          equipped: false
+          equipped: false,
+          weight: 10
         }],
         gear: [
           { name: 'rope', weight: 10 },
@@ -94,7 +95,6 @@ export class InMemoryDataService implements InMemoryDataService {
           pp: 3,
           sp: 1
         },
-        totalWeight: 45,
         weightCaps: {
           dragOrPush: 0,
           heavyLoad: { min: 0, max: 0 },

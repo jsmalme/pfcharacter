@@ -5,7 +5,6 @@ import { SizeEnum } from "./general-info";
 export interface IEquipment {
     acItems: AcItem[];
     gear: Gear[];
-    totalWeight: number | undefined;
     money: Money;
     weightCaps: IWeightCapacity;
 }
@@ -42,6 +41,7 @@ export class AcItem {
     spellFailure: string | undefined = undefined;
     properties: string | undefined = undefined;
     equipped: boolean = false;
+    weight: number | undefined = undefined;
 }
 
 export class Gear {
@@ -131,7 +131,6 @@ export class WeightCapacity implements IWeightCapacity {
 export class Equipment implements IEquipment {
     acItems: AcItem[];
     gear: Gear[];
-    totalWeight: number | undefined = undefined;
     money: Money;
     weightCaps: WeightCapacity;
 

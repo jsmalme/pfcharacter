@@ -18,10 +18,10 @@ export class MoneyComponent implements OnInit {
   character$: Observable<Character>;
 
   moneyForm = this.fb.group({
-    cp: [undefined as number | undefined],
-    sp: [undefined as number | undefined],
-    gp: [undefined as number | undefined],
-    pp: [undefined as number | undefined],
+    cp: [0 as number | undefined],
+    sp: [0 as number | undefined],
+    gp: [0 as number | undefined],
+    pp: [0 as number | undefined],
   })
 
   constructor(
@@ -38,6 +38,8 @@ export class MoneyComponent implements OnInit {
       if (!this.moneyForm.valid) {
         return;
       }
+
+      console.log(info as Money);
 
       this.store.updateMoney(info as Money);
     });
