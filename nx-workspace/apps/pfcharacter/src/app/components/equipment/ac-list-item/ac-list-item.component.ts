@@ -14,6 +14,8 @@ import { acTypeEnum } from 'libs/character-classes/equipment';
 export class AcListItemComponent {
 
   static fb: FormBuilder;
+  acTypeEnum = acTypeEnum;
+  acTypes = Object.values(this.acTypeEnum);
   @Input() index: number | undefined;
   @Output() deleteAcItemEvent = new EventEmitter();
   @Input() public acItemForm: FormGroup;

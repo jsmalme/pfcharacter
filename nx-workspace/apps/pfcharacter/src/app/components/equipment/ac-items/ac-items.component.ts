@@ -8,6 +8,7 @@ import { AcItem } from 'libs/character-classes/equipment';
 import { Observable, Subject, debounce, debounceTime, first, takeUntil } from 'rxjs';
 import { CharacterDataService } from '../../../services/character-data.service';
 import { AcListItemComponent } from '../ac-list-item/ac-list-item.component';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-ac-items',
@@ -17,13 +18,16 @@ import { AcListItemComponent } from '../ac-list-item/ac-list-item.component';
 export class AcItemsComponent implements OnInit, OnDestroy {
   character$: Observable<Character>;
   destroy$ = new Subject<void>();
+  acItemHeight = '15em';
+
   acItemsForm = this.fb.group({
     acItems: this.fb.array([])
   });
 
   constructor(
     private store: CharacterDataService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private breakpointObserver: BreakpointObserver
   ) { }
 
   ngOnInit(): void {
@@ -32,12 +36,18 @@ export class AcItemsComponent implements OnInit, OnDestroy {
       console.log('ac items', char.equipment.acItems);
       this.setAcItemsFormGroup(char.equipment.acItems);
     });
+
+    this.breakpointObserver.observe(['(min-width:992px)'])
+      .subscribe((state: BreakpointState) => {
+        state.matches ? this.acItemHeight = '15em' : this.acItemHeight = '18em';
+      });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
 
   setAcItemsFormGroup(items: AcItem[]): void {
     if (items === undefined) {

@@ -4,7 +4,7 @@
 @mixin color($my-theme){   
     $color-config: mat.get-color-config($my-theme);
     $primary-palette: map.get($color-config, 'primary');
-    .equipped-background{
+    .equipped{
         border-style: solid;
         border-color: mat.get-color-from-palette($primary-palette, 500);
     }

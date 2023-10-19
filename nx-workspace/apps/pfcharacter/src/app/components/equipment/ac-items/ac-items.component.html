@@ -8,10 +8,10 @@
         </mat-card-title>
     </mat-card>
     <br>
-    <mat-grid-list [cols]="1" [rowHeight]="'15em'" gutterSize="10px" class="justify-content-center">
+    <mat-grid-list [cols]="1" [rowHeight]="acItemHeight" gutterSize="10px" class="justify-content-center">
         <ng-container *ngFor="let item of acItemsFormGroups;  let i = index">
             <mat-grid-tile>
-                <mat-card class="h-100 w-100" [ngClass]="{'equipped-background': item.controls['equipped'].value}">
+                <mat-card class="h-100 w-100" [ngClass]="{'equipped': item.controls['equipped'].value}">
                     <app-ac-list-item [acItemForm]="$any(item)" [index]="i"
                         (deleteAcItemEvent)="deleteAcItem($event)"></app-ac-list-item>
                 </mat-card>
