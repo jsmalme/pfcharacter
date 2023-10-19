@@ -10,8 +10,16 @@
                     <mat-icon color="warn">warning</mat-icon>
                 </div>
                 <div class="ms-auto">
-                    <mat-slide-toggle color="primary" formControlName="equipped">Equipped
+                    <mat-slide-toggle color="primary" formControlName="equipped">
                     </mat-slide-toggle>
+                    <mat-label class="ms-2">
+                        <ng-container *ngIf="this.acItemForm.controls['equipped'].value">
+                            Equipped
+                        </ng-container>
+                        <ng-container *ngIf="!this.acItemForm.controls['equipped'].value">
+                            Unequipped
+                        </ng-container>
+                    </mat-label>
                 </div>
             </div>
         </div>
@@ -44,19 +52,19 @@
             <div class="col-2">
                 <mat-form-field appearance="outline" color="accent" style="width: 100%;">
                     <mat-label>Bonus</mat-label>
-                    <input matInput formControlName="bonus">
+                    <input matInput inputmode="numeric" type="number" formControlName="bonus">
                 </mat-form-field>
             </div>
             <div class="col-2">
                 <mat-form-field appearance="outline" color="accent" style="width: 100%;">
                     <mat-label>Penalty</mat-label>
-                    <input matInput formControlName="checkPen">
+                    <input matInput inputmode="numeric" type="number" formControlName="checkPen">
                 </mat-form-field>
             </div>
             <div class="col-2">
                 <mat-form-field appearance="outline" color="accent" style="width: 100%;">
                     <mat-label>Weight</mat-label>
-                    <input matInput>
+                    <input matInput inputmode="numeric" type="number" formControlName="weight">
                 </mat-form-field>
             </div>
         </div>

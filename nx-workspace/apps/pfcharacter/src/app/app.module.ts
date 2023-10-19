@@ -28,6 +28,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -91,6 +92,7 @@ import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list
     MatSortModule,
     MatSnackBarModule,
     MatSlideToggleModule,
+    MatButtonToggleModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),

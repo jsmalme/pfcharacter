@@ -5,7 +5,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
 import { Character } from 'libs/character-classes/character';
 import { AcItem } from 'libs/character-classes/equipment';
-import { Observable, Subject, first, takeUntil } from 'rxjs';
+import { Observable, Subject, debounce, debounceTime, first, takeUntil } from 'rxjs';
 import { CharacterDataService } from '../../../services/character-data.service';
 import { AcListItemComponent } from '../ac-list-item/ac-list-item.component';
 
@@ -47,10 +47,11 @@ export class AcItemsComponent implements OnInit, OnDestroy {
       this.acItems.push(this.acItemToFormControl(item));
     });
 
-    this.acItemsForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((info) => {
+    this.acItemsForm.valueChanges.pipe(debounceTime(1000), takeUntil(this.destroy$)).subscribe((info) => {
       if (!this.acItemsForm.valid) {
         return;
       }
+
       this.store.updateAcItems(info.acItems as AcItem[]);
     });
   }
@@ -63,12 +64,17 @@ export class AcItemsComponent implements OnInit, OnDestroy {
       checkPen: [item.checkPen, Validators.max(100)],
       spellFailure: [item.spellFailure, Validators.max(100)],
       properties: [item.properties, Validators.maxLength(50)],
+      weight: [item.weight, Validators.max(5000)],
       equipped: [item.equipped]
     });
   }
 
   get acItems(): FormArray {
     return this.acItemsForm.controls.acItems as FormArray;
+  }
+
+  get acItemsFormGroups(): FormGroup[] {
+    return this.acItems.controls as FormGroup[];
   }
 
   addAcItem() {

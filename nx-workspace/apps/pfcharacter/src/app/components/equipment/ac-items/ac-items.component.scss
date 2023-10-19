@@ -1,0 +1,3 @@
+@use './ac-items.component-theme' as ac-items;
+@import '../../../../theme.scss';
+@include ac-items.color($my-theme);
