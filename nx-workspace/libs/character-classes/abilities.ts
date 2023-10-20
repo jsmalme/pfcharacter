@@ -12,12 +12,12 @@ export interface IAbility {
   mod: number | undefined;
   tempAdj: number | undefined;
   tempMod: number | undefined;
-  useMod: number | undefined; 
+  useMod: number | undefined;
 }
 
-export class Ability implements IAbility{
-  constructor(ability?: IAbility){
-    if(ability){
+export class Ability implements IAbility {
+  constructor(ability?: IAbility) {
+    if (ability) {
       this.ability = ability.ability;
       this.mod = ability.mod;
       this.tempAdj = ability.tempAdj;
@@ -29,9 +29,9 @@ export class Ability implements IAbility{
   mod: number | undefined = undefined;
   tempAdj: number | undefined = undefined;
   tempMod: number | undefined = undefined;
-  useMod: number | undefined = undefined; 
+  useMod: number | undefined = undefined;
 
-  update(info: Ability){
+  update(info: Ability) {
     this.ability = info.ability;
     this.tempAdj = info.tempAdj;
     this.mod = this.calculateAbilityScore(info.ability);
@@ -46,9 +46,10 @@ export class Ability implements IAbility{
     return Math.floor((score - 10) / 2);
   }
 }
+
 export class Abilities implements IAbilities {
-  constructor(abilities?: IAbilities){
-    if(abilities){
+  constructor(abilities?: IAbilities) {
+    if (abilities) {
       this.str = new Ability(abilities.str);
       this.dex = new Ability(abilities.dex);
       this.con = new Ability(abilities.con);

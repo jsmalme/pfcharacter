@@ -7,6 +7,8 @@ export interface IEquipment {
     gear: Gear[];
     money: Money;
     weightCaps: IWeightCapacity;
+    totalAcPenalty: number;
+    currentBurden: burdenEnum;
 }
 
 export interface IWeightCapacity {
@@ -42,6 +44,7 @@ export class AcItem {
     properties: string | undefined = undefined;
     equipped: boolean = false;
     weight: number | undefined = undefined;
+    maxDex: number | undefined = undefined;
 }
 
 export class Gear {
@@ -133,6 +136,8 @@ export class Equipment implements IEquipment {
     gear: Gear[];
     money: Money;
     weightCaps: WeightCapacity;
+    currentBurden: burdenEnum;
+    totalAcPenalty: number = 0;
 
     constructor(info?: IEquipment) {
         if (info) {
@@ -140,6 +145,12 @@ export class Equipment implements IEquipment {
             this.weightCaps = new WeightCapacity(info.weightCaps);
         }
     }
+}
+
+export enum burdenEnum {
+    light = "Light",
+    medium = "Medium",
+    heavy = "Heavy"
 }
 
 export enum acTypeEnum {

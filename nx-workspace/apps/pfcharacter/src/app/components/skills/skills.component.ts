@@ -53,6 +53,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
       this.skillsForm = this.fb.group({
         skills: this.getSkillsFormArray(char.skillList)
       });
+
       this.skillsForm.get('skills')?.valueChanges.pipe(distinctUntilChanged(), debounceTime(250)).subscribe(info => {
         if (!this.skillsForm?.valid) {
           return;
@@ -102,7 +103,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
         abilityMod: this.fb.control(skill.abilityMod),
         ranks: this.fb.control(skill.ranks, maxNumberValidator()),
         racial: this.fb.control(skill.racial, maxNumberValidator()),
-        misc: this.fb.control(skill.misc, maxNumberValidator())
+        misc: this.fb.control(skill.misc, maxNumberValidator()),
       }))
     )
   }

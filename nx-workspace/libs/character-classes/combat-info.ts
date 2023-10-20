@@ -3,7 +3,7 @@ import { strUnToNum } from 'apps/pfcharacter/src/app/functions/methods';
 import { Abilities } from 'libs/character-classes/abilities';
 import { Weapon } from "./weapon";
 
-export interface ICombatInfo{
+export interface ICombatInfo {
   hpTotal: number | undefined;
   hpCurrent: number | undefined;
   hpNonLethal: string | undefined;
@@ -21,8 +21,6 @@ export interface ICombatInfo{
   cmdBabMod: number | undefined;
   cmdMiscMod: number | undefined;
   acTotal: number | undefined;
-  acArmorMod: number | undefined;
-  acShieldMod: number | undefined;
   acNaturalArmorMod: number | undefined;
   acDeflectMod: number | undefined;
   acMiscMod: number | undefined;
@@ -30,9 +28,9 @@ export interface ICombatInfo{
   acFlat: number | undefined;
   weapons: Array<Weapon>;
 }
-export class CombatInfo implements ICombatInfo{
-  constructor(info?: ICombatInfo){
-    if(info){
+export class CombatInfo implements ICombatInfo {
+  constructor(info?: ICombatInfo) {
+    if (info) {
       Object.assign(this, info);
     }
   }
@@ -53,8 +51,6 @@ export class CombatInfo implements ICombatInfo{
   cmdBabMod: number | undefined = undefined;
   cmdMiscMod: number | undefined = undefined;
   acTotal: number | undefined = undefined;
-  acArmorMod: number | undefined = undefined;
-  acShieldMod: number | undefined = undefined;
   acNaturalArmorMod: number | undefined = undefined;
   acDeflectMod: number | undefined = undefined;
   acMiscMod: number | undefined = undefined;
@@ -62,35 +58,18 @@ export class CombatInfo implements ICombatInfo{
   acFlat: number | undefined = undefined;
   weapons: Array<Weapon> = [];
 
-  updateStr(abilities: Abilities) {
-    this.cmbTotal = this.getCmbTotal(abilities);
-    this.cmdTotal = this.getCmdTotal(abilities);
-  }
-
-  updateDex(abilities: Abilities) {
-    this.initiativeTotal = this.getInitiativeTotal(abilities);
-    this.cmdTotal = this.getCmdTotal(abilities);
-    this.acTotal = this.getAcTotal(abilities);
-    this.acTouch = this.getAcTouchTotal(abilities);
-  }
-
-  updateSize(size: SizeEnum, abilities: Abilities) {
+  updateSize(size: SizeEnum) {
     this.cmSizeMod = this.cmSizeEnumMap[size];
     this.acSizeMod = this.acSizeEnumMap[size];
-    this.cmbTotal = this.getCmbTotal(abilities);
-    this.cmdTotal = this.getCmdTotal(abilities);
-    this.acTotal = this.getAcTotal(abilities);
-    this.acTouch = this.getAcTouchTotal(abilities);
-    this.acFlat = this.getAcFlatTotal();
   }
 
-  updateCombatInfoTotals(abilities: Abilities) {
+  getCombatInfoTotals(abilities: Abilities, acDex: number, acArmor: number, acShield: number) {
     this.cmbTotal = this.getCmbTotal(abilities);
     this.cmdTotal = this.getCmdTotal(abilities);
     this.initiativeTotal = this.getInitiativeTotal(abilities);
-    this.acTotal = this.getAcTotal(abilities);
-    this.acTouch = this.getAcTouchTotal(abilities);
-    this.acFlat = this.getAcFlatTotal();
+    this.acTotal = this.getAcTotal(acDex, acArmor, acShield);
+    this.acTouch = this.getAcTouchTotal(acDex);
+    this.acFlat = this.getAcFlatTotal(acArmor, acShield);
   }
 
   private getCmbTotal(abilities: Abilities): number {
@@ -113,26 +92,26 @@ export class CombatInfo implements ICombatInfo{
       strUnToNum(this.initiativeMiscMod);
   }
 
-  private getAcTotal(abilities: Abilities): number {
-    return strUnToNum(this.acArmorMod) +
-      strUnToNum(this.acShieldMod) +
-      strUnToNum(abilities.dex.useMod) +
+  private getAcTotal(acDex: number, acArmor: number, acShield: number): number {
+    return acArmor +
+      acShield +
+      acDex +
       strUnToNum(this.acSizeMod) +
       strUnToNum(this.acNaturalArmorMod) +
       strUnToNum(this.acDeflectMod) +
       strUnToNum(this.acMiscMod) + 10;
   }
 
-  private getAcTouchTotal(abilities: Abilities): number {
-    return strUnToNum(abilities.dex.useMod) +
+  private getAcTouchTotal(acDex: number): number {
+    return acDex +
       strUnToNum(this.acDeflectMod) +
       strUnToNum(this.acSizeMod) +
       strUnToNum(this.acMiscMod) + 10;
   }
 
-  private getAcFlatTotal(): number {
-    return strUnToNum(this.acArmorMod) +
-      strUnToNum(this.acShieldMod) +
+  private getAcFlatTotal(acArmor: number, acShield: number): number {
+    return acArmor +
+      acShield +
       strUnToNum(this.acSizeMod) +
       strUnToNum(this.acNaturalArmorMod) +
       strUnToNum(this.acDeflectMod) +

@@ -229,8 +229,7 @@
                       matTooltip="Equip armor to adjust this modifier" matTooltipPosition="above"
                       matTooltipClass="tooltipFontSize">
                       <mat-label>Armor+</mat-label>
-                      <input matInput inputmode="numeric" type="number" value="{{char.combatInfo.acArmorMod}}"
-                        disabled="disabled">
+                      <input matInput inputmode="numeric" type="number" value="{{acArmor}}" disabled="disabled">
                     </mat-form-field>
                   </div>
                   <div class="col-3">
@@ -238,15 +237,21 @@
                       matTooltip="Equip shield to adjust this modifier" matTooltipPosition="above"
                       matTooltipClass="tooltipFontSize">
                       <mat-label>Shield+</mat-label>
-                      <input matInput inputmode="numeric" type="number" value="{{char.combatInfo.acShieldMod}}"
-                        disabled="disabled">
+                      <input matInput inputmode="numeric" type="number" value="{{acShield}}" disabled="disabled">
                     </mat-form-field>
                   </div>
                   <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                      <span *ngIf="(char.abilities.dex.useMod ?? 0)!== acDexScore"
+                        class="position-absolute top-0 start-100 translate-middle pt-3">
+                        <mat-icon color="accent"
+                          matTooltip="Your equipped items are currently reducing your AC Dex bonus by {{(char.abilities.dex.useMod ?? 0) - acDexScore}}."
+                          matTooltipPosition="above">
+                          shield
+                        </mat-icon>
+                      </span>
                       <mat-label>Dex+</mat-label>
-                      <input matInput inputmode="numeric" type="number" value="{{char.abilities.dex.useMod}}"
-                        disabled="disabled">
+                      <input matInput inputmode="numeric" type="number" value="{{acDexScore}}" disabled="disabled">
                     </mat-form-field>
                   </div>
                   <div class="col-3">

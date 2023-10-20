@@ -13,7 +13,7 @@
                     <mat-form-field class="w-100 text-center highlighted-form-field" appearance="outline"
                         color="accent">
                         <mat-label>Light Load</mat-label>
-                        <span *ngIf="currentLoad === 'light'"
+                        <span *ngIf="currentBurden === burdenEnum.light"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                             <span class="material-icons">done</span>
                         </span>
@@ -23,7 +23,7 @@
                 <div class="col-4">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Medium Load</mat-label>
-                        <span *ngIf="currentLoad === 'medium'"
+                        <span *ngIf="currentBurden === burdenEnum.medium"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
                             <span class="material-icons">done</span>
                         </span>
@@ -33,7 +33,7 @@
                 <div class="col-4">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Heavy Load</mat-label>
-                        <span *ngIf="currentLoad === 'heavy'"
+                        <span *ngIf="currentBurden === burdenEnum.heavy"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             <span class="material-icons">done</span>
                         </span>

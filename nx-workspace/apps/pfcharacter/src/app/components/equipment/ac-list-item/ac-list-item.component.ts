@@ -30,6 +30,7 @@ export class AcListItemComponent {
       spellFailure: ['', Validators.maxLength(4)],
       properties: ['', Validators.maxLength(50)],
       weight: [undefined as number | undefined, Validators.max(5000)],
+      maxDex: [undefined as number | undefined, Validators.max(100)],
       equipped: [false]
     });
   }

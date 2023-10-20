@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ICharacter } from 'libs/character-classes/character';
 import { SizeEnum } from 'libs/character-classes/general-info';
 import { Skill } from 'libs/character-classes/skills';
-import { acTypeEnum } from 'libs/character-classes/equipment';
+import { acTypeEnum, burdenEnum } from 'libs/character-classes/equipment';
 
 
 @Injectable({
@@ -57,8 +57,6 @@ export class InMemoryDataService implements InMemoryDataService {
         cmdBabMod: 10,
         cmdMiscMod: 10,
         acTotal: 10,
-        acArmorMod: 10,
-        acShieldMod: 10,
         acNaturalArmorMod: 10,
         acDeflectMod: 10,
         acMiscMod: 10,
@@ -84,7 +82,8 @@ export class InMemoryDataService implements InMemoryDataService {
           spellFailure: '10%',
           type: acTypeEnum.light,
           equipped: false,
-          weight: 10
+          weight: 10,
+          maxDex: 4,
         }],
         gear: [
           { name: 'rope', weight: 10 },
@@ -102,7 +101,9 @@ export class InMemoryDataService implements InMemoryDataService {
           liftOverHead: 0,
           lightLoad: 0,
           medLoad: { min: 0, max: 0 },
-        }
+        },
+        currentBurden: burdenEnum.light,
+        totalAcPenalty: 2
       },
       abilities: {
         str: {

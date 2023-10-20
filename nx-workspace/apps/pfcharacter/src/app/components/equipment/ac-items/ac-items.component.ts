@@ -33,13 +33,12 @@ export class AcItemsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
-      console.log('ac items', char.equipment.acItems);
       this.setAcItemsFormGroup(char.equipment.acItems);
     });
 
     this.breakpointObserver.observe(['(min-width:992px)'])
       .subscribe((state: BreakpointState) => {
-        state.matches ? this.acItemHeight = '15em' : this.acItemHeight = '18em';
+        state.matches ? this.acItemHeight = '15em' : this.acItemHeight = '19em';
       });
   }
 
@@ -75,6 +74,7 @@ export class AcItemsComponent implements OnInit, OnDestroy {
       spellFailure: [item.spellFailure, Validators.max(100)],
       properties: [item.properties, Validators.maxLength(50)],
       weight: [item.weight, Validators.max(5000)],
+      maxDex: [item.maxDex, Validators.max(100)],
       equipped: [item.equipped]
     });
   }
