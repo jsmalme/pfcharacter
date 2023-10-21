@@ -43,9 +43,16 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
             <td mat-cell *matCellDef="let skill" [formGroup]="skill" style="padding-top: 10px;">
               <div class="row">
-                <div class="col-8">
+                <div class="col-6">
                   <app-total-display [isValid]="true" [total]="skill.controls.total.value" [showGreyZeros]="true">
                   </app-total-display>
+                </div>
+                <div class="col-2 pt-0">
+                  <mat-icon color="accent"
+                    matTooltip="Your equipped items/encumbrance are currently reducing this skill by {{skill.checkPenalty}}."
+                    matTooltipPosition="above">
+                    shield
+                  </mat-icon>
                 </div>
                 <div class="d-md-none col-4">
                   <mat-icon *ngIf="!skill.isExpanded">arrow_drop_down</mat-icon>

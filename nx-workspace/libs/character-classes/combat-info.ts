@@ -27,6 +27,7 @@ export interface ICombatInfo {
   acTouch: number | undefined;
   acFlat: number | undefined;
   weapons: Array<Weapon>;
+  weaponsWeight: number | undefined;
 }
 export class CombatInfo implements ICombatInfo {
   constructor(info?: ICombatInfo) {
@@ -56,6 +57,7 @@ export class CombatInfo implements ICombatInfo {
   acMiscMod: number | undefined = undefined;
   acTouch: number | undefined = undefined;
   acFlat: number | undefined = undefined;
+  weaponsWeight: number | undefined;
   weapons: Array<Weapon> = [];
 
   updateSize(size: SizeEnum) {

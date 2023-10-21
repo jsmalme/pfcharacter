@@ -7,13 +7,13 @@ import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { Throw } from '../../../../../libs/character-classes/saving-throws';
 import { Skill } from '../../../../../libs/character-classes/skills';
 import { CalcTotService } from './calc-tot.service';
-import { BehaviorSubject, concatAll, ignoreElements } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { CharacterService } from './character-http.service';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash";
 import { AcItem, Gear, Money, burdenEnum } from 'libs/character-classes/equipment';
-import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
+import { isNgTemplate } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -172,6 +172,16 @@ export class CharacterDataService {
 
   updateWeapons(weapons: Weapon[]) {
     this.tempRollback();
+    //compare weight totals
+    let newWeight = 0;
+    weapons.forEach(weapon => newWeight += weapon.weight ?? 0);
+
+    if (this.tempChar.combatInfo.weaponsWeight !== newWeight) {
+      this.tempChar.equipment.acItemsWeight = newWeight;
+      const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, weapons, this.tempChar.equipment.acItems);
+      this.checkBurdenUpdateSkills(totalWeight, this.tempChar.equipment.totalAcPenalty);
+    }
+
     this.tempChar.combatInfo.weapons = weapons;
     this.character.next(this.tempChar);
 
@@ -272,6 +282,16 @@ export class CharacterDataService {
 
   updateGear(info: Gear[]) {
     this.tempRollback();
+
+    let newWeight = 0;
+    info.forEach(item => newWeight += item.weight ?? 0);
+
+    if (this.tempChar.equipment.gearWeight !== newWeight) {
+      this.tempChar.equipment.gearWeight = newWeight;
+      const totalWeight = this.totService.getTotalWeight(info, this.tempChar.combatInfo.weapons, this.tempChar.equipment.acItems);
+      this.checkBurdenUpdateSkills(totalWeight, this.tempChar.equipment.totalAcPenalty);
+    }
+
     this.tempChar.equipment.gear = info;
     this.character.next(this.tempChar);
 
@@ -288,10 +308,8 @@ export class CharacterDataService {
 
     //compare weight totals and get check penalties
     let newWeight = 0;
-    let oldWeight = 0;
     let newAcPenalty = 0;
     info.forEach(ac => newWeight += ac.weight ?? 0);
-    this.tempChar.equipment.acItems.forEach(ac => oldWeight += ac.weight ?? 0);
 
     //calculate the current ac penalty
     info.forEach(ac => {
@@ -301,7 +319,8 @@ export class CharacterDataService {
     });
 
     //if there isn't a difference in weight don't check for burden
-    if (newWeight !== oldWeight) {
+    if (newWeight !== this.tempChar.equipment.acItemsWeight) {
+      this.tempChar.equipment.acItemsWeight = newWeight;
       const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, this.tempChar.combatInfo.weapons, info);
       this.checkBurdenUpdateSkills(totalWeight, newAcPenalty);
     }
@@ -357,15 +376,17 @@ export class CharacterDataService {
     const dex_strSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth', 'Climb', 'Swim'];
     const negativeAcCheckPenalty = -Math.abs(acCheckPenalty);
     let penalty = 0;
-    if (burden === burdenEnum.medium) {
-      penalty = -3;
+    switch (burden) {
+      case burdenEnum.light:
+        penalty = 0;
+        break;
+      case burdenEnum.medium:
+        penalty = -3;
+        break;
+      case burdenEnum.heavy:
+        penalty = -6;
+        break;
     }
-    else if (burden === burdenEnum.heavy) {
-      penalty = -6;
-    }
-
-    console.log('load pen', penalty);
-    console.log('ac check pen', negativeAcCheckPenalty);
 
     const updatedSkills = this.tempChar.skillList = this.tempChar.skillList.map(skill => {
       if (dex_strSkills.some(s => s === skill.id)) {
@@ -381,9 +402,7 @@ export class CharacterDataService {
     const newBurden = this.totService.calculateEncumbrance(this.tempChar.equipment.weightCaps, totalWeight);
     if (newBurden !== this.tempChar.equipment.currentBurden) {
       this.tempChar.equipment.currentBurden = newBurden;
-      if (newBurden === burdenEnum.heavy || newBurden === burdenEnum.medium) {
-        this.updateSkillCheckPenalty(newBurden, acCheckPenalty);
-      }
+      this.updateSkillCheckPenalty(newBurden, acCheckPenalty);
     }
   }
 }

@@ -9,6 +9,8 @@ export interface IEquipment {
     weightCaps: IWeightCapacity;
     totalAcPenalty: number;
     currentBurden: burdenEnum;
+    acItemsWeight: number;
+    gearWeight: number;
 }
 
 export interface IWeightCapacity {
@@ -138,6 +140,8 @@ export class Equipment implements IEquipment {
     weightCaps: WeightCapacity;
     currentBurden: burdenEnum;
     totalAcPenalty: number = 0;
+    acItemsWeight: number;
+    gearWeight: number;
 
     constructor(info?: IEquipment) {
         if (info) {

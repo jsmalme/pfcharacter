@@ -71,7 +71,8 @@ export class InMemoryDataService implements InMemoryDataService {
           range: '5ft',
           type: 'P',
           weight: 5
-        }]
+        }],
+        weaponsWeight: 5
       },
       equipment: {
         acItems: [{
@@ -85,9 +86,11 @@ export class InMemoryDataService implements InMemoryDataService {
           weight: 10,
           maxDex: 4,
         }],
+        acItemsWeight: 10,
         gear: [
           { name: 'rope', weight: 10 },
           { name: 'torch', weight: 3 }],
+        gearWeight: 13,
         money: {
           cp: 35,
           gp: 23,

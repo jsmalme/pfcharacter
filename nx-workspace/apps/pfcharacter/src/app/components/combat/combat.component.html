@@ -245,7 +245,7 @@
                       <span *ngIf="(char.abilities.dex.useMod ?? 0)!== acDexScore"
                         class="position-absolute top-0 start-100 translate-middle pt-3">
                         <mat-icon color="accent"
-                          matTooltip="Your equipped items are currently reducing your AC Dex bonus by {{(char.abilities.dex.useMod ?? 0) - acDexScore}}."
+                          matTooltip="Your equipped items/encumbrance are currently reducing your AC Dex bonus by {{(char.abilities.dex.useMod ?? 0) - acDexScore}}."
                           matTooltipPosition="above">
                           shield
                         </mat-icon>
