@@ -293,16 +293,20 @@ export class CharacterDataService {
     info.forEach(ac => newWeight += ac.weight ?? 0);
     this.tempChar.equipment.acItems.forEach(ac => oldWeight += ac.weight ?? 0);
 
+    //calculate the current ac penalty
     info.forEach(ac => {
       if (ac.equipped) {
         (Math.abs(ac.checkPen ?? 0)) > newAcPenalty ? newAcPenalty = (Math.abs(ac.checkPen ?? 0)) : newAcPenalty;
       }
     });
 
+    //if there isn't a difference in weight don't check for burden
     if (newWeight !== oldWeight) {
       const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, this.tempChar.combatInfo.weapons, info);
       this.checkBurdenUpdateSkills(totalWeight, newAcPenalty);
     }
+
+    //if there is a difference in ac penalty update the skills
     else if (this.tempChar.equipment.totalAcPenalty !== newAcPenalty) {
       this.updateSkillCheckPenalty(this.tempChar.equipment.currentBurden, newAcPenalty);
     }
