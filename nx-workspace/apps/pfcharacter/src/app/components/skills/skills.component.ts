@@ -39,8 +39,9 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     private totService: CalcTotService) { }
 
 
-  nonMobileColumns: string[] = ['favorite', 'classSkill', 'name', 'abilityName',
+  largeColumns: string[] = ['favorite', 'classSkill', 'name', 'abilityName',
     'total', 'abilityMod', 'class', 'ranks', 'racial', 'misc'];
+  mediumColumns: string[] = ['favorite', 'classSkill', 'name', 'abilityName', 'total', 'abilityMod', 'class'];
   mobileColumns: string[] = ['favorite', 'classSkill', 'name', 'abilityName', 'total'];
   displayedColumns: string[] = new Array<string>();
   dataSource = new MatTableDataSource<AbstractControl<unknown, unknown>>;
@@ -66,9 +67,28 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     });
 
     //angular grid bootstrapping thingy
-    this.breakpointObserver.observe(['(min-width:768px)'])
+    this.breakpointObserver.observe(['(min-width:993px)'])
       .subscribe((state: BreakpointState) => {
-        state.matches ? this.displayedColumns = this.nonMobileColumns : this.displayedColumns = this.mobileColumns;
+        if (state.matches) {
+          console.log('large');
+          this.displayedColumns = this.largeColumns;
+        }
+      });
+
+    this.breakpointObserver.observe(['(min-width:768px) and (max-width:992px)'])
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          console.log('medium');
+          this.displayedColumns = this.mediumColumns;
+        }
+      });
+
+    this.breakpointObserver.observe(['(max-width:767px)'])
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          console.log('mobile');
+          this.displayedColumns = this.mobileColumns;
+        }
       });
   }
 
