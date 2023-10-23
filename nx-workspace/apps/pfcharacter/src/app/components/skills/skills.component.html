@@ -39,9 +39,9 @@
                 <div class="col-5">
                   {{skill.controls.abilityName.value}}
                 </div>
-                <div class="col-6 d-flex justify-content-end">
+                <div class="col-6 d-flex justify-content-end" *ngIf="skill.controls.checkPenalty.value < 0">
                   <mat-icon color="accent"
-                    matTooltip="Your equipped items/encumbrance are currently reducing your AC Dex bonus by {{skill.checkPenalty}}."
+                    matTooltip="Your equipped items/encumbrance are currently reducing this skill by {{-skill.controls.checkPenalty.value}}."
                     matTooltipPosition="above">
                     shield
                   </mat-icon>
@@ -124,23 +124,26 @@
                 [@detailExpand]="skill.isExpanded ? 'expanded' : 'collapsed'"
                 [class]="skill.isExpanded ? 'marginTop' : ''">
                 <div class="col d-flex justify-content-center">
-                  <mat-form-field class="text-center w-md-100" appearance="outline" color="accent">
+                  <mat-form-field class="text-center w-md-100" appearance="outline" color="accent"
+                    [ngClass]="{'medium-size-fields': isMediumScreen, 'non-medium-size-fields': !isMediumScreen}">
                     <mat-label>Ranks</mat-label>
                     <input matInput inputmode="numeric" type="number" pattern="-?[0-9]*" formControlName="ranks">
                   </mat-form-field>
                 </div>
 
                 <div class="col d-flex justify-content-center">
-                  <mat-form-field class="text-center" appearance="outline" color="accent">
+                  <mat-form-field class="text-center" appearance="outline" color="accent"
+                    [ngClass]="{'medium-size-fields': isMediumScreen, 'non-medium-size-fields': !isMediumScreen}">
                     <mat-label>Racial</mat-label>
-                    <input matInput inputmode="numeric" type="number" pattern="-?[0-9]*" formControlName="racial">
+                    <input matInput inputmode=" numeric" type="number" pattern="-?[0-9]*" formControlName="racial">
                   </mat-form-field>
                 </div>
 
                 <div class="col d-flex justify-content-center">
-                  <mat-form-field class="text-center w-md-100" appearance="outline" color="accent">
+                  <mat-form-field class="text-center w-md-100" appearance="outline" color="accent"
+                    [ngClass]="{'medium-size-fields': isMediumScreen, 'non-medium-size-fields': !isMediumScreen}">
                     <mat-label>Misc</mat-label>
-                    <input matInput inputmode="numeric" type="number" pattern="-?[0-9]*" formControlName="misc">
+                    <input matInput inputmode=" numeric" type="number" pattern="-?[0-9]*" formControlName="misc">
                   </mat-form-field>
                 </div>
 

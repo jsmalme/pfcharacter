@@ -51,7 +51,6 @@ export class CombatComponent implements OnInit {
 
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
-      console.log('ng init combat component');
       this.weaponForm = this.initWeaponForm();
       this.calculateAcDexMod(char.abilities.dex.useMod, char.equipment.acItems);
       this.calculateArmorAndShield(char.equipment.acItems);

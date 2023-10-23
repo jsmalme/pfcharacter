@@ -2,7 +2,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CharacterDataService } from '../../services/character-data.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Abilities } from '../../../../../../libs/character-classes/abilities';
 import { Skill } from '../../../../../../libs/character-classes/skills';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { maxNumberValidator } from '../../functions/validators';
@@ -32,6 +31,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
   skills: Skill[];
   character$: Observable<Character>;
   count = 0;
+  isMediumScreen = false;
 
   constructor(private store: CharacterDataService,
     private breakpointObserver: BreakpointObserver,
@@ -49,7 +49,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    this.character$ = this.store.characterUpdate$.pipe(take(1));
+    this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
       this.skillsForm = this.fb.group({
         skills: this.getSkillsFormArray(char.skillList)
@@ -70,7 +70,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     this.breakpointObserver.observe(['(min-width:993px)'])
       .subscribe((state: BreakpointState) => {
         if (state.matches) {
-          console.log('large');
+          this.isMediumScreen = false;
           this.displayedColumns = this.largeColumns;
         }
       });
@@ -78,7 +78,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     this.breakpointObserver.observe(['(min-width:768px) and (max-width:992px)'])
       .subscribe((state: BreakpointState) => {
         if (state.matches) {
-          console.log('medium');
+          this.isMediumScreen = true;
           this.displayedColumns = this.mediumColumns;
         }
       });
@@ -86,7 +86,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     this.breakpointObserver.observe(['(max-width:767px)'])
       .subscribe((state: BreakpointState) => {
         if (state.matches) {
-          console.log('mobile');
+          this.isMediumScreen = false;
           this.displayedColumns = this.mobileColumns;
         }
       });
@@ -124,6 +124,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
         ranks: this.fb.control(skill.ranks, maxNumberValidator()),
         racial: this.fb.control(skill.racial, maxNumberValidator()),
         misc: this.fb.control(skill.misc, maxNumberValidator()),
+        checkPenalty: this.fb.control(skill.checkPenalty)
       }))
     )
   }

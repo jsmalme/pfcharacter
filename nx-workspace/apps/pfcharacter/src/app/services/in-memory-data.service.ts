@@ -106,7 +106,7 @@ export class InMemoryDataService implements InMemoryDataService {
           medLoad: { min: 0, max: 0 },
         },
         currentBurden: burdenEnum.light,
-        totalAcPenalty: 2
+        totalAcPenalty: 0
       },
       abilities: {
         str: {
