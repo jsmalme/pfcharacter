@@ -21,8 +21,9 @@
         ],
         "styles": [
           "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-          "apps/pfcharacter/src/styles.scss",
-          "apps/pfcharacter/src/theme.scss"
+          "apps/pfcharacter/src/styles/styles.scss",
+          "apps/pfcharacter/src/theme.scss",
+          "apps/pfcharacter/src/styles/am-override.scss"
         ],
         "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"]
       },

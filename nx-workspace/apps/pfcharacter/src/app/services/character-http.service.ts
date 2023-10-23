@@ -35,7 +35,6 @@ export class CharacterService {
   }
 
   updateCharacter(character: ICharacter): Observable<ICharacter> {
-    console.log(character);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.characterUrl} + ${character.id}`;
     return this.http.put<ICharacter>(url, character, { headers: headers }).pipe(

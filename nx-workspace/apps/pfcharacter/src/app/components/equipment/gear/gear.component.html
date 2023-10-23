@@ -1,0 +1,33 @@
+<ng-container *ngIf="character$ | async as char">
+    <form [formGroup]="gearForm" autocomplete="off">
+        <mat-card class="mat-elevation-z2 pb-0">
+            <mat-card-title class="primary-background mat-elevation-z1"
+                style="margin-top: -16px; margin-left: -16px; margin-right: -16px">
+                <div class="container" style="padding-top: 12px; padding-bottom: 12px">
+                    Gear
+                </div>
+            </mat-card-title>
+        </mat-card>
+        <br>
+        <mat-grid-list [cols]="1" [rowHeight]="'3.85em'" gutterSize="5px" class="justify-content-center">
+            <ng-container *ngFor="let gearForm of gearItems.controls;  let i = index">
+                <mat-grid-tile>
+                    <mat-card class="h-100 w-100 pt-2">
+                        <app-gear-item [gearItemForm]="$any(gearForm)" [index]="i"
+                            (deleteGearItemEvent)="deleteGearItem($event)"></app-gear-item>
+                    </mat-card>
+                </mat-grid-tile>
+            </ng-container>
+            <mat-grid-tile>
+                <mat-card class="h-100 w-100">
+                    <div class="h-100 w-100 d-flex justify-content-center align-items-center">
+                        <button mat-raised-button color="primary" (click)="addGearItem()">
+                            <mat-icon>add</mat-icon>
+                            Add Gear Item
+                        </button>
+                    </div>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </form>
+</ng-container>

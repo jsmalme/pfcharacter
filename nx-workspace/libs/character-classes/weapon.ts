@@ -6,5 +6,5 @@ export class Weapon {
     type: string | undefined;
     range: string | undefined;
     ammunition: string | undefined;
-    weight: string | undefined;
+    weight: number | undefined;
 }

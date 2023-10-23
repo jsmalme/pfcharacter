@@ -1,0 +1,39 @@
+<ng-container *ngIf="character$ | async as char">
+    <form [formGroup]="moneyForm" autocomplete="off">
+        <mat-card class="mat-elevation-z2">
+            <mat-card-title class="primary-background mat-elevation-z1"
+                style="margin-top: -16px; margin-left: -16px; margin-right: -16px">
+                <div class="container" style="margin-left: -12px; padding-top: 12px; padding-bottom: 12px">
+                    Money
+                </div>
+            </mat-card-title>
+            <br>
+            <div class="row">
+                <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>CP</mat-label>
+                        <input matInput formControlName="cp" type="number" (focus)="fixTheOutlines()">
+                    </mat-form-field>
+                </div>
+                <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>SP</mat-label>
+                        <input matInput formControlName="sp" (focus)="fixTheOutlines()">
+                    </mat-form-field>
+                </div>
+                <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>GP</mat-label>
+                        <input matInput formControlName="gp" (focus)="fixTheOutlines()">
+                    </mat-form-field>
+                </div>
+                <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>PP</mat-label>
+                        <input matInput formControlName="pp" (focus)="fixTheOutlines()">
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card>
+    </form>
+</ng-container>

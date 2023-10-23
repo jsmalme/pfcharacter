@@ -1,8 +1,9 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
-import { Character, ICharacter } from 'libs/character-classes/character';
+import { ICharacter } from 'libs/character-classes/character';
 import { SizeEnum } from 'libs/character-classes/general-info';
 import { Skill } from 'libs/character-classes/skills';
+import { acTypeEnum, burdenEnum } from 'libs/character-classes/equipment';
 
 
 @Injectable({
@@ -56,8 +57,6 @@ export class InMemoryDataService implements InMemoryDataService {
         cmdBabMod: 10,
         cmdMiscMod: 10,
         acTotal: 10,
-        acArmorMod: 10,
-        acShieldMod: 10,
         acNaturalArmorMod: 10,
         acDeflectMod: 10,
         acMiscMod: 10,
@@ -71,8 +70,43 @@ export class InMemoryDataService implements InMemoryDataService {
           name: 'weapon number one',
           range: '5ft',
           type: 'P',
-          weight: '5'
-        }]
+          weight: 5
+        }],
+        weaponsWeight: 5
+      },
+      equipment: {
+        acItems: [{
+          bonus: 10,
+          checkPen: 2,
+          name: 'longsword',
+          properties: '',
+          spellFailure: '10%',
+          type: acTypeEnum.light,
+          equipped: false,
+          weight: 10,
+          maxDex: 4,
+        }],
+        acItemsWeight: 10,
+        gear: [
+          { name: 'rope', weight: 10 },
+          { name: 'torch', weight: 3 }],
+        gearWeight: 13,
+        money: {
+          cp: 35,
+          gp: 23,
+          pp: 3,
+          sp: 1
+        },
+        weightCaps: {
+          dragOrPush: 0,
+          heavyLoad: { min: 0, max: 0 },
+          liftOffGround: 0,
+          liftOverHead: 0,
+          lightLoad: 0,
+          medLoad: { min: 0, max: 0 },
+        },
+        currentBurden: burdenEnum.light,
+        totalAcPenalty: 0
       },
       abilities: {
         str: {

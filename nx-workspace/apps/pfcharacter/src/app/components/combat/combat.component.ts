@@ -1,21 +1,20 @@
+import { Equipment, acTypeEnum } from './../../../../../../libs/character-classes/equipment';
+import { DexScore } from './../../../../../../libs/character-classes/abilities';
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
-import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CharacterDataService } from '../../services/character-data.service';
 import { CombatInfo } from '../../../../../../libs/character-classes/combat-info';
-import { Subscription, debounceTime, Subject, Observable, tap } from 'rxjs';
+import { Subscription, debounceTime, Subject, Observable, first, takeUntil } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
 import { maxNumberValidator } from '../../functions/validators';
-import { Abilities } from '../../../../../../libs/character-classes/abilities';
-import { checkValidForm } from '../../functions/check-valid-form';
+
 import { WeaponComponent } from '../weapon/weapon.component';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { CalcTotService } from '../../services/calc-tot.service';
 import { Character } from 'libs/character-classes/character';
 import { Weapon } from 'libs/character-classes/weapon';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CharacterService } from '../../services/character-http.service';
+import { AcItem } from 'libs/character-classes/equipment';
 
 @Component({
   selector: 'app-combat',
@@ -30,8 +29,12 @@ export class CombatComponent implements OnInit {
   combatInfoForm: FormGroup;
   weaponForm: FormGroup;
   counter = 0;
+  acDexScore = 0;
+  acArmor = 0;
+  acShield = 0;
+  destroy$ = new Subject<void>();
 
-  cols = 2;
+  cols = 1;
   weaponObjectHeight = '15em';
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
   changesUnsubscribe = new Subject<void>();
@@ -46,20 +49,24 @@ export class CombatComponent implements OnInit {
     this.combatInfoForm = this.initCombatForm();
     this.weaponForm = this.initWeaponForm();
 
+    this.character$ = this.store.characterUpdate$;
+    this.character$.pipe(first()).subscribe((char: Character) => {
+      this.weaponForm = this.initWeaponForm();
+      this.calculateAcDexMod(char.abilities.dex.useMod, char.equipment.acItems);
+      this.calculateArmorAndShield(char.equipment.acItems);
+      char.combatInfo.getCombatInfoTotals(char.abilities, this.acDexScore, this.acArmor, this.acShield);
+      this.setFormGroup(char.combatInfo);
+      this.setWeaponArray(char.combatInfo.weapons);
+    });
+
     //combat form change listener
     this.combatInfoForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
       if (!this.combatInfoForm?.valid) {
         return;
       }
-      this.store.updateCombatInfo(info);
+      this.store.updateCombatInfo(info, this.acDexScore, this.acArmor, this.acShield);
     });
 
-    this.character$ = this.store.characterUpdate$;
-    this.character$.subscribe((char: Character) => {
-      this.weaponForm = this.initWeaponForm();
-      this.setFormGroup(char.combatInfo);
-      this.setWeaponArray(char.combatInfo.weapons);
-    });
 
     //angular grid bootstrapping thingy
     this.breakpointObserver.observe(['(min-width:992px)'])
@@ -106,6 +113,38 @@ export class CombatComponent implements OnInit {
     this.combatInfoForm.patchValue(info, { emitEvent: false });
   }
 
+  calculateAcDexMod(dex: number | undefined, acItems: AcItem[]) {
+    if (dex === undefined || acItems === undefined) {
+      return;
+    }
+    let maxDex = dex ?? 0;
+    acItems.forEach(item => {
+      if (item.equipped && item.maxDex && item.maxDex < maxDex) {
+        maxDex = item.maxDex;
+      }
+    });
+    this.acDexScore = maxDex;
+  }
+
+  calculateArmorAndShield(acItems: AcItem[]) {
+    if (acItems === undefined) {
+      return;
+    }
+    acItems.forEach(item => {
+      if (item.equipped) {
+        //note: bonuses don't stack take the highest ac bonus from your equipment for shield and ac and apply it
+        if (item.type == acTypeEnum.shield) {
+          this.acShield < (item.bonus ?? 0) ? this.acShield = (item.bonus ?? 0) : this.acShield;
+        }
+        else {
+          this.acArmor < (item.bonus ?? 0) ? this.acArmor = (item.bonus ?? 0) : this.acArmor;
+        }
+      }
+    });
+  }
+
+
+  //weapons ---------------------------------------------------------
   setWeaponArray(weapons: Weapon[]) {
     if (weapons === undefined) {
       return;
@@ -123,7 +162,6 @@ export class CombatComponent implements OnInit {
     });
   }
 
-  //weapons ---------------------------------------------------------
   get weaponArray(): FormArray {
     return this.weaponForm?.get('weapons') as FormArray;
   }
@@ -152,6 +190,6 @@ export class CombatComponent implements OnInit {
       damage: this.fb.control(weapon.damage, Validators.maxLength(10))
     });
   }
-  //----------------------------------------------------------------
+  //------------------------------------------------------------------------------
 }
 

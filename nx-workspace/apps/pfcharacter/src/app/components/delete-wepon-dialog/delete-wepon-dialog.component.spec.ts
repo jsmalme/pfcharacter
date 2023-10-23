@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteWeponDialogComponent } from './delete-wepon-dialog.component';
+import { DeleteItemDialogComponent } from './delete-wepon-dialog.component';
 
 describe('DeleteWeponDialogComponent', () => {
-  let component: DeleteWeponDialogComponent;
-  let fixture: ComponentFixture<DeleteWeponDialogComponent>;
+  let component: DeleteItemDialogComponent;
+  let fixture: ComponentFixture<DeleteItemDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DeleteWeponDialogComponent],
+      declarations: [DeleteItemDialogComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DeleteWeponDialogComponent);
+    fixture = TestBed.createComponent(DeleteItemDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

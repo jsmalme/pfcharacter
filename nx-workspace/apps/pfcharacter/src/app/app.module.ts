@@ -27,6 +27,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -35,9 +37,16 @@ import { ModDisplayComponent } from './components/mod-display/mod-display.compon
 import { CombatComponent } from './components/combat/combat.component';
 import { WeaponComponent } from './components/weapon/weapon.component';
 import { TotalDisplayComponent } from './components/total-display/total-display.component';
-import { DeleteWeponDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
+import { DeleteItemDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
+import { EquipmentComponent } from './components/equipment/equipment.component';
+import { GearComponent } from './components/equipment/gear/gear.component';
+import { AcItemsComponent } from './components/equipment/ac-items/ac-items.component';
+import { MoneyComponent } from './components/equipment/money/money.component';
+import { WeightCapacityComponent } from './components/equipment/weight-capacity/weight-capacity.component';
+import { GearItemComponent } from './components/equipment/gear-item/gear-item.component';
+import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list-item.component';
 
 @NgModule({
   declarations: [
@@ -48,8 +57,15 @@ import { InMemoryDataService } from './services/in-memory-data.service';
     CombatComponent,
     WeaponComponent,
     TotalDisplayComponent,
-    DeleteWeponDialogComponent,
-    SkillsComponent
+    DeleteItemDialogComponent,
+    SkillsComponent,
+    EquipmentComponent,
+    GearComponent,
+    AcItemsComponent,
+    MoneyComponent,
+    WeightCapacityComponent,
+    GearItemComponent,
+    AcListItemComponent,
   ],
   imports: [
     HttpClientModule,
@@ -75,6 +91,8 @@ import { InMemoryDataService } from './services/in-memory-data.service';
     MatCheckboxModule,
     MatSortModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
+    MatButtonToggleModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),
@@ -82,4 +100,4 @@ import { InMemoryDataService } from './services/in-memory-data.service';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
