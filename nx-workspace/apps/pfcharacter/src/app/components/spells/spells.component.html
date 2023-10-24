@@ -1,0 +1,75 @@
+<div class="container-xxl comp-top-margin">
+    <div class="row border">
+        <div class="col-8">
+            <mat-card class="mat-elevation-z2">
+                <mat-card-title class="primary-background mat-elevation-z1"
+                    style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+                    <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+                        <div class="row d-flex">
+                            <div class="col-auto">
+                                Spell List
+                            </div>
+                            <div class="col-auto ms-auto">
+                                <button mat-stroked-button>
+                                    Add
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-title>
+                <br>
+                <ng-container *ngFor="">
+
+                </ng-container>
+            </mat-card>
+        </div>
+        <div class="col-4">
+            <form [formGroup]="spellStatsForm">
+                <mat-card class="mat-elevation-z2">
+                    <mat-card-title class="primary-background mat-elevation-z1"
+                        style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+                        <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+                            Spells Info
+                        </div>
+                    </mat-card-title>
+                    <br>
+                    <div formArrayName="spellStats">
+                        <div class="row g-0 d-flex align-items-center"
+                            *ngFor="let spellStat of spellStats.controls; let i = index">
+                            <ng-container [formGroupName]="i">
+                                <div class="col-1 pb-3">
+                                    {{i}}:
+                                </div>
+                                <div class="col">
+                                    <mat-form-field appearance="outline" color="accent" class="form-field-width">
+                                        <mat-label>Known</mat-label>
+                                        <input matInput type="number" formControlName="spellsKnown">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col">
+                                    <mat-form-field appearance="outline" color="accent" class="form-field-width">
+                                        <mat-label>Save DC</mat-label>
+                                        <input matInput type="number" formControlName="saveDc">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col">
+                                    <mat-form-field appearance="outline" color="accent" class="form-field-width">
+                                        <mat-label>Per Day</mat-label>
+                                        <input matInput type="number" formControlName="spellsPerDay">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col">
+                                    <mat-form-field appearance="outline" color="accent" class="form-field-width">
+                                        <mat-label>Bonus</mat-label>
+                                        <input matInput type="number" formControlName="bonusSpells">
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </mat-card>
+            </form>
+        </div>
+    </div>
+</div>

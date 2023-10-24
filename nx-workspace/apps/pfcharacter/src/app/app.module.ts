@@ -47,6 +47,7 @@ import { MoneyComponent } from './components/equipment/money/money.component';
 import { WeightCapacityComponent } from './components/equipment/weight-capacity/weight-capacity.component';
 import { GearItemComponent } from './components/equipment/gear-item/gear-item.component';
 import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list-item.component';
+import { SpellsComponent } from './components/spells/spells.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list
     WeightCapacityComponent,
     GearItemComponent,
     AcListItemComponent,
+    SpellsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -100,4 +102,4 @@ import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

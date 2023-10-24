@@ -181,6 +181,84 @@ export class InMemoryDataService implements InMemoryDataService {
           total: 3
         }
       },
+      spells: {
+        modifiers: 'modifiers',
+        domains_specialty: 'domains_specialty',
+        spells: [{
+          name: 'spell name',
+          level: 1,
+          castTime: 'castTime',
+          components: 'components',
+          range: 'range',
+          area: 'area',
+          duration: 'duration',
+          description: 'description',
+          shortDescription: 'shortDescription',
+          link: 'link'
+        }],
+        stats: [
+          {
+            spellsPerDay: 10,
+            spellsKnown: 10,
+            saveDc: 10,
+            bonusSpells: 10,
+          },
+          {
+            spellsPerDay: 9,
+            spellsKnown: 9,
+            saveDc: 9,
+            bonusSpells: 9,
+          },
+          {
+            spellsPerDay: 8,
+            spellsKnown: 8,
+            saveDc: 8,
+            bonusSpells: 8
+          },
+          {
+            spellsPerDay: 7,
+            spellsKnown: 7,
+            saveDc: 7,
+            bonusSpells: 7
+          },
+          {
+            spellsPerDay: 6,
+            spellsKnown: 6,
+            saveDc: 6,
+            bonusSpells: 6
+          },
+          {
+            spellsPerDay: 5,
+            spellsKnown: 5,
+            saveDc: 5,
+            bonusSpells: 5
+          },
+          {
+            spellsPerDay: 4,
+            spellsKnown: 4,
+            saveDc: 4,
+            bonusSpells: 4
+          },
+          {
+            spellsPerDay: 3,
+            spellsKnown: 3,
+            saveDc: 3,
+            bonusSpells: 3
+          },
+          {
+            spellsPerDay: 2,
+            spellsKnown: 2,
+            saveDc: 2,
+            bonusSpells: 2
+          },
+          {
+            spellsPerDay: 1,
+            spellsKnown: 1,
+            saveDc: 1,
+            bonusSpells: 1
+          }
+        ]
+      },
       skillList: [
         new Skill('Acrobatics', 'Dex'),
         new Skill('Appraise', 'Int'),
