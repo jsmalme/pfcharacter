@@ -5,6 +5,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, first } from 'rxjs';
 import { Character } from 'libs/character-classes/character';
 import { Spell, SpellStat } from 'libs/character-classes/spells';
+import { group } from 'console';
 
 @Component({
   selector: 'nx-workspace-spells',
@@ -13,6 +14,7 @@ import { Spell, SpellStat } from 'libs/character-classes/spells';
 })
 export class SpellsComponent implements OnInit {
   character$: Observable<Character>;
+  sortedSpells: Record<number, Spell[]>;
   spellStatsForm = this.fb.group({
     spellStats: this.fb.array<SpellStat>([]),
   });
@@ -26,6 +28,7 @@ export class SpellsComponent implements OnInit {
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
       this.setSpellStatsForm(char.spells.stats);
+      this.sortSpells(char.spells.spellList);
     });
 
     console.log(this.spellStatsForm.value);
@@ -51,5 +54,25 @@ export class SpellsComponent implements OnInit {
       saveDc: [stat.saveDc, Validators.max(100)],
       bonusSpells: [stat.bonusSpells, Validators.max(100)],
     });
+  }
+
+  sortSpells(spells: Spell[] | undefined) {
+    if (!spells) {
+      return;
+    }
+
+    const groupedSpells: Record<number, Spell[]> = {};
+
+    spells.forEach(spell => {
+      const { level } = spell;
+      if (groupedSpells[level]) {
+        groupedSpells[level].push(spell);
+      }
+      else {
+        groupedSpells[level] = [spell];
+      }
+    });
+
+    this.sortedSpells = groupedSpells;
   }
 }

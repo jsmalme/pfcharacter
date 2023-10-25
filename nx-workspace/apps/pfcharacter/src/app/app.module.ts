@@ -29,6 +29,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -95,6 +97,7 @@ import { SpellsComponent } from './components/spells/spells.component';
     MatSnackBarModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
+    MatExpansionModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),
@@ -102,4 +105,4 @@ import { SpellsComponent } from './components/spells/spells.component';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

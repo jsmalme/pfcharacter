@@ -21,6 +21,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: mat.get-color-from-palette($primary-palette);
 }
 
+.primary-background-hover :hover{
+    background-color: mat.get-color-from-palette($primary-palette);
+}
+
 .badge-total{
     background-color: mat.get-color-from-palette($accent-palette);
     font-size: 1.3rem;

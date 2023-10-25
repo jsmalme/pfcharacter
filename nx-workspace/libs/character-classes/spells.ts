@@ -1,13 +1,13 @@
 export interface ISpells {
     modifiers: string | undefined;
     domains_specialty: string | undefined;
-    spells: Array<Spell> | undefined;
+    spellList: Array<Spell> | undefined;
     stats: Array<SpellStat> | undefined;
 }
 
 export class Spell {
     name: string | undefined;
-    level: number | undefined;
+    level: number;
     castTime: string | undefined;
     components: string | undefined;
     range: string | undefined;
@@ -28,8 +28,8 @@ export class SpellStat {
 export class Spells implements ISpells {
     modifiers: string | undefined = undefined;
     domains_specialty: string | undefined = undefined;
-    spells: Array<Spell> | undefined = undefined;
-    stats: Array<SpellStat> | undefined = new Array<SpellStat>(10);
+    spellList: Array<Spell> = new Array<Spell>();
+    stats: Array<SpellStat> = new Array<SpellStat>(10);
 
     constructor(spells?: ISpells) {
         if (spells) {
