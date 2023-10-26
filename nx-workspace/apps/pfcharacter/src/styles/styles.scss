@@ -21,7 +21,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .accent-background{
-    background-color: mat.get-color-from-palette($accent-palette);
+    background-color: mat.get-color-from-palette($accent-palette);;
 }
 
 .badge-total{
