@@ -17,12 +17,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .primary-background{
-    border-radius: 4px 4px 1px 1px;
     background-color: mat.get-color-from-palette($primary-palette);
 }
 
-.primary-background-hover :hover{
-    background-color: mat.get-color-from-palette($primary-palette);
+.accent-background{
+    background-color: mat.get-color-from-palette($accent-palette);
 }
 
 .badge-total{

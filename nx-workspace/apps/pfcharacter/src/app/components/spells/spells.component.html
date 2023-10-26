@@ -4,7 +4,7 @@
             <form [formGroup]="spellStatsForm">
                 <div class="col-12">
                     <mat-card class="mat-elevation-z2">
-                        <mat-card-title class="primary-background mat-elevation-z1"
+                        <mat-card-title class="primary-background rounded-top mat-elevation-z1"
                             style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
                             <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
                                 <div class="row d-flex">
@@ -14,13 +14,19 @@
                                     <div class="col-auto ms-auto">
                                         <div class="row">
                                             <div class="col">
-                                                <button mat-stroked-button>
+                                                <button mat-stroked-button (click)="accordion.closeAll()">
                                                     Collapse All
-                                                    <mat-icon>unfold_more_double</mat-icon>
+                                                    <mat-icon>unfold_less_double</mat-icon>
                                                 </button>
                                             </div>
                                             <div class="col">
-                                                <button mat-stroked-button>
+                                                <button mat-stroked-button matTooltip="Reset spell usages">
+                                                    Reset
+                                                    <mat-icon>refresh</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="col">
+                                                <button mat-stroked-button matTooltip="Add a new spell">
                                                     Add
                                                     <mat-icon>add</mat-icon>
                                                 </button>
@@ -32,84 +38,95 @@
                         </mat-card-title>
                         <br>
                         <div formArrayName="spellStats">
-                            <ng-container *ngFor="let spellStat of spellStats.controls; let i = index">
-                                <mat-expansion-panel class="mb-2 mat-elevation-z4">
-                                    <mat-expansion-panel-header class="h-25 d-flex align-items-center">
-                                        <ng-container [formGroupName]="i">
-                                            <div class="row d-flex align-items-end pt-3">
-                                                <div class="col-auto">
-                                                    <h2 class="d-none d-md-block">Level {{i}}</h2>
-                                                    <h4 class="d-block d-md-none">Level {{i}}</h4>
+                            <mat-accordion multi>
+                                <ng-container *ngFor="let spellStat of spellStats.controls; let i = index">
+                                    <mat-expansion-panel class="mb-2 mat-elevation-z4">
+                                        <mat-expansion-panel-header class="h-25 d-flex align-items-center">
+                                            <ng-container [formGroupName]="i">
+                                                <div class="row d-flex align-items-end w-100 pt-3">
+                                                    <div class="col-1">
+                                                        <h2 class="d-none d-md-block">Level {{i}}</h2>
+                                                        <h4 class="d-block d-md-none">Level {{i}}</h4>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <mat-form-field color="accent" class="form-field-width me-3"
+                                                            (click)="$event.stopPropagation()">
+                                                            <mat-label>Known</mat-label>
+                                                            <input matInput type="number" formControlName="spellsKnown">
+                                                        </mat-form-field>
+                                                        <mat-form-field color="accent" class="form-field-width me-3"
+                                                            (click)="$event.stopPropagation()">
+                                                            <mat-label>Save DC</mat-label>
+                                                            <input matInput type="number" formControlName="saveDc">
+                                                        </mat-form-field>
+                                                        <mat-form-field color="accent" class="form-field-width me-3"
+                                                            (click)="$event.stopPropagation()">
+                                                            <mat-label>Per Day</mat-label>
+                                                            <input matInput type="number"
+                                                                formControlName="spellsPerDay">
+                                                        </mat-form-field>
+                                                        <mat-form-field *ngIf="i !== 0" color="accent"
+                                                            class="form-field-width me-3"
+                                                            (click)="$event.stopPropagation()">
+                                                            <mat-label>Bonus</mat-label>
+                                                            <input matInput type="number" formControlName="bonusSpells">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-6 ms-0">
+                                                        <p>Spells Used:</p>
+                                                        <ng-container
+                                                            *ngFor="let item of [].constructor(spellStat.get('used')?.value)">
+                                                            <mat-icon style="font-size: 12px;"
+                                                                color="warn">indeterminate_check_box</mat-icon>
+                                                        </ng-container>
+                                                        <ng-container
+                                                            *ngFor="let item of [].constructor((spellStat.get('spellsPerDay')?.value + spellStat.get('bonusSpells')?.value) - spellStat.get('used')?.value)">
+                                                            <mat-icon style="font-size: 12px;"
+                                                                color="primary">square</mat-icon>
+                                                        </ng-container>
+                                                    </div>
                                                 </div>
-                                                <div class="col-auto">
-                                                    <mat-form-field color="accent" class="form-field-width"
-                                                        (click)="$event.stopPropagation()">
-                                                        <mat-label>Known</mat-label>
-                                                        <input matInput type="number" formControlName="spellsKnown">
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <mat-form-field color="accent" class="form-field-width"
-                                                        (click)="$event.stopPropagation()">
-                                                        <mat-label>Save DC</mat-label>
-                                                        <input matInput type="number" formControlName="saveDc">
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <mat-form-field color="accent" class="form-field-width"
-                                                        (click)="$event.stopPropagation()">
-                                                        <mat-label>Per Day</mat-label>
-                                                        <input matInput type="number" formControlName="spellsPerDay">
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <mat-form-field color="accent" class="form-field-width"
-                                                        (click)="$event.stopPropagation()">
-                                                        <mat-label>Bonus</mat-label>
-                                                        <input matInput type="number" formControlName="bonusSpells">
-                                                    </mat-form-field>
-                                                </div>
-                                            </div>
-                                        </ng-container>
-                                    </mat-expansion-panel-header>
-                                    <div class="row d-flex">
-                                        <div class="col-1">
-                                            Details
-                                        </div>
-                                        <div class="col-3">
-                                            Name
-                                        </div>
-                                        <div class="col-7">
-                                            Description
-                                        </div>
-                                        <div class="col-1">
-                                            Use
-                                        </div>
-                                    </div>
-                                    <mat-divider></mat-divider>
-                                    <ng-container *ngFor="let spell of sortedSpells[i]; let i = index">
-                                        <div class="row mb-2 mt-2 d-flex align-items-center">
-                                            <div class="col-1 ps-3">
-                                                <button mat-icon-button>
-                                                    <mat-icon>edit_note</mat-icon>
-                                                </button>
-                                            </div>
-                                            <div class="col-3">
-                                                {{spell.name}}
-                                            </div>
-                                            <div class="col-7">
-                                                {{spell.shortDescription}}
-                                            </div>
-                                            <div class="col-1 ps-1">
-                                                <button mat-icon-button>
-                                                    <mat-icon color="primary">add_circle</mat-icon>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <mat-divider></mat-divider>
-                                    </ng-container>
-                                </mat-expansion-panel>
-                            </ng-container>
+                                            </ng-container>
+                                        </mat-expansion-panel-header>
+                                        <br>
+                                        <table *ngIf="sortedSpells[i]"
+                                            class="table rounded-3 overflow-hidden text-light">
+                                            <thead class="primary-background rounded-top">
+                                                <tr>
+                                                    <th scope="col">
+                                                        <p class="h6">Details</p>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <p class="h6">Name</p>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <p class="h6">Description</p>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <p class="h6">Use</p>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let spell of sortedSpells[i]; let i = index">
+                                                    <td class="align-middle">
+                                                        <button mat-icon-button>
+                                                            <mat-icon>edit_note</mat-icon>
+                                                        </button>
+                                                    </td>
+                                                    <td class="align-middle">{{spell.name}}</td>
+                                                    <td class="align-middle">{{spell.shortDescription}}</td>
+                                                    <td class="align-middle">
+                                                        <button mat-icon-button>
+                                                            <mat-icon>add_circle</mat-icon>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </mat-expansion-panel>
+                                </ng-container>
+                            </mat-accordion>
                         </div>
                     </mat-card>
                 </div>
@@ -117,7 +134,7 @@
             <!-- <div class="col-4">
                 <form [formGroup]="spellStatsForm">
                     <mat-card class="mat-elevation-z2">
-                        <mat-card-title class="primary-background mat-elevation-z1"
+                        <mat-card-title class="primary-background rounded-top mat-elevation-z1"
                             style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
                             <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
                                 Spells Info

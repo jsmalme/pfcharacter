@@ -227,60 +227,70 @@ export class InMemoryDataService implements InMemoryDataService {
             spellsKnown: 10,
             saveDc: 10,
             bonusSpells: 10,
+            used: 5
           },
           {
             spellsPerDay: 9,
             spellsKnown: 9,
             saveDc: 9,
             bonusSpells: 9,
+            used: 3
           },
           {
             spellsPerDay: 8,
             spellsKnown: 8,
             saveDc: 8,
-            bonusSpells: 8
+            bonusSpells: 8,
+            used: 3
           },
           {
             spellsPerDay: 7,
             spellsKnown: 7,
             saveDc: 7,
-            bonusSpells: 7
+            bonusSpells: 7,
+            used: 1
           },
           {
             spellsPerDay: 6,
             spellsKnown: 6,
             saveDc: 6,
-            bonusSpells: 6
+            bonusSpells: 6,
+            used: 0
           },
           {
             spellsPerDay: 5,
             spellsKnown: 5,
             saveDc: 5,
-            bonusSpells: 5
+            bonusSpells: 5,
+            used: 4
           },
           {
             spellsPerDay: 4,
             spellsKnown: 4,
             saveDc: 4,
-            bonusSpells: 4
+            bonusSpells: 4,
+            used: 2
           },
           {
             spellsPerDay: 3,
             spellsKnown: 3,
             saveDc: 3,
-            bonusSpells: 3
+            bonusSpells: 3,
+            used: 1
           },
           {
             spellsPerDay: 2,
             spellsKnown: 2,
             saveDc: 2,
-            bonusSpells: 2
+            bonusSpells: 2,
+            used: 0
           },
           {
             spellsPerDay: 1,
             spellsKnown: 1,
             saveDc: 1,
-            bonusSpells: 1
+            bonusSpells: 1,
+            used: 1
           }
         ]
       },

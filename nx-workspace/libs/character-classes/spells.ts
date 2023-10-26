@@ -23,6 +23,7 @@ export class SpellStat {
     spellsKnown: number = 0;
     saveDc: number = 0;
     bonusSpells: number = 0;
+    used: number = 0;
 }
 
 export class Spells implements ISpells {

@@ -1,7 +1,8 @@
 <div class="container comp-top-margin">
-    <form [formGroup] = "generalInfoForm" autocomplete="off">
+    <form [formGroup]="generalInfoForm" autocomplete="off">
         <mat-card class="mat-elevation-z2">
-            <mat-card-title class="primary-background mat-elevation-z1" style="margin-top: -16px; margin-left: -16px; margin-right: -16px; padding-left: 12px;">
+            <mat-card-title class="primary-background rounded-top mat-elevation-z1"
+                style="margin-top: -16px; margin-left: -16px; margin-right: -16px; padding-left: 12px;">
                 <div class="row " style="padding-top: 12px; padding-bottom: 12px;">
                     <div class="col-7 col-lg-4">
                         General Info
@@ -10,49 +11,49 @@
             </mat-card-title>
             <div class="row" style="margin-top: 16px;">
                 <div class="col-7 col-lg-4">
-                        <h2>Character</h2>
-                        <p>
-                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                                <mat-label>Character Name</mat-label>
-                                <input matInput formControlName="characterName">
-                            </mat-form-field>
-                        </p>
-                        <p>
-                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                                <mat-label>Player Name</mat-label>
-                                <input matInput formControlName="playerName">
-                            </mat-form-field>
-                        </p>
-                        <p>
-                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                                <mat-label>Alignment</mat-label>
-                                <input matInput formControlName="alignment">
-                            </mat-form-field>
-                        </p>
-                        <p>
-                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                                <mat-label>Character Class & Level</mat-label>
-                                <input matInput formControlName="classLevel">
-                            </mat-form-field>
-                        </p>
-                        <p>
-                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                                <mat-label>Deity</mat-label>
-                                <input matInput formControlName="deity">
-                            </mat-form-field>
-                        </p>
-                        <p>
-                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                                <mat-label>Homeland</mat-label>
-                                <input matInput formControlName="homeland">
-                            </mat-form-field>
-                        </p>
-                        <p>
-                            <mat-form-field appearance="outline" color="accent" style="width: 90%;">
-                                <mat-label>Race</mat-label>
-                                <input matInput formControlName="race">
-                            </mat-form-field>
-                        </p>
+                    <h2>Character</h2>
+                    <p>
+                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                            <mat-label>Character Name</mat-label>
+                            <input matInput formControlName="characterName">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                            <mat-label>Player Name</mat-label>
+                            <input matInput formControlName="playerName">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                            <mat-label>Alignment</mat-label>
+                            <input matInput formControlName="alignment">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                            <mat-label>Character Class & Level</mat-label>
+                            <input matInput formControlName="classLevel">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                            <mat-label>Deity</mat-label>
+                            <input matInput formControlName="deity">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                            <mat-label>Homeland</mat-label>
+                            <input matInput formControlName="homeland">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline" color="accent" style="width: 90%;">
+                            <mat-label>Race</mat-label>
+                            <input matInput formControlName="race">
+                        </mat-form-field>
+                    </p>
                 </div>
                 <div class="col-5 col-lg-2">
                     <h2>Appearance</h2>
@@ -60,18 +61,18 @@
                         <mat-form-field appearance="outline" color="accent" style="width: 75%;">
                             <mat-label>Size</mat-label>
                             <mat-select formControlName="size">
-                              <mat-optgroup label="Normal">
-                                <mat-option *ngFor="let size of normalSizes" [value]="size">
-                                  {{size}}
-                                </mat-option>
-                              </mat-optgroup>
-                              <mat-optgroup label="Exotic">
-                                <mat-option *ngFor="let size of exoticSizes" [value]="size">
-                                  {{size}}
-                                </mat-option>
-                              </mat-optgroup>
+                                <mat-optgroup label="Normal">
+                                    <mat-option *ngFor="let size of normalSizes" [value]="size">
+                                        {{size}}
+                                    </mat-option>
+                                </mat-optgroup>
+                                <mat-optgroup label="Exotic">
+                                    <mat-option *ngFor="let size of exoticSizes" [value]="size">
+                                        {{size}}
+                                    </mat-option>
+                                </mat-optgroup>
                             </mat-select>
-                          </mat-form-field>
+                        </mat-form-field>
                     </p>
                     <p>
                         <mat-form-field appearance="outline" color="accent" style="width: 75%;">
@@ -170,4 +171,3 @@
         </mat-card>
     </form>
 </div>
-

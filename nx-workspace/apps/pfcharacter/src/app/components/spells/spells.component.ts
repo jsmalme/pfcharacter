@@ -1,11 +1,11 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CharacterDataService } from '../../services/character-data.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, first } from 'rxjs';
 import { Character } from 'libs/character-classes/character';
 import { Spell, SpellStat } from 'libs/character-classes/spells';
-import { group } from 'console';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'nx-workspace-spells',
@@ -13,6 +13,7 @@ import { group } from 'console';
   styleUrls: ['./spells.component.scss'],
 })
 export class SpellsComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   character$: Observable<Character>;
   sortedSpells: Record<number, Spell[]>;
   spellStatsForm = this.fb.group({
@@ -53,6 +54,7 @@ export class SpellsComponent implements OnInit {
       spellsKnown: [stat.spellsKnown, Validators.max(100)],
       saveDc: [stat.saveDc, Validators.max(100)],
       bonusSpells: [stat.bonusSpells, Validators.max(100)],
+      used: [stat.used]
     });
   }
 
