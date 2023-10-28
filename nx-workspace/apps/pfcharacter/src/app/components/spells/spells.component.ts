@@ -8,6 +8,7 @@ import { Spell, SpellStat } from 'libs/character-classes/spells';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatDialog } from '@angular/material/dialog';
 import { SpellDrawerService } from '../../services/spell-drawer.service';
+import { SpellDetailsComponent } from './spell-details/spell-details.component';
 
 @Component({
   selector: 'nx-workspace-spells',
@@ -33,13 +34,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
-    this.character$.pipe(first()).subscribe((char: Character) => {
+    this.character$.pipe().subscribe((char: Character) => {
       this.setSpellStatsForm(char.spells.stats, char.spells.spellList);
       this.sortSpells(char.spells.spellList);
       this.drawerStatus = this.spellDrawer.drawerStatus;
     });
-
-    console.log(this.spellStatsForm.value);
   }
 
   ngOnDestroy(): void {
@@ -77,9 +76,6 @@ export class SpellsComponent implements OnInit, OnDestroy {
   getSpellAvailabilityMarkers(spellStat: AbstractControl<unknown, unknown>): number[] {
     const total = ((spellStat.get('bonusSpells')?.value ?? 0) + (spellStat.get('spellsPerDay')?.value ?? 0))
       - (spellStat.get('used')?.value ?? 0)
-
-
-    console.log('total', total);
 
     if (total < 0) {
       return [];
@@ -150,5 +146,13 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
   setClosed(level: number) {
     this.spellDrawer.drawerStatus[level] = false;
+  }
+
+  openSpellDetails(spell: Spell) {
+    this.dialog.open(SpellDetailsComponent, {
+      width: '75em',
+      height: '60em',
+      data: { spell: spell, new: false }
+    });
   }
 }

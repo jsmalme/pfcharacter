@@ -129,7 +129,7 @@
                                             <tbody>
                                                 <tr *ngFor="let spell of sortedSpells[i]; let i = index">
                                                     <td class="align-middle ps-3">
-                                                        <button mat-icon-button>
+                                                        <button mat-icon-button (click)="openSpellDetails(spell)">
                                                             <mat-icon>edit_note</mat-icon>
                                                         </button>
                                                     </td>

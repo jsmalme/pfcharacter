@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <form [formGroup]="spellForm">
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field color="accent" class="input-header w-100">
+                    <mat-label>Name</mat-label>
+                    <input matInput inputmode="numeric" type="text" formControlName="name">
+                </mat-form-field>
+            </div>
+            <div class="col-auto pt-4">
+                <a *ngIf="data.spell.link" href="{{data.spell.link}}">
+                    <mat-icon color="accent">open_in_new</mat-icon>
+                </a>
+            </div>
+            <div class="col-2 pt-4">
+                <mat-form-field color="accent" class="w-100">
+                    <mat-label>Level</mat-label>
+                    <input matInput inputmode="numeric" type="number" formControlName="level">
+                </mat-form-field>
+            </div>
+            <div class="col-2 pt-4">
+                <mat-form-field color="accent" class="w-100">
+                    <mat-label>School</mat-label>
+                    <input matInput inputmode="numeric" type="number" formControlName="school">
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <br>
+        <div class="row">
+            <div class="col-8">
+                <mat-form-field color="accent" class="w-100">
+                    <mat-label>Table Description (spell table)</mat-label>
+                    <input matInput inputmode="numeric" type="text" formControlName="shortDescription">
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-dialog-content>
+            <div class="row">
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="justify-content-end">
+            <button mat-button mat-dialog-close>Cancel</button>
+            <button *ngIf="data.new" mat-raised-button [mat-dialog-close]="data.spell" color="primary">Save</button>
+            <button *ngIf="!data.new" mat-raised-button [mat-dialog-close]="data.spell" color="primary">Done</button>
+        </mat-dialog-actions>
+    </form>
+</div>

@@ -50,6 +50,7 @@ import { GearItemComponent } from './components/equipment/gear-item/gear-item.co
 import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list-item.component';
 import { SpellsComponent } from './components/spells/spells.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { SpellDetailsComponent } from './components/spells/spell-details/spell-details.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     AcListItemComponent,
     SpellsComponent,
     ConfirmDialogComponent,
+    SpellDetailsComponent,
   ],
   imports: [
     HttpClientModule,

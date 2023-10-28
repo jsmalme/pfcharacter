@@ -6,7 +6,7 @@ export interface ISpells {
 }
 
 export class Spell {
-    name: string | undefined;
+    name: string;
     level: number;
     castTime: string | undefined;
     components: string | undefined;
@@ -14,8 +14,11 @@ export class Spell {
     area: string | undefined;
     duration: string | undefined;
     description: string | undefined;
-    shortDescription: string | undefined;
+    shortDescription: string;
     link: string | undefined;
+    school: string | undefined;
+    savingThrow: string | undefined;
+    spellResistance: string | undefined;
     usedCount: number = 0;
 }
 
