@@ -13,7 +13,7 @@ import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash";
 import { AcItem, Gear, Money, burdenEnum } from 'libs/character-classes/equipment';
-import { isNgTemplate } from '@angular/compiler';
+import { Spell } from 'libs/character-classes/spells';
 
 @Injectable({
   providedIn: 'root'
@@ -341,6 +341,36 @@ export class CharacterDataService {
     //   }
     // });
   }
+  //----------------------------------------------------------------
+  //Spell Updates --------------------------------------------------
+
+  updateSpellCount(spell: Spell, spellCount: number, totalCount: number) {
+    this.tempRollback();
+
+    const spellIndex = this.tempChar.spells.spellList.findIndex(s => s.name === spell.name);
+    this.tempChar.spells.spellList[spellIndex].usedCount = spellCount;
+    this.tempChar.spells.stats[spell.level].used = totalCount;
+
+    this.character.next(this.tempChar);
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+  }
+
+  resetSpellCounts() {
+    this.tempRollback();
+
+    this.tempChar.spells.spellList.forEach(spell => spell.usedCount = 0);
+    this.tempChar.spells.stats.forEach(stat => stat.used = 0);
+
+    this.character.next(this.tempChar);
+  }
+
+
+
   //----------------------------------------------------------------
 
 

@@ -195,7 +195,8 @@ export class InMemoryDataService implements InMemoryDataService {
             duration: '1 round/level',
             description: 'You fire a small orb of acid at the target. You must succeed on a ranged touch attack to hit your target. The orb deals 1d3 points of acid damage. This acid disappears after 1 round.',
             shortDescription: ' Fog deals acid damage.',
-            link: 'http://www.d20pfsrd.com/magic/all-spells/a/acid-fog'
+            link: 'http://www.d20pfsrd.com/magic/all-spells/a/acid-fog',
+            usedCount: 0
           },
           {
             name: 'Alarm',
@@ -207,7 +208,8 @@ export class InMemoryDataService implements InMemoryDataService {
             duration: '2 hours/level',
             description: 'Alarm creates a subtle ward on an area you select. Once the spell effect is in place, it thereafter sounds a mental or audible alarm each time a creature of Tiny or larger size enters the warded area or touches it. A creature that speaks the password (determined by you at the time of casting) does not set off the alarm. You decide at the time of casting whether the alarm will be mental or audible in nature. Mental Alarm: A mental alarm alerts you (and only you) so long as you remain within 1 mile of the warded area. You note a single mental "ping" that awakens you from normal sleep but does not otherwise disturb concentration. A silence spell has no effect on a mental alarm. Audible Alarm: An audible alarm produces the sound of a hand bell, and anyone within 60 feet of the warded area can hear it clearly. Reduce the distance by 10 feet for each interposing closed door and by 20 feet for each substantial interposing wall. In quiet conditions, the ringing can be heard faintly as far as 180 feet away. The sound lasts for 1 round. Creatures within a silence spell cannot hear the ringing.  Ethereal or astral creatures do not trigger the alarm. Alarm can be made permanent with a permanency spell.',
             shortDescription: 'Wards an area for 2 hours/level.',
-            link: 'http://www.d20pfsrd.com/magic/all-spells/a/alarm'
+            link: 'http://www.d20pfsrd.com/magic/all-spells/a/alarm',
+            usedCount: 3
           },
           {
             name: 'Animal Messenger',
@@ -219,14 +221,15 @@ export class InMemoryDataService implements InMemoryDataService {
             duration: '1 day/level',
             description: 'You compel a Tiny animal to go to a spot you designate. The most common use for this spell is to get an animal to carry a message to your allies. The animal cannot be one tamed or trained by someone else, including such creatures as familiars and animal companions.  Using some type of food desirable to the animal as a lure, you call the animal to you. It advances and awaits your bidding. You can mentally impress on the animal a certain place well known to you or an obvious landmark. The directions must be simple, because the animal depends on your knowledge and can\'t find a destination on its own.You can attach a small item or note to the messenger.The animal then goes to the designated location and waits there until the duration of the spell expires, whereupon it resumes its normal activities.During this period of waiting, the messenger allows others to approach it and remove any scroll or token it carries.The intended recipient gains no special ability to communicate with the animal or read any attached message(if it\'s written in a language he doesn\'t know, for example).',
             shortDescription: 'Sends a Tiny animal to a specific place.',
-            link: 'http://www.d20pfsrd.com/magic/all-spells/a/animal-messenger'
+            link: 'http://www.d20pfsrd.com/magic/all-spells/a/animal-messenger',
+            usedCount: 0
           }],
         stats: [
           {
             spellsPerDay: 10,
             spellsKnown: 10,
             saveDc: 10,
-            bonusSpells: 10,
+            bonusSpells: 0,
             used: 5
           },
           {

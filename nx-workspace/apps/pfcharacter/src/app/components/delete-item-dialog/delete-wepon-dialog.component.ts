@@ -8,5 +8,4 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DeleteItemDialogComponent {
   @Input() title: string | undefined;
   @Input() message: string | undefined;
-
 }

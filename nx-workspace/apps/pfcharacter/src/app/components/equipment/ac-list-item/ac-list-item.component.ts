@@ -3,7 +3,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteItemDialogComponent } from '../../delete-wepon-dialog/delete-wepon-dialog.component';
+import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon-dialog.component';
 import { acTypeEnum } from 'libs/character-classes/equipment';
 
 @Component({

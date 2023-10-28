@@ -16,6 +16,7 @@ export class Spell {
     description: string | undefined;
     shortDescription: string | undefined;
     link: string | undefined;
+    usedCount: number = 0;
 }
 
 export class SpellStat {

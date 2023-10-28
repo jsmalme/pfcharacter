@@ -31,7 +31,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
 import { GeneralComponent } from './components/general/general.component';
@@ -39,7 +38,7 @@ import { ModDisplayComponent } from './components/mod-display/mod-display.compon
 import { CombatComponent } from './components/combat/combat.component';
 import { WeaponComponent } from './components/weapon/weapon.component';
 import { TotalDisplayComponent } from './components/total-display/total-display.component';
-import { DeleteItemDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
+import { DeleteItemDialogComponent } from './components/delete-item-dialog/delete-wepon-dialog.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
 import { EquipmentComponent } from './components/equipment/equipment.component';
@@ -50,6 +49,7 @@ import { WeightCapacityComponent } from './components/equipment/weight-capacity/
 import { GearItemComponent } from './components/equipment/gear-item/gear-item.component';
 import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list-item.component';
 import { SpellsComponent } from './components/spells/spells.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +70,7 @@ import { SpellsComponent } from './components/spells/spells.component';
     GearItemComponent,
     AcListItemComponent,
     SpellsComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     HttpClientModule,
@@ -105,4 +106,4 @@ import { SpellsComponent } from './components/spells/spells.component';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

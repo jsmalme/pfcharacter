@@ -14,13 +14,20 @@
                                     <div class="col-auto ms-auto">
                                         <div class="row">
                                             <div class="col">
+                                                <button mat-stroked-button (click)="accordion.openAll()">
+                                                    Expand All
+                                                    <mat-icon>unfold_more_double</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="col">
                                                 <button mat-stroked-button (click)="accordion.closeAll()">
                                                     Collapse All
                                                     <mat-icon>unfold_less_double</mat-icon>
                                                 </button>
                                             </div>
                                             <div class="col">
-                                                <button mat-stroked-button matTooltip="Reset spell usages">
+                                                <button mat-stroked-button matTooltip="Reset spell usages"
+                                                    (click)="resetSpellCounts()">
                                                     Reset
                                                     <mat-icon>refresh</mat-icon>
                                                 </button>
@@ -36,17 +43,16 @@
                                 </div>
                             </div>
                         </mat-card-title>
-                        <br>
                         <div formArrayName="spellStats">
                             <mat-accordion multi>
                                 <ng-container *ngFor="let spellStat of spellStats.controls; let i = index">
-                                    <mat-expansion-panel class="mb-2 mat-elevation-z4">
+                                    <mat-expansion-panel class="mb-2 mat-elevation-z4" [disabled]="!sortedSpells[i]"
+                                        [expanded]="drawerStatus[i]" (opened)="setOpen(i)" (closed)="setClosed(i)">
                                         <mat-expansion-panel-header class="h-25 d-flex align-items-center">
                                             <ng-container [formGroupName]="i">
                                                 <div class="row d-flex align-items-end w-100 pt-3">
-                                                    <div class="col-1">
-                                                        <h2 class="d-none d-md-block">Level {{i}}</h2>
-                                                        <h4 class="d-block d-md-none">Level {{i}}</h4>
+                                                    <div class="col-1 pb-1">
+                                                        <p class="h5">Level {{i}}</p>
                                                     </div>
                                                     <div class="col-3">
                                                         <mat-form-field color="accent" class="form-field-width me-3"
@@ -72,15 +78,27 @@
                                                             <input matInput type="number" formControlName="bonusSpells">
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-6 ms-0">
-                                                        <p>Spells Used:</p>
+                                                    <div class="col-8 ms-0">
+                                                        <div class="row d-flex align-items-center">
+                                                            <div class="col-auto"
+                                                                *ngIf="getSpellStatTotalSpells(spellStat) > 0">
+                                                                <p>Spells Used:</p>
+                                                            </div>
+                                                            <div class="col-auto d-flex align-items-center"
+                                                                *ngIf="spellStat.get('used')?.value > getSpellStatTotalSpells(spellStat)">
+                                                                <mat-icon color="warn" style="font-size: 14px;"
+                                                                    class="pt-0">warning</mat-icon>
+                                                                <p class="text-danger pt-1">This spell count is out of
+                                                                    sync. Please reset or fix your spell counts.</p>
+                                                            </div>
+                                                        </div>
                                                         <ng-container
-                                                            *ngFor="let item of [].constructor(spellStat.get('used')?.value)">
+                                                            *ngFor="let item of getSpellUsedMarkers(spellStat)">
                                                             <mat-icon style="font-size: 12px;"
                                                                 color="warn">indeterminate_check_box</mat-icon>
                                                         </ng-container>
                                                         <ng-container
-                                                            *ngFor="let item of [].constructor((spellStat.get('spellsPerDay')?.value + spellStat.get('bonusSpells')?.value) - spellStat.get('used')?.value)">
+                                                            *ngFor="let item of getSpellAvailabilityMarkers(spellStat)">
                                                             <mat-icon style="font-size: 12px;"
                                                                 color="primary">square</mat-icon>
                                                         </ng-container>
@@ -88,96 +106,61 @@
                                                 </div>
                                             </ng-container>
                                         </mat-expansion-panel-header>
+                                        <mat-divider></mat-divider>
                                         <br>
                                         <table *ngIf="sortedSpells[i]"
                                             class="table rounded-3 overflow-hidden text-light">
                                             <thead class="primary-background rounded-top">
                                                 <tr>
-                                                    <th scope="col">
+                                                    <th>
                                                         <p class="h6">Details</p>
                                                     </th>
-                                                    <th scope="col">
+                                                    <th>
                                                         <p class="h6">Name</p>
                                                     </th>
-                                                    <th scope="col">
+                                                    <th>
                                                         <p class="h6">Description</p>
                                                     </th>
-                                                    <th scope="col">
-                                                        <p class="h6">Use</p>
+                                                    <th>
+                                                        <p class="h6 text-center">Use</p>
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let spell of sortedSpells[i]; let i = index">
-                                                    <td class="align-middle">
+                                                    <td class="align-middle ps-3">
                                                         <button mat-icon-button>
                                                             <mat-icon>edit_note</mat-icon>
                                                         </button>
                                                     </td>
                                                     <td class="align-middle">{{spell.name}}</td>
                                                     <td class="align-middle">{{spell.shortDescription}}</td>
-                                                    <td class="align-middle">
-                                                        <button mat-icon-button>
-                                                            <mat-icon>add_circle</mat-icon>
-                                                        </button>
+                                                    <td class="align-middle text-center">
+                                                        <div
+                                                            class="row d-flex align-items-center justify-content-center">
+                                                            <div class="col-2">
+                                                                <button mat-icon-button (click)="useSpell(spell)"
+                                                                    [disabled]="getSpellStatTotalSpells(spellStat) <= spellStat.get('used')?.value">
+                                                                    <mat-icon>add_circle</mat-icon>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-1 pt-3" style="cursor: default;"
+                                                                matTooltip="Indicates how many times you have used this spell">
+                                                                <p *ngIf="spell.usedCount > 0">({{spell.usedCount}})</p>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </mat-expansion-panel>
                                 </ng-container>
+                                <mat-divider></mat-divider>
                             </mat-accordion>
                         </div>
                     </mat-card>
                 </div>
             </form>
-            <!-- <div class="col-4">
-                <form [formGroup]="spellStatsForm">
-                    <mat-card class="mat-elevation-z2">
-                        <mat-card-title class="primary-background rounded-top mat-elevation-z1"
-                            style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
-                            <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
-                                Spells Info
-                            </div>
-                        </mat-card-title>
-                        <br>
-                        <div formArrayName="spellStats">
-                            <div class="row g-0 d-flex align-items-center"
-                                *ngFor="let spellStat of spellStats.controls; let i = index">
-                                <ng-container [formGroupName]="i">
-                                    <div class="col-1 pb-3">
-                                        {{i}}:
-                                    </div>
-                                    <div class="col">
-                                        <mat-form-field appearance="outline" color="accent" class="form-field-width">
-                                            <mat-label>Known</mat-label>
-                                            <input matInput type="number" formControlName="spellsKnown">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col">
-                                        <mat-form-field appearance="outline" color="accent" class="form-field-width">
-                                            <mat-label>Save DC</mat-label>
-                                            <input matInput type="number" formControlName="saveDc">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col">
-                                        <mat-form-field appearance="outline" color="accent" class="form-field-width">
-                                            <mat-label>Per Day</mat-label>
-                                            <input matInput type="number" formControlName="spellsPerDay">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col">
-                                        <mat-form-field appearance="outline" color="accent" class="form-field-width">
-                                            <mat-label>Bonus</mat-label>
-                                            <input matInput type="number" formControlName="bonusSpells">
-                                        </mat-form-field>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
-                    </mat-card>
-                </form>
-            </div> -->
         </div>
     </ng-container>
 </div>
