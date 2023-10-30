@@ -2,6 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Spell } from 'libs/character-classes/spells';
+import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon-dialog.component';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class SpellDetailsComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     public dialogRef: MatDialogRef<SpellDetailsComponent>,
+    public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { spell: Spell, new: boolean }) { }
 
   ngOnInit(): void {
@@ -42,6 +44,16 @@ export class SpellDetailsComponent implements OnInit {
       return;
     }
     this.dialogRef.close(this.spellForm.value);
+  }
+
+  delete() {
+    this.dialog.open(DeleteItemDialogComponent, {
+      data: { title: 'Delete Spell', message: `Are you sure you want remove ${this.spellForm.controls.name.value} from your spell list?` }
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.dialogRef.close({ delete: true, level: this.spellForm.controls.level.value });
+      }
+    });
   }
 
 }

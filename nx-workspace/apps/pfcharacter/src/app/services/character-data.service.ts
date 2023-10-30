@@ -386,13 +386,29 @@ export class CharacterDataService {
       return s;
     });
 
-    this.character.next(this.tempChar);
     // this.http.updateCharacter(this.tempChar).subscribe({
     //   error: (e) => {
     //     this.snackBar.openSnackBar(e);
     //     this.character.next(this.rollback);
     //   }
     // });
+
+    this.character.next(this.tempChar);
+  }
+
+  deleteSpell(spell: Spell | null) {
+    this.tempRollback();
+
+    this.tempChar.spells.spellList = this.tempChar.spells.spellList.filter(s => s.name !== spell?.name);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
   }
 
   updateSpellStats(stats: SpellStat[] | undefined) {

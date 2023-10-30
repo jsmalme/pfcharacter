@@ -36,12 +36,9 @@ export class WeaponComponent {
   }
 
   deleteWeapon() {
-    const dialogRef = this.dialog.open(DeleteItemDialogComponent);
-    const instance = dialogRef.componentInstance;
-    instance.title = 'Delete Weapon';
-    instance.message = 'Are you sure you want to delete this weapon?';
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialog.open(DeleteItemDialogComponent, {
+      data: { title: 'Delete Weapon', message: 'Are you sure you want to delete this weapon?' }
+    }).afterClosed().subscribe(result => {
       if (result) {
         this.deleteWeaponEvent.emit(this.index);
       }

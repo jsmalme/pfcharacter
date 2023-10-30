@@ -162,7 +162,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
       width: '80em',
       disableClose: true,
       data: { spell: spell, new: isNew }
-    }).afterClosed().subscribe((result: Spell) => {
+    }).afterClosed().subscribe((result) => {
       let isUpdate = false;
       if (result) {
         if (isNew) {
@@ -170,11 +170,17 @@ export class SpellsComponent implements OnInit, OnDestroy {
           isUpdate = true;
         }
         else {
+          if (result.delete) {
+            this.store.deleteSpell(spell);
+            isUpdate = true;
+          }
           if (!_.isEqual(result, spell)) {
             this.store.updateSpell(result);
             isUpdate = true;
           }
-          return;
+          else {
+            return;
+          }
         }
         if (isUpdate) {
           this.character$.pipe(first()).subscribe((char: Character) => {
@@ -189,7 +195,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
   patchSpellStatForm(stat: SpellStat, spells: Spell[], index: number = stat.spellsPerDay): void {
     this.spellStats.controls[index].patchValue({
       ...stat,
-      spellsKnown: spells.length,
+      used: spells?.reduce((acc, curr) => acc + curr.usedCount, 0) ?? 0,
+      spellsKnown: spells?.length ?? 0,
       totalSpellMarkers: (stat?.bonusSpells ?? 0) + (stat?.spellsPerDay ?? 0)
     }, { emitEvent: false });
 
