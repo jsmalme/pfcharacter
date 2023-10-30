@@ -1,14 +1,16 @@
+import { TotalDisplayComponent } from './../total-display/total-display.component';
 
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, enableProdMode, EventEmitter } from '@angular/core';
 import { CharacterDataService } from '../../services/character-data.service';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject, first, takeUntil } from 'rxjs';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Observable, Subject, debounceTime, first, takeUntil } from 'rxjs';
 import { Character } from 'libs/character-classes/character';
 import { Spell, SpellStat } from 'libs/character-classes/spells';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatDialog } from '@angular/material/dialog';
 import { SpellDrawerService } from '../../services/spell-drawer.service';
 import { SpellDetailsComponent } from './spell-details/spell-details.component';
+import * as _ from "lodash";
 
 @Component({
   selector: 'nx-workspace-spells',
@@ -28,17 +30,17 @@ export class SpellsComponent implements OnInit, OnDestroy {
   constructor(
     private store: CharacterDataService,
     private spellDrawer: SpellDrawerService,
-    private fb: FormBuilder,
+    private fb: NonNullableFormBuilder,
     public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
-    this.character$.pipe().subscribe((char: Character) => {
-      this.setSpellStatsForm(char.spells.stats, char.spells.spellList);
+    this.character$.pipe(first()).subscribe((char: Character) => {
       this.sortSpells(char.spells.spellList);
-      this.drawerStatus = this.spellDrawer.drawerStatus;
+      this.setSpellStatsForm(char.spells.stats, char.spells.spellList);
     });
+    this.drawerStatus = this.spellDrawer.drawerStatus;
   }
 
   ngOnDestroy(): void {
@@ -50,12 +52,20 @@ export class SpellsComponent implements OnInit, OnDestroy {
     if (stats === undefined || spells === undefined) {
       return;
     }
-    stats.map((stat) => {
-      this.spellStats.push(this.spellStatToFormControl(stat));
+    stats.map((stat, index) => {
+      const used = spells.filter(s => s.level === index).reduce((acc, curr) => acc + curr.usedCount, 0);
+      this.spellStats.push(this.spellStatToFormControl(stat, used, this.sortedSpells[index]));
     });
 
-    this.spellStatsForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(stats => {
+    this.spellStatsForm.valueChanges.pipe(takeUntil(this.destroy$), debounceTime(1000)).subscribe((stats) => {
+      if (!this.spellStatsForm.valid) {
+        return;
+      }
+      stats.spellStats?.forEach((stat: SpellStat | null, index: number) => {
+        this.updateSpellStat(stat, index);
+      });
 
+      this.store.updateSpellStats(stats?.spellStats);
     });
   }
 
@@ -63,29 +73,28 @@ export class SpellsComponent implements OnInit, OnDestroy {
     return this.spellStatsForm.controls.spellStats as FormArray;
   }
 
-  spellStatToFormControl(stat: SpellStat): FormGroup {
+  spellStatToFormControl(stat: SpellStat, used: number, spells: Spell[]): FormGroup {
+    let known = 0;
+    if (spells) {
+      known = spells.length;
+    }
     return this.fb.group({
       spellsPerDay: [stat.spellsPerDay, Validators.max(100)],
-      spellsKnown: [stat.spellsKnown, Validators.max(100)],
+      spellsKnown: [{ value: known, disabled: true }],
       saveDc: [stat.saveDc, Validators.max(100)],
       bonusSpells: [stat.bonusSpells, Validators.max(100)],
-      used: [stat.used]
+      used: [used],
+      totalSpellMarkers: [stat.bonusSpells + stat.spellsPerDay],
     });
   }
 
   getSpellAvailabilityMarkers(spellStat: AbstractControl<unknown, unknown>): number[] {
-    const total = ((spellStat.get('bonusSpells')?.value ?? 0) + (spellStat.get('spellsPerDay')?.value ?? 0))
-      - (spellStat.get('used')?.value ?? 0)
+    const available = (spellStat.get('totalSpellMarkers')?.value ?? 0) - (spellStat.get('used')?.value ?? 0);
 
-    if (total < 0) {
+    if (available < 0) {
       return [];
     }
-
-    return new Array(total).fill(0);
-  }
-
-  getSpellStatTotalSpells(spellStat: AbstractControl<unknown, unknown>): number {
-    return (spellStat.get('bonusSpells')?.value ?? 0) + (spellStat.get('spellsPerDay')?.value ?? 0);
+    return new Array(available).fill(0);
   }
 
   getSpellUsedMarkers(spellStat: AbstractControl<unknown, unknown>): number[] {
@@ -148,11 +157,48 @@ export class SpellsComponent implements OnInit, OnDestroy {
     this.spellDrawer.drawerStatus[level] = false;
   }
 
-  openSpellDetails(spell: Spell) {
+  addOrViewSpell(spell: Spell | null, isNew: boolean = false) {
     this.dialog.open(SpellDetailsComponent, {
-      width: '75em',
-      height: '60em',
-      data: { spell: spell, new: false }
+      width: '80em',
+      disableClose: true,
+      data: { spell: spell, new: isNew }
+    }).afterClosed().subscribe((result: Spell) => {
+      let isUpdate = false;
+      if (result) {
+        if (isNew) {
+          this.store.addSpell(result);
+          isUpdate = true;
+        }
+        else {
+          if (!_.isEqual(result, spell)) {
+            this.store.updateSpell(result);
+            isUpdate = true;
+          }
+          return;
+        }
+        if (isUpdate) {
+          this.character$.pipe(first()).subscribe((char: Character) => {
+            this.sortSpells(char.spells.spellList);
+            this.patchSpellStatForm(char.spells.stats[result.level], this.sortedSpells[result.level], result.level);
+          });
+        }
+      }
     });
+  }
+
+  patchSpellStatForm(stat: SpellStat, spells: Spell[], index: number = stat.spellsPerDay): void {
+    this.spellStats.controls[index].patchValue({
+      ...stat,
+      spellsKnown: spells.length,
+      totalSpellMarkers: (stat?.bonusSpells ?? 0) + (stat?.spellsPerDay ?? 0)
+    }, { emitEvent: false });
+
+  }
+
+  updateSpellStat(stat: SpellStat | null, index: number) {
+    this.spellStats.controls[index].patchValue({
+      ...stat,
+      totalSpellMarkers: (stat?.bonusSpells ?? 0) + (stat?.spellsPerDay ?? 0)
+    }, { emitEvent: false });
   }
 }

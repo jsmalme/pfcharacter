@@ -1,8 +1,8 @@
 export interface ISpells {
     modifiers: string | undefined;
     domains_specialty: string | undefined;
-    spellList: Array<Spell> | undefined;
-    stats: Array<SpellStat> | undefined;
+    spellList: Array<Spell>;
+    stats: Array<SpellStat>;
 }
 
 export class Spell {
@@ -28,6 +28,8 @@ export class SpellStat {
     saveDc: number = 0;
     bonusSpells: number = 0;
     used: number = 0;
+    available: number = 0;
+    totalSpellMarkers: number = 0;
 }
 
 export class Spells implements ISpells {

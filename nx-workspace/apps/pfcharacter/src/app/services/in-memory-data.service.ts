@@ -212,7 +212,7 @@ export class InMemoryDataService implements InMemoryDataService {
             description: 'Alarm creates a subtle ward on an area you select. Once the spell effect is in place, it thereafter sounds a mental or audible alarm each time a creature of Tiny or larger size enters the warded area or touches it. A creature that speaks the password (determined by you at the time of casting) does not set off the alarm. You decide at the time of casting whether the alarm will be mental or audible in nature. Mental Alarm: A mental alarm alerts you (and only you) so long as you remain within 1 mile of the warded area. You note a single mental "ping" that awakens you from normal sleep but does not otherwise disturb concentration. A silence spell has no effect on a mental alarm. Audible Alarm: An audible alarm produces the sound of a hand bell, and anyone within 60 feet of the warded area can hear it clearly. Reduce the distance by 10 feet for each interposing closed door and by 20 feet for each substantial interposing wall. In quiet conditions, the ringing can be heard faintly as far as 180 feet away. The sound lasts for 1 round. Creatures within a silence spell cannot hear the ringing.  Ethereal or astral creatures do not trigger the alarm. Alarm can be made permanent with a permanency spell.',
             shortDescription: 'Wards an area for 2 hours/level.',
             link: 'http://www.d20pfsrd.com/magic/all-spells/a/alarm',
-            usedCount: 3,
+            usedCount: 0,
             school: 'abjuration',
             savingThrow: 'none',
             spellResistance: 'no'
@@ -235,74 +235,94 @@ export class InMemoryDataService implements InMemoryDataService {
           }],
         stats: [
           {
-            spellsPerDay: 10,
-            spellsKnown: 10,
-            saveDc: 10,
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
             bonusSpells: 0,
-            used: 5
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 9,
-            spellsKnown: 9,
-            saveDc: 9,
-            bonusSpells: 9,
-            used: 3
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 8,
-            spellsKnown: 8,
-            saveDc: 8,
-            bonusSpells: 8,
-            used: 3
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 7,
-            spellsKnown: 7,
-            saveDc: 7,
-            bonusSpells: 7,
-            used: 1
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 6,
-            spellsKnown: 6,
-            saveDc: 6,
-            bonusSpells: 6,
-            used: 0
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 5,
-            spellsKnown: 5,
-            saveDc: 5,
-            bonusSpells: 5,
-            used: 4
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 4,
-            spellsKnown: 4,
-            saveDc: 4,
-            bonusSpells: 4,
-            used: 2
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 3,
-            spellsKnown: 3,
-            saveDc: 3,
-            bonusSpells: 3,
-            used: 1
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 2,
-            spellsKnown: 2,
-            saveDc: 2,
-            bonusSpells: 2,
-            used: 0
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 1,
-            spellsKnown: 1,
-            saveDc: 1,
-            bonusSpells: 1,
-            used: 1
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
           }
         ]
       },

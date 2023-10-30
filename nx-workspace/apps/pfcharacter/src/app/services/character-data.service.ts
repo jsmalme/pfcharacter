@@ -13,7 +13,7 @@ import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash";
 import { AcItem, Gear, Money, burdenEnum } from 'libs/character-classes/equipment';
-import { Spell } from 'libs/character-classes/spells';
+import { Spell, SpellStat } from 'libs/character-classes/spells';
 
 @Injectable({
   providedIn: 'root'
@@ -365,6 +365,50 @@ export class CharacterDataService {
 
     this.tempChar.spells.spellList.forEach(spell => spell.usedCount = 0);
     this.tempChar.spells.stats.forEach(stat => stat.used = 0);
+
+    this.character.next(this.tempChar);
+  }
+
+  addSpell(spell: Spell) {
+    this.tempRollback();
+    this.tempChar.spells.spellList.push(spell);
+
+    this.character.next(this.tempChar);
+  }
+
+  updateSpell(spell: Spell) {
+    this.tempRollback();
+
+    this.tempChar.spells.spellList = this.tempChar.spells.spellList.map(s => {
+      if (s.name === spell.name) {
+        return spell;
+      }
+      return s;
+    });
+
+    this.character.next(this.tempChar);
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+  }
+
+  updateSpellStats(stats: SpellStat[] | undefined) {
+    if (!stats) {
+      return;
+    }
+    this.tempRollback();
+
+    this.tempChar.spells.stats = stats;
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
 
     this.character.next(this.tempChar);
   }

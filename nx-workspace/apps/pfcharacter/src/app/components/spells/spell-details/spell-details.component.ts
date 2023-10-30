@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Spell } from 'libs/character-classes/spells';
 
 
@@ -12,7 +12,7 @@ import { Spell } from 'libs/character-classes/spells';
 export class SpellDetailsComponent implements OnInit {
   spellForm = this.fb.group({
     name: ['', Validators.required],
-    level: [null as number | null, Validators.required],
+    level: [null as number | null, [Validators.required, Validators.max(9)]],
     castTime: [''],
     components: [''],
     range: [''],
@@ -23,13 +23,25 @@ export class SpellDetailsComponent implements OnInit {
     link: [''],
     school: [''],
     savingThrow: [''],
-    spellResistance: ['']
+    spellResistance: [''],
+    usedCount: [0],
   });
 
   constructor(private fb: FormBuilder,
+    public dialogRef: MatDialogRef<SpellDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { spell: Spell, new: boolean }) { }
 
   ngOnInit(): void {
-    this.spellForm.patchValue(this.data.spell);
+    if (!this.data.new) {
+      this.spellForm.patchValue(this.data.spell);
+    }
   }
+
+  save() {
+    if (!this.spellForm.valid) {
+      return;
+    }
+    this.dialogRef.close(this.spellForm.value);
+  }
+
 }

@@ -28,12 +28,13 @@
                                             <div class="col">
                                                 <button mat-stroked-button matTooltip="Reset spell usages"
                                                     (click)="resetSpellCounts()">
-                                                    Reset
+                                                    Reset Counts
                                                     <mat-icon>refresh</mat-icon>
                                                 </button>
                                             </div>
                                             <div class="col">
-                                                <button mat-stroked-button matTooltip="Add a new spell">
+                                                <button mat-stroked-button matTooltip="Add a new spell"
+                                                    (click)="addOrViewSpell(null, true)">
                                                     Add
                                                     <mat-icon>add</mat-icon>
                                                 </button>
@@ -81,11 +82,11 @@
                                                     <div class="col-8 ms-0">
                                                         <div class="row d-flex align-items-center">
                                                             <div class="col-auto"
-                                                                *ngIf="getSpellStatTotalSpells(spellStat) > 0">
+                                                                *ngIf="spellStat.get('totalSpellMarkers')?.value ?? 0 > 0">
                                                                 <p>Spells Used:</p>
                                                             </div>
                                                             <div class="col-auto d-flex align-items-center"
-                                                                *ngIf="spellStat.get('used')?.value > getSpellStatTotalSpells(spellStat)">
+                                                                *ngIf="spellStat.get('used')?.value > spellStat.get('totalSpellMarkers')?.value">
                                                                 <mat-icon color="warn" style="font-size: 14px;"
                                                                     class="pt-0">warning</mat-icon>
                                                                 <p class="text-danger pt-1">This spell count is out of
@@ -122,32 +123,26 @@
                                                         <p class="h6">Description</p>
                                                     </th>
                                                     <th>
-                                                        <p class="h6 text-center">Use</p>
+                                                        <p class="h6">Use</p>
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let spell of sortedSpells[i]; let i = index">
                                                     <td class="align-middle ps-3">
-                                                        <button mat-icon-button (click)="openSpellDetails(spell)">
+                                                        <button mat-icon-button (click)="addOrViewSpell(spell)">
                                                             <mat-icon>edit_note</mat-icon>
                                                         </button>
                                                     </td>
                                                     <td class="align-middle">{{spell.name}}</td>
                                                     <td class="align-middle">{{spell.shortDescription}}</td>
-                                                    <td class="align-middle text-center">
-                                                        <div
-                                                            class="row d-flex align-items-center justify-content-center">
-                                                            <div class="col-2">
-                                                                <button mat-icon-button (click)="useSpell(spell)"
-                                                                    [disabled]="getSpellStatTotalSpells(spellStat) <= spellStat.get('used')?.value">
-                                                                    <mat-icon>add_circle</mat-icon>
-                                                                </button>
-                                                            </div>
-                                                            <div class="col-1 pt-3" style="cursor: default;"
-                                                                matTooltip="Indicates how many times you have used this spell">
-                                                                <p *ngIf="spell.usedCount > 0">({{spell.usedCount}})</p>
-                                                            </div>
+                                                    <td class="text-nowrap">
+                                                        <div>
+                                                            <button mat-icon-button (click)="useSpell(spell)"
+                                                                [disabled]="spellStat.get('used')?.value >= spellStat.get('totalSpellMarkers')?.value">
+                                                                <mat-icon>add_circle</mat-icon>
+                                                            </button>
+                                                            ( {{spell.usedCount}} )
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -155,7 +150,6 @@
                                         </table>
                                     </mat-expansion-panel>
                                 </ng-container>
-                                <mat-divider></mat-divider>
                             </mat-accordion>
                         </div>
                     </mat-card>
