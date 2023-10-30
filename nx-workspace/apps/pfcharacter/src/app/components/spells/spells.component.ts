@@ -1,8 +1,6 @@
-import { TotalDisplayComponent } from './../total-display/total-display.component';
-
-import { Component, OnDestroy, OnInit, ViewChild, enableProdMode, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CharacterDataService } from '../../services/character-data.service';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Observable, Subject, debounceTime, first, takeUntil } from 'rxjs';
 import { Character } from 'libs/character-classes/character';
 import { Spell, SpellStat } from 'libs/character-classes/spells';
@@ -162,7 +160,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
       width: '80em',
       disableClose: true,
       data: { spell: spell, new: isNew }
-    }).afterClosed().subscribe((result) => {
+    }).afterClosed().pipe(first()).subscribe((result) => {
       let isUpdate = false;
       if (result) {
         if (isNew) {
