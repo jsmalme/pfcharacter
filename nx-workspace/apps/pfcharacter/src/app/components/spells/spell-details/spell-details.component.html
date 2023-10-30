@@ -106,8 +106,8 @@
                 </mat-form-field>
             </div>
             <div class="col-auto ms-auto">
-                <button mat-button mat-dialog-close>Cancel</button>
                 <button *ngIf="!data.new" mat-button (click)="delete()" color="warn">Delete</button>
+                <button mat-button mat-dialog-close>Cancel</button>
                 <button *ngIf="data.new" mat-raised-button (click)="save()" color="primary">Save</button>
                 <button *ngIf="!data.new" mat-raised-button (click)="save()" color="primary">Done</button>
             </div>

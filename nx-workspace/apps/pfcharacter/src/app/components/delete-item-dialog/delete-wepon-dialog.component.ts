@@ -1,7 +1,5 @@
-import { MatSelectModule } from '@angular/material/select';
 import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Spell } from 'libs/character-classes/spells';
 
 @Component({
   selector: 'nx-workspace-delete-wepon-dialog',
