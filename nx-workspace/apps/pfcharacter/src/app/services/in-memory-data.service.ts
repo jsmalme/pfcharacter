@@ -235,7 +235,7 @@ export class InMemoryDataService implements InMemoryDataService {
           }],
         stats: [
           {
-            spellsPerDay: 0,
+            spellsPerDay: 10,
             spellsKnown: 0,
             saveDc: 0,
             bonusSpells: 0,
@@ -244,7 +244,7 @@ export class InMemoryDataService implements InMemoryDataService {
             totalSpellMarkers: 0
           },
           {
-            spellsPerDay: 0,
+            spellsPerDay: 10,
             spellsKnown: 0,
             saveDc: 0,
             bonusSpells: 0,

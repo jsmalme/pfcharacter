@@ -6,36 +6,58 @@
                     <mat-card class="mat-elevation-z2">
                         <mat-card-title class="primary-background rounded-top mat-elevation-z1"
                             style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
-                            <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+                            <div class="container-fluid" style="padding-top: 12px; padding-bottom: 12px;">
                                 <div class="row d-flex">
-                                    <div class="col-auto">
-                                        Spell List
+                                    <div class="col-xs-12 col-sm-auto">
+                                        <p class="h2">Spell List</p>
                                     </div>
-                                    <div class="col-auto ms-auto">
+                                    <div class="col-auto ms-sm-auto me-xs-auto">
                                         <div class="row">
-                                            <div class="col">
+                                            <div class="col d-none d-md-block">
                                                 <button mat-stroked-button (click)="accordion.openAll()">
                                                     Expand All
                                                     <mat-icon>unfold_more_double</mat-icon>
                                                 </button>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-3 d-block d-md-none">
+                                                <button mat-stroked-button (click)="accordion.openAll()">
+                                                    <mat-icon>unfold_more_double</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="col d-none d-md-block">
                                                 <button mat-stroked-button (click)="accordion.closeAll()">
                                                     Collapse All
                                                     <mat-icon>unfold_less_double</mat-icon>
                                                 </button>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-3 d-block d-md-none">
+                                                <button mat-stroked-button (click)="accordion.closeAll()">
+                                                    <mat-icon>unfold_less_double</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="col d-none d-md-block">
                                                 <button mat-stroked-button matTooltip="Reset spell usages"
                                                     (click)="resetSpellCounts()">
                                                     Reset Counts
                                                     <mat-icon>refresh</mat-icon>
                                                 </button>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-3 d-block d-md-none">
+                                                <button mat-stroked-button matTooltip="Reset spell usages"
+                                                    (click)="resetSpellCounts()">
+                                                    <mat-icon>refresh</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="col d-none d-md-block">
                                                 <button mat-stroked-button matTooltip="Add a new spell"
                                                     (click)="addOrViewSpell(null, true)">
                                                     Add
+                                                    <mat-icon>add</mat-icon>
+                                                </button>
+                                            </div>
+                                            <div class="col-3 d-block d-md-none">
+                                                <button mat-stroked-button matTooltip="Add a new spell"
+                                                    (click)="addOrViewSpell(null, true)">
                                                     <mat-icon>add</mat-icon>
                                                 </button>
                                             </div>
@@ -52,10 +74,10 @@
                                         <mat-expansion-panel-header class="h-25 d-flex align-items-center">
                                             <ng-container [formGroupName]="i">
                                                 <div class="row d-flex align-items-end w-100 pt-3">
-                                                    <div class="col-1 pb-1">
+                                                    <div class="col-12 col-md-2 col-xl-1 pb-1">
                                                         <p class="h5">Level {{i}}</p>
                                                     </div>
-                                                    <div class="col-3">
+                                                    <div class="col-xs-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 ">
                                                         <mat-form-field color="accent" class="form-field-width me-3"
                                                             (click)="$event.stopPropagation()">
                                                             <mat-label>Known</mat-label>
@@ -79,12 +101,8 @@
                                                             <input matInput type="number" formControlName="bonusSpells">
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-8 ms-0">
+                                                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-6 col-xl-8 ms-0">
                                                         <div class="row d-flex align-items-center">
-                                                            <div class="col-auto"
-                                                                *ngIf="spellStat.get('totalSpellMarkers')?.value ?? 0 > 0">
-                                                                <p>Spells Used:</p>
-                                                            </div>
                                                             <div class="col-auto d-flex align-items-center"
                                                                 *ngIf="spellStat.get('used')?.value > spellStat.get('totalSpellMarkers')?.value">
                                                                 <mat-icon color="warn" style="font-size: 14px;"
@@ -113,7 +131,7 @@
                                             class="table rounded-3 overflow-hidden text-light">
                                             <thead class="primary-background rounded-top">
                                                 <tr>
-                                                    <th>
+                                                    <th class="d-none d-sm-block">
                                                         <p class="h6">Details</p>
                                                     </th>
                                                     <th>
@@ -128,13 +146,16 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let spell of sortedSpells[i]; let i = index">
-                                                    <td class="align-middle ps-3">
+                                                <tr *ngFor="let spell of sortedSpells[i]; let i = index"
+                                                    (click)="addOrViewSpell(spell)">
+                                                    <td class="align-middle d-none d-sm-block ps-3">
                                                         <button mat-icon-button (click)="addOrViewSpell(spell)">
                                                             <mat-icon>edit_note</mat-icon>
                                                         </button>
                                                     </td>
-                                                    <td class="align-middle">{{spell.name}}</td>
+                                                    <td class="align-middle">{{spell.name}}
+                                                        <mat-icon>edit_note</mat-icon>
+                                                    </td>
                                                     <td class="align-middle">{{spell.shortDescription}}</td>
                                                     <td class="text-nowrap">
                                                         <div>
