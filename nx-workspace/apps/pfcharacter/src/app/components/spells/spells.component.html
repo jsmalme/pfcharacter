@@ -146,20 +146,24 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let spell of sortedSpells[i]; let i = index"
-                                                    (click)="addOrViewSpell(spell)">
-                                                    <td class="align-middle d-none d-sm-block ps-3">
+                                                <tr *ngFor="let spell of sortedSpells[i]; let i = index">
+                                                    <td class="align-middle d-none d-sm-table-cell ps-3">
                                                         <button mat-icon-button (click)="addOrViewSpell(spell)">
                                                             <mat-icon>edit_note</mat-icon>
                                                         </button>
                                                     </td>
-                                                    <td class="align-middle">{{spell.name}}
-                                                        <mat-icon>edit_note</mat-icon>
+                                                    <td class="align-middle d-none d-sm-table-cell">{{spell.name}}
+                                                    </td>
+                                                    <td class="align-middle d-table-cell d-sm-none"
+                                                        (click)="addOrViewSpell(spell)">
+                                                        <p class="accent-text" style="text-decoration: underline;">
+                                                            {{spell.name}}</p>
                                                     </td>
                                                     <td class="align-middle">{{spell.shortDescription}}</td>
                                                     <td class="text-nowrap">
                                                         <div>
-                                                            <button mat-icon-button (click)="useSpell(spell)"
+                                                            <button mat-icon-button
+                                                                (click)="useSpell(spell); $event.stopPropagation()"
                                                                 [disabled]="spellStat.get('used')?.value >= spellStat.get('totalSpellMarkers')?.value">
                                                                 <mat-icon>add_circle</mat-icon>
                                                             </button>

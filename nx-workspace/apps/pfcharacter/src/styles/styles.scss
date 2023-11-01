@@ -50,6 +50,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     top: 0;
 }
 
+.accent-text{
+    color: mat.get-color-from-palette($accent-palette);
+}
+
 //hide input number arrows
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {

@@ -24,6 +24,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
   spellStatsForm = this.fb.group({
     spellStats: this.fb.array<SpellStat>([]),
   });
+  isMobileScreen = false;
 
   constructor(
     private store: CharacterDataService,
@@ -33,6 +34,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.isMobileScreen = window.innerWidth < 577;
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
       this.sortSpells(char.spells.spellList);
@@ -157,7 +159,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
   addOrViewSpell(spell: Spell | null, isNew: boolean = false) {
     this.dialog.open(SpellDetailsComponent, {
-      width: '80em',
+      maxWidth: this.isMobileScreen ? '100vw' : '80vw',
       disableClose: true,
       data: { spell: spell, new: isNew }
     }).afterClosed().pipe(first()).subscribe((result) => {
