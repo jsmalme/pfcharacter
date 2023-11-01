@@ -1,3 +1,5 @@
+import { state } from '@angular/animations';
+import { ISpells, Spells } from './spells';
 import { Abilities, IAbilities } from "./abilities";
 import { GeneralInfo } from "./general-info";
 import { CombatInfo, ICombatInfo } from "./combat-info";
@@ -5,7 +7,7 @@ import { ISavingThrows, SavingThrows } from "./saving-throws";
 import { Skill } from "./skills";
 import { Equipment, IEquipment, WeightCapacity } from "./equipment";
 
-export interface ICharacter{
+export interface ICharacter {
   id: number;
   abilities: IAbilities;
   generalInfo: GeneralInfo;
@@ -13,6 +15,7 @@ export interface ICharacter{
   savingThrows: ISavingThrows;
   equipment: IEquipment;
   skillList: Skill[];
+  spells: ISpells;
 }
 export class Character {
   id: number;
@@ -22,22 +25,24 @@ export class Character {
   savingThrows: SavingThrows;
   skillList: Skill[];
   equipment: Equipment;
-  // equipment: Equipment;
+  spells: Spells;
   constructor(char?: ICharacter) {
-    if(char){
+    if (char) {
       this.abilities = new Abilities(char.abilities);
       this.generalInfo = new GeneralInfo(char.generalInfo);
       this.combatInfo = new CombatInfo(char.combatInfo);
       this.savingThrows = new SavingThrows(char.savingThrows);
       this.equipment = new Equipment(char.equipment);
+      this.spells = new Spells(char.spells);
       this.skillList = char.skillList;
     }
-    else{
+    else {
       this.abilities = new Abilities();
       this.generalInfo = new GeneralInfo();
       this.combatInfo = new CombatInfo();
       this.savingThrows = new SavingThrows();
       this.equipment = new Equipment();
+      this.spells = new Spells();
       this.equipment.weightCaps = new WeightCapacity();
       this.skillList = [
         new Skill('Acrobatics', 'Dex'),
@@ -80,6 +85,6 @@ export class Character {
         new Skill('Swim', 'Str'),
         new Skill('Use Magic Device', 'Cha', true)
       ]
-    } 
+    }
   }
 }

@@ -29,6 +29,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -37,7 +38,7 @@ import { ModDisplayComponent } from './components/mod-display/mod-display.compon
 import { CombatComponent } from './components/combat/combat.component';
 import { WeaponComponent } from './components/weapon/weapon.component';
 import { TotalDisplayComponent } from './components/total-display/total-display.component';
-import { DeleteItemDialogComponent } from './components/delete-wepon-dialog/delete-wepon-dialog.component';
+import { DeleteItemDialogComponent } from './components/delete-item-dialog/delete-wepon-dialog.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
 import { EquipmentComponent } from './components/equipment/equipment.component';
@@ -47,6 +48,9 @@ import { MoneyComponent } from './components/equipment/money/money.component';
 import { WeightCapacityComponent } from './components/equipment/weight-capacity/weight-capacity.component';
 import { GearItemComponent } from './components/equipment/gear-item/gear-item.component';
 import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list-item.component';
+import { SpellsComponent } from './components/spells/spells.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { SpellDetailsComponent } from './components/spells/spell-details/spell-details.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +70,9 @@ import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list
     WeightCapacityComponent,
     GearItemComponent,
     AcListItemComponent,
+    SpellsComponent,
+    ConfirmDialogComponent,
+    SpellDetailsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -93,6 +100,7 @@ import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list
     MatSnackBarModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
+    MatExpansionModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),
@@ -100,4 +108,4 @@ import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

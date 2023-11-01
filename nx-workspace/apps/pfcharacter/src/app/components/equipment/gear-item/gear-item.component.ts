@@ -2,7 +2,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteItemDialogComponent } from '../../delete-wepon-dialog/delete-wepon-dialog.component';
+import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon-dialog.component';
 
 @Component({
   selector: 'app-gear-item',
@@ -27,12 +27,9 @@ export class GearItemComponent {
   constructor(public dialog: MatDialog) { }
 
   deleteGearItem() {
-    const dialogRef = this.dialog.open(DeleteItemDialogComponent);
-    const instance = dialogRef.componentInstance;
-    instance.title = 'Delete Gear Item';
-    instance.message = `Are you sure you want to delete this gear item ${this.gearItemForm.get('name')?.value}?`;
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialog.open(DeleteItemDialogComponent, {
+      data: { title: 'Delete Gear Item', message: `Are you sure you want to delete this gear item ${this.gearItemForm.get('name')?.value}?` }
+    }).afterClosed().subscribe(result => {
       if (result) {
         this.deleteGearItemEvent.emit(this.index);
       }

@@ -3,7 +3,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteItemDialogComponent } from '../../delete-wepon-dialog/delete-wepon-dialog.component';
+import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon-dialog.component';
 import { acTypeEnum } from 'libs/character-classes/equipment';
 
 @Component({
@@ -38,12 +38,9 @@ export class AcListItemComponent {
   constructor(public dialog: MatDialog) { }
 
   deleteAcListItem() {
-    const dialogRef = this.dialog.open(DeleteItemDialogComponent);
-    const instance = dialogRef.componentInstance;
-    instance.title = 'Delete AC Item';
-    instance.message = `Are you sure you want to delete this AC item ${this.acItemForm.get('name')?.value}?`;
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialog.open(DeleteItemDialogComponent, {
+      data: { title: 'Delete AC Item', message: `Are you sure you want to delete this AC item ${this.acItemForm.get('name')?.value}?` }
+    }).afterClosed().subscribe(result => {
       if (result) {
         this.deleteAcItemEvent.emit(this.index);
       }

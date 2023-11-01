@@ -17,8 +17,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .primary-background{
-    border-radius: 4px 4px 1px 1px;
     background-color: mat.get-color-from-palette($primary-palette);
+}
+
+.accent-background{
+    background-color: mat.get-color-from-palette($accent-palette);;
 }
 
 .badge-total{
@@ -45,6 +48,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .fix-suffix.mat-form-field-appearance-outline .mat-form-field-suffix {
     top: 0;
+}
+
+.accent-text{
+    color: mat.get-color-from-palette($accent-palette);
 }
 
 //hide input number arrows
