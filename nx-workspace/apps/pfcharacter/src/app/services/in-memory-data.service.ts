@@ -1,3 +1,4 @@
+import { Spell } from './../../../../../libs/character-classes/spells';
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
 import { ICharacter } from 'libs/character-classes/character';
@@ -326,6 +327,8 @@ export class InMemoryDataService implements InMemoryDataService {
           }
         ]
       },
+      feats: [],
+      specialAbilities: [],
       skillList: [
         new Skill('Acrobatics', 'Dex'),
         new Skill('Appraise', 'Int'),
