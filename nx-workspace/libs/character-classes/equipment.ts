@@ -52,6 +52,7 @@ export class AcItem {
 export class Gear {
     name: string | undefined = undefined;
     weight: number | undefined = undefined;
+    quantity: number | undefined = 1;
 }
 
 export class Money {

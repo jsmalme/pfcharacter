@@ -42,7 +42,7 @@ export class CalcTotService {
   //EQUIPMENT------------------------------------------------------------------------
   getTotalWeight(gear: Gear[], weapons: Weapon[], acItems: AcItem[]): number {
     let totalWeight = 0;
-    gear.forEach(g => totalWeight += g.weight ?? 0);
+    gear.forEach(g => totalWeight += (g.weight ?? 0) * (g.quantity ?? 0));
     weapons.forEach(w => totalWeight += w.weight ?? 0);
     acItems.forEach(a => totalWeight += a.weight ?? 0);
     return totalWeight;

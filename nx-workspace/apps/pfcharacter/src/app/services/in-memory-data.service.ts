@@ -88,8 +88,8 @@ export class InMemoryDataService implements InMemoryDataService {
         }],
         acItemsWeight: 10,
         gear: [
-          { name: 'rope', weight: 10 },
-          { name: 'torch', weight: 3 }],
+          { name: 'rope', weight: 10, quantity: 3 },
+          { name: 'torch', weight: 3, quantity: 1 }],
         gearWeight: 13,
         money: {
           cp: 35,

@@ -284,7 +284,7 @@ export class CharacterDataService {
     this.tempRollback();
 
     let newWeight = 0;
-    info.forEach(item => newWeight += item.weight ?? 0);
+    info.forEach(item => newWeight += (item.weight ?? 0) * (item.quantity ?? 0));
 
     if (this.tempChar.equipment.gearWeight !== newWeight) {
       this.tempChar.equipment.gearWeight = newWeight;
