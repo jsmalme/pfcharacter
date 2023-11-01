@@ -98,15 +98,25 @@
             <br>
             <div class="row">
                 <mat-form-field appearance="fill" color="accent" class="w-100">
-                    <textarea class="d-none d-md-block" matInput cdkTextareaAutosize cdkAutosizeMinRows="15"
+                    <textarea class="d-none d-md-block" matInput cdkTextareaAutosize
                         formControlName="description"></textarea>
-                    <textarea class="d-block d-md-none" matInput cdkTextareaAutosize cdkAutosizeMaxRows="20"
+                    <textarea class="d-block d-md-none" matInput cdkTextareaAutosize
                         formControlName="description"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="col-12 d-block d-md-none">
+                <mat-form-field class="w-100" color="accent">
+                    <mat-label>Link to spell</mat-label>
+                    <mat-icon matPrefix class="me-2">link</mat-icon>
+                    <input matInput formControlName="link">
+                    <a *ngIf="data.spell" matSuffix href="{{data.spell.link}}" target="_blank"
+                        rel="noopener noreferrer"><mat-icon *ngIf="data.spell.link"
+                            color="accent">open_in_new</mat-icon></a>
                 </mat-form-field>
             </div>
         </mat-dialog-content>
         <div mat-dialog-actions class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-6 d-none d-md-block">
                 <mat-form-field class="w-100" color="accent">
                     <mat-label>Link to spell</mat-label>
                     <mat-icon matPrefix class="me-2">link</mat-icon>

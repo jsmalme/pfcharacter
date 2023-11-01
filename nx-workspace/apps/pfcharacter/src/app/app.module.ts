@@ -108,4 +108,4 @@ import { SpellDetailsComponent } from './components/spells/spell-details/spell-d
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

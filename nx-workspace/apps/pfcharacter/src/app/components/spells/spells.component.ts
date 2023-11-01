@@ -159,7 +159,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
   addOrViewSpell(spell: Spell | null, isNew: boolean = false) {
     this.dialog.open(SpellDetailsComponent, {
-      maxWidth: this.isMobileScreen ? '100vw' : '80vw',
+      maxWidth: this.isMobileScreen ? '100vw' : 'auto',
       disableClose: true,
       data: { spell: spell, new: isNew }
     }).afterClosed().pipe(first()).subscribe((result) => {
