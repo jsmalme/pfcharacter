@@ -21,15 +21,15 @@ export class Feat {
 }
 
 export class SpecialAbility {
-    name: string | undefined;
-    description: string | undefined;
+    name: string;
+    benefit: string | undefined;
 }
 
 export enum FeatTypeEnum {
-    itemCreation = 'Item Creation',
-    combat = 'Combat',
     general = 'General',
-    other = 'Other',
+    combat = 'Combat',
+    conduit = 'Conduit',
+    itemCreation = 'Item Creation',
     metamagic = 'Metamagic',
-    conduit = 'Conduit'
+    other = 'Other',
 }

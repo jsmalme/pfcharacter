@@ -31,6 +31,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatChip, MatChipsModule } from '@angular/material/chips';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -56,6 +57,7 @@ import { FeatsComponent } from './components/feats/feats.component';
 import { FeatListComponent } from './components/feats/feat-list/feat-list.component';
 import { SpecialAbilitiesComponent } from './components/feats/special-abilities/special-abilities.component';
 import { FeatDetailsComponent } from './components/feats/feat-details/feat-details.component';
+import { SpecialAbilityDetailsComponent } from './components/feats/special-ability-details/special-ability-details.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,7 @@ import { FeatDetailsComponent } from './components/feats/feat-details/feat-detai
     FeatListComponent,
     SpecialAbilitiesComponent,
     FeatDetailsComponent,
+    SpecialAbilityDetailsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -111,6 +114,7 @@ import { FeatDetailsComponent } from './components/feats/feat-details/feat-detai
     MatButtonToggleModule,
     MatExpansionModule,
     DragDropModule,
+    MatChipsModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),

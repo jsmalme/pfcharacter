@@ -1,3 +1,4 @@
+import { debounce } from 'rxjs';
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Character } from 'libs/character-classes/character';
@@ -9,6 +10,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { MatDialog } from '@angular/material/dialog';
 import { FeatDetailsComponent } from '../feat-details/feat-details.component';
 import { DrawerExpansionService } from '../../../services/drawer-expansion.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-feat-list',
@@ -31,7 +33,7 @@ export class FeatListComponent implements OnInit {
   ngOnInit(): void {
     this.isMobileScreen = window.innerWidth < 577;
     this.character$ = this.store.characterUpdate$;
-    this.character$.pipe(first()).subscribe((char: Character) => {
+    this.character$.pipe().subscribe((char: Character) => {
       if (this.featDrawer.featDrawerStatus) {
         this.drawerStatus = this.featDrawer.featDrawerStatus;
       }
@@ -46,34 +48,58 @@ export class FeatListComponent implements OnInit {
   }
 
   addOrViewFeat(feat: Feat | null, isNew: boolean = false) {
+    console.log('isMobileScreen', this.isMobileScreen);
     this.dialog.open(FeatDetailsComponent, {
       maxWidth: this.isMobileScreen ? '100vw' : 'auto',
-      data: { feat: feat, new: isNew }
+      minWidth: '50vw',
+      disableClose: true,
+      data: { feat: feat, isNew: isNew }
     }).afterClosed().pipe(first()).subscribe((result) => {
-      //do nothing
+      let isUpdate = false;
+      if (result) {
+        if (isNew) {
+          this.store.addFeat(result);
+          isUpdate = true;
+        }
+        else {
+          if (result.delete) {
+            this.store.deleteFeat(feat);
+            isUpdate = true;
+          }
+          else if (!_.isEqual(result, feat)) {
+            this.store.updateFeat(result);
+            isUpdate = true;
+          }
+          else {
+            return;
+          }
+        }
+        if (isUpdate) {
+          this.character$.pipe(first()).subscribe((char: Character) => {
+            this.featList = char.feats;
+          });
+        }
+      }
     });
   }
 
   drop(event: CdkDragDrop<Feat[]>) {
     moveItemInArray(this.featList, event.previousIndex, event.currentIndex);
+    this.store.updateFeatList(this.featList);
   }
 
-  setOpen(featName: any) {
+  setOpen(featName: string) {
     if (!this.featDrawer.featDrawerStatus) {
       return;
     }
     this.featDrawer.featDrawerStatus[featName] = true;
-
-    console.log(this.featDrawer.featDrawerStatus);
   }
 
-  setClosed(featName: any) {
+  setClosed(featName: string) {
     if (!this.featDrawer.featDrawerStatus) {
       return;
     }
     this.featDrawer.featDrawerStatus[featName] = false;
-
-    console.log(this.featDrawer.featDrawerStatus);
   }
 
 }

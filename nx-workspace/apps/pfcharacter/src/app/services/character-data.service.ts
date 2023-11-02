@@ -14,6 +14,7 @@ import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash";
 import { AcItem, Gear, Money, burdenEnum } from 'libs/character-classes/equipment';
 import { Spell, SpellStat } from 'libs/character-classes/spells';
+import { Feat, SpecialAbility } from 'libs/character-classes/feats-abilities';
 
 @Injectable({
   providedIn: 'root'
@@ -343,7 +344,6 @@ export class CharacterDataService {
   }
   //----------------------------------------------------------------
   //Spell Updates --------------------------------------------------
-
   updateSpellCount(spell: Spell, spellCount: number, totalCount: number) {
     this.tempRollback();
 
@@ -429,9 +429,136 @@ export class CharacterDataService {
     this.character.next(this.tempChar);
   }
 
+  //----------------------------------------------------------------
+  //Feat Updates ---------------------------------------------------
+  addFeat(feat: Feat) {
+    this.tempRollback();
+    this.tempChar.feats.push(feat);
 
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  deleteFeat(feat: Feat | null) {
+    this.tempRollback();
+    this.tempChar.feats = this.tempChar.feats.filter(f => f.name !== feat?.name);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  updateFeat(feat: Feat) {
+    this.tempRollback();
+
+    this.tempChar.feats = this.tempChar.feats.map(f => {
+      if (f.name === feat.name) {
+        return feat;
+      }
+      return f;
+    });
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  updateFeatList(feats: Feat[]) {
+    this.tempRollback();
+    this.tempChar.feats = feats;
+
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  addSpecialAbility(specialAbility: SpecialAbility) {
+    this.tempRollback();
+    this.tempChar.specialAbilities.push(specialAbility);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  deleteSpecialAbility(specialAbility: SpecialAbility | null) {
+    this.tempRollback();
+    this.tempChar.specialAbilities = this.tempChar.specialAbilities.filter(sa => sa.name !== specialAbility?.name);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  updateSpecialAbility(specialAbility: SpecialAbility) {
+    this.tempRollback();
+
+    this.tempChar.specialAbilities = this.tempChar.specialAbilities.map(sa => {
+      if (sa.name === specialAbility.name) {
+        return specialAbility;
+      }
+      return sa;
+    });
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  updateSpecailAbilityList(specialAbilities: SpecialAbility[]) {
+    this.tempRollback();
+    this.tempChar.specialAbilities = specialAbilities;
+
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
 
   //----------------------------------------------------------------
+
 
 
   updateSkillAbilityScore(ability: string, skillIds: string[], skillList: Skill[], abilities: Abilities): Skill[] {

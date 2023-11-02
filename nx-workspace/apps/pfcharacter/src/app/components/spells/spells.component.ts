@@ -180,7 +180,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
             this.store.deleteSpell(spell);
             isUpdate = true;
           }
-          if (!_.isEqual(result, spell)) {
+          else if (!_.isEqual(result, spell)) {
             this.store.updateSpell(result);
             isUpdate = true;
           }
