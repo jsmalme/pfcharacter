@@ -55,6 +55,7 @@ import { SpellDetailsComponent } from './components/spells/spell-details/spell-d
 import { FeatsComponent } from './components/feats/feats.component';
 import { FeatListComponent } from './components/feats/feat-list/feat-list.component';
 import { SpecialAbilitiesComponent } from './components/feats/special-abilities/special-abilities.component';
+import { FeatDetailsComponent } from './components/feats/feat-details/feat-details.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { SpecialAbilitiesComponent } from './components/feats/special-abilities/
     FeatsComponent,
     FeatListComponent,
     SpecialAbilitiesComponent,
+    FeatDetailsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -116,4 +118,4 @@ import { SpecialAbilitiesComponent } from './components/feats/special-abilities/
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

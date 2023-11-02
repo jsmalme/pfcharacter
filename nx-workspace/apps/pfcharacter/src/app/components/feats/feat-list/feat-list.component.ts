@@ -6,6 +6,9 @@ import { CharacterDataService } from '../../../services/character-data.service';
 import { Feat } from 'libs/character-classes/feats-abilities';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatAccordion } from '@angular/material/expansion';
+import { MatDialog } from '@angular/material/dialog';
+import { FeatDetailsComponent } from '../feat-details/feat-details.component';
+import { DrawerExpansionService } from '../../../services/drawer-expansion.service';
 
 @Component({
   selector: 'app-feat-list',
@@ -15,21 +18,62 @@ import { MatAccordion } from '@angular/material/expansion';
 export class FeatListComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   character$: Observable<Character>;
+  drawerStatus: Record<string, boolean> = {};
   featList: Feat[] = [];
+  isMobileScreen = false;
+
   constructor(
-    private store: CharacterDataService
+    private store: CharacterDataService,
+    private dialog: MatDialog,
+    private featDrawer: DrawerExpansionService,
   ) { }
 
   ngOnInit(): void {
+    this.isMobileScreen = window.innerWidth < 577;
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
+      if (this.featDrawer.featDrawerStatus) {
+        this.drawerStatus = this.featDrawer.featDrawerStatus;
+      }
+      else {
+        char.feats.forEach((feat) => {
+          this.drawerStatus[feat.name] = false;
+        });
+        this.featDrawer.featDrawerStatus = this.drawerStatus;
+      }
       this.featList = char.feats;
     });
   }
 
-  drop(event: CdkDragDrop<Feat[]>) {
-    console.log(event);
-    moveItemInArray(this.featList, event.previousIndex, event.currentIndex);
-    console.log(this.featList);
+  addOrViewFeat(feat: Feat | null, isNew: boolean = false) {
+    this.dialog.open(FeatDetailsComponent, {
+      maxWidth: this.isMobileScreen ? '100vw' : 'auto',
+      data: { feat: feat, new: isNew }
+    }).afterClosed().pipe(first()).subscribe((result) => {
+      //do nothing
+    });
   }
+
+  drop(event: CdkDragDrop<Feat[]>) {
+    moveItemInArray(this.featList, event.previousIndex, event.currentIndex);
+  }
+
+  setOpen(featName: any) {
+    if (!this.featDrawer.featDrawerStatus) {
+      return;
+    }
+    this.featDrawer.featDrawerStatus[featName] = true;
+
+    console.log(this.featDrawer.featDrawerStatus);
+  }
+
+  setClosed(featName: any) {
+    if (!this.featDrawer.featDrawerStatus) {
+      return;
+    }
+    this.featDrawer.featDrawerStatus[featName] = false;
+
+    console.log(this.featDrawer.featDrawerStatus);
+  }
+
 }

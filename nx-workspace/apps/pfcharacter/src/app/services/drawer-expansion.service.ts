@@ -17,7 +17,5 @@ export class DrawerExpansionService {
     9: false
   };
 
-  public featDrawerStatus: Record<number, boolean> = {
-
-  }
+  public featDrawerStatus: Record<number, boolean> | undefined = undefined;
 }

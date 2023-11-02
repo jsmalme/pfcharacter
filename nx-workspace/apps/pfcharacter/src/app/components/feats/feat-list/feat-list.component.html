@@ -23,7 +23,8 @@
                                     </button>
                                 </div>
                                 <div class="col">
-                                    <button mat-stroked-button matTooltip="Add a new feat">
+                                    <button mat-stroked-button matTooltip="Add a new feat"
+                                        (click)="addOrViewFeat(null, true)">
                                         Add
                                         <mat-icon>add</mat-icon>
                                     </button>
@@ -34,13 +35,14 @@
                 </div>
             </mat-card-title>
             <mat-accordion multi cdkDropList [cdkDropListData]="featList" (cdkDropListDropped)="drop($event)">
-                <mat-expansion-panel class="mb-2 mat-elevation-z4" cdkDrag *ngFor="let feat of featList">
+                <mat-expansion-panel class="mb-2 mat-elevation-z4" cdkDrag *ngFor="let feat of featList"
+                    (opened)="setOpen(feat.name)" (closed)="setClosed(feat.name)" [expanded]="drawerStatus[feat.name]">
                     <mat-expansion-panel-header class="d-flex align-items-center">
                         <mat-panel-title>
                             <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <button mat-icon-button>
-                                        <mat-icon color="warn">delete</mat-icon>
+                                <div class="col">
+                                    <button mat-icon-button (click)="addOrViewFeat(feat); $event.stopPropagation()">
+                                        <mat-icon color="accent">edit_note</mat-icon>
                                     </button>
                                 </div>
                                 <div class="col-auto">
@@ -56,7 +58,7 @@
                     <br>
                     <div class="row">
                         <div class="col-12" *ngIf="feat.prerequisites">
-                            <mat-label class="small ms-1 italic">Prerequisites:</mat-label>
+                            <mat-label class="small ms-1 italic accent-text">Prerequisites:</mat-label>
                             {{feat.prerequisites}}
                         </div>
                         <div class="col-12 p-3">
