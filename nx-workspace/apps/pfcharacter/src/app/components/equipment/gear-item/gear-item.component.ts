@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon-dialog.component';
 
@@ -20,7 +20,8 @@ export class GearItemComponent {
     const fb = new FormBuilder().nonNullable;
     return fb.group({
       name: ['', Validators.maxLength(50)],
-      weight: [undefined as number | undefined, Validators.maxLength(10)],
+      weight: [undefined as number | undefined, Validators.max(5000)],
+      quantity: [1, Validators.max(5000)],
     });
   }
 

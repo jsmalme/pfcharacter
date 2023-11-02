@@ -1,4 +1,3 @@
-import { state } from '@angular/animations';
 import { ISpells, Spells } from './spells';
 import { Abilities, IAbilities } from "./abilities";
 import { GeneralInfo } from "./general-info";
@@ -6,6 +5,7 @@ import { CombatInfo, ICombatInfo } from "./combat-info";
 import { ISavingThrows, SavingThrows } from "./saving-throws";
 import { Skill } from "./skills";
 import { Equipment, IEquipment, WeightCapacity } from "./equipment";
+import { Feat, SpecialAbility } from "./feats-abilities";
 
 export interface ICharacter {
   id: number;
@@ -16,6 +16,8 @@ export interface ICharacter {
   equipment: IEquipment;
   skillList: Skill[];
   spells: ISpells;
+  feats: Feat[];
+  specialAbilities: SpecialAbility[];
 }
 export class Character {
   id: number;
@@ -26,6 +28,8 @@ export class Character {
   skillList: Skill[];
   equipment: Equipment;
   spells: Spells;
+  feats: Feat[];
+  specialAbilities: SpecialAbility[];
   constructor(char?: ICharacter) {
     if (char) {
       this.abilities = new Abilities(char.abilities);
@@ -35,6 +39,8 @@ export class Character {
       this.equipment = new Equipment(char.equipment);
       this.spells = new Spells(char.spells);
       this.skillList = char.skillList;
+      this.feats = char.feats;
+      this.specialAbilities = char.specialAbilities;
     }
     else {
       this.abilities = new Abilities();
@@ -44,6 +50,8 @@ export class Character {
       this.equipment = new Equipment();
       this.spells = new Spells();
       this.equipment.weightCaps = new WeightCapacity();
+      this.feats = [];
+      this.specialAbilities = [];
       this.skillList = [
         new Skill('Acrobatics', 'Dex'),
         new Skill('Appraise', 'Int'),

@@ -30,6 +30,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatChip, MatChipsModule } from '@angular/material/chips';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -51,6 +53,11 @@ import { AcListItemComponent } from './components/equipment/ac-list-item/ac-list
 import { SpellsComponent } from './components/spells/spells.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { SpellDetailsComponent } from './components/spells/spell-details/spell-details.component';
+import { FeatsComponent } from './components/feats/feats.component';
+import { FeatListComponent } from './components/feats/feat-list/feat-list.component';
+import { SpecialAbilitiesComponent } from './components/feats/special-abilities/special-abilities.component';
+import { FeatDetailsComponent } from './components/feats/feat-details/feat-details.component';
+import { SpecialAbilityDetailsComponent } from './components/feats/special-ability-details/special-ability-details.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +80,11 @@ import { SpellDetailsComponent } from './components/spells/spell-details/spell-d
     SpellsComponent,
     ConfirmDialogComponent,
     SpellDetailsComponent,
+    FeatsComponent,
+    FeatListComponent,
+    SpecialAbilitiesComponent,
+    FeatDetailsComponent,
+    SpecialAbilityDetailsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -101,6 +113,8 @@ import { SpellDetailsComponent } from './components/spells/spell-details/spell-d
     MatSlideToggleModule,
     MatButtonToggleModule,
     MatExpansionModule,
+    DragDropModule,
+    MatChipsModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),

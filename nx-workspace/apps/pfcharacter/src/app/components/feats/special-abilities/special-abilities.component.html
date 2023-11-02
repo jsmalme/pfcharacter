@@ -1,0 +1,85 @@
+<ng-container *ngIf="character$ | async as char">
+    <mat-card class="mat-elevation-z2">
+        <mat-card-title class="primary-background rounded-top mat-elevation-z1"
+            style="margin-top: -16px; margin-left: -16px; margin-right: -16px">
+            <div class="container-fluid" style="padding-top: 12px; padding-bottom: 12px">
+                <div class="row">
+                    <div class="col-12 col-sm-auto me-auto">
+                        Abilities
+                    </div>
+                    <div class="col-auto ms-sm-auto me-xs-auto">
+                        <div class="row">
+                            <div class="col d-none d-sm-block d-lg-none d-xl-block">
+                                <button mat-stroked-button (click)="accordion.openAll()">
+                                    Expand All
+                                    <mat-icon>unfold_more_double</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col d-block d-sm-none d-lg-block d-xl-none">
+                                <button mat-stroked-button (click)="accordion.openAll()">
+                                    <mat-icon>unfold_more_double</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col d-none d-sm-block d-lg-none d-xl-block">
+                                <button mat-stroked-button (click)="accordion.closeAll()">
+                                    Collapse All
+                                    <mat-icon>unfold_less_double</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col d-block d-sm-none d-lg-block d-xl-none">
+                                <button mat-stroked-button (click)="accordion.closeAll()">
+                                    <mat-icon>unfold_less_double</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col d-none d-sm-block d-lg-none d-xl-block">
+                                <button mat-stroked-button matTooltip="Add a new feat"
+                                    (click)="addOrViewAbility(null, true)">
+                                    Add
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col d-block d-sm-none d-lg-block d-xl-none">
+                                <button mat-stroked-button matTooltip="Add a new feat"
+                                    (click)="addOrViewAbility(null, true)">
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-title>
+        <div *ngIf="abilitiesList.length === 0" class="row text-center">
+            <div class="col-12 pt-3 rounded grey-bg">
+                <h2>No Special Abilites</h2>
+            </div>
+        </div>
+        <mat-accordion multi cdkDropList [cdkDropListData]="abilitiesList" (cdkDropListDropped)="drop($event)">
+            <mat-expansion-panel class="mb-2 mat-elevation-z4" cdkDrag *ngFor="let ability of abilitiesList"
+                (opened)="setOpen(ability.name)" (closed)="setClosed(ability.name)"
+                [expanded]="drawerStatus[ability.name]">
+                <mat-expansion-panel-header class="h-25 d-flex align-items-center ps-1 ps-sm-3">
+                    <mat-panel-title>
+                        <div class="row align-items-center w-100 pb-2 pt-2">
+                            <div class="col-2 col-sm-auto pe-0">
+                                <button mat-icon-button (click)="addOrViewAbility(ability); $event.stopPropagation()">
+                                    <mat-icon color="accent">edit_note</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                {{ ability.name }}
+                            </div>
+                        </div>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-divider></mat-divider>
+                <br>
+                <div class="row">
+                    <div class="col-12 p-3">
+                        {{ability.benefit}}
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card>
+</ng-container>

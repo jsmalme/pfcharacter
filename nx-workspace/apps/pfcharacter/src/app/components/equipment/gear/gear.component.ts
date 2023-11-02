@@ -45,7 +45,8 @@ export class GearComponent implements OnInit {
     items.map((item) => {
       this.gearItems.push(this.fb.group({
         name: [item.name, Validators.maxLength(50)],
-        weight: [item.weight, Validators.maxLength(10)]
+        weight: [item.weight, Validators.max(5000)],
+        quantity: [item.quantity, Validators.max(5000)],
       }));
     });
 
