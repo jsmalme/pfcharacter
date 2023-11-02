@@ -5,6 +5,7 @@ import { ICharacter } from 'libs/character-classes/character';
 import { SizeEnum } from 'libs/character-classes/general-info';
 import { Skill } from 'libs/character-classes/skills';
 import { acTypeEnum, burdenEnum } from 'libs/character-classes/equipment';
+import { FeatTypeEnum } from 'libs/character-classes/feats-abilities';
 
 
 @Injectable({
@@ -327,7 +328,27 @@ export class InMemoryDataService implements InMemoryDataService {
           }
         ]
       },
-      feats: [],
+      feats: [
+        {
+          name: 'Betraying Blow',
+          type: FeatTypeEnum.general,
+          prerequisites: undefined,
+          benefit: 'Whenever you use a melee attack to deal nonlethal damage to a creature that only you threaten, roll a Bluff check opposed by your opponent’s Sense Motive check.You deal an additional amount of nonlethal damage equal to 1/2 the difference between your Bluff check and your opponent’s Sense Motive check (minimum 0). If your opponent has an attitude of friendly or helpful toward you (including temporarily due to Intimidate checks, charm person, and similar effects), you instead deal an amount of extra nonlethal damage equal to the difference between your checks. Regardless, the amount of extra nonlethal damage you deal with this feat cannot exceed your Hit'
+        },
+        {
+          name: 'Summon Good Monster',
+          type: FeatTypeEnum.general,
+          prerequisites: 'Good alignment',
+          benefit: 'When casting summon monster, you also gain access to the list of good monsters listed here. Your righteous determination grants these summoned creatures the Diehard feat. You may still summon creatures from the standard list, but without the Diehard feat.'
+        },
+        {
+          name: 'Flaring Spell',
+          type: FeatTypeEnum.metamagic,
+          prerequisites: undefined,
+          benefit: "The electricity, fire, or light effects of the affected spell create a flaring that dazzles creatures that take damage from the spell. A flare spell causes a creature that takes fire or electricity damage from the affected spell to become dazzled for a number of rounds equal to the actual level of the spell. A flaring spell only affects spells with a fire, light, or electricity descriptor." +
+            "Level Increase: +1(a flaring spell uses up a spell slot one level higher than the spell’s actual level.)"
+        }
+      ],
       specialAbilities: [],
       skillList: [
         new Skill('Acrobatics', 'Dex'),

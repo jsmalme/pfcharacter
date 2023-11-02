@@ -30,6 +30,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -52,6 +53,8 @@ import { SpellsComponent } from './components/spells/spells.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { SpellDetailsComponent } from './components/spells/spell-details/spell-details.component';
 import { FeatsComponent } from './components/feats/feats.component';
+import { FeatListComponent } from './components/feats/feat-list/feat-list.component';
+import { SpecialAbilitiesComponent } from './components/feats/special-abilities/special-abilities.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +78,8 @@ import { FeatsComponent } from './components/feats/feats.component';
     ConfirmDialogComponent,
     SpellDetailsComponent,
     FeatsComponent,
+    FeatListComponent,
+    SpecialAbilitiesComponent,
   ],
   imports: [
     HttpClientModule,
@@ -103,6 +108,7 @@ import { FeatsComponent } from './components/feats/feats.component';
     MatSlideToggleModule,
     MatButtonToggleModule,
     MatExpansionModule,
+    DragDropModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),
@@ -110,4 +116,4 @@ import { FeatsComponent } from './components/feats/feats.component';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

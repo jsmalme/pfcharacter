@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SpellDrawerService {
-  public drawerStatus: Record<number, boolean> = {
+export class DrawerExpansionService {
+  public spellDrawerStatus: Record<number, boolean> = {
     0: false,
     1: false,
     2: false,
@@ -16,4 +16,8 @@ export class SpellDrawerService {
     8: false,
     9: false
   };
+
+  public featDrawerStatus: Record<number, boolean> = {
+
+  }
 }

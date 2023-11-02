@@ -6,9 +6,10 @@ import { Character } from 'libs/character-classes/character';
 import { Spell, SpellStat } from 'libs/character-classes/spells';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatDialog } from '@angular/material/dialog';
-import { SpellDrawerService } from '../../services/spell-drawer.service';
+import { DrawerExpansionService } from '../../services/drawer-expansion.service';
 import { SpellDetailsComponent } from './spell-details/spell-details.component';
 import * as _ from "lodash";
+import { group } from 'console';
 
 @Component({
   selector: 'nx-workspace-spells',
@@ -28,7 +29,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: CharacterDataService,
-    private spellDrawer: SpellDrawerService,
+    private spellDrawer: DrawerExpansionService,
     private fb: NonNullableFormBuilder,
     public dialog: MatDialog
   ) { }
@@ -40,7 +41,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
       this.sortSpells(char.spells.spellList);
       this.setSpellStatsForm(char.spells.stats, char.spells.spellList);
     });
-    this.drawerStatus = this.spellDrawer.drawerStatus;
+    this.drawerStatus = this.spellDrawer.spellDrawerStatus;
   }
 
   ngOnDestroy(): void {
@@ -118,6 +119,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
       }
     });
 
+    for (let i = 0; i < 10; i++) {
+      if (groupedSpells[i]) {
+        groupedSpells[i].sort((a, b) => a.name.localeCompare(b.name));
+      }
+    }
     this.sortedSpells = groupedSpells;
   }
 
@@ -150,11 +156,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
   }
 
   setOpen(level: number) {
-    this.spellDrawer.drawerStatus[level] = true;
+    this.spellDrawer.spellDrawerStatus[level] = true;
   }
 
   setClosed(level: number) {
-    this.spellDrawer.drawerStatus[level] = false;
+    this.spellDrawer.spellDrawerStatus[level] = false;
   }
 
   addOrViewSpell(spell: Spell | null, isNew: boolean = false) {

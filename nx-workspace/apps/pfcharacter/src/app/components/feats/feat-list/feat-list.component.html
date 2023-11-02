@@ -1,0 +1,70 @@
+<ng-container *ngIf="character$ | async as char">
+    <div class="row">
+        <mat-card class="mat-elevation-z2">
+            <mat-card-title class="primary-background rounded-top mat-elevation-z1"
+                style="margin-top: -16px; margin-left: -16px; margin-right: -16px">
+                <div class="container" style="padding-top: 12px; padding-bottom: 12px">
+                    <div class="row">
+                        <div class="col-auto">
+                            Feats
+                        </div>
+                        <div class="col-auto ms-auto">
+                            <div class="row">
+                                <div class="col">
+                                    <button mat-stroked-button (click)="accordion.openAll()">
+                                        Expand All
+                                        <mat-icon>unfold_more_double</mat-icon>
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button mat-stroked-button (click)="accordion.closeAll()">
+                                        Collapse All
+                                        <mat-icon>unfold_less_double</mat-icon>
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button mat-stroked-button matTooltip="Add a new feat">
+                                        Add
+                                        <mat-icon>add</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-title>
+            <mat-accordion multi cdkDropList [cdkDropListData]="featList" (cdkDropListDropped)="drop($event)">
+                <mat-expansion-panel class="mb-2 mat-elevation-z4" cdkDrag *ngFor="let feat of featList">
+                    <mat-expansion-panel-header class="d-flex align-items-center">
+                        <mat-panel-title>
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <button mat-icon-button>
+                                        <mat-icon color="warn">delete</mat-icon>
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    {{ feat.name }}
+                                </div>
+                                <div class="col-auto">
+                                    ({{feat.type}})
+                                </div>
+                            </div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-divider></mat-divider>
+                    <br>
+                    <div class="row">
+                        <div class="col-12" *ngIf="feat.prerequisites">
+                            <mat-label class="small ms-1 italic">Prerequisites:</mat-label>
+                            {{feat.prerequisites}}
+                        </div>
+                        <div class="col-12 p-3">
+                            {{feat.benefit}}
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-card>
+    </div>
+</ng-container>
