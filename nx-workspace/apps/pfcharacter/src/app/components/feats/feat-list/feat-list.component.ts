@@ -53,6 +53,7 @@ export class FeatListComponent implements OnInit {
       maxWidth: this.isMobileScreen ? '100vw' : 'auto',
       minWidth: '50vw',
       disableClose: true,
+      autoFocus: false,
       data: { feat: feat, isNew: isNew }
     }).afterClosed().pipe(first()).subscribe((result) => {
       let isUpdate = false;
