@@ -55,6 +55,7 @@ export class SpecialAbilitiesComponent implements OnInit {
       width: this.isMobileScreen ? '100vw' : 'auto',
       minWidth: this.isMediumScreen ? '80vw' : this.isMobileScreen ? '100vw' : '60vw',
       disableClose: true,
+      autoFocus: false,
       data: { specialAbility: ability, isNew: isNew }
     }).afterClosed().pipe(first()).subscribe((result) => {
       let isUpdate = false;

@@ -58,6 +58,7 @@ import { FeatListComponent } from './components/feats/feat-list/feat-list.compon
 import { SpecialAbilitiesComponent } from './components/feats/special-abilities/special-abilities.component';
 import { FeatDetailsComponent } from './components/feats/feat-details/feat-details.component';
 import { SpecialAbilityDetailsComponent } from './components/feats/special-ability-details/special-ability-details.component';
+import { SummaryComponent } from './components/summary/summary.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { SpecialAbilityDetailsComponent } from './components/feats/special-abili
     SpecialAbilitiesComponent,
     FeatDetailsComponent,
     SpecialAbilityDetailsComponent,
+    SummaryComponent,
   ],
   imports: [
     HttpClientModule,

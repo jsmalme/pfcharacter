@@ -167,6 +167,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     this.dialog.open(SpellDetailsComponent, {
       maxWidth: this.isMobileScreen ? '100vw' : 'auto',
       disableClose: true,
+      autoFocus: false,
       data: { spell: spell, new: isNew }
     }).afterClosed().pipe(first()).subscribe((result) => {
       let isUpdate = false;
