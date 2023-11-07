@@ -49,7 +49,6 @@ export class SpecialAbilitiesComponent implements OnInit {
   }
 
   addOrViewAbility(ability: SpecialAbility | null, isNew: boolean = false) {
-    console.log('isMobileScreen', this.isMobileScreen);
     this.dialog.open(SpecialAbilityDetailsComponent, {
       maxWidth: this.isMobileScreen ? '100vw' : 'auto',
       width: this.isMobileScreen ? '100vw' : 'auto',

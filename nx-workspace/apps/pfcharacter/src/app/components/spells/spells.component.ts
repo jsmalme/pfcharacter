@@ -39,7 +39,6 @@ export class SpellsComponent implements OnInit, OnDestroy {
     this.isMobileScreen = window.innerWidth < 577;
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
-      console.log(char.abilities);
       this.sortSpells(char.spells.spellList);
       this.setSpellStatsForm(char.spells.stats, char.spells.spellList);
     });

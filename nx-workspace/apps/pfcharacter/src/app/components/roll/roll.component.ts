@@ -85,8 +85,6 @@ export class RollComponent implements OnInit {
       new AbilitySelection('Wisdom', abilities.wis.useMod),
       new AbilitySelection('Charisma', abilities.cha.useMod)
     ]
-
-    console.log(this.abilities);
   }
 
   close() {

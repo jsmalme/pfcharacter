@@ -38,9 +38,6 @@ export class MoneyComponent implements OnInit {
       if (!this.moneyForm.valid) {
         return;
       }
-
-      console.log(info as Money);
-
       this.store.updateMoney(info as Money);
     });
   }
