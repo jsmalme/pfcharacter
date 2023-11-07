@@ -1,0 +1,46 @@
+<div class="row d-flex align-items-center">
+    <div class="col-4">
+        <div class="row">
+            <div class="col-3 pt-2">
+                <mat-form-field class="w-100" appearance="outline" color="accent">
+                    <mat-label>Quantity</mat-label>
+                    <input matInput type="number" max="10" [(ngModel)]="quantity" #quantityField="ngModel">
+                </mat-form-field>
+                <div class="text-danger" *ngIf="quantityField.errors">
+                    Maximum of 10 dice.
+                </div>
+            </div>
+            <div class="col-5 pt-2">
+                <mat-form-field class="w-100" appearance="outline" color="accent">
+                    <mat-label>Attribute Mod</mat-label>
+                    <mat-select [(ngModel)]="abilityMod">
+                        <mat-option *ngFor="let ability of abilities" [value]="{name: ability.name, mod: ability.mod}">
+                            {{ability.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-4 pt-2">
+                <mat-form-field class="w-100" appearance="outline" color="accent">
+                    <mat-label>Custom Mod</mat-label>
+                    <input matInput type="number" max="100" [(ngModel)]="customMod" #customField="ngModel">
+                    <div class="text-danger" *ngIf="customField.errors">
+                        Max of 100
+                    </div>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="col-auto align-items-center">
+        <mat-chip-list aria-label="Die selection" [selectable]="true">
+            <mat-chip *ngFor="let dice of die" [selected]="dice.selected" (click)="changeSelection(dice)"
+                style="cursor: pointer;">
+                {{dice.type}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+    <div class="col-auto ms-auto">
+        <button mat-button color="warn" class="me-3" (click)="close()">Close</button>
+        <button mat-raised-button color="primary" (click)="roll()">Roll</button>
+    </div>
+</div>

@@ -10,6 +10,7 @@ import { DrawerExpansionService } from '../../services/drawer-expansion.service'
 import { SpellDetailsComponent } from './spell-details/spell-details.component';
 import * as _ from "lodash";
 import { group } from 'console';
+import { chown } from 'fs';
 
 @Component({
   selector: 'nx-workspace-spells',
@@ -38,6 +39,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     this.isMobileScreen = window.innerWidth < 577;
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
+      console.log(char.abilities);
       this.sortSpells(char.spells.spellList);
       this.setSpellStatsForm(char.spells.stats, char.spells.spellList);
     });

@@ -1,0 +1,27 @@
+<div class="row d-flex justify-content-center">
+    <ng-container>
+        <div *ngIf="hasMulitpleOrMod" class="col-auto">
+            <p class="h3">Roll(s): (</p>
+        </div>
+        <ng-container *ngFor="let roll of data.rolls let i = index">
+            <div class="col-auto">
+                <p class="h3">{{roll}}</p>
+            </div>
+        </ng-container>
+        <div *ngIf="hasMulitpleOrMod" class="col-auto">
+            <p class="h3">)</p>
+        </div>
+    </ng-container>
+    <div *ngIf="hasMod" class="col-auto">
+        <p class="h3">Mod: {{totalMod}}</p>
+    </div>
+    <div class="col-auto d-flex align-items-center">
+        <p class="h3 me-3" *ngIf="hasMulitpleOrMod">Total: </p>
+        <p *ngIf="hasMulitpleOrMod" class="h3">{{total}}</p>
+    </div>
+    <br><br>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions class="d-flex justify-content-end">
+        <button mat-raised-button [mat-dialog-close]="false" color="primary">Ok</button>
+    </div>
+</div>
