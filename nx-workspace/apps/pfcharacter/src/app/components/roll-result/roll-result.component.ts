@@ -18,10 +18,11 @@ export class RollResultComponent implements OnInit {
   total = 0;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { rolls: number[], modifier: AbilitySelection, customMod: number }
+    @Inject(MAT_DIALOG_DATA) public data: { rolls: number[], modifier: AbilitySelection, customMod: number, diceType: string }
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data.diceType);
     this.totalMod = (this.data.modifier?.mod ?? 0) + (this.data.customMod);
     this.total = this.data.rolls.reduce((a, b) => a + b, 0) + this.totalMod;
     this.hasMod = this.data.modifier.name !== 'None' || this.totalMod !== 0;

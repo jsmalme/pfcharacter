@@ -5,7 +5,9 @@
         </div>
         <ng-container *ngFor="let roll of data.rolls let i = index">
             <div class="col-auto">
-                <p class="h3">{{roll}}</p>
+                <p class="h3" [ngClass]="[roll === 1 && data.diceType === 'D20' ? 'text-danger' : '',
+                 roll === 20 && data.diceType === 'D20' ? 'text-success' : '']">{{roll}}
+                </p>
             </div>
         </ng-container>
         <div *ngIf="hasMulitpleOrMod" class="col-auto">

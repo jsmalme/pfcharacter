@@ -45,14 +45,16 @@ export class RollComponent implements OnInit {
 
   roll() {
     let rollResults: number[] = [];
+    let diceType = '';
     this.die.forEach(d => {
       if (d.selected) {
+        diceType = d.type;
         rollResults = this.rollDie(d.value);
       }
     });
 
     this.dialog.open(RollResultComponent, {
-      data: { rolls: rollResults, modifier: this.abilityMod, customMod: this.customMod ?? 0 }
+      data: { rolls: rollResults, modifier: this.abilityMod, customMod: this.customMod ?? 0, diceType: diceType}
     });
   }
 
