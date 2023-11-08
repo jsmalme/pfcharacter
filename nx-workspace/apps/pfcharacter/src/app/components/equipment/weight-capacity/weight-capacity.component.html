@@ -1,0 +1,73 @@
+<ng-container *ngIf="character$ | async as char">
+    <form [formGroup]="carryingCapacityForm" autocomplete="off">
+        <mat-card class="mat-elevation-z2">
+            <mat-card-title class="primary-background rounded-top mat-elevation-z1"
+                style="margin-top: -16px; margin-left: -16px; margin-right: -16px">
+                <div class="container" style="padding-top: 12px; padding-bottom: 12px">
+                    Weight Capacity
+                </div>
+            </mat-card-title>
+            <br>
+            <div class="row">
+                <div class="col-4">
+                    <mat-form-field class="w-100 text-center highlighted-form-field" appearance="outline"
+                        color="accent">
+                        <mat-label>Light Load</mat-label>
+                        <span *ngIf="currentBurden === burdenEnum.light"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                            <span class="material-icons">done</span>
+                        </span>
+                        <input #lightLoad matInput readonly formControlName="lightLoad">
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>Medium Load</mat-label>
+                        <span *ngIf="currentBurden === burdenEnum.medium"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                            <span class="material-icons">done</span>
+                        </span>
+                        <input #medLoad matInput readonly formControlName="medLoad">
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>Heavy Load</mat-label>
+                        <span *ngIf="currentBurden === burdenEnum.heavy"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <span class="material-icons">done</span>
+                        </span>
+                        <input #heavyLoad matInput readonly formControlName="heavyLoad">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>Lift Over Head</mat-label>
+                        <input matInput readonly formControlName="liftOverHead">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>Lift Off Ground</mat-label>
+                        <input matInput readonly formControlName="liftOffGround">
+                    </mat-form-field>
+                </div>
+                <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>Drag/Push</mat-label>
+                        <input matInput readonly formControlName="dragOrPush">
+                    </mat-form-field>
+                </div>
+                <div class="col-3">
+                    <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
+                        <mat-label>Total Weight</mat-label>
+                        <input matInput readonly formControlName="currentBurden">
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card>
+    </form>
+</ng-container>

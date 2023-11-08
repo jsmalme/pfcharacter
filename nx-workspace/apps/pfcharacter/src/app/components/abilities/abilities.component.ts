@@ -1,5 +1,5 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { Observable } from 'rxjs';
+import { Observable, first } from 'rxjs';
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -32,7 +32,7 @@ export class AbilitiesComponent implements OnInit {
     this.abilitiesForm = this.initAbilitiesForm();
     this.savingThrowsForm = this.initSavingThrowForm();
     this.character$ = this.store.characterUpdate$;
-    this.character$.subscribe((char: Character) => {
+    this.character$.pipe(first()).subscribe((char: Character) => {
       this.setAbilitiesForm(char.abilities);
       this.setSavingThrowsForm(char.savingThrows);
     });

@@ -1,154 +1,180 @@
-<div class="container comp-top-margin">
+<div class="container-lg comp-top-margin">
   <ng-container *ngIf="character$ | async as char">
-  <form [formGroup]="skillsForm" autocomplete="off">
-    <ng-container formArrayName="skills">
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" multiTemplateDataRows matSort matSortActive="favorite" matSortDirection="desc">
-        <ng-container matColumnDef="favorite">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Favorite </th>
-          <td mat-cell *matCellDef="let skill;" [formGroup]="skill" (click)="$event.stopPropagation()">
-            <button mat-icon-button color="accent" (click)="toggleFavorite(skill.controls.id.value)">
+    <form [formGroup]="skillsForm" autocomplete="off">
+      <ng-container formArrayName="skills">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" multiTemplateDataRows matSort
+          matSortActive="favorite" matSortDirection="desc">
+          <ng-container matColumnDef="favorite">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Favorite </th>
+            <td mat-cell *matCellDef="let skill;" [formGroup]="skill" (click)="$event.stopPropagation()">
+              <button mat-icon-button color="primary" (click)="toggleFavorite(skill.controls.id.value)">
                 <ng-container *ngIf="skill.controls.favorite.value">
-                    <mat-icon>favorite</mat-icon>
+                  <mat-icon color="accent">favorite</mat-icon>
                 </ng-container>
                 <ng-container *ngIf="!skill.controls.favorite.value">
-                    <mat-icon>favorite_outline</mat-icon>
+                  <mat-icon color="accent">favorite_outline</mat-icon>
                 </ng-container>
-            </button>
-          </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="classSkill">
-          <th mat-header-cell *matHeaderCellDef> Class Skill </th>
-          <td mat-cell *matCellDef="let skill" [formGroup]="skill" (click)="$event.stopPropagation()">
-            <mat-checkbox [checked]="skill.classSkill" formControlName="classSkill"></mat-checkbox>
-          </td>
-        </ng-container>
+              </button>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-          <td mat-cell *matCellDef="let skill" [formGroup]="skill">
-            {{skill.controls.name.value}}
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="classSkill">
+            <th mat-header-cell *matHeaderCellDef> Class Skill </th>
+            <td mat-cell *matCellDef="let skill" [formGroup]="skill" (click)="$event.stopPropagation()">
+              <mat-checkbox color="accent" [checked]="skill.classSkill" formControlName="classSkill"></mat-checkbox>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="abilityName">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let skill" [formGroup]="skill">
+              {{skill.controls.name.value}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="abilityName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ability </th>
             <td mat-cell *matCellDef="let skill" [formGroup]="skill">
-              {{skill.controls.abilityName.value}}
+              <div class="row d-flex align-items-center">
+                <div class="col-5">
+                  {{skill.controls.abilityName.value}}
+                </div>
+                <div class="col-6 d-flex justify-content-end" *ngIf="skill.controls.checkPenalty.value < 0">
+                  <mat-icon color="accent"
+                    matTooltip="Your equipped items/encumbrance are currently reducing this skill by {{-skill.controls.checkPenalty.value}}."
+                    matTooltipPosition="above">
+                    shield
+                  </mat-icon>
+                </div>
+              </div>
             </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="total">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
-          <td mat-cell *matCellDef="let skill" [formGroup]="skill" style="padding-top: 10px;">
-            <div class="row">
-              <div class="col-8">
-                <app-total-display [isValid]="true"
-                [total]="skill.controls.total.value" [showGreyZeros]="true">
-                </app-total-display>
-              </div>
-              <div class="d-md-none col-4">
-                <mat-icon *ngIf="!skill.isExpanded">arrow_drop_down</mat-icon>
-                <mat-icon *ngIf="skill.isExpanded" color="accent">arrow_drop_up</mat-icon>
-              </div>
-            </div>
-          </td>
-        </ng-container>
+          </ng-container>
 
-        <ng-container matColumnDef="abilityMod">
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
+            <td mat-cell *matCellDef="let skill" [formGroup]="skill" style="padding-top: 10px;">
+              <div class="row">
+                <div class="col-8">
+                  <app-total-display [isValid]="true" [total]="skill.controls.total.value" [showGreyZeros]="true">
+                  </app-total-display>
+                </div>
+                <div class="d-md-none col-4">
+                  <mat-icon *ngIf="!skill.isExpanded">arrow_drop_down</mat-icon>
+                  <mat-icon *ngIf="skill.isExpanded" color="accent">arrow_drop_up</mat-icon>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="abilityMod">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Mod </th>
             <td mat-cell *matCellDef="let skill" [formGroup]="skill" style="padding-left: 3px;">
-               {{skill.controls.abilityMod.value}} 
+              {{skill.controls.abilityMod.value}}
             </td>
-        </ng-container>
+          </ng-container>
 
-        <ng-container matColumnDef="class">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Class </th>
-          <td mat-cell *matCellDef="let skill" [formGroup]="skill" style="padding-left: 3px;">
-            {{skill.controls.classSkill.value ? 3 : 0}}
-          </td>
-        </ng-container>
-      
-        <ng-container matColumnDef="ranks">
+          <ng-container matColumnDef="class">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Class </th>
+            <td mat-cell *matCellDef="let skill" [formGroup]="skill" style="padding-left: 3px;" class="pe-md-3">
+              <div class="row d-flex align-items-center">
+                <div class="col-4">
+                  {{skill.controls.classSkill.value ? 3 : 0}}
+                </div>
+                <div class="col-4 d-none d-md-block d-lg-none">
+                  <mat-icon *ngIf="!skill.isExpanded">arrow_drop_down</mat-icon>
+                  <mat-icon *ngIf="skill.isExpanded" color="accent">arrow_drop_up</mat-icon>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ranks">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ranks </th>
             <td mat-cell *matCellDef="let skill" [formGroup]="skill">
-              <mat-form-field appearance="outline" color="accent" style="width: 4em; text-align: center; margin: 0px 0px -1.25em">
+              <mat-form-field appearance="outline" color="accent"
+                style="width: 4em; text-align: center; margin: 0px 0px -1.25em">
                 <input matNativeControl type="number" formControlName="ranks">
               </mat-form-field>
             </td>
-        </ng-container>
+          </ng-container>
 
-        <ng-container matColumnDef="racial">
+          <ng-container matColumnDef="racial">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Racial </th>
             <td mat-cell *matCellDef="let skill" [formGroup]="skill">
-              <mat-form-field appearance="outline" color="accent" style="width: 4em; text-align: center; margin: 0px 0px -1.25em">
+              <mat-form-field appearance="outline" color="accent"
+                style="width: 4em; text-align: center; margin: 0px 0px -1.25em">
                 <input matInput type="number" formControlName="racial">
               </mat-form-field>
             </td>
-        </ng-container>
+          </ng-container>
 
-        <ng-container matColumnDef="misc">
+          <ng-container matColumnDef="misc">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Misc </th>
             <td mat-cell *matCellDef="let skill" [formGroup]="skill">
-              <mat-form-field appearance="outline" color="accent" style="width: 4em; text-align: center; margin: 0px 0px -1.25em">
+              <mat-form-field appearance="outline" color="accent"
+                style="width: 4em; text-align: center; margin: 0px 0px -1.25em">
                 <input matInput type="number" formControlName="misc">
               </mat-form-field>
             </td>
-        </ng-container>
+          </ng-container>
 
-        <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let skill" [formGroup]="skill" [attr.colspan]="displayedColumns.length">
-              <div class="row queue-element-detail d-flex justify-content-center" [@detailExpand]="skill.isExpanded ? 'expanded' : 'collapsed'" [class]="skill.isExpanded ? 'marginTop' : ''">
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let skill" [formGroup]="skill" [attr.colspan]="displayedColumns.length">
+              <div class="row queue-element-detail d-flex justify-content-center"
+                [@detailExpand]="skill.isExpanded ? 'expanded' : 'collapsed'"
+                [class]="skill.isExpanded ? 'marginTop' : ''">
                 <div class="col d-flex justify-content-center">
-                  <mat-form-field class="text-center" appearance="outline" color="accent"  style="width: 5em;">
+                  <mat-form-field class="text-center w-md-100" appearance="outline" color="accent"
+                    [ngClass]="{'medium-size-fields': isMediumScreen, 'non-medium-size-fields': !isMediumScreen}">
                     <mat-label>Ranks</mat-label>
-                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="ranks">
+                    <input matInput inputmode="numeric" type="number" pattern="-?[0-9]*" formControlName="ranks">
                   </mat-form-field>
                 </div>
 
                 <div class="col d-flex justify-content-center">
-                  <mat-form-field class="text-center" appearance="outline" color="accent"  style="width: 5em;">
+                  <mat-form-field class="text-center" appearance="outline" color="accent"
+                    [ngClass]="{'medium-size-fields': isMediumScreen, 'non-medium-size-fields': !isMediumScreen}">
                     <mat-label>Racial</mat-label>
-                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="racial">
+                    <input matInput inputmode=" numeric" type="number" pattern="-?[0-9]*" formControlName="racial">
                   </mat-form-field>
                 </div>
 
                 <div class="col d-flex justify-content-center">
-                  <mat-form-field class="text-center" appearance="outline" color="accent"  style="width: 5em;">
+                  <mat-form-field class="text-center w-md-100" appearance="outline" color="accent"
+                    [ngClass]="{'medium-size-fields': isMediumScreen, 'non-medium-size-fields': !isMediumScreen}">
                     <mat-label>Misc</mat-label>
-                    <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="misc">
+                    <input matInput inputmode=" numeric" type="number" pattern="-?[0-9]*" formControlName="misc">
                   </mat-form-field>
                 </div>
 
-                <div class="col d-flex justify-content-center">
-                  <mat-form-field class="text-center" appearance="outline" color="accent"  style="width: 5em;">
+                <div class="col d-flex justify-content-center d-block d-md-none">
+                  <mat-form-field class="text-center w-md-100" appearance="outline" color="accent" style="width: 5em;">
                     <mat-label>Ability</mat-label>
                     <input matInput value="{{skill.controls.abilityMod.value}}" disabled="disabled">
                   </mat-form-field>
                 </div>
 
-                <div class="col d-flex justify-content-center">
-                  <mat-form-field class="text-center" appearance="outline" color="accent"  style="width: 5em;">
+                <div class="col d-flex justify-content-center d-block d-md-none ">
+                  <mat-form-field class="text-center" appearance="outline" color="accent" style="width: 5em;">
                     <mat-label>Class</mat-label>
                     <input matInput value="{{skill.controls.classSkill.value ? 3 : 0}}" disabled="disabled">
                   </mat-form-field>
                 </div>
               </div>
-          </td>
-        </ng-container>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" style="background-color: #2e7d32;"></tr>
-        <tr mat-row *matRowDef="let skill; columns: displayedColumns; let i = index;" class="d-none d-md-table-row"></tr>
-        <!-- mobile screen row expansion -->
-        <tr mat-row *matRowDef="let skill; columns: displayedColumns;"
-            class="d-table-row d-md-none queue-element-row"
-            [class.queue-expanded-row]="skill.isExpanded"
-            (click)="skill.isExpanded = !skill.isExpanded"
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" style="background-color: #2e7d32;"></tr>
+          <tr mat-row *matRowDef="let skill; columns: displayedColumns; let i = index;" class="d-none d-lg-table-row">
+          </tr>
+          <!-- mobile screen row expansion -->
+          <tr mat-row *matRowDef="let skill; columns: displayedColumns;" class="d-table-row d-lg-none queue-element-row"
+            [class.queue-expanded-row]="skill.isExpanded" (click)="skill.isExpanded = !skill.isExpanded"
             [ngClass]="skill.isExpanded ? 'expanded-row' : null"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"
-            class="d-table-row d-md-none queue-detail-row"></tr>
-      </table>
-    </ng-container>
-  </form>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="d-table-row d-lg-none queue-detail-row">
+          </tr>
+        </table>
+      </ng-container>
+    </form>
   </ng-container>
 </div>

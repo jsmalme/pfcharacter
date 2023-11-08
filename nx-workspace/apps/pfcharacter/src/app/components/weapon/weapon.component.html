@@ -1,69 +1,69 @@
 <div>
-<form autocomplete="off" [formGroup]="weaponForm">
-    <div class="d-flex justify-content-between">
-        <div>
-            <mat-icon matSuffix color="warn" style="cursor: pointer;" (click)="deleteWeapon()">delete</mat-icon>
+    <form autocomplete="off" [formGroup]="weaponForm">
+        <div class="d-flex justify-content-between">
+            <div>
+                <mat-icon matSuffix color="warn" style="cursor: pointer;" (click)="deleteWeapon()">delete</mat-icon>
+            </div>
+            <div *ngIf="!weaponForm.valid">
+                <mat-icon color="warn">warning</mat-icon>
+            </div>
         </div>
-        <div *ngIf="!weaponForm.valid">
-            <mat-icon color="warn">warning</mat-icon>
+        <div class="row d-flex align-items-center">
+            <div class="col-md-5 col-12">
+                <div class="row">
+                    <mat-form-field color="accent" style="width: 100%;">
+                        <input matInput placeholder="Weapon Name" formControlName="name">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-7 col-12">
+                <div class="row">
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                            <mat-label>Attack Bonus</mat-label>
+                            <input matInput formControlName="attackBonus">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                            <mat-label>Critical</mat-label>
+                            <input matInput formControlName="critical">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                            <mat-label>Damage</mat-label>
+                            <input matInput formControlName="damage">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row d-flex align-items-center">
-        <div class="col-md-5 col-12">
-            <div class="row">
-                <mat-form-field color="accent" style="width: 100%;">
-                    <input matInput placeholder="Weapon Name" formControlName="name">
+        <div class="row">
+            <div class="col-3">
+                <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Type</mat-label>
+                    <input matInput formControlName="type">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Range</mat-label>
+                    <input matInput formControlName="range">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Ammo</mat-label>
+                    <input matInput formControlName="ammunition">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="fix-suffix" appearance="outline" color="accent" style="width: 100%;">
+                    <mat-label>Weight</mat-label>
+                    <input matInput inputmode="numeric" type="number" formControlName="weight" placeholder="lbs">
                 </mat-form-field>
             </div>
         </div>
-        <div class="col-md-7 col-12">
-            <div class="row">
-                <div class="col-4">
-                    <mat-form-field appearance="outline" color="accent" style="width: 100%;">
-                        <mat-label>Attack Bonus</mat-label>
-                        <input matInput formControlName="attackBonus">
-                    </mat-form-field>
-                </div>
-                <div class="col-4">
-                    <mat-form-field appearance="outline" color="accent" style="width: 100%;">
-                        <mat-label>Critical</mat-label>
-                        <input matInput formControlName="critical">
-                    </mat-form-field>
-                </div>
-                <div class="col-4">
-                    <mat-form-field appearance="outline" color="accent" style="width: 100%;">
-                        <mat-label>Damage</mat-label>
-                        <input matInput formControlName="damage">
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-3">
-            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
-                <mat-label>Type</mat-label>
-                <input matInput formControlName="type">
-            </mat-form-field>
-        </div>
-        <div class="col-3">
-            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
-                <mat-label>Range</mat-label>
-                <input matInput formControlName="range">
-            </mat-form-field>
-        </div>
-        <div class="col-3">
-            <mat-form-field appearance="outline" color="accent" style="width: 100%;">
-                <mat-label>Ammo</mat-label>
-                <input matInput formControlName="ammunition">
-            </mat-form-field>
-        </div>
-        <div class="col-3">
-            <mat-form-field class="fix-suffix" appearance="outline" color="accent" style="width: 100%;">
-                <mat-label>Weight</mat-label>
-                <input matInput inputmode="numeric" type="text" pattern="-?[0-9]*" formControlName="weight" placeholder="lbs">
-            </mat-form-field>  
-        </div>
-    </div>
-</form>
+    </form>
 </div>

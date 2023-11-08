@@ -1,9 +1,7 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Abilities } from 'libs/character-classes/abilities';
 import { Character, ICharacter } from 'libs/character-classes/character';
-import { CombatInfo } from 'libs/character-classes/combat-info';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
@@ -35,7 +33,6 @@ export class CharacterService {
   }
 
   updateCharacter(character: ICharacter): Observable<ICharacter> {
-    console.log(character);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.characterUrl} + ${character.id}`;
     return this.http.put<ICharacter>(url, character, { headers: headers }).pipe(

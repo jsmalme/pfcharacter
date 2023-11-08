@@ -1,8 +1,11 @@
+import { Spell } from './../../../../../libs/character-classes/spells';
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
-import { Character, ICharacter } from 'libs/character-classes/character';
+import { ICharacter } from 'libs/character-classes/character';
 import { SizeEnum } from 'libs/character-classes/general-info';
 import { Skill } from 'libs/character-classes/skills';
+import { acTypeEnum, burdenEnum } from 'libs/character-classes/equipment';
+import { FeatTypeEnum } from 'libs/character-classes/feats-abilities';
 
 
 @Injectable({
@@ -56,8 +59,6 @@ export class InMemoryDataService implements InMemoryDataService {
         cmdBabMod: 10,
         cmdMiscMod: 10,
         acTotal: 10,
-        acArmorMod: 10,
-        acShieldMod: 10,
         acNaturalArmorMod: 10,
         acDeflectMod: 10,
         acMiscMod: 10,
@@ -71,8 +72,43 @@ export class InMemoryDataService implements InMemoryDataService {
           name: 'weapon number one',
           range: '5ft',
           type: 'P',
-          weight: '5'
-        }]
+          weight: 5
+        }],
+        weaponsWeight: 5
+      },
+      equipment: {
+        acItems: [{
+          bonus: 10,
+          checkPen: 2,
+          name: 'longsword',
+          properties: '',
+          spellFailure: '10%',
+          type: acTypeEnum.light,
+          equipped: false,
+          weight: 10,
+          maxDex: 4,
+        }],
+        acItemsWeight: 10,
+        gear: [
+          { name: 'rope', weight: 10, quantity: 3 },
+          { name: 'torch', weight: 3, quantity: 1 }],
+        gearWeight: 13,
+        money: {
+          cp: 35,
+          gp: 23,
+          pp: 3,
+          sp: 1
+        },
+        weightCaps: {
+          dragOrPush: 0,
+          heavyLoad: { min: 0, max: 0 },
+          liftOffGround: 0,
+          liftOverHead: 0,
+          lightLoad: 0,
+          medLoad: { min: 0, max: 0 },
+        },
+        currentBurden: burdenEnum.light,
+        totalAcPenalty: 0
       },
       abilities: {
         str: {
@@ -147,6 +183,173 @@ export class InMemoryDataService implements InMemoryDataService {
           total: 3
         }
       },
+      spells: {
+        modifiers: 'modifiers',
+        domains_specialty: 'domains_specialty',
+        spellList: [
+          {
+            name: 'Acid Fog',
+            level: 1,
+            castTime: '1 standard action',
+            components: 'V, S, M, (powdered peas and an animal hoof)',
+            range: 'medium (100 ft. + 10/ft./level)',
+            area: '',
+            duration: '1 round/level',
+            description: 'You fire a small orb of acid at the target. You must succeed on a ranged touch attack to hit your target. The orb deals 1d3 points of acid damage. This acid disappears after 1 round.',
+            shortDescription: ' Fog deals acid damage.',
+            link: 'http://www.d20pfsrd.com/magic/all-spells/a/acid-fog',
+            usedCount: 0,
+            school: 'conjuration (creation)',
+            savingThrow: 'none',
+            spellResistance: 'no'
+          },
+          {
+            name: 'Alarm',
+            level: 1,
+            castTime: '1 standard action',
+            components: 'V, S, F/DF (a tiny bell and a piece of very fine silver wire)',
+            range: 'close (25 ft. + 5 ft./2 levels)',
+            area: '20-ft.-radius emanation centered on a point in space',
+            duration: '2 hours/level',
+            description: 'Alarm creates a subtle ward on an area you select. Once the spell effect is in place, it thereafter sounds a mental or audible alarm each time a creature of Tiny or larger size enters the warded area or touches it. A creature that speaks the password (determined by you at the time of casting) does not set off the alarm. You decide at the time of casting whether the alarm will be mental or audible in nature. Mental Alarm: A mental alarm alerts you (and only you) so long as you remain within 1 mile of the warded area. You note a single mental "ping" that awakens you from normal sleep but does not otherwise disturb concentration. A silence spell has no effect on a mental alarm. Audible Alarm: An audible alarm produces the sound of a hand bell, and anyone within 60 feet of the warded area can hear it clearly. Reduce the distance by 10 feet for each interposing closed door and by 20 feet for each substantial interposing wall. In quiet conditions, the ringing can be heard faintly as far as 180 feet away. The sound lasts for 1 round. Creatures within a silence spell cannot hear the ringing.  Ethereal or astral creatures do not trigger the alarm. Alarm can be made permanent with a permanency spell.',
+            shortDescription: 'Wards an area for 2 hours/level.',
+            link: 'http://www.d20pfsrd.com/magic/all-spells/a/alarm',
+            usedCount: 0,
+            school: 'abjuration',
+            savingThrow: 'none',
+            spellResistance: 'no'
+          },
+          {
+            name: 'Animal Messenger',
+            level: 2,
+            castTime: '1 minue',
+            components: 'V, S, M (a morsel of food the animal likes)',
+            range: 'close (25 ft. + 5 ft./2 levels)',
+            area: '20-ft.-radius emanation centered on a point in space',
+            duration: '1 day/level',
+            description: 'You compel a Tiny animal to go to a spot you designate. The most common use for this spell is to get an animal to carry a message to your allies. The animal cannot be one tamed or trained by someone else, including such creatures as familiars and animal companions.  Using some type of food desirable to the animal as a lure, you call the animal to you. It advances and awaits your bidding. You can mentally impress on the animal a certain place well known to you or an obvious landmark. The directions must be simple, because the animal depends on your knowledge and can\'t find a destination on its own.You can attach a small item or note to the messenger.The animal then goes to the designated location and waits there until the duration of the spell expires, whereupon it resumes its normal activities.During this period of waiting, the messenger allows others to approach it and remove any scroll or token it carries.The intended recipient gains no special ability to communicate with the animal or read any attached message(if it\'s written in a language he doesn\'t know, for example).',
+            shortDescription: 'Sends a Tiny animal to a specific place.',
+            link: 'http://www.d20pfsrd.com/magic/all-spells/a/animal-messenger',
+            usedCount: 0,
+            school: 'enchantment (compulsion) [mind-affecting]',
+            savingThrow: 'none',
+            spellResistance: 'yes'
+          }],
+        stats: [
+          {
+            spellsPerDay: 10,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          },
+          {
+            spellsPerDay: 10,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          },
+          {
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          },
+          {
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          },
+          {
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          },
+          {
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          },
+          {
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          },
+          {
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          },
+          {
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          },
+          {
+            spellsPerDay: 0,
+            spellsKnown: 0,
+            saveDc: 0,
+            bonusSpells: 0,
+            used: 0,
+            available: 0,
+            totalSpellMarkers: 0
+          }
+        ]
+      },
+      feats: [
+        {
+          name: 'Betraying Blow',
+          type: FeatTypeEnum.general,
+          prerequisites: undefined,
+          benefit: 'Whenever you use a melee attack to deal nonlethal damage to a creature that only you threaten, roll a Bluff check opposed by your opponent’s Sense Motive check.You deal an additional amount of nonlethal damage equal to 1/2 the difference between your Bluff check and your opponent’s Sense Motive check (minimum 0). If your opponent has an attitude of friendly or helpful toward you (including temporarily due to Intimidate checks, charm person, and similar effects), you instead deal an amount of extra nonlethal damage equal to the difference between your checks. Regardless, the amount of extra nonlethal damage you deal with this feat cannot exceed your Hit'
+        },
+        {
+          name: 'Summon Good Monster',
+          type: FeatTypeEnum.general,
+          prerequisites: 'Good alignment',
+          benefit: 'When casting summon monster, you also gain access to the list of good monsters listed here. Your righteous determination grants these summoned creatures the Diehard feat. You may still summon creatures from the standard list, but without the Diehard feat.'
+        },
+        {
+          name: 'Flaring Spell',
+          type: FeatTypeEnum.metamagic,
+          prerequisites: undefined,
+          benefit: "The electricity, fire, or light effects of the affected spell create a flaring that dazzles creatures that take damage from the spell. A flare spell causes a creature that takes fire or electricity damage from the affected spell to become dazzled for a number of rounds equal to the actual level of the spell. A flaring spell only affects spells with a fire, light, or electricity descriptor." +
+            "Level Increase: +1(a flaring spell uses up a spell slot one level higher than the spell’s actual level.)"
+        }
+      ],
+      specialAbilities: [],
       skillList: [
         new Skill('Acrobatics', 'Dex'),
         new Skill('Appraise', 'Int'),

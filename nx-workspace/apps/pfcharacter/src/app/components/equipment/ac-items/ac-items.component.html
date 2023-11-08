@@ -1,0 +1,31 @@
+<ng-container *ngIf="character$ | async as char">
+    <mat-card class="mat-elevation-z2 pb-0">
+        <mat-card-title class="primary-background rounded-top mat-elevation-z1"
+            style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+            <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+                AC Items
+            </div>
+        </mat-card-title>
+    </mat-card>
+    <br>
+    <mat-grid-list [cols]="1" [rowHeight]="acItemHeight" gutterSize="10px" class="justify-content-center">
+        <ng-container *ngFor="let item of acItemsFormGroups;  let i = index">
+            <mat-grid-tile>
+                <mat-card class="h-100 w-100" [ngClass]="{'equipped': item.controls['equipped'].value}">
+                    <app-ac-list-item [acItemForm]="$any(item)" [index]="i"
+                        (deleteAcItemEvent)="deleteAcItem($event)"></app-ac-list-item>
+                </mat-card>
+            </mat-grid-tile>
+        </ng-container>
+        <mat-grid-tile>
+            <mat-card class="h-100 w-100">
+                <div class="h-100 w-100 d-flex justify-content-center align-items-center">
+                    <button mat-raised-button color="primary" (click)="addAcItem()">
+                        <mat-icon>add</mat-icon>
+                        Add AC Item
+                    </button>
+                </div>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+</ng-container>

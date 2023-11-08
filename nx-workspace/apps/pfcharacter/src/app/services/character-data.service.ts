@@ -1,20 +1,20 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
-import { Abilities, Ability, DexScore } from '../../../../../libs/character-classes/abilities';
-import { Character, ICharacter } from '../../../../../libs/character-classes/character';
+import { Abilities, Ability } from '../../../../../libs/character-classes/abilities';
+import { Character } from '../../../../../libs/character-classes/character';
 import { GeneralInfo, SizeEnum } from '../../../../../libs/character-classes/general-info';
 import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
-import { SavingThrows, Throw } from '../../../../../libs/character-classes/saving-throws';
+import { Throw } from '../../../../../libs/character-classes/saving-throws';
 import { Skill } from '../../../../../libs/character-classes/skills';
 import { CalcTotService } from './calc-tot.service';
-import { BehaviorSubject, concatMap, map, mergeMap, Observable, of, tap, ThrottleConfig } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { CharacterService } from './character-http.service';
-import { FormGroup } from '@angular/forms';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
-import { groupEnd } from 'console';
-import { computeMsgId } from '@angular/compiler';
-import * as _ from "lodash"; 
+import * as _ from "lodash";
+import { AcItem, Gear, Money, burdenEnum } from 'libs/character-classes/equipment';
+import { Spell, SpellStat } from 'libs/character-classes/spells';
+import { Feat, SpecialAbility } from 'libs/character-classes/feats-abilities';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +38,7 @@ export class CharacterDataService {
     return this.character.value.abilities;
   }
 
-  get generalInfo(){
+  get generalInfo() {
     return this.character.value.generalInfo;
   }
 
@@ -60,7 +60,7 @@ export class CharacterDataService {
   updateStr(info: Ability) {
     this.tempRollback();
     this.tempChar.abilities.str.update(info);
-    this.tempChar.combatInfo.updateStr(this.tempChar.abilities);
+    this.tempChar.equipment.weightCaps.updateCarryCapacities(info, this.tempChar.generalInfo.size ?? SizeEnum.medium);
     this.updateSkillAbilities(this.tempChar.abilities, this.skillList, 'Str', ['Climb', 'Swim']);
     this.character.next(this.tempChar);
 
@@ -75,7 +75,6 @@ export class CharacterDataService {
   updateDex(info: Ability) {
     this.tempRollback();
     this.tempChar.abilities.dex.update(info);
-    console.log(this.tempChar);
     this.tempChar.savingThrows.ref.updateMod(this.tempChar.abilities.dex.useMod);
     const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
     this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skillList, 'Dex', dexSkills);
@@ -158,10 +157,10 @@ export class CharacterDataService {
   }
   //------------------------------------------------------
   //combat page updates-----------------------------------
-  updateCombatInfo(info: CombatInfo) {
+  updateCombatInfo(info: CombatInfo, acDex: number, acArmor: number, acShield: number) {
     this.tempRollback();
     this.tempChar.combatInfo = Object.assign(this.tempChar.combatInfo, info);
-    this.tempChar.combatInfo.updateCombatInfoTotals(this.abilities);
+    this.tempChar.combatInfo.getCombatInfoTotals(this.tempChar.abilities, acDex, acArmor, acShield);
     this.character.next(this.tempChar);
 
     // this.http.updateCharacter(this.tempChar).subscribe({
@@ -174,6 +173,16 @@ export class CharacterDataService {
 
   updateWeapons(weapons: Weapon[]) {
     this.tempRollback();
+    //compare weight totals
+    let newWeight = 0;
+    weapons.forEach(weapon => newWeight += weapon.weight ?? 0);
+
+    if (this.tempChar.combatInfo.weaponsWeight !== newWeight) {
+      this.tempChar.equipment.acItemsWeight = newWeight;
+      const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, weapons, this.tempChar.equipment.acItems);
+      this.checkBurdenUpdateSkills(totalWeight, this.tempChar.equipment.totalAcPenalty);
+    }
+
     this.tempChar.combatInfo.weapons = weapons;
     this.character.next(this.tempChar);
 
@@ -191,8 +200,8 @@ export class CharacterDataService {
     this.tempRollback();
     this.tempChar.generalInfo = generalInfo;
     if (generalInfo.size !== undefined && generalInfo.size !== this.rollback.generalInfo.size) {
-      
-      this.tempChar.combatInfo.updateSize(generalInfo.size, this.abilities);
+      this.tempChar.combatInfo.updateSize(generalInfo.size);
+      this.tempChar.equipment.weightCaps.updateCarryCapacities(this.tempChar.abilities.str, generalInfo.size);
     }
     this.character.next(this.tempChar);
 
@@ -215,16 +224,15 @@ export class CharacterDataService {
   }
 
   updateSavingThrows(info: Throw, type: string) {
-    console.log(info);
     this.tempRollback();
-    switch(type){
+    switch (type) {
       case 'FOR':
         this.tempChar.savingThrows.for.update(info);
         break;
-      case 'REF': 
+      case 'REF':
         this.tempChar.savingThrows.ref.update(info);
         break;
-      case 'WILL': 
+      case 'WILL':
         this.tempChar.savingThrows.will.update(info);
         break;
     }
@@ -259,6 +267,299 @@ export class CharacterDataService {
     // });
   }
   //----------------------------------------------------------------
+  //Equipment updates -----------------------------------------------
+  updateMoney(info: Money) {
+    this.tempRollback();
+    this.tempChar.equipment.money = info;
+    this.character.next(this.tempChar);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+  }
+
+  updateGear(info: Gear[]) {
+    this.tempRollback();
+
+    let newWeight = 0;
+    info.forEach(item => newWeight += (item.weight ?? 0) * (item.quantity ?? 0));
+
+    if (this.tempChar.equipment.gearWeight !== newWeight) {
+      this.tempChar.equipment.gearWeight = newWeight;
+      const totalWeight = this.totService.getTotalWeight(info, this.tempChar.combatInfo.weapons, this.tempChar.equipment.acItems);
+      this.checkBurdenUpdateSkills(totalWeight, this.tempChar.equipment.totalAcPenalty);
+    }
+
+    this.tempChar.equipment.gear = info;
+    this.character.next(this.tempChar);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+  }
+
+  updateAcItems(info: AcItem[]) {
+    this.tempRollback();
+
+    //compare weight totals and get check penalties
+    let newWeight = 0;
+    let newAcPenalty = 0;
+    info.forEach(ac => newWeight += ac.weight ?? 0);
+
+    //calculate the current ac penalty
+    info.forEach(ac => {
+      if (ac.equipped) {
+        (Math.abs(ac.checkPen ?? 0)) > newAcPenalty ? newAcPenalty = (Math.abs(ac.checkPen ?? 0)) : newAcPenalty;
+      }
+    });
+
+    //if there isn't a difference in weight don't check for burden
+    if (newWeight !== this.tempChar.equipment.acItemsWeight) {
+      this.tempChar.equipment.acItemsWeight = newWeight;
+      const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, this.tempChar.combatInfo.weapons, info);
+      this.checkBurdenUpdateSkills(totalWeight, newAcPenalty);
+    }
+
+    //if there is a difference in ac penalty update the skills
+    else if (this.tempChar.equipment.totalAcPenalty !== newAcPenalty) {
+      this.updateSkillCheckPenalty(this.tempChar.equipment.currentBurden, newAcPenalty);
+    }
+
+    this.tempChar.equipment.totalAcPenalty = newAcPenalty;
+    this.tempChar.equipment.acItems = info;
+    this.character.next(this.tempChar);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+  }
+  //----------------------------------------------------------------
+  //Spell Updates --------------------------------------------------
+  updateSpellCount(spell: Spell, spellCount: number, totalCount: number) {
+    this.tempRollback();
+
+    const spellIndex = this.tempChar.spells.spellList.findIndex(s => s.name === spell.name);
+    this.tempChar.spells.spellList[spellIndex].usedCount = spellCount;
+    this.tempChar.spells.stats[spell.level].used = totalCount;
+
+    this.character.next(this.tempChar);
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+  }
+
+  resetSpellCounts() {
+    this.tempRollback();
+
+    this.tempChar.spells.spellList.forEach(spell => spell.usedCount = 0);
+    this.tempChar.spells.stats.forEach(stat => stat.used = 0);
+
+    this.character.next(this.tempChar);
+  }
+
+  addSpell(spell: Spell) {
+    this.tempRollback();
+    this.tempChar.spells.spellList.push(spell);
+
+    this.character.next(this.tempChar);
+  }
+
+  updateSpell(spell: Spell) {
+    this.tempRollback();
+
+    this.tempChar.spells.spellList = this.tempChar.spells.spellList.map(s => {
+      if (s.name === spell.name) {
+        return spell;
+      }
+      return s;
+    });
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  deleteSpell(spell: Spell | null) {
+    this.tempRollback();
+
+    this.tempChar.spells.spellList = this.tempChar.spells.spellList.filter(s => s.name !== spell?.name);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  updateSpellStats(stats: SpellStat[] | undefined) {
+    if (!stats) {
+      return;
+    }
+    this.tempRollback();
+
+    this.tempChar.spells.stats = stats;
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  //----------------------------------------------------------------
+  //Feat Updates ---------------------------------------------------
+  addFeat(feat: Feat) {
+    this.tempRollback();
+    this.tempChar.feats.push(feat);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  deleteFeat(feat: Feat | null) {
+    this.tempRollback();
+    this.tempChar.feats = this.tempChar.feats.filter(f => f.name !== feat?.name);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  updateFeat(feat: Feat) {
+    this.tempRollback();
+
+    this.tempChar.feats = this.tempChar.feats.map(f => {
+      if (f.name === feat.name) {
+        return feat;
+      }
+      return f;
+    });
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  updateFeatList(feats: Feat[]) {
+    this.tempRollback();
+    this.tempChar.feats = feats;
+
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  addSpecialAbility(specialAbility: SpecialAbility) {
+    this.tempRollback();
+    this.tempChar.specialAbilities.push(specialAbility);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  deleteSpecialAbility(specialAbility: SpecialAbility | null) {
+    this.tempRollback();
+    this.tempChar.specialAbilities = this.tempChar.specialAbilities.filter(sa => sa.name !== specialAbility?.name);
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  updateSpecialAbility(specialAbility: SpecialAbility) {
+    this.tempRollback();
+
+    this.tempChar.specialAbilities = this.tempChar.specialAbilities.map(sa => {
+      if (sa.name === specialAbility.name) {
+        return specialAbility;
+      }
+      return sa;
+    });
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  updateSpecailAbilityList(specialAbilities: SpecialAbility[]) {
+    this.tempRollback();
+    this.tempChar.specialAbilities = specialAbilities;
+
+
+    // this.http.updateCharacter(this.tempChar).subscribe({
+    //   error: (e) => {
+    //     this.snackBar.openSnackBar(e);
+    //     this.character.next(this.rollback);
+    //   }
+    // });
+
+    this.character.next(this.tempChar);
+  }
+
+  //----------------------------------------------------------------
+
+
 
   updateSkillAbilityScore(ability: string, skillIds: string[], skillList: Skill[], abilities: Abilities): Skill[] {
     return skillList.map(skill => {
@@ -286,6 +587,39 @@ export class CharacterDataService {
       }
       return skill;
     });
+  }
 
+  updateSkillCheckPenalty(burden: burdenEnum, acCheckPenalty: number) {
+    const dex_strSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth', 'Climb', 'Swim'];
+    const negativeAcCheckPenalty = -Math.abs(acCheckPenalty);
+    let penalty = 0;
+    switch (burden) {
+      case burdenEnum.light:
+        penalty = 0;
+        break;
+      case burdenEnum.medium:
+        penalty = -3;
+        break;
+      case burdenEnum.heavy:
+        penalty = -6;
+        break;
+    }
+
+    const updatedSkills = this.tempChar.skillList = this.tempChar.skillList.map(skill => {
+      if (dex_strSkills.some(s => s === skill.id)) {
+        skill.checkPenalty = penalty <= negativeAcCheckPenalty ? penalty : negativeAcCheckPenalty;
+      }
+      return skill;
+    });
+
+    this.tempChar.skillList = this.totService.getSkillsTotals(updatedSkills, dex_strSkills);
+  }
+
+  checkBurdenUpdateSkills(totalWeight: number, acCheckPenalty: number) {
+    const newBurden = this.totService.calculateEncumbrance(this.tempChar.equipment.weightCaps, totalWeight);
+    if (newBurden !== this.tempChar.equipment.currentBurden) {
+      this.tempChar.equipment.currentBurden = newBurden;
+      this.updateSkillCheckPenalty(newBurden, acCheckPenalty);
+    }
   }
 }

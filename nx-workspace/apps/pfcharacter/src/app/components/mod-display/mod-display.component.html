@@ -1,10 +1,11 @@
-<span *ngIf="score && !form.get(control)?.errors" class="badge badge-pill mod-number float-start" [style.background-color]="calculateModColor(mod)">
+<span *ngIf="score && !form.get(control)?.errors" class="badge badge-pill mod-number float-start"
+    [style.background-color]="calculateModColor(mod)">
     <span *ngIf="(mod || 0) >= 0">+</span>{{mod}}
-</span>     
+</span>
 <span *ngIf="!score" class="badge badge-pill mod-number float-start" style="background-color: grey;">
     -
-</span> 
+</span>
 <span *ngIf="form.get(control)?.errors && form.get(control)?.dirty"
     class="badge badge-pill mod-number float-start error">
     x
-</span>   
+</span>
