@@ -24,7 +24,7 @@
                 <mat-list-item routerLink="/feats" (click)="sidenav.toggle()">Feats+</mat-list-item>
                 <mat-list-item routerLink="/spells" (click)="sidenav.toggle()">Spells</mat-list-item>
                 <!-- <mat-list-item routerLink="/summary" (click)="sidenav.toggle()">Summary</mat-list-item> -->
-                <mat-list-item (click)="openRollDialog()">Roll</mat-list-item>
+                <mat-list-item (click)="openRollDialog(); sidenav.toggle()">Roll</mat-list-item>
                 <!-- <mat-list-item>Settings</mat-list-item> -->
             </mat-nav-list>
         </mat-sidenav>

@@ -1,5 +1,5 @@
 <div class="row d-flex align-items-center">
-    <div class="col-4">
+    <div class="col-12 col-md-6 col-xl-5">
         <div class="row">
             <div class="col-3 pt-2">
                 <mat-form-field class="w-100" appearance="outline" color="accent">
@@ -20,7 +20,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="col-4 pt-2">
+            <div class="col-4  pt-2">
                 <mat-form-field class="w-100" appearance="outline" color="accent">
                     <mat-label>Custom Mod</mat-label>
                     <input matInput type="number" max="100" [(ngModel)]="customMod" #customField="ngModel">
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="col-auto align-items-center">
+    <div class="col-12 col-md-6 col-xl-5 align-items-center">
         <mat-chip-list aria-label="Die selection" [selectable]="true">
             <mat-chip *ngFor="let dice of die" [selected]="dice.selected" (click)="changeSelection(dice)"
                 style="cursor: pointer;">
@@ -39,8 +39,14 @@
             </mat-chip>
         </mat-chip-list>
     </div>
-    <div class="col-auto ms-auto">
+    <div class="col-2 ms-auto d-none d-xl-block">
         <button mat-button color="warn" class="me-3" (click)="close()">Close</button>
         <button mat-raised-button color="primary" (click)="roll()">Roll</button>
+    </div>
+    <div class="row pt-3 px-0 d-xl-none">
+        <div class="col-auto ms-auto">
+            <button mat-button color="warn" class="me-3" (click)="close()">Close</button>
+            <button mat-raised-button color="primary" (click)="roll()">Roll</button>
+        </div>
     </div>
 </div>
