@@ -1,0 +1,30 @@
+<div class="container-fluid comp-top-margin">
+    <ng-container *ngIf="character$ | async as char">
+        <div class="row">
+            <div class="col-3">
+                <mat-card class="mat-elevation-z2">
+                    <mat-card-title class="primary-background rounded-top mat-elevation-z1"
+                        style="margin-top: -16px; margin-left: -16px; margin-right: -16px">
+                        <div class="container-fluid" style="padding-top: 12px; padding-bottom: 12px;">
+                            <div class="col-auto me-auto">
+                                Abilities
+                            </div>
+                        </div>
+                    </mat-card-title>
+                </mat-card>
+            </div>
+            <div class="col-3">
+                <mat-card class="mat-elevation-z2">
+                    <mat-card-title class="primary-background rounded-top mat-elevation-z1"
+                        style="margin-top: -16px; margin-left: -16px; margin-right: -16px">
+                        <div class="container-fluid" style="padding-top: 12px; padding-bottom: 12px;">
+                            <div class="col-auto me-auto">
+                                Combat
+                            </div>
+                        </div>
+                    </mat-card-title>
+                </mat-card>
+            </div>
+        </div>
+    </ng-container>
+</div>

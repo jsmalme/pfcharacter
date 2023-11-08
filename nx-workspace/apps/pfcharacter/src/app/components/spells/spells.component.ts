@@ -10,6 +10,7 @@ import { DrawerExpansionService } from '../../services/drawer-expansion.service'
 import { SpellDetailsComponent } from './spell-details/spell-details.component';
 import * as _ from "lodash";
 import { group } from 'console';
+import { chown } from 'fs';
 
 @Component({
   selector: 'nx-workspace-spells',
@@ -167,6 +168,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     this.dialog.open(SpellDetailsComponent, {
       maxWidth: this.isMobileScreen ? '100vw' : 'auto',
       disableClose: true,
+      autoFocus: false,
       data: { spell: spell, new: isNew }
     }).afterClosed().pipe(first()).subscribe((result) => {
       let isUpdate = false;

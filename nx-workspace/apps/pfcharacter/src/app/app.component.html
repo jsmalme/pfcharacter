@@ -23,8 +23,8 @@
                 <mat-list-item routerLink="/combat" (click)="sidenav.toggle()">Combat</mat-list-item>
                 <mat-list-item routerLink="/feats" (click)="sidenav.toggle()">Feats+</mat-list-item>
                 <mat-list-item routerLink="/spells" (click)="sidenav.toggle()">Spells</mat-list-item>
-                <mat-list-item>Summary</mat-list-item>
-                <mat-list-item>Roll</mat-list-item>
+                <!-- <mat-list-item routerLink="/summary" (click)="sidenav.toggle()">Summary</mat-list-item> -->
+                <mat-list-item (click)="openRollDialog(); sidenav.toggle()">Roll</mat-list-item>
                 <!-- <mat-list-item>Settings</mat-list-item> -->
             </mat-nav-list>
         </mat-sidenav>
@@ -40,8 +40,8 @@
                         <button mat-button routerLink="/combat" routerLinkActive="selected-tab">Combat</button>
                         <button mat-button routerLink="/feats" routerLinkActive="selected-tab">Feats +</button>
                         <button mat-button routerLink="/spells" routerLinkActive="selected-tab">Spells</button>
-                        <button mat-button mat-button routerLinkActive="selected-tab">Summary</button>
-                        <button mat-button mat-button routerLinkActive="selected-tab">Roll</button>
+                        <!-- <button mat-button routerLink="/summary" routerLinkActive="selected-tab">Summary</button> -->
+                        <button mat-button (click)="openRollDialog()">Roll</button>
                     </div>
                     <!-- <div>
                         <button class="d-none d-md-block" mat-icon-button>
