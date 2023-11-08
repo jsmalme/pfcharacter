@@ -1,5 +1,5 @@
 <span *ngIf="score && !form.get(control)?.errors" class="badge badge-pill mod-number float-start"
-    [style.background-color]="calculateModColor(mod)">
+    [style.background-color]="this.calcService.calculateModColor(mod)">
     <span *ngIf="(mod || 0) >= 0">+</span>{{mod}}
 </span>
 <span *ngIf="!score" class="badge badge-pill mod-number float-start" style="background-color: grey;">

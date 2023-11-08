@@ -55,8 +55,9 @@
             </div>
         </div>
         <mat-accordion multi cdkDropList [cdkDropListData]="featList" (cdkDropListDropped)="drop($event)">
-            <mat-expansion-panel class="mb-2 mat-elevation-z4" cdkDrag *ngFor="let feat of featList"
-                (opened)="setOpen(feat.name)" (closed)="setClosed(feat.name)" [expanded]="drawerStatus[feat.name]">
+            <mat-expansion-panel class="mb-2 mat-elevation-z4" cdkDrag [cdkDragStartDelay]="isMobileScreen ? 500 : 0"
+                *ngFor="let feat of featList" (opened)="setOpen(feat.name)" (closed)="setClosed(feat.name)"
+                [expanded]="drawerStatus[feat.name]">
                 <mat-expansion-panel-header class="h-25 d-flex align-items-center ps-1 ps-sm-3">
                     <mat-panel-title>
                         <div class="row align-items-center w-100 pb-2 pt-2">
