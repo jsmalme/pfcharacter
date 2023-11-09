@@ -13,6 +13,12 @@ class AbilitySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AbilitiesSerializer(serializers.ModelSerializer):
+    str = AbilitySerializer()
+    dex = AbilitySerializer()
+    con = AbilitySerializer()
+    int = AbilitySerializer()
+    wis = AbilitySerializer()
+    cha = AbilitySerializer()
     class Meta:
         model = Abilities
         fields = '__all__'
@@ -26,7 +32,6 @@ class SavingThrowsSerializer(serializers.ModelSerializer):
     fort = ThrowSerializer()
     ref = ThrowSerializer()
     will = ThrowSerializer()
-
     class Meta: 
         model = SavingThrows
         fields = '__all__'
