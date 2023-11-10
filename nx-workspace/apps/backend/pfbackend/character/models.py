@@ -203,4 +203,4 @@ class Character(models.Model):
     combat_info = models.OneToOneField(CombatInfo, on_delete=models.CASCADE)
     equipment = models.OneToOneField(Equipment, on_delete=models.CASCADE)
     spells = models.OneToOneField(Spells, on_delete=models.CASCADE)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='characters')
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='characters', blank=True, null=True)
