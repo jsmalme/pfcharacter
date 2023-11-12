@@ -62,6 +62,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { RollComponent } from './components/roll/roll.component';
 import { RollResultComponent } from './components/roll-result/roll-result.component';
 import { FormsModule } from '@angular/forms';
+import { AuthGuardService } from './services/auth-gaurd.service';
 
 @NgModule({
   declarations: [
@@ -128,7 +129,7 @@ import { FormsModule } from '@angular/forms';
       dataEncapsulation: false,
     }),
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
