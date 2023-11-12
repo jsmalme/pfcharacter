@@ -57,15 +57,11 @@ import { FeatListComponent } from './components/feats/feat-list/feat-list.compon
 import { SpecialAbilitiesComponent } from './components/feats/special-abilities/special-abilities.component';
 import { FeatDetailsComponent } from './components/feats/feat-details/feat-details.component';
 import { SpecialAbilityDetailsComponent } from './components/feats/special-ability-details/special-ability-details.component';
-<<<<<<< HEAD
 import { LoginComponent } from './components/login/login.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-=======
-import { SummaryComponent } from './components/summary/summary.component';
 import { RollComponent } from './components/roll/roll.component';
 import { RollResultComponent } from './components/roll-result/roll-result.component';
 import { FormsModule } from '@angular/forms';
->>>>>>> origin/master
 
 @NgModule({
   declarations: [
@@ -93,14 +89,10 @@ import { FormsModule } from '@angular/forms';
     SpecialAbilitiesComponent,
     FeatDetailsComponent,
     SpecialAbilityDetailsComponent,
-<<<<<<< HEAD
     LoginComponent,
     ToolbarComponent,
-=======
-    SummaryComponent,
     RollComponent,
     RollResultComponent,
->>>>>>> origin/master
   ],
   imports: [
     HttpClientModule,
