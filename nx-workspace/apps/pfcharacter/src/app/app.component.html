@@ -14,7 +14,7 @@
 
 <body>
     <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav #sidenav [mode]="'over'" position="end">
+        <mat-sidenav #sidenav [mode]="'over'" position="end" [opened]="sidenavOpened" (closed)="closeSidenav()">
             <mat-nav-list>
                 <mat-list-item routerLink="/general" (click)="sidenav.toggle()">General</mat-list-item>
                 <mat-list-item routerLink="/abilities" (click)="sidenav.toggle()">Abilities/Saving</mat-list-item>
@@ -23,38 +23,12 @@
                 <mat-list-item routerLink="/combat" (click)="sidenav.toggle()">Combat</mat-list-item>
                 <mat-list-item routerLink="/feats" (click)="sidenav.toggle()">Feats+</mat-list-item>
                 <mat-list-item routerLink="/spells" (click)="sidenav.toggle()">Spells</mat-list-item>
-                <mat-list-item>Summary</mat-list-item>
                 <mat-list-item>Roll</mat-list-item>
                 <!-- <mat-list-item>Settings</mat-list-item> -->
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
-            <mat-toolbar color="primary" class="sticky-top">
-                <mat-toolbar-row class="d-flex justify-content-between">
-                    <div class="d-none d-md-block d-flex justify-content-between">
-                        <button mat-button routerLink="/general" routerLinkActive="selected-tab">General</button>
-                        <button mat-button routerLink="/abilities"
-                            routerLinkActive="selected-tab">Abilities/Saving</button>
-                        <button mat-button routerLink="/skills" routerLinkActive="selected-tab">Skills</button>
-                        <button mat-button routerLink="/equipment" routerLinkActive="selected-tab">Equipment</button>
-                        <button mat-button routerLink="/combat" routerLinkActive="selected-tab">Combat</button>
-                        <button mat-button routerLink="/feats" routerLinkActive="selected-tab">Feats +</button>
-                        <button mat-button routerLink="/spells" routerLinkActive="selected-tab">Spells</button>
-                        <button mat-button mat-button routerLinkActive="selected-tab">Summary</button>
-                        <button mat-button mat-button routerLinkActive="selected-tab">Roll</button>
-                    </div>
-                    <!-- <div>
-                        <button class="d-none d-md-block" mat-icon-button>
-                            <mat-icon>settings</mat-icon>
-                        </button>
-                    </div> -->
-                    <div class="d-md-none ms-auto">
-                        <button mat-icon-button (click)="sidenav.toggle()">
-                            <mat-icon>menu</mat-icon>
-                        </button>
-                    </div>
-                </mat-toolbar-row>
-            </mat-toolbar>
+            <app-toolbar *ngIf="loggedInUser$ | async"></app-toolbar>
             <router-outlet></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>

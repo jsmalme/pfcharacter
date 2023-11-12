@@ -1,0 +1,35 @@
+<div class="container comp-top-margin">
+    <div class="row d-flex justify-content-center">
+        <div class="col-6">
+            <mat-card>
+                <h2>Login</h2>
+                <form [formGroup]="loginForm" (ngSubmit)="logIn()">
+                    <div class="row mb-3">
+                        <mat-form-field>
+                            <mat-label>Email</mat-label>
+                            <input matInput type="text" formControlName="email">
+                        </mat-form-field>
+                    </div>
+                    <div class="row mb-3">
+                        <mat-form-field>
+                            <mat-label>Password</mat-label>
+                            <input matInput type="password" formControlName="password">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row mb-3">
+                        <mat-checkbox>Remember Me</mat-checkbox>
+                    </div>
+                    <div class="row mb-3">
+                        <p>Don't have an account? Register <a routerLink="/register">here</a></p>
+                    </div>
+                    <div class="row d-flex-end">
+                        <div class="col-2 ms-auto">
+                            <button mat-raised-button color="primary" type="submit">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </mat-card>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,4 +20,5 @@ export class DrawerExpansionService {
 
   public featDrawerStatus: Record<string, boolean> | undefined = undefined;
   public specialAbilityDrawerStatus: Record<string, boolean> | undefined = undefined;
+  public sideNavOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 }

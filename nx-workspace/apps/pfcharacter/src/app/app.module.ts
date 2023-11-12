@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { CharacterDataService } from './services/character-data.service';
 import { HttpClientModule } from '@angular/common/http';
 
 //Angular Material
@@ -58,6 +57,8 @@ import { FeatListComponent } from './components/feats/feat-list/feat-list.compon
 import { SpecialAbilitiesComponent } from './components/feats/special-abilities/special-abilities.component';
 import { FeatDetailsComponent } from './components/feats/feat-details/feat-details.component';
 import { SpecialAbilityDetailsComponent } from './components/feats/special-ability-details/special-ability-details.component';
+import { LoginComponent } from './components/login/login.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,8 @@ import { SpecialAbilityDetailsComponent } from './components/feats/special-abili
     SpecialAbilitiesComponent,
     FeatDetailsComponent,
     SpecialAbilityDetailsComponent,
+    LoginComponent,
+    ToolbarComponent,
   ],
   imports: [
     HttpClientModule,
@@ -122,4 +125,4 @@ import { SpecialAbilityDetailsComponent } from './components/feats/special-abili
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
