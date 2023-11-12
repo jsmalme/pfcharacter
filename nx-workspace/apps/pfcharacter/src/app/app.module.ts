@@ -30,7 +30,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatChip, MatChipsModule } from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -57,8 +57,15 @@ import { FeatListComponent } from './components/feats/feat-list/feat-list.compon
 import { SpecialAbilitiesComponent } from './components/feats/special-abilities/special-abilities.component';
 import { FeatDetailsComponent } from './components/feats/feat-details/feat-details.component';
 import { SpecialAbilityDetailsComponent } from './components/feats/special-ability-details/special-ability-details.component';
+<<<<<<< HEAD
 import { LoginComponent } from './components/login/login.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+=======
+import { SummaryComponent } from './components/summary/summary.component';
+import { RollComponent } from './components/roll/roll.component';
+import { RollResultComponent } from './components/roll-result/roll-result.component';
+import { FormsModule } from '@angular/forms';
+>>>>>>> origin/master
 
 @NgModule({
   declarations: [
@@ -86,8 +93,14 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     SpecialAbilitiesComponent,
     FeatDetailsComponent,
     SpecialAbilityDetailsComponent,
+<<<<<<< HEAD
     LoginComponent,
     ToolbarComponent,
+=======
+    SummaryComponent,
+    RollComponent,
+    RollResultComponent,
+>>>>>>> origin/master
   ],
   imports: [
     HttpClientModule,
@@ -118,6 +131,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     MatExpansionModule,
     DragDropModule,
     MatChipsModule,
+    FormsModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),

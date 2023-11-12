@@ -1,7 +1,9 @@
+import { RollComponent } from './components/roll/roll.component';
 import { CharacterDataService } from './services/character-data.service';
 import { Component, OnInit } from '@angular/core';
 import { DrawerExpansionService } from './services/drawer-expansion.service';
 import { AuthService } from './services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'nx-workspace-root',
@@ -14,6 +16,7 @@ export class AppComponent implements OnInit {
   loggedInUser$ = this.auth.loggedInUser$.asObservable();
 
   constructor(private store: CharacterDataService,
+    private snackbar: MatSnackBar,
     private sidenav: DrawerExpansionService,
     private auth: AuthService) { }
 
@@ -26,5 +29,11 @@ export class AppComponent implements OnInit {
 
   closeSidenav() {
     this.sidenav.sideNavOpen$.next(false);
+  }
+
+  openRollDialog() {
+    this.snackbar.openFromComponent(RollComponent, {
+      panelClass: ['roll-snackbar']
+    });
   }
 }

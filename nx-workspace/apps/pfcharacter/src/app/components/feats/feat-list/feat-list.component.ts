@@ -48,11 +48,11 @@ export class FeatListComponent implements OnInit {
   }
 
   addOrViewFeat(feat: Feat | null, isNew: boolean = false) {
-    console.log('isMobileScreen', this.isMobileScreen);
     this.dialog.open(FeatDetailsComponent, {
       maxWidth: this.isMobileScreen ? '100vw' : 'auto',
       minWidth: '50vw',
       disableClose: true,
+      autoFocus: false,
       data: { feat: feat, isNew: isNew }
     }).afterClosed().pipe(first()).subscribe((result) => {
       let isUpdate = false;
