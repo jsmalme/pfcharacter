@@ -9,9 +9,11 @@ import { SpellsComponent } from './components/spells/spells.component';
 import { FeatsComponent } from './components/feats/feats.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuardService as AuthGuard } from './services/auth-gaurd.service';
+import { CreateAccountComponent } from './components/create-account/create-account.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
+  { path: 'register', component: CreateAccountComponent },
   { path: 'logout', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'general', component: GeneralComponent, canActivate: [AuthGuard] },
   { path: 'abilities', component: AbilitiesComponent, canActivate: [AuthGuard] },

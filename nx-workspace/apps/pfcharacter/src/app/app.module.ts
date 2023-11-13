@@ -63,6 +63,7 @@ import { RollComponent } from './components/roll/roll.component';
 import { RollResultComponent } from './components/roll-result/roll-result.component';
 import { FormsModule } from '@angular/forms';
 import { AuthGuardService } from './services/auth-gaurd.service';
+import { CreateAccountComponent } from './components/create-account/create-account.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { AuthGuardService } from './services/auth-gaurd.service';
     ToolbarComponent,
     RollComponent,
     RollResultComponent,
+    CreateAccountComponent,
   ],
   imports: [
     HttpClientModule,
@@ -132,4 +134,4 @@ import { AuthGuardService } from './services/auth-gaurd.service';
   providers: [AuthGuardService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

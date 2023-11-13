@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoggedInUser, UserCredentials } from '../../models/auth';
+import { UserCredentials } from '../../models/auth';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -22,8 +22,6 @@ export class LoginComponent {
     if (!this.loginForm.valid) {
       return;
     }
-
-    console.log(this.loginForm.value);
 
     this.auth.logIn(this.loginForm.value as UserCredentials).subscribe((res: any) => {
       console.log(res);
