@@ -2,7 +2,7 @@ import { LoggedInUser, UserCreation } from './../models/auth';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserCredentials } from '../models/auth';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 
@@ -25,8 +25,8 @@ export class AuthService {
     this.loggedInUser$.next(false);
   }
 
-  createUser(createdUser: UserCreation) {
-    return this.http.post('http://127.0.0.1:8000/players/', { createdUser });
+  createUser(createdUser: UserCreation): Observable<any> {
+    return this.http.post('http://127.0.0.1:8000/players', { createdUser }) as Observable<any>;
   }
 
   public setUser(email: string, username: string, token: string) {
