@@ -17,7 +17,7 @@ export class AuthService {
   constructor(private http: HttpClient,) { }
 
   logIn(credentials: UserCredentials,) {
-    return this.http.post('http://127.0.0.1:8000/login/', { credentials });
+    return this.http.post('http://127.0.0.1:8000/login/', credentials);
   }
 
   logOut() {
@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   createUser(createdUser: UserCreation): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/players/', createdUser);
+    return this.http.post('http://127.0.0.1:8000/signup/', createdUser);
   }
 
   public setUser(email: string, username: string, token: string) {

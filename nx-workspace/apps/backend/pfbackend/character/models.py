@@ -1,7 +1,10 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.core.validators import MaxValueValidator
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from rest_framework.authtoken.models import Token    
 
 class PlayerManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -11,6 +14,7 @@ class PlayerManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+        Token.objects.create(user=user)
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
