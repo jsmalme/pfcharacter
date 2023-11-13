@@ -11,9 +11,9 @@ router.register(r'equipment', views.EquipmentViewSet)
 router.register(r'skills', views.SkillViewSet)
 router.register(r'spells', views.SpellsViewSet)
 router.register(r'feats', views.FeatViewSet)
-router.register(r'specialability', views.SpecialAbilityViewSet)
-router.register(r'character', views.CharacterViewSet)
-router.register(r'player', views.PlayerViewSet)
+router.register(r'specialabilities', views.SpecialAbilityViewSet)
+router.register(r'characters', views.CharacterViewSet)
+router.register(r'players', views.PlayerViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

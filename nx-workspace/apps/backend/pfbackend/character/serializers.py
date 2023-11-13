@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from .models import AcItem, Character, CombatInfo, Equipment, Feat, Gear, GeneralInfo, Ability, Abilities, Money, Player, SavingThrows, Skill, SpecialAbility, SpellStat, Spells, Throw, Weapon, WeightCapacity
 
 class GeneralInfoSerializer(serializers.ModelSerializer):
@@ -109,11 +108,6 @@ class SpecialAbilitySerializer(serializers.ModelSerializer):
         model = SpecialAbility
         fields = '__all__'
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email']
-
 class CharacterSerializer(serializers.ModelSerializer):
     general_info = GeneralInfoSerializer()
     abilities = AbilitiesSerializer()
@@ -129,8 +123,17 @@ class CharacterSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PlayerSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
     characters = CharacterSerializer(many=True)
     class Meta:
         model = Player
-        fields = '__all__'
+        fields = ['username', 'email', 'password', 'characters']
+        extra_kwargs = {'password': {'write_only': True}}
+    
+    def create(self, validated_data):
+        user = Player(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user

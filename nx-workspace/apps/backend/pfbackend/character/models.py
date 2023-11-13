@@ -1,6 +1,10 @@
 from django.db import models
+from django.conf import settings
 from django.core.validators import MaxValueValidator
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+class Player(AbstractUser):
+    pass
 
 class GeneralInfo(models.Model):
     character_name = models.CharField(max_length=50, blank=True, null=True)
@@ -193,8 +197,6 @@ class SpecialAbility(models.Model):
     benefit = models.TextField(max_length=500, blank=True, null=True)
     character = models.ForeignKey('Character', on_delete=models.CASCADE, related_name='specialAbilities')
 
-class Player(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 class Character(models.Model):
     general_info = models.OneToOneField(GeneralInfo, on_delete=models.CASCADE)
@@ -203,4 +205,4 @@ class Character(models.Model):
     combat_info = models.OneToOneField(CombatInfo, on_delete=models.CASCADE)
     equipment = models.OneToOneField(Equipment, on_delete=models.CASCADE)
     spells = models.OneToOneField(Spells, on_delete=models.CASCADE)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='characters', blank=True, null=True)
+    player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='characters', blank=True, null=True)
