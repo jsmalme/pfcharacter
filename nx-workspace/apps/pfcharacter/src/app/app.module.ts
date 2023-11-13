@@ -126,12 +126,9 @@ import { CreateAccountComponent } from './components/create-account/create-accou
     MatExpansionModule,
     DragDropModule,
     MatChipsModule,
-    FormsModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
-      dataEncapsulation: false,
-    }),
+    FormsModule
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

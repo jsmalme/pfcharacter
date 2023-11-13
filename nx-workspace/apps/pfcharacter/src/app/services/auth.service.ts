@@ -20,29 +20,13 @@ export class AuthService {
     return this.http.post('http://127.0.0.1:8000/login/', { credentials });
   }
 
-  getPlayers1(): Observable<any> {
-    return this.http.get('http://localhost:8000/players/') as Observable<any>;
-  }
-
-  getPlayers2(): Observable<any> {
-    return this.http.get('http://localhost:8000/players') as Observable<any>;
-  }
-
-  getPlayers3(): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/players') as Observable<any>;
-  }
-
-  getPlayers4(): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/players/') as Observable<any>;
-  }
-
   logOut() {
     this.user = undefined;
     this.loggedInUser$.next(false);
   }
 
   createUser(createdUser: UserCreation): Observable<any> {
-    return this.http.get('http://127.0.0.1:8000/players') as Observable<any>;
+    return this.http.post('http://127.0.0.1:8000/players/', createdUser);
   }
 
   public setUser(email: string, username: string, token: string) {

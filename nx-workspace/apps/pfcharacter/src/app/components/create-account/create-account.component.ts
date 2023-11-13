@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { passwordMatchValidator } from '../../functions/validators';
 import { AuthService } from '../../services/auth.service';
 import { UserCreation } from '../../models/auth';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'nx-workspace-create-account',
@@ -20,7 +21,8 @@ export class CreateAccountComponent {
 
   constructor(private fb: FormBuilder,
     private router: Router,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    private snackbar: SnackbarService) { }
 
 
   createAccount() {
@@ -36,10 +38,11 @@ export class CreateAccountComponent {
 
     this.auth.createUser(user).subscribe(
       (response) => {
-        console.log(response);
+        this.snackbar.openSnackBar('Account created successfully!');
+        this.router.navigate(['']);
       },
       (error) => {
-        console.log(error);
+        this.snackbar.openSnackBar('Error creating account!');
       }
     );
   }

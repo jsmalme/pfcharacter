@@ -122,11 +122,10 @@ class CharacterSerializer(serializers.ModelSerializer):
         model = Character
         fields = '__all__'
 
-class PlayerSerializer(serializers.ModelSerializer):
-    characters = CharacterSerializer(many=True)
+class PlayerCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
-        fields = ['username', 'email', 'password', 'characters']
+        fields = ['username', 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
     
     def create(self, validated_data):
@@ -137,3 +136,10 @@ class PlayerSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+    
+class PlayerSerializer(serializers.ModelSerializer):
+    characters = CharacterSerializer(many=True)
+    class Meta:
+        model = Player
+        fields = ['id', 'username', 'email', 'characters']
+        extra_kwargs = {'password': {'write_only': True}}

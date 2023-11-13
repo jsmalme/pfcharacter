@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
-from .serializers import AbilitiesSerializer, CharacterSerializer, CombatInfoSerializer, EquipmentSerializer, FeatSerializer, GeneralInfoSerializer, PlayerSerializer, SavingThrowsSerializer, SkillSerializer, SpecialAbilitySerializer, SpellsSerializer
+from .serializers import AbilitiesSerializer, CharacterSerializer, CombatInfoSerializer, EquipmentSerializer, FeatSerializer, GeneralInfoSerializer, PlayerCreateSerializer, PlayerSerializer, SavingThrowsSerializer, SkillSerializer, SpecialAbilitySerializer, SpellsSerializer
 from .models import Abilities, Character, CombatInfo, Equipment, Feat, GeneralInfo, Player, SavingThrows, Skill, SpecialAbility, Spells
 Player = get_user_model()
 
@@ -48,3 +48,7 @@ class CharacterViewSet(viewsets.ModelViewSet):
 class PlayerViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.all().order_by('-date_joined')
     serializer_class = PlayerSerializer
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PlayerCreateSerializer
+        return self.serializer_class
