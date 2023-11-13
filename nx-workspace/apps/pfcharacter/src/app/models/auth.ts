@@ -1,10 +1,14 @@
 export interface UserCredentials {
-    username: string,
-    password: string
+    email: string,
+    password: string,
+}
+
+export interface UserCreation extends UserCredentials {
+    username: string
 }
 
 export interface LoggedInUser {
-    id: number,
+    email: string,
     token: string,
-    username: string
+    username: string,
 }

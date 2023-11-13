@@ -1,4 +1,4 @@
-import { LoggedInUser } from './../models/auth';
+import { LoggedInUser, UserCreation } from './../models/auth';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserCredentials } from '../models/auth';
@@ -20,9 +20,18 @@ export class AuthService {
     return this.http.post('http://127.0.0.1:8000/api/login', { credentials });
   }
 
-  public setUser(id: number, username: string, token: string) {
+  logOut() {
+    this.user = undefined;
+    this.loggedInUser$.next(false);
+  }
+
+  createUser(createdUser: UserCreation) {
+    return this.http.post('http://127.0.0.1:8000/players/', { createdUser });
+  }
+
+  public setUser(email: string, username: string, token: string) {
     const user: LoggedInUser = {
-      id,
+      email,
       username,
       token
     };
