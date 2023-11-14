@@ -1,4 +1,7 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from .models import AcItem, Character, CombatInfo, Equipment, Feat, Gear, GeneralInfo, Ability, Abilities, Money, Player, SavingThrows, Skill, SpecialAbility, SpellStat, Spells, Throw, Weapon, WeightCapacity
 
 class GeneralInfoSerializer(serializers.ModelSerializer):
@@ -134,3 +137,13 @@ class PlayerSerializer(serializers.ModelSerializer):
         model = Player
         fields = ['id', 'username', 'email', 'characters']
         extra_kwargs = {'password': {'write_only': True}}
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims
+        token['display_name'] = user.username
+        token['email'] = user.email
+        # ...
+        return token

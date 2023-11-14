@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
 from .serializers import AbilitiesSerializer, CharacterSerializer, CombatInfoSerializer, EquipmentSerializer, FeatSerializer, GeneralInfoSerializer, PlayerCreateSerializer, PlayerSerializer, SavingThrowsSerializer, SkillSerializer, SpecialAbilitySerializer, SpellsSerializer
 from .models import Abilities, Character, CombatInfo, Equipment, Feat, GeneralInfo, Player, SavingThrows, Skill, SpecialAbility, Spells
 Player = get_user_model()
@@ -18,16 +19,15 @@ def login(request):
     serializer = PlayerSerializer(player)
     return Response({'token': token.key, 'player': serializer.data}, status=status.HTTP_200_OK)
 
-@api_view(['POST'])
-def signup(request):
-    serializer = PlayerCreateSerializer(data=request.data)
-    if serializer.is_valid():
-        player = serializer.save()
-        player.set_password(player.password)
-        player.save()
-        token = Token.objects.create(user=player)
-        return Response({'token': token.key, 'player': serializer.data}, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class SignupView(APIView):
+    def post(self, request):
+        serializer = PlayerCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            player = serializer.save()
+            player.set_password(player.password)
+            player.save()
+            return Response({'player': serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GeneralInfoViewSet(viewsets.ModelViewSet):
     queryset = GeneralInfo.objects.all()
