@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 //Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -64,6 +64,7 @@ import { RollResultComponent } from './components/roll-result/roll-result.compon
 import { FormsModule } from '@angular/forms';
 import { AuthGuardService } from './services/auth-gaurd.service';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
+import { InterceptorService } from './services/interceptor.service';
 
 @NgModule({
   declarations: [
@@ -128,7 +129,8 @@ import { CreateAccountComponent } from './components/create-account/create-accou
     MatChipsModule,
     FormsModule
   ],
-  providers: [AuthGuardService],
+  providers: [AuthGuardService,
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

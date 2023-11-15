@@ -1,48 +1,63 @@
-import { LoggedInUser, UserCreation } from './../models/auth';
-import { HttpClient } from '@angular/common/http';
+import { UserCreation } from './../models/auth';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserCredentials } from '../models/auth';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { BehaviorSubject } from 'rxjs';
+import { InterceptorService } from './interceptor.service';
+import { JwtService } from './jwt.service';
 
+const baseUrl = 'http://127.0.0.1:8000';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   public loggedInUser$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  user: LoggedInUser | undefined = undefined;
-  helper = new JwtHelperService();
+  private jwt: { access: string, refresh: string } = { access: '', refresh: '' };
 
-  constructor(private http: HttpClient,) { }
+  constructor(private http: HttpClient,
+    private jwtService: JwtService) { }
 
-  logIn(credentials: UserCredentials,) {
-    return this.http.post('http://127.0.0.1:8000/login/', credentials);
+  logIn(credentials: UserCredentials) {
+    return this.http.post(`${baseUrl}/login/`, credentials);
+  }
+
+  refreshToken() {
+    const refreshHeaders = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.jwt.refresh,
+    })
+    return this.http.post(`${baseUrl}/token/refresh/`, {}, { headers: refreshHeaders });
+  }
+
+  public getRefreshToken(): string {
+    return this.jwt.refresh;
+  }
+
+  public getToken(): string | null {
+    return this.jwt.access;
   }
 
   logOut() {
-    this.user = undefined;
+    InterceptorService.token = '';
+    this.jwt = { access: '', refresh: '' };
     this.loggedInUser$.next(false);
   }
 
-  createUser(createdUser: UserCreation): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/signup/', createdUser);
+  createUser(createdUser: UserCreation) {
+    return this.http.post(`${baseUrl}/signup/`, createdUser);
   }
 
-  public setUser(email: string, username: string, token: string) {
-    const user: LoggedInUser = {
-      email,
-      username,
-      token
-    };
-    this.user = user;
+  public setUser(jwt: { refresh: string, access: string }) {
+    InterceptorService.token = jwt.access;
+    this.jwt.access = jwt.access;
+    this.jwt.refresh = jwt.refresh;
     this.loggedInUser$.next(true);
   }
 
   public isAuthenticated(): boolean {
-    if (!this.user?.token) {
+    if (!this.jwt) {
       return false;
     }
-    return !this.helper.isTokenExpired(this.user.token);
+    return !this.jwtService.isTokenExpired(this.jwt.access);
   }
 }

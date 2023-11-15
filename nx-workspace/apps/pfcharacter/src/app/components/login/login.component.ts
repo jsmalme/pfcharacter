@@ -26,7 +26,7 @@ export class LoginComponent {
 
     this.auth.logIn(this.loginForm.value as UserCredentials).subscribe((res: any) => {
       console.log(res);
-      this.auth.setUser(res.player.email, res.player.username, res.token);
+      this.auth.setUser(res);
     });
   }
 }
