@@ -10,7 +10,7 @@ import { catchError, map, Observable, tap, throwError } from 'rxjs';
 export class CharacterService {
 
   constructor(private http: HttpClient) { }
-  private characterUrl = 'api/character/1';
+  private const baseUrl = 'http://127.0.0.1:8000/';
 
 
   private handleError(err: HttpErrorResponse) {
@@ -21,6 +21,10 @@ export class CharacterService {
       errorMessage = `Backend returned code ${err.status}, body was: ${err.error}`;
     }
     return throwError(() => errorMessage);
+  }
+
+  getPlayerCharacters(): Observable<Character[]> {
+    return this.http.get<ICharacter[]>(`${this.baseUrl}/characters/`).pipe(
   }
 
   getCharacter(): Observable<Character> {

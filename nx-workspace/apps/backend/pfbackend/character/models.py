@@ -189,7 +189,7 @@ class SpellStat(models.Model):
     used = models.IntegerField(default=0)
     available = models.IntegerField(default=0)
     totalSpellMarkers = models.IntegerField(default=0)
-    spells = models.ForeignKey(Spells, on_delete=models.CASCADE, related_name='stats')
+    spells = models.ForeignKey(Spells, on_delete=models.CASCADE, related_name='spell_stats')
 
 class Spell(models.Model):
     name = models.CharField(max_length=50)
@@ -206,7 +206,7 @@ class Spell(models.Model):
     savingThrow = models.CharField(max_length=255, blank=True, null=True)
     spellResistance = models.CharField(max_length=255, blank=True, null=True)
     usedCount = models.IntegerField(default=0)
-    spells = models.ForeignKey(Spells, on_delete=models.CASCADE, related_name='spellList')
+    spells = models.ForeignKey(Spells, on_delete=models.CASCADE, related_name='spell_list')
 
 class Feat(models.Model):
     name = models.CharField(max_length=50)
@@ -218,8 +218,7 @@ class Feat(models.Model):
 class SpecialAbility(models.Model):
     name = models.CharField(max_length=50)
     benefit = models.TextField(max_length=500, blank=True, null=True)
-    character = models.ForeignKey('Character', on_delete=models.CASCADE, related_name='specialAbilities')
-
+    character = models.ForeignKey('Character', on_delete=models.CASCADE, related_name='special_abilities')
 
 class Character(models.Model):
     general_info = models.OneToOneField(GeneralInfo, on_delete=models.CASCADE)

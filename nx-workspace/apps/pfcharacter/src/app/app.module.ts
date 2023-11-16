@@ -65,6 +65,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthGuardService } from './services/auth-gaurd.service';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { InterceptorService } from './services/interceptor.service';
+import { CharacterListComponent } from './components/character-list/character-list.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { InterceptorService } from './services/interceptor.service';
     RollComponent,
     RollResultComponent,
     CreateAccountComponent,
+    CharacterListComponent,
   ],
   imports: [
     HttpClientModule,
@@ -127,10 +129,12 @@ import { InterceptorService } from './services/interceptor.service';
     MatExpansionModule,
     DragDropModule,
     MatChipsModule,
-    FormsModule
+    FormsModule,
   ],
-  providers: [AuthGuardService,
-    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }],
+  providers: [
+    AuthGuardService,
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
