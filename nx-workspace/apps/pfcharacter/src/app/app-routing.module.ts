@@ -10,6 +10,7 @@ import { FeatsComponent } from './components/feats/feats.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuardService as AuthGuard } from './services/auth-gaurd.service';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
+import { CharacterListComponent } from './components/character-list/character-list.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
@@ -17,7 +18,7 @@ const appRoutes: Routes = [
   { path: 'logout', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'characters', component: CharacterListComponent, canActivate: [AuthGuard] },
   {
-    path: 'character/:id', component: CharacterComponent, canActivate: [AuthGuard],
+    path: 'character/:id', canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'general', pathMatch: 'full' },
       { path: 'general', component: GeneralComponent, canActivate: [AuthGuard] },

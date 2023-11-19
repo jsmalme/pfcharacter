@@ -8,6 +8,7 @@ export interface UserCreation extends UserCredentials {
 }
 
 export interface LoggedInUser {
-    token: string,
     username: string,
+    email: string,
+    id: number
 }

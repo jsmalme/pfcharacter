@@ -66,6 +66,8 @@ import { AuthGuardService } from './services/auth-gaurd.service';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { InterceptorService } from './services/interceptor.service';
 import { CharacterListComponent } from './components/character-list/character-list.component';
+import { CharacterListItemComponent } from './components/character-list/character-list-item/character-list-item.component';
+import { CharacterComponent } from './components/character/character.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +101,8 @@ import { CharacterListComponent } from './components/character-list/character-li
     RollResultComponent,
     CreateAccountComponent,
     CharacterListComponent,
+    CharacterListItemComponent,
+    CharacterComponent,
   ],
   imports: [
     HttpClientModule,

@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { HttpErrorResponse, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable, Injector } from "@angular/core";
 import { Observable, catchError, switchMap, throwError } from "rxjs";
 import { Router } from "@angular/router";
@@ -11,8 +11,12 @@ export class InterceptorService implements HttpInterceptor {
     static token = '';
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-        const authReq = this.addToken(req);
-        return next.handle(authReq).pipe(catchError((error) => {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${InterceptorService.token}`
+        })
+        req = req.clone({ headers });
+        return next.handle(req).pipe(catchError((error) => {
             if (error instanceof HttpErrorResponse && error.status === 401) {
                 return this.handleAuthError(req, next);
             }
@@ -22,17 +26,6 @@ export class InterceptorService implements HttpInterceptor {
         }));
     }
 
-    private addToken(req: HttpRequest<any>): HttpRequest<any> {
-        const token = InterceptorService.token;
-        if (token) {
-            return req.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-        }
-        return req;
-    }
 
     private handleAuthError(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
         const authService = this.injector.get(AuthService);
@@ -40,8 +33,12 @@ export class InterceptorService implements HttpInterceptor {
         return authService.refreshToken().pipe(
             switchMap((res: any) => {
                 InterceptorService.token = res.token;
-                const authRequest = this.addToken(req);
-                return next.handle(authRequest);
+                req = req.clone({
+                    setHeaders: {
+                        Authorization: `Bearer ${InterceptorService.token}`
+                    }
+                });
+                return next.handle(req);
             }),
             catchError((error) => {
                 authService.logOut();

@@ -1,4 +1,4 @@
-import { UserCreation } from './../models/auth';
+import { LoggedInUser, UserCreation } from './../models/auth';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserCredentials } from '../models/auth';
@@ -14,6 +14,7 @@ const baseUrl = 'http://127.0.0.1:8000';
 export class AuthService {
   public loggedInUser$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private jwt: { access: string, refresh: string } = { access: '', refresh: '' };
+  private user: LoggedInUser = { username: '', email: '', id: 0 };
 
   constructor(private http: HttpClient,
     private jwtService: JwtService) { }
@@ -51,7 +52,17 @@ export class AuthService {
     InterceptorService.token = jwt.access;
     this.jwt.access = jwt.access;
     this.jwt.refresh = jwt.refresh;
+    const decodedToken = this.jwtService.decodeToken(jwt.access);
+    this.user = {
+      username: decodedToken.username,
+      email: decodedToken.email,
+      id: decodedToken.user_id
+    }
     this.loggedInUser$.next(true);
+  }
+
+  public getUser(): LoggedInUser {
+    return this.user;
   }
 
   public isAuthenticated(): boolean {

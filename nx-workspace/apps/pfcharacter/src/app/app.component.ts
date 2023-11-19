@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
     private auth: AuthService) { }
 
   ngOnInit() {
-    this.store.loadCharacter();
     this.sidenav.sideNavOpen$.subscribe((state: boolean) => {
       this.sidenavOpened = state;
     });

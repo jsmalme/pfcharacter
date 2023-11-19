@@ -10,7 +10,7 @@ export class JwtService {
     return decodedToken.exp < Date.now() / 1000;
   }
 
-  private decodeToken(token: string): any {
+  public decodeToken(token: string): any {
     return jwtDecode(token);
   }
 }

@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from .serializers import AbilitiesSerializer, CharacterSerializer, CombatInfoSerializer, EquipmentSerializer, FeatSerializer, GeneralInfoSerializer, PlayerCreateSerializer, PlayerSerializer, SavingThrowsSerializer, SkillSerializer, SpecialAbilitySerializer, SpellsSerializer
 from .models import Abilities, Character, CombatInfo, Equipment, Feat, GeneralInfo, Player, SavingThrows, Skill, SpecialAbility, Spells
 Player = get_user_model()
@@ -30,45 +31,56 @@ class SignupView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GeneralInfoViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = GeneralInfo.objects.all()
     serializer_class = GeneralInfoSerializer
 
 class AbilitiesViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Abilities.objects.all()
     serializer_class = AbilitiesSerializer
 
 class SavingThrowsViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = SavingThrows.objects.all()
     serializer_class = SavingThrowsSerializer
 
 class CombatInfoViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = CombatInfo.objects.all()
     serializer_class = CombatInfoSerializer
 
 class EquipmentViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Equipment.objects.all()
     serializer_class = EquipmentSerializer
 
 class SkillViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
 
 class SpellsViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Spells.objects.all()
     serializer_class = SpellsSerializer
 
 class FeatViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Feat.objects.all()
     serializer_class = FeatSerializer
 
 class SpecialAbilityViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = SpecialAbility.objects.all()
     serializer_class = SpecialAbilitySerializer
 
 class CharacterViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
 
 class PlayerViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Player.objects.all().order_by('-date_joined')
     serializer_class = PlayerSerializer

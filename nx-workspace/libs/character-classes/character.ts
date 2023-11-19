@@ -21,6 +21,7 @@ export interface ICharacter {
 }
 export class Character {
   id: number;
+  playerId: number;
   generalInfo: GeneralInfo;
   combatInfo: CombatInfo;
   abilities: Abilities;

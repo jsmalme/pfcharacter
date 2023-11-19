@@ -26,6 +26,7 @@ export class CharacterDataService {
     private http: CharacterService,
     private snackBar: SnackbarService) { }
 
+  isCharacterLoaded = false;
   private character = new BehaviorSubject<Character>(new Character());
   characterUpdate$ = this.character.asObservable();
   private tempChar: Character;
@@ -50,10 +51,17 @@ export class CharacterDataService {
     this.tempChar = _.cloneDeep(this.character.value);
     this.rollback = _.cloneDeep(this.character.value);
   }
-  loadCharacter() {
-    this.http.getCharacter().subscribe((data) => {
+
+  loadCharacter(characterId: number) {
+    this.http.getCharacter(characterId).subscribe((data) => {
       this.character.next(data);
     })
+    this.isCharacterLoaded = true;
+  }
+
+  resetCharacter() {
+    this.character.next(new Character());
+    this.isCharacterLoaded = false;
   }
 
   //ability/saving updaters--------------------------------------
