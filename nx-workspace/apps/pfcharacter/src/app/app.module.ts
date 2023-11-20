@@ -41,7 +41,6 @@ import { WeaponComponent } from './components/weapon/weapon.component';
 import { TotalDisplayComponent } from './components/total-display/total-display.component';
 import { DeleteItemDialogComponent } from './components/delete-item-dialog/delete-wepon-dialog.component';
 import { SkillsComponent } from './components/skills/skills.component';
-import { InMemoryDataService } from './services/in-memory-data.service';
 import { EquipmentComponent } from './components/equipment/equipment.component';
 import { GearComponent } from './components/equipment/gear/gear.component';
 import { AcItemsComponent } from './components/equipment/ac-items/ac-items.component';
@@ -141,4 +140,4 @@ import { CharacterComponent } from './components/character/character.component';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

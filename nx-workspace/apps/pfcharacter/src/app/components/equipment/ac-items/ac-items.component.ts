@@ -1,4 +1,3 @@
-import { InMemoryDataService } from './../../../services/in-memory-data.service';
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnDestroy, OnInit } from '@angular/core';

@@ -3,6 +3,7 @@ import { Player } from './../../../../../libs/character-classes/player';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character, ICharacter } from 'libs/character-classes/character';
+import { GeneralInfo } from 'libs/character-classes/general-info';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 const baseUrl = 'http://127.0.0.1:8000';
@@ -27,14 +28,14 @@ export class CharacterService {
   getPlayerCharacters(playerId: number): Observable<Character[]> {
     return this.http.get<Player>(`${baseUrl}/players/${playerId}/`).pipe(
       map((data) => {
-        return data.characters.map(() => new Character());
+        return data.characters.map((char) => new Character(char));
       }),
       catchError(err => this.handleError(err))
     );
   }
 
   getCharacter(characterId: number): Observable<Character> {
-    return this.http.get<ICharacter>(`${baseUrl}/character/${characterId}/`).pipe(
+    return this.http.get<ICharacter>(`${baseUrl}/characters/${characterId}/`).pipe(
       map((data) => {
         return new Character(data);
       }),
@@ -57,6 +58,14 @@ export class CharacterService {
   updateCharacter(character: ICharacter): Observable<ICharacter> {
     const url = `${baseUrl}/characters/${character.id}/`;
     return this.http.put<ICharacter>(url, character).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  updateGeneralInfo(character: Character): Observable<GeneralInfo> {
+    const url = `${baseUrl}/characters/${character.id}/`;
+    const patchData = { general_info: character.general_info };
+    return this.http.patch<GeneralInfo>(url, patchData).pipe(
       catchError(err => this.handleError(err))
     );
   }

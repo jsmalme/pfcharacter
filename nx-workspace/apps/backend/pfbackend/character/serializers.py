@@ -268,6 +268,22 @@ class CharacterSerializer(serializers.ModelSerializer):
             return character
 
         raise serializers.ValidationError("Validation failed.")
+    
+    def update(self, instance, validated_data):
+        for field_name in self.fields.keys():
+            if field_name in validated_data:
+                nested_data = validated_data.pop(field_name, {})
+                nested_instance = getattr(instance, field_name)
+                nested_serializer_class = self.fields[field_name].__class__
+                
+                nested_serializer = nested_serializer_class(nested_instance, data=nested_data, partial=True)
+                if nested_serializer.is_valid():
+                    nested_serializer.save()
+
+        # Update the main serializer instance
+        instance = super().update(instance, validated_data)
+
+        return instance
 
 class PlayerCreateSerializer(serializers.ModelSerializer):
     class Meta:

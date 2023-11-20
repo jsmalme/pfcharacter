@@ -1,8 +1,10 @@
+from typing import Any
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
@@ -79,7 +81,7 @@ class CharacterViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
-
+        
 class PlayerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Player.objects.all().order_by('-date_joined')

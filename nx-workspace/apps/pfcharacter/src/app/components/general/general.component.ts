@@ -25,10 +25,11 @@ export class GeneralComponent implements OnInit {
 
     this.character$ = this.store.characterUpdate$;
     this.character$.subscribe((char: Character) => {
-      this.setFormGroup(char.generalInfo);
+      this.setFormGroup(char.general_info);
     });
 
     this.generalInfoForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+      console.log('hello?', info);
       this.store.updateGeneralInfo(info);
     })
   }
@@ -39,10 +40,10 @@ export class GeneralComponent implements OnInit {
 
   initGeneralForm(): FormGroup {
     return this.fb.group({
-      characterName: ['', Validators.maxLength(50)],
-      playerName: ['', Validators.maxLength(50)],
+      character_name: ['', Validators.maxLength(50)],
+      player_name: ['', Validators.maxLength(50)],
       alignment: ['', Validators.maxLength(50)],
-      classLevel: ['', Validators.maxLength(50)],
+      class_level: ['', Validators.maxLength(50)],
       deity: ['', Validators.maxLength(50)],
       homeland: ['', Validators.maxLength(50)],
       race: ['', Validators.maxLength(50)],
@@ -53,13 +54,13 @@ export class GeneralComponent implements OnInit {
       weight: ['', Validators.maxLength(50)],
       hair: ['', Validators.maxLength(50)],
       eyes: ['', Validators.maxLength(50)],
-      baseSpeed: ['', Validators.maxLength(50)],
-      armorSpeed: ['', Validators.maxLength(50)],
-      flyManeuver: ['', Validators.maxLength(50)],
-      swimSpeed: ['', Validators.maxLength(50)],
-      climbSpeed: ['', Validators.maxLength(50)],
-      burrowSpeed: ['', Validators.maxLength(50)],
-      speedTempMods: ['', Validators.maxLength(50)],
+      base_speed: ['', Validators.maxLength(50)],
+      armor_speed: ['', Validators.maxLength(50)],
+      fly_maneuver: ['', Validators.maxLength(50)],
+      swim_speed: ['', Validators.maxLength(50)],
+      climb_speed: ['', Validators.maxLength(50)],
+      burrow_speed: ['', Validators.maxLength(50)],
+      speed_temp_mods: ['', Validators.maxLength(50)],
       languages: ['', Validators.maxLength(50)],
       notes: ['', Validators.maxLength(500)],
     });

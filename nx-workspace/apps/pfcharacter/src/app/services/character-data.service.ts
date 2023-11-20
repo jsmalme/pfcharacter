@@ -7,7 +7,7 @@ import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { Throw } from '../../../../../libs/character-classes/saving-throws';
 import { Skill } from '../../../../../libs/character-classes/skills';
 import { CalcTotService } from './calc-tot.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, concatMap, of, tap } from 'rxjs';
 import { CharacterService } from './character-http.service';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
@@ -40,7 +40,7 @@ export class CharacterDataService {
   }
 
   get generalInfo() {
-    return this.character.value.generalInfo;
+    return this.character.value.general_info;
   }
 
   get skillList() {
@@ -68,7 +68,7 @@ export class CharacterDataService {
   updateStr(info: Ability) {
     this.tempRollback();
     this.tempChar.abilities.str.update(info);
-    this.tempChar.equipment.weightCaps.updateCarryCapacities(info, this.tempChar.generalInfo.size ?? SizeEnum.medium);
+    this.tempChar.equipment.weightCaps.updateCarryCapacities(info, this.tempChar.general_info.size ?? SizeEnum.medium);
     this.updateSkillAbilities(this.tempChar.abilities, this.skillList, 'Str', ['Climb', 'Swim']);
     this.character.next(this.tempChar);
 
@@ -206,29 +206,29 @@ export class CharacterDataService {
   //charater updates ---------------------------------------
   updateGeneralInfo(generalInfo: GeneralInfo) {
     this.tempRollback();
-    this.tempChar.generalInfo = generalInfo;
-    if (generalInfo.size !== undefined && generalInfo.size !== this.rollback.generalInfo.size) {
+    this.tempChar.general_info = generalInfo;
+    if (generalInfo.size !== undefined && generalInfo.size !== this.rollback.general_info.size) {
       this.tempChar.combatInfo.updateSize(generalInfo.size);
       this.tempChar.equipment.weightCaps.updateCarryCapacities(this.tempChar.abilities.str, generalInfo.size);
     }
     this.character.next(this.tempChar);
 
-    // this.http.updateCharacter(this.tempChar).pipe(
-    //   tap(() => {
-    //     this.http.updateCharacter(this.tempChar);
-    //   }),
-    //   concatMap(() => {
-    //     if(generalInfo.size !== undefined &&  generalInfo.size !== this.generalInfo.size){
-    //       return this.http.updateCharacter(this.tempChar);
-    //     }
-    //     return of({})
-    //   })
-    // ).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });    
+    this.http.updateGeneralInfo(this.tempChar).pipe(
+      tap(() => {
+        this.http.updateGeneralInfo(this.tempChar);
+      }),
+      concatMap(() => {
+        if (generalInfo.size !== undefined && generalInfo.size !== this.generalInfo.size) {
+          return this.http.updateCharacter(this.tempChar);
+        }
+        return of({})
+      })
+    ).subscribe({
+      error: (e) => {
+        this.snackBar.openSnackBar(e);
+        this.character.next(this.rollback);
+      }
+    });
   }
 
   updateSavingThrows(info: Throw, type: string) {

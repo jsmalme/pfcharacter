@@ -1,6 +1,8 @@
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Character } from 'libs/character-classes/character';
+import { CharacterDataService } from '../../../services/character-data.service';
 
 @Component({
   selector: 'app-character-list-item',
@@ -10,9 +12,17 @@ import { Character } from 'libs/character-classes/character';
 export class CharacterListItemComponent implements OnInit {
   @Input() character: Character;
 
+  constructor(
+    private router: Router,
+    private store: CharacterDataService
+  ) { }
+
   ngOnInit(): void {
     console.log(this.character);
   }
 
-  constructor() { }
+  playCharacter(): void {
+    this.store.loadCharacter(this.character.id);
+    this.router.navigate([`/character/${this.character.id}`]);
+  }
 }

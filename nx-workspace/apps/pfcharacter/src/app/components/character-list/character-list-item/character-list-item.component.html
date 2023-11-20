@@ -1,11 +1,16 @@
 <div class="row">
     <div class="col-12">
-        <p class="h2">{{character.generalInfo.characterName}}</p>
+        <button mat-raised-button color="primary" (click)="playCharacter()">
+            Play
+        </button>
+    </div>
+    <div class="col-12">
+        <p class="h2">{{character.general_info.characterName}}</p>
     </div>
     <div class="col-3">
-        <p class="h5">{{character.generalInfo.classLevel}}</p>
+        <p class="h5">{{character.general_info.classLevel}}</p>
     </div>
     <div class="col-3">
-        <p class="h5">{{character.generalInfo.alignment}}</p>
+        <p class="h5">{{character.general_info.alignment}}</p>
     </div>
 </div>

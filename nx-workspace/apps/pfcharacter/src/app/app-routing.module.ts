@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthGuardService as AuthGuard } from './services/auth-gaurd.service';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { CharacterListComponent } from './components/character-list/character-list.component';
+import { CharacterComponent } from './components/character/character.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
