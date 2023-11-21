@@ -23,6 +23,6 @@ export class CharacterListItemComponent implements OnInit {
 
   playCharacter(): void {
     this.store.loadCharacter(this.character.id);
-    this.router.navigate([`/character/${this.character.id}`]);
+    this.router.navigate(['character']);
   }
 }

@@ -19,7 +19,7 @@ const appRoutes: Routes = [
   { path: 'logout', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'characters', component: CharacterListComponent, canActivate: [AuthGuard] },
   {
-    path: 'character/:id', component: CharacterComponent, canActivate: [AuthGuard],
+    path: 'character', component: CharacterComponent, canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'general', pathMatch: 'full' },
       { path: 'general', component: GeneralComponent, canActivate: [AuthGuard] },

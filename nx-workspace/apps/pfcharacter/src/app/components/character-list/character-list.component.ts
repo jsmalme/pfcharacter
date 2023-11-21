@@ -25,7 +25,7 @@ export class CharacterListComponent implements OnInit {
   addNewCharacter(): void {
     this.characterService.addPlayerCharacter(this.authService.getUser().id).subscribe((res) => {
       console.log(res);
-      this.router.navigate([`/character/${res.id}`]);
+      this.router.navigate(['character']);
     });
   }
 }

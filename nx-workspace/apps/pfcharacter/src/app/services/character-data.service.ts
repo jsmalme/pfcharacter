@@ -15,6 +15,8 @@ import * as _ from "lodash";
 import { AcItem, Gear, Money, burdenEnum } from 'libs/character-classes/equipment';
 import { Spell, SpellStat } from 'libs/character-classes/spells';
 import { Feat, SpecialAbility } from 'libs/character-classes/feats-abilities';
+import { BADHINTS } from 'dns';
+import * as path from 'path';
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +28,10 @@ export class CharacterDataService {
     private http: CharacterService,
     private snackBar: SnackbarService) { }
 
-  isCharacterLoaded = false;
+  private isCharacterLoaded = new BehaviorSubject<boolean>(false);
   private character = new BehaviorSubject<Character>(new Character());
   characterUpdate$ = this.character.asObservable();
+  isCharacterLoaded$ = this.isCharacterLoaded.asObservable();
   private tempChar: Character;
   private rollback: Character;
 
@@ -56,12 +59,12 @@ export class CharacterDataService {
     this.http.getCharacter(characterId).subscribe((data) => {
       this.character.next(data);
     })
-    this.isCharacterLoaded = true;
+    this.isCharacterLoaded.next(true);
   }
 
   resetCharacter() {
     this.character.next(new Character());
-    this.isCharacterLoaded = false;
+    this.isCharacterLoaded.next(false);
   }
 
   //ability/saving updaters--------------------------------------
@@ -207,22 +210,16 @@ export class CharacterDataService {
   updateGeneralInfo(generalInfo: GeneralInfo) {
     this.tempRollback();
     this.tempChar.general_info = generalInfo;
+    let patchData = {};
     if (generalInfo.size !== undefined && generalInfo.size !== this.rollback.general_info.size) {
       this.tempChar.combatInfo.updateSize(generalInfo.size);
       this.tempChar.equipment.weightCaps.updateCarryCapacities(this.tempChar.abilities.str, generalInfo.size);
+      patchData = { combat_info: this.tempChar.combatInfo, equipment: this.tempChar.equipment };
     }
-    this.character.next(this.tempChar);
 
-    this.http.updateGeneralInfo(this.tempChar).pipe(
-      tap(() => {
-        this.http.updateGeneralInfo(this.tempChar);
-      }),
-      concatMap(() => {
-        if (generalInfo.size !== undefined && generalInfo.size !== this.generalInfo.size) {
-          return this.http.updateCharacter(this.tempChar);
-        }
-        return of({})
-      })
+    patchData = { ...patchData, general_info: this.tempChar.general_info };
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(
     ).subscribe({
       error: (e) => {
         this.snackBar.openSnackBar(e);

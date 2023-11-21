@@ -55,17 +55,10 @@ export class CharacterService {
     );
   }
 
-  updateCharacter(character: ICharacter): Observable<ICharacter> {
-    const url = `${baseUrl}/characters/${character.id}/`;
-    return this.http.put<ICharacter>(url, character).pipe(
-      catchError(err => this.handleError(err))
-    );
-  }
 
-  updateGeneralInfo(character: Character): Observable<GeneralInfo> {
-    const url = `${baseUrl}/characters/${character.id}/`;
-    const patchData = { general_info: character.general_info };
-    return this.http.patch<GeneralInfo>(url, patchData).pipe(
+  updateCharacter(patchData: any, characterId: number): Observable<any> {
+    const url = `${baseUrl}/characters/${characterId}/`;
+    return this.http.patch(url, patchData).pipe(
       catchError(err => this.handleError(err))
     );
   }
