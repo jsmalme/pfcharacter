@@ -210,7 +210,7 @@ class EquipmentSerializer(serializers.ModelSerializer):
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
-        fields = '__all__'
+        exclude = ['character']
 
 class SpellStatSerializer(serializers.ModelSerializer):
     class Meta:
@@ -276,10 +276,10 @@ class CharacterSerializer(serializers.ModelSerializer):
         saving_throws_data = validated_data.pop('saving_throws')
         combat_info_data = validated_data.pop('combat_info')
         equipment_data = validated_data.pop('equipment')
-        skills_data = validated_data.pop('skills')
         spells_data = validated_data.pop('spells')
         feats_data = validated_data.pop('feats')
         special_abilities_data = validated_data.pop('special_abilities')
+        skills_data = validated_data.pop('skills')
 
         general_info = GeneralInfo.objects.create(**general_info_data)
         abilities = AbilitiesSerializer(data=abilities_data)
@@ -306,7 +306,12 @@ class CharacterSerializer(serializers.ModelSerializer):
             )
 
             for skill in skills_data:
-                Skill.objects.create(character=character, **skill)
+                skill['character'] = character.id
+                skill_serializer = SkillSerializer(data=skill)
+                if skill_serializer.is_valid():
+                    skill_serializer.save()
+                else:
+                    print(skill_serializer.errors)
             for feat in feats_data:
                 Feat.objects.create(character=character, **feat)
             for special_ability in special_abilities_data:
