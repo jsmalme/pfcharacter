@@ -26,7 +26,7 @@ export class CombatComponent implements OnInit {
   gridWatcher: Subscription | undefined;
   sizeMod: number | undefined;
   character$: Observable<Character>;
-  combatInfoForm: FormGroup;
+  combat_infoForm: FormGroup;
   weaponForm: FormGroup;
   counter = 0;
   acDexScore = 0;
@@ -46,7 +46,7 @@ export class CombatComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.combatInfoForm = this.initCombatForm();
+    this.combat_infoForm = this.initCombatForm();
     this.weaponForm = this.initWeaponForm();
 
     this.character$ = this.store.characterUpdate$;
@@ -54,14 +54,14 @@ export class CombatComponent implements OnInit {
       this.weaponForm = this.initWeaponForm();
       this.calculateAcDexMod(char.abilities.dex.useMod, char.equipment.ac_items);
       this.calculateArmorAndShield(char.equipment.ac_items);
-      char.combatInfo.getCombatInfoTotals(char.abilities, this.acDexScore, this.acArmor, this.acShield);
-      this.setFormGroup(char.combatInfo);
-      this.setWeaponArray(char.combatInfo.weapons);
+      char.combat_info.getCombatInfoTotals(char.abilities, this.acDexScore, this.acArmor, this.acShield);
+      this.setFormGroup(char.combat_info);
+      this.setWeaponArray(char.combat_info.weapons);
     });
 
     //combat form change listener
-    this.combatInfoForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if (!this.combatInfoForm?.valid) {
+    this.combat_infoForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+      if (!this.combat_infoForm?.valid) {
         return;
       }
       this.store.updateCombatInfo(info, this.acDexScore, this.acArmor, this.acShield);
@@ -110,7 +110,7 @@ export class CombatComponent implements OnInit {
   }
 
   setFormGroup(info: CombatInfo) {
-    this.combatInfoForm.patchValue(info, { emitEvent: false });
+    this.combat_infoForm.patchValue(info, { emitEvent: false });
   }
 
   calculateAcDexMod(dex: number | undefined, ac_items: AcItem[]) {

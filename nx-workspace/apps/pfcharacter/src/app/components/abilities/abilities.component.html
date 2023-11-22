@@ -248,7 +248,7 @@
     <br>
     <mat-divider></mat-divider>
     <br>
-    <form [formGroup]="savingThrowsForm" autocomplete="off">
+    <form [formGroup]="saving_throwsForm" autocomplete="off">
       <mat-card class="mat-elevation-z2">
         <mat-card-title class="primary-background rounded-top mat-elevation-z1"
           style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
@@ -259,13 +259,13 @@
         <br>
         <div class="row">
           <div class="col-12">
-            <div class="row d-flex align-items-center" formGroupName="forForm">
+            <div class="row d-flex align-items-center" formGroupName="fortForm">
               <div class="col-lg-2 col-sm-3 col-5">
                 <h2>Fortitude (Con)</h2>
               </div>
               <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                <app-total-display [isValid]="savingThrowsForm.get('forForm')?.valid"
-                  [total]="char.savingThrows.for.total"></app-total-display>
+                <app-total-display [isValid]="saving_throwsForm.get('fortForm')?.valid"
+                  [total]="char.saving_throws.fort.total"></app-total-display>
               </div>
               <div class="row col-lg-9 col-12">
                 <div class="col-lg-2 col-4">
@@ -277,7 +277,7 @@
                 <div class="col-lg-2 col-4">
                   <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                     <mat-label>Ability+</mat-label>
-                    <input matInput inputmode="numeric" type="number" value="{{char.savingThrows.for.ability}}"
+                    <input matInput inputmode="numeric" type="number" value="{{char.saving_throws.fort.ability}}"
                       disabled="disabled">
                   </mat-form-field>
                 </div>
@@ -314,8 +314,8 @@
                 <h2>Reflex (Dex)</h2>
               </div>
               <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                <app-total-display [isValid]="savingThrowsForm.get('refForm')?.valid"
-                  [total]="char.savingThrows.ref.total"></app-total-display>
+                <app-total-display [isValid]="saving_throwsForm.get('refForm')?.valid"
+                  [total]="char.saving_throws.ref.total"></app-total-display>
               </div>
               <div class="row col-lg-9 col-12">
                 <div class="col-lg-2 col-4">
@@ -327,7 +327,7 @@
                 <div class="col-lg-2 col-4">
                   <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                     <mat-label>Ability+</mat-label>
-                    <input matInput inputmode="numeric" type="number" value="{{char.savingThrows.ref.ability}}"
+                    <input matInput inputmode="numeric" type="number" value="{{char.saving_throws.ref.ability}}"
                       disabled="disabled">
                   </mat-form-field>
                 </div>
@@ -364,8 +364,8 @@
                 <h2>Will (Wis)</h2>
               </div>
               <div class="col-lg-1 col-sm-9 col-7 d-flex align-items-center">
-                <app-total-display [isValid]="savingThrowsForm.get('willForm')?.valid"
-                  [total]="char.savingThrows.will.total"></app-total-display>
+                <app-total-display [isValid]="saving_throwsForm.get('willForm')?.valid"
+                  [total]="char.saving_throws.will.total"></app-total-display>
               </div>
               <div class="row col-lg-9 col-12">
                 <div class="col-lg-2 col-4">
@@ -377,7 +377,7 @@
                 <div class="col-lg-2 col-4">
                   <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                     <mat-label>Ability+</mat-label>
-                    <input matInput inputmode="numeric" type="number" value="{{char.savingThrows.will.ability}}"
+                    <input matInput inputmode="numeric" type="number" value="{{char.saving_throws.will.ability}}"
                       disabled="disabled">
                   </mat-form-field>
                 </div>

@@ -39,12 +39,12 @@ export class SpecialAbilitiesComponent implements OnInit {
         this.drawerStatus = this.drawerService.specialAbilityDrawerStatus;
       }
       else {
-        char.specialAbilities.forEach((ability) => {
+        char.special_abilities.forEach((ability) => {
           this.drawerStatus[ability.name] = false;
         });
         this.drawerService.specialAbilityDrawerStatus = this.drawerStatus;
       }
-      this.abilitiesList = char.specialAbilities;
+      this.abilitiesList = char.special_abilities;
     });
   }
 
@@ -78,7 +78,7 @@ export class SpecialAbilitiesComponent implements OnInit {
         }
         if (isUpdate) {
           this.character$.pipe(first()).subscribe((char: Character) => {
-            this.abilitiesList = char.specialAbilities;
+            this.abilitiesList = char.special_abilities;
           });
         }
       }
@@ -91,17 +91,17 @@ export class SpecialAbilitiesComponent implements OnInit {
     //this.store.updateSpecialAbilitiesList(this.abilitiesList);
   }
 
-  setOpen(abilityName: string) {
+  setOpen(ability_name: string) {
     if (!this.drawerService.specialAbilityDrawerStatus) {
       return;
     }
-    this.drawerService.specialAbilityDrawerStatus[abilityName] = true;
+    this.drawerService.specialAbilityDrawerStatus[ability_name] = true;
   }
 
-  setClosed(abilityName: string) {
+  setClosed(ability_name: string) {
     if (!this.drawerService.specialAbilityDrawerStatus) {
       return;
     }
-    this.drawerService.specialAbilityDrawerStatus[abilityName] = false;
+    this.drawerService.specialAbilityDrawerStatus[ability_name] = false;
   }
 }

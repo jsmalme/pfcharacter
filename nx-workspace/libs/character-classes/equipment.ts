@@ -134,9 +134,9 @@ export class WeightCapacity implements IWeightCapacity {
 }
 
 export class Equipment implements IEquipment {
-    ac_items: AcItem[];
-    gear: Gear[];
-    money: Money;
+    ac_items: AcItem[] = [];
+    gear: Gear[] = [];
+    money: Money = new Money();
     weight_caps: WeightCapacity;
     current_burden: burdenEnum;
     total_ac_penalty: number = 0;

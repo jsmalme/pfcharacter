@@ -1,8 +1,8 @@
 export interface ISpells {
     modifiers: string | undefined;
     domains_specialty: string | undefined;
-    spellList: Array<Spell>;
-    stats: Array<SpellStat>;
+    spell_list: Array<Spell>;
+    spell_stats: Array<SpellStat>;
 }
 
 export class Spell {
@@ -35,8 +35,8 @@ export class SpellStat {
 export class Spells implements ISpells {
     modifiers: string | undefined = undefined;
     domains_specialty: string | undefined = undefined;
-    spellList: Array<Spell> = new Array<Spell>();
-    stats: Array<SpellStat> = new Array<SpellStat>(10);
+    spell_list: Array<Spell> = new Array<Spell>();
+    spell_stats: Array<SpellStat> = new Array<SpellStat>(10);
 
     constructor(spells?: ISpells) {
         if (spells) {

@@ -39,10 +39,10 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     private totService: CalcTotService) { }
 
 
-  largeColumns: string[] = ['favorite', 'classSkill', 'name', 'abilityName',
-    'total', 'abilityMod', 'class', 'ranks', 'racial', 'misc'];
-  mediumColumns: string[] = ['favorite', 'classSkill', 'name', 'abilityName', 'total', 'abilityMod', 'class'];
-  mobileColumns: string[] = ['favorite', 'classSkill', 'name', 'abilityName', 'total'];
+  largeColumns: string[] = ['favorite', 'class_skill', 'name', 'ability_name',
+    'total', 'ability_mod', 'class', 'ranks', 'racial', 'misc'];
+  mediumColumns: string[] = ['favorite', 'class_skill', 'name', 'ability_name', 'total', 'ability_mod', 'class'];
+  mobileColumns: string[] = ['favorite', 'class_skill', 'name', 'ability_name', 'total'];
   displayedColumns: string[] = new Array<string>();
   dataSource = new MatTableDataSource<AbstractControl<unknown, unknown>>;
 
@@ -52,7 +52,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
       this.skillsForm = this.fb.group({
-        skills: this.getSkillsFormArray(char.skillList)
+        skills: this.getSkillsFormArray(char.skills)
       });
 
       this.skillsForm.get('skills')?.valueChanges.pipe(distinctUntilChanged(), debounceTime(250)).subscribe(info => {
@@ -116,11 +116,11 @@ export class SkillsComponent implements OnInit, AfterViewInit {
       skills.map(skill => this.fb.group({
         id: this.fb.control(skill.id),
         favorite: this.fb.control(skill.favorite),
-        classSkill: this.fb.control(skill.classSkill),
+        class_skill: this.fb.control(skill.class_skill),
         name: this.fb.control(skill.name),
-        abilityName: this.fb.control(skill.abilityName),
+        ability_name: this.fb.control(skill.ability_name),
         total: this.fb.control(skill.total),
-        abilityMod: this.fb.control(skill.abilityMod),
+        ability_mod: this.fb.control(skill.ability_mod),
         ranks: this.fb.control(skill.ranks, maxNumberValidator()),
         racial: this.fb.control(skill.racial, maxNumberValidator()),
         misc: this.fb.control(skill.misc, maxNumberValidator()),

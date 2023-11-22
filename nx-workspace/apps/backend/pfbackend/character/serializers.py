@@ -147,7 +147,6 @@ class EquipmentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         gear_data = validated_data.pop('gear', [])
-        weapons_data = validated_data.pop('weapons', [])
         money_data = validated_data.pop('money', {})
         weight_caps_data = validated_data.pop('weight_caps', {})
         ac_items_data = validated_data.pop('ac_items', [])
@@ -156,9 +155,6 @@ class EquipmentSerializer(serializers.ModelSerializer):
 
         for gear_item_data in gear_data:
             Gear.objects.create(equipment=equipment_instance, **gear_item_data)
-
-        for weapon_data in weapons_data:
-            Weapon.objects.create(equipment=equipment_instance, **weapon_data)
 
         money_instance = Money.objects.create(equipment=equipment_instance, **money_data)
         weight_caps_instance = WeightCapacity.objects.create(equipment=equipment_instance, **weight_caps_data)
@@ -172,6 +168,44 @@ class EquipmentSerializer(serializers.ModelSerializer):
             AcItem.objects.create(equipment=equipment_instance, **ac_item_data)
 
         return equipment_instance
+    
+    def update(self, instance, validated_data):
+        gear_data = validated_data.pop('gear', [])
+        money_data = validated_data.pop('money', {})
+        weight_caps_data = validated_data.pop('weight_caps', {})
+        ac_items_data = validated_data.pop('ac_items', [])
+
+        for gear_item_data in gear_data:
+            gear_item_id = gear_item_data.get('id', None)
+            if gear_item_id:
+                gear_item = Gear.objects.get(id=gear_item_id, equipment=instance)
+                GearSerializer(gear_item, data=gear_item_data, partial=True).is_valid(raise_exception=True)
+                GearSerializer(gear_item, data=gear_item_data, partial=True).save()
+            else:
+                Gear.objects.create(equipment=instance, **gear_item_data)
+
+        money_instance = instance.money
+        money_serializer = MoneySerializer(money_instance, data=money_data, partial=True)
+        if money_serializer.is_valid(raise_exception=True):
+            money_serializer.save()
+
+        weight_caps_instance = instance.weight_caps
+        weight_caps_serializer = WeightCapacitySerializer(weight_caps_instance, data=weight_caps_data, partial=True)
+        if weight_caps_serializer.is_valid(raise_exception=True):
+            weight_caps_serializer.save()
+
+        for ac_item_data in ac_items_data:
+            ac_item_id = ac_item_data.get('id', None)
+            if ac_item_id:
+                ac_item = AcItem.objects.get(id=ac_item_id, equipment=instance)
+                AcItemSerializer(ac_item, data=ac_item_data, partial=True).is_valid(raise_exception=True)
+                AcItemSerializer(ac_item, data=ac_item_data, partial=True).save()
+            else:
+                AcItem.objects.create(equipment=instance, **ac_item_data)
+
+        instance = super().update(instance, validated_data)
+
+        return instance
 
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:

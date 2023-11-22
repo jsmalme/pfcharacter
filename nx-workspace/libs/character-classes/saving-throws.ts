@@ -2,7 +2,7 @@ import { strUnToNum } from "apps/pfcharacter/src/app/functions/methods";
 import { Abilities } from "./abilities";
 
 export interface ISavingThrows {
-  for: IThrow;
+  fort: IThrow;
   ref: IThrow;
   will: IThrow;
 }
@@ -59,12 +59,12 @@ export class Throw implements IThrow {
 export class SavingThrows implements ISavingThrows {
   constructor(throws?: ISavingThrows) {
     if (throws) {
-      this.for = new Throw(throws.for);
+      this.fort = new Throw(throws.fort);
       this.ref = new Throw(throws.ref);
       this.will = new Throw(throws.will);
     }
   }
-  for: Throw = new Throw();
+  fort: Throw = new Throw();
   ref: Throw = new Throw();
   will: Throw = new Throw();
 }

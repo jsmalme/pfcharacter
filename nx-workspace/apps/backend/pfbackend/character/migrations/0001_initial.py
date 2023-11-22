@@ -231,7 +231,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50)),
                 ('benefit', models.TextField(blank=True, max_length=500, null=True)),
-                ('character', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='specialAbilities', to='character.character')),
+                ('character', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='special_abilities', to='character.character')),
             ],
         ),
         migrations.CreateModel(

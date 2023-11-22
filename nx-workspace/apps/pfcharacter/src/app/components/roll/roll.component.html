@@ -13,7 +13,7 @@
             <div class="col-5 pt-2">
                 <mat-form-field class="w-100" appearance="outline" color="accent">
                     <mat-label>Attribute Mod</mat-label>
-                    <mat-select [(ngModel)]="abilityMod">
+                    <mat-select [(ngModel)]="ability_mod">
                         <mat-option *ngFor="let ability of abilities" [value]="{name: ability.name, mod: ability.mod}">
                             {{ability.name}}
                         </mat-option>

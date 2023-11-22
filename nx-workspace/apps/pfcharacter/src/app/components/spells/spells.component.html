@@ -1,7 +1,7 @@
 <div class="container-xxl comp-top-margin">
     <ng-container *ngIf="character$ | async as char">
         <div class="row">
-            <form [formGroup]="spellStatsForm">
+            <form [formGroup]="spell_statsForm">
                 <div class="col-12">
                     <mat-card class="mat-elevation-z2">
                         <mat-card-title class="primary-background rounded-top mat-elevation-z1"
@@ -66,9 +66,9 @@
                                 </div>
                             </div>
                         </mat-card-title>
-                        <div formArrayName="spellStats">
+                        <div formArrayName="spell_list">
                             <mat-accordion multi>
-                                <ng-container *ngFor="let spellStat of spellStats.controls; let i = index">
+                                <ng-container *ngFor="let spellStat of spell_stats.controls; let i = index">
                                     <mat-expansion-panel class="mb-2 mat-elevation-z4" [disabled]="!sortedSpells[i]"
                                         [expanded]="drawerStatus[i]" (opened)="setOpen(i)" (closed)="setClosed(i)">
                                         <mat-expansion-panel-header class="h-25 d-flex align-items-center">

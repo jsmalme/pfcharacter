@@ -35,8 +35,8 @@ export class CharacterDataService {
   private tempChar: Character;
   private rollback: Character;
 
-  get combatInfo() {
-    return this.character.value.combatInfo;
+  get combat_info() {
+    return this.character.value.combat_info;
   }
   get abilities() {
     return this.character.value.abilities;
@@ -46,8 +46,8 @@ export class CharacterDataService {
     return this.character.value.general_info;
   }
 
-  get skillList() {
-    return this.character.value.skillList;
+  get skills() {
+    return this.character.value.skills;
   }
 
   tempRollback() {
@@ -72,7 +72,7 @@ export class CharacterDataService {
     this.tempRollback();
     this.tempChar.abilities.str.update(info);
     this.tempChar.equipment.weight_caps.updateCarryCapacities(info, this.tempChar.general_info.size ?? SizeEnum.medium);
-    this.updateSkillAbilities(this.tempChar.abilities, this.skillList, 'Str', ['Climb', 'Swim']);
+    this.updateSkillAbilities(this.tempChar.abilities, this.skills, 'Str', ['Climb', 'Swim']);
     this.character.next(this.tempChar);
 
     // this.http.updateCharacter(this.tempChar).subscribe({
@@ -86,9 +86,9 @@ export class CharacterDataService {
   updateDex(info: Ability) {
     this.tempRollback();
     this.tempChar.abilities.dex.update(info);
-    this.tempChar.savingThrows.ref.updateMod(this.tempChar.abilities.dex.useMod);
+    this.tempChar.saving_throws.ref.updateMod(this.tempChar.abilities.dex.useMod);
     const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
-    this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skillList, 'Dex', dexSkills);
+    this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skills, 'Dex', dexSkills);
 
     this.character.next(this.tempChar);
 
@@ -103,7 +103,7 @@ export class CharacterDataService {
   updateCon(info: Ability) {
     this.tempRollback();
     this.tempChar.abilities.con.update(info);
-    this.tempChar.savingThrows.for.updateMod(this.tempChar.abilities.con.useMod);
+    this.tempChar.saving_throws.fort.updateMod(this.tempChar.abilities.con.useMod);
 
     this.character.next(this.tempChar);
 
@@ -121,7 +121,7 @@ export class CharacterDataService {
     const intSkills = ['Appraise', 'Craft1', 'Craft2', 'Craft3', 'Knowledge (Arcana)', 'Knowledge (Dungeoneering)', 'Knowledge (Engineering)',
       'Knowledge (Geography)', 'Knowledge (History)', 'Knowledge (Local)', 'Knowledge (Nature)', 'Knowledge (Nobility)', 'Knowledge (Planes)',
       'Knowledge (Religion)', 'Linguistics', 'Spellcraft'];
-    this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skillList, 'Int', intSkills);
+    this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skills, 'Int', intSkills);
 
     this.character.next(this.tempChar);
 
@@ -136,10 +136,10 @@ export class CharacterDataService {
   updateWis(info: Ability) {
     this.tempRollback();
     this.tempChar.abilities.wis.update(info);
-    this.tempChar.savingThrows.will.updateMod(this.tempChar.abilities.wis.useMod);
+    this.tempChar.saving_throws.will.updateMod(this.tempChar.abilities.wis.useMod);
 
     const wisSkills = ['Heal', 'Perception', 'Profession1', 'Profession2', 'Sense Motive', 'Survival'];
-    this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skillList, 'Wis', wisSkills);
+    this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skills, 'Wis', wisSkills);
 
     this.character.next(this.tempChar);
 
@@ -155,7 +155,7 @@ export class CharacterDataService {
     this.tempRollback();
     this.tempChar.abilities.cha.update(info);
     const chaSkills = ['Bluff', 'Diplomacy', 'Disguise', 'Handle Animal', 'Intimidate', 'Perform1', 'Perform2', 'Use Magic Device'];
-    this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skillList, 'Cha', chaSkills);
+    this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skills, 'Cha', chaSkills);
 
     this.character.next(this.tempChar);
 
@@ -170,8 +170,8 @@ export class CharacterDataService {
   //combat page updates-----------------------------------
   updateCombatInfo(info: CombatInfo, acDex: number, acArmor: number, acShield: number) {
     this.tempRollback();
-    this.tempChar.combatInfo = Object.assign(this.tempChar.combatInfo, info);
-    this.tempChar.combatInfo.getCombatInfoTotals(this.tempChar.abilities, acDex, acArmor, acShield);
+    this.tempChar.combat_info = Object.assign(this.tempChar.combat_info, info);
+    this.tempChar.combat_info.getCombatInfoTotals(this.tempChar.abilities, acDex, acArmor, acShield);
     this.character.next(this.tempChar);
 
     // this.http.updateCharacter(this.tempChar).subscribe({
@@ -188,13 +188,13 @@ export class CharacterDataService {
     let newWeight = 0;
     weapons.forEach(weapon => newWeight += weapon.weight ?? 0);
 
-    if (this.tempChar.combatInfo.weaponsWeight !== newWeight) {
+    if (this.tempChar.combat_info.weaponsWeight !== newWeight) {
       this.tempChar.equipment.ac_items_weight = newWeight;
       const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, weapons, this.tempChar.equipment.ac_items);
       this.checkBurdenUpdateSkills(totalWeight, this.tempChar.equipment.total_ac_penalty);
     }
 
-    this.tempChar.combatInfo.weapons = weapons;
+    this.tempChar.combat_info.weapons = weapons;
     this.character.next(this.tempChar);
 
     // this.http.updateCharacter(this.tempChar).subscribe({
@@ -212,9 +212,10 @@ export class CharacterDataService {
     this.tempChar.general_info = generalInfo;
     let patchData = {};
     if (generalInfo.size !== undefined && generalInfo.size !== this.rollback.general_info.size) {
-      this.tempChar.combatInfo.updateSize(generalInfo.size);
+      this.tempChar.combat_info.updateSize(generalInfo.size);
+      this.tempChar.equipment.money.cp = 10;
       this.tempChar.equipment.weight_caps.updateCarryCapacities(this.tempChar.abilities.str, generalInfo.size);
-      patchData = { combat_info: this.tempChar.combatInfo, equipment: this.tempChar.equipment };
+      patchData = { combat_info: this.tempChar.combat_info, equipment: this.tempChar.equipment };
     }
 
     patchData = { ...patchData, general_info: this.tempChar.general_info };
@@ -232,13 +233,13 @@ export class CharacterDataService {
     this.tempRollback();
     switch (type) {
       case 'FOR':
-        this.tempChar.savingThrows.for.update(info);
+        this.tempChar.saving_throws.fort.update(info);
         break;
       case 'REF':
-        this.tempChar.savingThrows.ref.update(info);
+        this.tempChar.saving_throws.ref.update(info);
         break;
       case 'WILL':
-        this.tempChar.savingThrows.will.update(info);
+        this.tempChar.saving_throws.will.update(info);
         break;
     }
     this.character.next(this.tempChar);
@@ -253,14 +254,14 @@ export class CharacterDataService {
   //-----------------------------------------------------------
 
   //Skill updates --------------------------------------------------
-  updateSkillAbilities(abilities: Abilities, skillList: Skill[], ability: string, skillIds: string[]) {
-    const updatedSkillList = this.updateSkillAbilityScore(ability, skillIds, skillList, abilities);
-    this.tempChar.skillList = this.totService.getSkillsTotals(updatedSkillList, skillIds);
+  updateSkillAbilities(abilities: Abilities, skills: Skill[], ability: string, skillIds: string[]) {
+    const updatedSkillList = this.updateSkillAbilityScore(ability, skillIds, skills, abilities);
+    this.tempChar.skills = this.totService.getSkillsTotals(updatedSkillList, skillIds);
   }
 
   updateSkills(skills: Skill[]) {
     this.tempRollback();
-    this.tempChar.skillList = skills;
+    this.tempChar.skills = skills;
 
     this.character.next(this.tempChar);
 
@@ -294,7 +295,7 @@ export class CharacterDataService {
 
     if (this.tempChar.equipment.gear_weight !== newWeight) {
       this.tempChar.equipment.gear_weight = newWeight;
-      const totalWeight = this.totService.getTotalWeight(info, this.tempChar.combatInfo.weapons, this.tempChar.equipment.ac_items);
+      const totalWeight = this.totService.getTotalWeight(info, this.tempChar.combat_info.weapons, this.tempChar.equipment.ac_items);
       this.checkBurdenUpdateSkills(totalWeight, this.tempChar.equipment.total_ac_penalty);
     }
 
@@ -327,7 +328,7 @@ export class CharacterDataService {
     //if there isn't a difference in weight don't check for burden
     if (newWeight !== this.tempChar.equipment.ac_items_weight) {
       this.tempChar.equipment.ac_items_weight = newWeight;
-      const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, this.tempChar.combatInfo.weapons, info);
+      const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, this.tempChar.combat_info.weapons, info);
       this.checkBurdenUpdateSkills(totalWeight, newAcPenalty);
     }
 
@@ -352,9 +353,9 @@ export class CharacterDataService {
   updateSpellCount(spell: Spell, spellCount: number, totalCount: number) {
     this.tempRollback();
 
-    const spellIndex = this.tempChar.spells.spellList.findIndex(s => s.name === spell.name);
-    this.tempChar.spells.spellList[spellIndex].usedCount = spellCount;
-    this.tempChar.spells.stats[spell.level].used = totalCount;
+    const spellIndex = this.tempChar.spells.spell_list.findIndex(s => s.name === spell.name);
+    this.tempChar.spells.spell_list[spellIndex].usedCount = spellCount;
+    this.tempChar.spells.spell_stats[spell.level].used = totalCount;
 
     this.character.next(this.tempChar);
     // this.http.updateCharacter(this.tempChar).subscribe({
@@ -368,15 +369,15 @@ export class CharacterDataService {
   resetSpellCounts() {
     this.tempRollback();
 
-    this.tempChar.spells.spellList.forEach(spell => spell.usedCount = 0);
-    this.tempChar.spells.stats.forEach(stat => stat.used = 0);
+    this.tempChar.spells.spell_list.forEach(spell => spell.usedCount = 0);
+    this.tempChar.spells.spell_stats.forEach(stat => stat.used = 0);
 
     this.character.next(this.tempChar);
   }
 
   addSpell(spell: Spell) {
     this.tempRollback();
-    this.tempChar.spells.spellList.push(spell);
+    this.tempChar.spells.spell_list.push(spell);
 
     this.character.next(this.tempChar);
   }
@@ -384,7 +385,7 @@ export class CharacterDataService {
   updateSpell(spell: Spell) {
     this.tempRollback();
 
-    this.tempChar.spells.spellList = this.tempChar.spells.spellList.map(s => {
+    this.tempChar.spells.spell_list = this.tempChar.spells.spell_list.map(s => {
       if (s.name === spell.name) {
         return spell;
       }
@@ -404,7 +405,7 @@ export class CharacterDataService {
   deleteSpell(spell: Spell | null) {
     this.tempRollback();
 
-    this.tempChar.spells.spellList = this.tempChar.spells.spellList.filter(s => s.name !== spell?.name);
+    this.tempChar.spells.spell_list = this.tempChar.spells.spell_list.filter(s => s.name !== spell?.name);
 
     // this.http.updateCharacter(this.tempChar).subscribe({
     //   error: (e) => {
@@ -422,7 +423,7 @@ export class CharacterDataService {
     }
     this.tempRollback();
 
-    this.tempChar.spells.stats = stats;
+    this.tempChar.spells.spell_stats = stats;
 
     // this.http.updateCharacter(this.tempChar).subscribe({
     //   error: (e) => {
@@ -501,7 +502,7 @@ export class CharacterDataService {
 
   addSpecialAbility(specialAbility: SpecialAbility) {
     this.tempRollback();
-    this.tempChar.specialAbilities.push(specialAbility);
+    this.tempChar.special_abilities.push(specialAbility);
 
     // this.http.updateCharacter(this.tempChar).subscribe({
     //   error: (e) => {
@@ -515,7 +516,7 @@ export class CharacterDataService {
 
   deleteSpecialAbility(specialAbility: SpecialAbility | null) {
     this.tempRollback();
-    this.tempChar.specialAbilities = this.tempChar.specialAbilities.filter(sa => sa.name !== specialAbility?.name);
+    this.tempChar.special_abilities = this.tempChar.special_abilities.filter(sa => sa.name !== specialAbility?.name);
 
     // this.http.updateCharacter(this.tempChar).subscribe({
     //   error: (e) => {
@@ -530,7 +531,7 @@ export class CharacterDataService {
   updateSpecialAbility(specialAbility: SpecialAbility) {
     this.tempRollback();
 
-    this.tempChar.specialAbilities = this.tempChar.specialAbilities.map(sa => {
+    this.tempChar.special_abilities = this.tempChar.special_abilities.map(sa => {
       if (sa.name === specialAbility.name) {
         return specialAbility;
       }
@@ -547,9 +548,9 @@ export class CharacterDataService {
     this.character.next(this.tempChar);
   }
 
-  updateSpecailAbilityList(specialAbilities: SpecialAbility[]) {
+  updateSpecailAbilityList(special_abilities: SpecialAbility[]) {
     this.tempRollback();
-    this.tempChar.specialAbilities = specialAbilities;
+    this.tempChar.special_abilities = special_abilities;
 
 
     // this.http.updateCharacter(this.tempChar).subscribe({
@@ -566,27 +567,27 @@ export class CharacterDataService {
 
 
 
-  updateSkillAbilityScore(ability: string, skillIds: string[], skillList: Skill[], abilities: Abilities): Skill[] {
-    return skillList.map(skill => {
+  updateSkillAbilityScore(ability: string, skillIds: string[], skills: Skill[], abilities: Abilities): Skill[] {
+    return skills.map(skill => {
       if (skillIds.some(s => s === skill.id)) {
         switch (ability) {
           case 'Dex':
-            skill.abilityMod = abilities.dex.useMod || 0;
+            skill.ability_mod = abilities.dex.useMod || 0;
             break;
           case 'Str':
-            skill.abilityMod = abilities.str.useMod || 0;
+            skill.ability_mod = abilities.str.useMod || 0;
             break;
           case 'Wis':
-            skill.abilityMod = abilities.wis.useMod || 0;
+            skill.ability_mod = abilities.wis.useMod || 0;
             break;
           case 'Int':
-            skill.abilityMod = abilities.int.useMod || 0;
+            skill.ability_mod = abilities.int.useMod || 0;
             break;
           case 'Cha':
-            skill.abilityMod = abilities.cha.useMod || 0;
+            skill.ability_mod = abilities.cha.useMod || 0;
             break;
           case 'Con':
-            skill.abilityMod = abilities.con.useMod || 0;
+            skill.ability_mod = abilities.con.useMod || 0;
             break;
         }
       }
@@ -610,14 +611,14 @@ export class CharacterDataService {
         break;
     }
 
-    const updatedSkills = this.tempChar.skillList = this.tempChar.skillList.map(skill => {
+    const updatedSkills = this.tempChar.skills = this.tempChar.skills.map(skill => {
       if (dex_strSkills.some(s => s === skill.id)) {
         skill.check_penalty = penalty <= negativeAccheck_penalty ? penalty : negativeAccheck_penalty;
       }
       return skill;
     });
 
-    this.tempChar.skillList = this.totService.getSkillsTotals(updatedSkills, dex_strSkills);
+    this.tempChar.skills = this.totService.getSkillsTotals(updatedSkills, dex_strSkills);
   }
 
   checkBurdenUpdateSkills(totalWeight: number, accheck_penalty: number) {

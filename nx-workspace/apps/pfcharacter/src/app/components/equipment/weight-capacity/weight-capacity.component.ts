@@ -32,7 +32,7 @@ export class WeightCapacityComponent implements OnInit, AfterViewInit, OnDestroy
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(takeUntil(this.destroy$)).subscribe((char: Character) => {
       this.carryingCapacityForm = this.initCarryingCapacityForm();
-      this.totalWeight = this.totService.getTotalWeight(char.equipment.gear, char.combatInfo.weapons, char.equipment.ac_items);
+      this.totalWeight = this.totService.getTotalWeight(char.equipment.gear, char.combat_info.weapons, char.equipment.ac_items);
       this.setCarryingCapacityForm(char.equipment.weight_caps);
       this.current_burden = this.totService.calculateEncumbrance(char.equipment.weight_caps, this.totalWeight);
     });

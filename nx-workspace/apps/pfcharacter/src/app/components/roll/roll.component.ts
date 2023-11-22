@@ -17,7 +17,7 @@ import { Abilities } from 'libs/character-classes/abilities';
 export class RollComponent implements OnInit {
   character$: Observable<Character>
   abilities: AbilitySelection[] = [];
-  abilityMod = new AbilitySelection('None', 0);
+  ability_mod = new AbilitySelection('None', 0);
   customMod = undefined;
   quantity = 1;
 
@@ -54,7 +54,7 @@ export class RollComponent implements OnInit {
     });
 
     this.dialog.open(RollResultComponent, {
-      data: { rolls: rollResults, modifier: this.abilityMod, customMod: this.customMod ?? 0, diceType: diceType}
+      data: { rolls: rollResults, modifier: this.ability_mod, customMod: this.customMod ?? 0, diceType: diceType }
     });
   }
 

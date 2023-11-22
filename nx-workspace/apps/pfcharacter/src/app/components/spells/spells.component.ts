@@ -1,16 +1,15 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CharacterDataService } from '../../services/character-data.service';
 import { AbstractControl, FormArray, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Observable, Subject, debounceTime, first, takeUntil } from 'rxjs';
-import { Character } from 'libs/character-classes/character';
-import { Spell, SpellStat } from 'libs/character-classes/spells';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatDialog } from '@angular/material/dialog';
 import { DrawerExpansionService } from '../../services/drawer-expansion.service';
 import { SpellDetailsComponent } from './spell-details/spell-details.component';
 import * as _ from "lodash";
-import { group } from 'console';
-import { chown } from 'fs';
+import { Character } from 'libs/character-classes/character';
+import { Spell, SpellStat } from 'libs/character-classes/spells';
 
 @Component({
   selector: 'nx-workspace-spells',
@@ -23,8 +22,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   sortedSpells: Record<number, Spell[]> = {};
   drawerStatus: Record<number, boolean> = {};
-  spellStatsForm = this.fb.group({
-    spellStats: this.fb.array<SpellStat>([]),
+  spell_statsForm = this.fb.group({
+    spell_stats: this.fb.array<SpellStat>([]),
   });
   isMobileScreen = false;
 
@@ -39,8 +38,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
     this.isMobileScreen = window.innerWidth < 577;
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
-      this.sortSpells(char.spells.spellList);
-      this.setSpellStatsForm(char.spells.stats, char.spells.spellList);
+      this.sortSpells(char.spells.spell_list);
+      this.setSpellStatsForm(char.spells.spell_stats, char.spells.spell_list);
     });
     this.drawerStatus = this.spellDrawer.spellDrawerStatus;
   }
@@ -56,23 +55,23 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
     stats.map((stat, index) => {
       const used = spells.filter(s => s.level === index).reduce((acc, curr) => acc + curr.usedCount, 0);
-      this.spellStats.push(this.spellStatToFormControl(stat, used, this.sortedSpells[index]));
+      this.spell_stats.push(this.spellStatToFormControl(stat, used, this.sortedSpells[index]));
     });
 
-    this.spellStatsForm.valueChanges.pipe(takeUntil(this.destroy$), debounceTime(1000)).subscribe((stats) => {
-      if (!this.spellStatsForm.valid) {
+    this.spell_statsForm.valueChanges.pipe(takeUntil(this.destroy$), debounceTime(1000)).subscribe((stats) => {
+      if (!this.spell_statsForm.valid) {
         return;
       }
-      stats.spellStats?.forEach((stat: SpellStat | null, index: number) => {
+      stats.spell_stats?.forEach((stat: SpellStat | null, index: number) => {
         this.updateSpellStat(stat, index);
       });
 
-      this.store.updateSpellStats(stats?.spellStats);
+      this.store.updateSpellStats(stats?.spell_stats);
     });
   }
 
-  get spellStats(): FormArray {
-    return this.spellStatsForm.controls.spellStats as FormArray;
+  get spell_stats(): FormArray {
+    return this.spell_statsForm.controls.spell_stats as FormArray;
   }
 
   spellStatToFormControl(stat: SpellStat, used: number, spells: Spell[]): FormGroup {
@@ -136,15 +135,15 @@ export class SpellsComponent implements OnInit, OnDestroy {
       spellCount = usedSpell.usedCount;
     }
 
-    const currentCount = this.spellStats.controls.at(spell.level)?.get('used')?.value ?? 0;
+    const currentCount = this.spell_stats.controls.at(spell.level)?.get('used')?.value ?? 0;
     const totalCount = currentCount + 1;
-    this.spellStats.controls.at(spell.level)?.get('used')?.setValue(totalCount, { emitEvent: false });
+    this.spell_stats.controls.at(spell.level)?.get('used')?.setValue(totalCount, { emitEvent: false });
 
     this.store.updateSpellCount(spell, spellCount, totalCount);
   }
 
   resetSpellCounts() {
-    this.spellStats.controls.forEach(control => {
+    this.spell_stats.controls.forEach(control => {
       control.get('used')?.setValue(0, { emitEvent: false });
     });
 
@@ -192,8 +191,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }
         if (isUpdate) {
           this.character$.pipe(first()).subscribe((char: Character) => {
-            this.sortSpells(char.spells.spellList);
-            this.patchSpellStatForm(char.spells.stats[result.level], this.sortedSpells[result.level], result.level);
+            this.sortSpells(char.spells.spell_list);
+            this.patchSpellStatForm(char.spells.spell_stats[result.level], this.sortedSpells[result.level], result.level);
           });
         }
       }
@@ -201,7 +200,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
   }
 
   patchSpellStatForm(stat: SpellStat, spells: Spell[], index: number = stat.spellsPerDay): void {
-    this.spellStats.controls[index].patchValue({
+    this.spell_stats.controls[index].patchValue({
       ...stat,
       used: spells?.reduce((acc, curr) => acc + curr.usedCount, 0) ?? 0,
       spellsKnown: spells?.length ?? 0,
@@ -211,7 +210,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
   }
 
   updateSpellStat(stat: SpellStat | null, index: number) {
-    this.spellStats.controls[index].patchValue({
+    this.spell_stats.controls[index].patchValue({
       ...stat,
       totalSpellMarkers: (stat?.bonusSpells ?? 0) + (stat?.spellsPerDay ?? 0)
     }, { emitEvent: false });

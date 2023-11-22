@@ -14,23 +14,23 @@ export class CalcTotService {
   constructor() { }
   //SKILLS------------------------------------------------------------------------
   getSkillTotal(skill: Skill): number {
-    return strUnToNum(skill.abilityMod) +
+    return strUnToNum(skill.ability_mod) +
       strUnToNum(skill.ranks) +
       strUnToNum(skill.racial) +
       strUnToNum(skill.misc) +
       strUnToNum(skill.check_penalty) +
-      (skill.classSkill ? 3 : 0);
+      (skill.class_skill ? 3 : 0);
   }
 
-  getSkillsTotals(skillList: Skill[], skillIds: string[] = []): Skill[] {
+  getSkillsTotals(skills: Skill[], skillIds: string[] = []): Skill[] {
     if (skillIds.length === 0) {
-      return skillList.map(skill => {
+      return skills.map(skill => {
         skill.total = this.getSkillTotal(skill);
         return skill
       });
     }
     else {
-      return skillList.map(skill => {
+      return skills.map(skill => {
         if (skillIds.some(s => s === skill.id)) {
           skill.total = this.getSkillTotal(skill);
         }

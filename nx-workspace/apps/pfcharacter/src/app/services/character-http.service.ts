@@ -3,7 +3,6 @@ import { Player } from './../../../../../libs/character-classes/player';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character, ICharacter } from 'libs/character-classes/character';
-import { GeneralInfo } from 'libs/character-classes/general-info';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 const baseUrl = 'http://127.0.0.1:8000';
@@ -45,7 +44,7 @@ export class CharacterService {
 
   addPlayerCharacter(playerId: number): Observable<Character> {
     const character = new Character();
-    character.playerId = playerId; //set current playerId
+    character.player_id = playerId; //set current playerId
 
     return this.http.post<ICharacter>(`${baseUrl}/characters/`, character).pipe(
       map((data) => {
@@ -54,7 +53,6 @@ export class CharacterService {
       catchError(err => this.handleError(err))
     );
   }
-
 
   updateCharacter(patchData: any, characterId: number): Observable<any> {
     const url = `${baseUrl}/characters/${characterId}/`;
