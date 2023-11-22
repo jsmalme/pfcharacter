@@ -53,7 +53,7 @@ export class Character {
       this.savingThrows = new SavingThrows();
       this.equipment = new Equipment();
       this.spells = new Spells();
-      this.equipment.weightCaps = new WeightCapacity();
+      this.equipment.weight_caps = new WeightCapacity();
       this.feats = [];
       this.specialAbilities = [];
       this.skillList = [

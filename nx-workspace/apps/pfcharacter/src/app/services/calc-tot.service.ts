@@ -18,7 +18,7 @@ export class CalcTotService {
       strUnToNum(skill.ranks) +
       strUnToNum(skill.racial) +
       strUnToNum(skill.misc) +
-      strUnToNum(skill.checkPenalty) +
+      strUnToNum(skill.check_penalty) +
       (skill.classSkill ? 3 : 0);
   }
 
@@ -40,24 +40,24 @@ export class CalcTotService {
   }
 
   //EQUIPMENT------------------------------------------------------------------------
-  getTotalWeight(gear: Gear[], weapons: Weapon[], acItems: AcItem[]): number {
+  getTotalWeight(gear: Gear[], weapons: Weapon[], ac_items: AcItem[]): number {
     let totalWeight = 0;
     gear.forEach(g => totalWeight += (g.weight ?? 0) * (g.quantity ?? 0));
     weapons.forEach(w => totalWeight += w.weight ?? 0);
-    acItems.forEach(a => totalWeight += a.weight ?? 0);
+    ac_items.forEach(a => totalWeight += a.weight ?? 0);
     return totalWeight;
   }
 
 
   calculateEncumbrance(info: IWeightCapacity, totalWeight: number) {
     if (totalWeight && info) {
-      if (totalWeight <= (info.lightLoad ?? 0)) {
+      if (totalWeight <= (info.light_load ?? 0)) {
         return burdenEnum.light;
       }
-      else if (totalWeight >= (info.medLoad?.min || 0) && totalWeight <= (info.medLoad?.max || 0)) {
+      else if (totalWeight >= (info.med_load?.min || 0) && totalWeight <= (info.med_load?.max || 0)) {
         return burdenEnum.medium;
       }
-      else if (totalWeight >= (info.heavyLoad?.min || 0)) {
+      else if (totalWeight >= (info.heavy_load?.min || 0)) {
         return burdenEnum.heavy;
       }
     }

@@ -52,8 +52,8 @@ export class CombatComponent implements OnInit {
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
       this.weaponForm = this.initWeaponForm();
-      this.calculateAcDexMod(char.abilities.dex.useMod, char.equipment.acItems);
-      this.calculateArmorAndShield(char.equipment.acItems);
+      this.calculateAcDexMod(char.abilities.dex.useMod, char.equipment.ac_items);
+      this.calculateArmorAndShield(char.equipment.ac_items);
       char.combatInfo.getCombatInfoTotals(char.abilities, this.acDexScore, this.acArmor, this.acShield);
       this.setFormGroup(char.combatInfo);
       this.setWeaponArray(char.combatInfo.weapons);
@@ -113,24 +113,24 @@ export class CombatComponent implements OnInit {
     this.combatInfoForm.patchValue(info, { emitEvent: false });
   }
 
-  calculateAcDexMod(dex: number | undefined, acItems: AcItem[]) {
-    if (dex === undefined || acItems === undefined) {
+  calculateAcDexMod(dex: number | undefined, ac_items: AcItem[]) {
+    if (dex === undefined || ac_items === undefined) {
       return;
     }
-    let maxDex = dex ?? 0;
-    acItems.forEach(item => {
-      if (item.equipped && item.maxDex && item.maxDex < maxDex) {
-        maxDex = item.maxDex;
+    let max_dex = dex ?? 0;
+    ac_items.forEach(item => {
+      if (item.equipped && item.max_dex && item.max_dex < max_dex) {
+        max_dex = item.max_dex;
       }
     });
-    this.acDexScore = maxDex;
+    this.acDexScore = max_dex;
   }
 
-  calculateArmorAndShield(acItems: AcItem[]) {
-    if (acItems === undefined) {
+  calculateArmorAndShield(ac_items: AcItem[]) {
+    if (ac_items === undefined) {
       return;
     }
-    acItems.forEach(item => {
+    ac_items.forEach(item => {
       if (item.equipped) {
         //note: bonuses don't stack take the highest ac bonus from your equipment for shield and ac and apply it
         if (item.type == acTypeEnum.shield) {

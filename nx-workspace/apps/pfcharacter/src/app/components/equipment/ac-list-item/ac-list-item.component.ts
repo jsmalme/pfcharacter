@@ -26,11 +26,11 @@ export class AcListItemComponent {
       name: ['', Validators.maxLength(20)],
       bonus: [undefined as number | undefined, Validators.max(100)],
       type: [undefined as acTypeEnum | undefined],
-      checkPen: [undefined as number | undefined, Validators.max(100)],
-      spellFailure: ['', Validators.maxLength(4)],
+      check_pen: [undefined as number | undefined, Validators.max(100)],
+      spell_failure: ['', Validators.maxLength(4)],
       properties: ['', Validators.maxLength(50)],
       weight: [undefined as number | undefined, Validators.max(5000)],
-      maxDex: [undefined as number | undefined, Validators.max(100)],
+      max_dex: [undefined as number | undefined, Validators.max(100)],
       equipped: [false]
     });
   }

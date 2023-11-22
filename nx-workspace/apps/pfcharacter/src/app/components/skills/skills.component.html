@@ -39,9 +39,9 @@
                 <div class="col-5">
                   {{skill.controls.abilityName.value}}
                 </div>
-                <div class="col-6 d-flex justify-content-end" *ngIf="skill.controls.checkPenalty.value < 0">
+                <div class="col-6 d-flex justify-content-end" *ngIf="skill.controls.check_penalty.value < 0">
                   <mat-icon color="accent"
-                    matTooltip="Your equipped items/encumbrance are currently reducing this skill by {{-skill.controls.checkPenalty.value}}."
+                    matTooltip="Your equipped items/encumbrance are currently reducing this skill by {{-skill.controls.check_penalty.value}}."
                     matTooltipPosition="above">
                     shield
                   </mat-icon>

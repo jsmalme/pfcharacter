@@ -1,39 +1,38 @@
-import { CarryCapacityTable } from "apps/pfcharacter/src/app/models/carrying-capacity";
 import { Ability } from "./abilities";
 import { SizeEnum } from "./general-info";
 
 export interface IEquipment {
-    acItems: AcItem[];
+    ac_items: AcItem[];
     gear: Gear[];
     money: Money;
-    weightCaps: IWeightCapacity;
-    totalAcPenalty: number;
-    currentBurden: burdenEnum;
-    acItemsWeight: number;
-    gearWeight: number;
+    weight_caps: IWeightCapacity;
+    total_ac_penalty: number;
+    current_burden: burdenEnum;
+    ac_items_weight: number;
+    gear_weight: number;
 }
 
 export interface IWeightCapacity {
-    lightLoad: number | undefined;
-    medLoad: { min: number, max: number } | undefined;
-    heavyLoad: { min: number, max: number } | undefined;
-    liftOverHead: number | undefined;
-    liftOffGround: number | undefined;
-    dragOrPush: number | undefined;
+    light_load: number | undefined;
+    med_load: { min: number, max: number } | undefined;
+    heavy_load: { min: number, max: number } | undefined;
+    lift_over_head: number | undefined;
+    lift_off_ground: number | undefined;
+    drag_or_push: number | undefined;
 }
 
 export class CapacityRow {
-    strScore: number;
-    weightCaps: IWeightCapacity = { lightLoad: 0, medLoad: { min: 0, max: 0 }, heavyLoad: { min: 0, max: 0 }, dragOrPush: 0, liftOffGround: 0, liftOverHead: 0 };
+    str_score: number;
+    weight_caps: IWeightCapacity = { light_load: 0, med_load: { min: 0, max: 0 }, heavy_load: { min: 0, max: 0 }, drag_or_push: 0, lift_off_ground: 0, lift_over_head: 0 };
 
     constructor(strScore: number, light: number, medium: { min: number, max: number }, heavy: { min: number, max: number }, sizeMod: number) {
-        this.strScore = strScore;
-        this.weightCaps.lightLoad = light * sizeMod;
-        this.weightCaps.medLoad = { min: medium.min * sizeMod, max: medium.max * sizeMod };
-        this.weightCaps.heavyLoad = { min: heavy.min * sizeMod, max: heavy.max * sizeMod };
-        this.weightCaps.dragOrPush = heavy.max * sizeMod * 5;
-        this.weightCaps.liftOffGround = heavy.max * sizeMod * 2;
-        this.weightCaps.liftOverHead = heavy.max * sizeMod;
+        this.str_score = strScore;
+        this.weight_caps.light_load = light * sizeMod;
+        this.weight_caps.med_load = { min: medium.min * sizeMod, max: medium.max * sizeMod };
+        this.weight_caps.heavy_load = { min: heavy.min * sizeMod, max: heavy.max * sizeMod };
+        this.weight_caps.drag_or_push = heavy.max * sizeMod * 5;
+        this.weight_caps.lift_off_ground = heavy.max * sizeMod * 2;
+        this.weight_caps.lift_over_head = heavy.max * sizeMod;
     }
 }
 
@@ -41,12 +40,12 @@ export class AcItem {
     name: string | undefined = undefined;
     bonus: number | undefined = undefined;
     type: acTypeEnum | undefined = undefined;
-    checkPen: number | undefined = undefined;
-    spellFailure: string | undefined = undefined;
+    check_pen: number | undefined = undefined;
+    spell_failure: string | undefined = undefined;
     properties: string | undefined = undefined;
     equipped: boolean = false;
     weight: number | undefined = undefined;
-    maxDex: number | undefined = undefined;
+    max_dex: number | undefined = undefined;
 }
 
 export class Gear {
@@ -63,12 +62,12 @@ export class Money {
 }
 
 export class WeightCapacity implements IWeightCapacity {
-    lightLoad: number | undefined = undefined;
-    medLoad: { min: number, max: number } | undefined = undefined;
-    heavyLoad: { min: number, max: number } | undefined = undefined;
-    liftOverHead: number | undefined = undefined;
-    liftOffGround: number | undefined = undefined;
-    dragOrPush: number | undefined = undefined;
+    light_load: number | undefined = undefined;
+    med_load: { min: number, max: number } | undefined = undefined;
+    heavy_load: { min: number, max: number } | undefined = undefined;
+    lift_over_head: number | undefined = undefined;
+    lift_off_ground: number | undefined = undefined;
+    drag_or_push: number | undefined = undefined;
 
     constructor(info?: IWeightCapacity) {
         if (info) {
@@ -78,13 +77,13 @@ export class WeightCapacity implements IWeightCapacity {
 
     public updateCarryCapacities(str: Ability, size: SizeEnum): void {
         let capacityTable = this.buildCarryCapacityTable(this.capacitySizeEnumMap[size]);
-        let caps = capacityTable.find(x => x.strScore == str.ability)?.weightCaps;
-        this.lightLoad = caps?.lightLoad;
-        this.medLoad = caps?.medLoad;
-        this.heavyLoad = caps?.heavyLoad;
-        this.liftOverHead = caps?.liftOverHead;
-        this.liftOffGround = caps?.liftOffGround;
-        this.dragOrPush = caps?.dragOrPush;
+        let caps = capacityTable.find(x => x.str_score == str.ability)?.weight_caps;
+        this.light_load = caps?.light_load;
+        this.med_load = caps?.med_load;
+        this.heavy_load = caps?.heavy_load;
+        this.lift_over_head = caps?.lift_over_head;
+        this.lift_off_ground = caps?.lift_off_ground;
+        this.drag_or_push = caps?.drag_or_push;
     }
 
     private capacitySizeEnumMap: Record<SizeEnum, number> = {
@@ -135,19 +134,19 @@ export class WeightCapacity implements IWeightCapacity {
 }
 
 export class Equipment implements IEquipment {
-    acItems: AcItem[];
+    ac_items: AcItem[];
     gear: Gear[];
     money: Money;
-    weightCaps: WeightCapacity;
-    currentBurden: burdenEnum;
-    totalAcPenalty: number = 0;
-    acItemsWeight: number;
-    gearWeight: number;
+    weight_caps: WeightCapacity;
+    current_burden: burdenEnum;
+    total_ac_penalty: number = 0;
+    ac_items_weight: number;
+    gear_weight: number;
 
     constructor(info?: IEquipment) {
         if (info) {
             Object.assign(this, info);
-            this.weightCaps = new WeightCapacity(info.weightCaps);
+            this.weight_caps = new WeightCapacity(info.weight_caps);
         }
     }
 }

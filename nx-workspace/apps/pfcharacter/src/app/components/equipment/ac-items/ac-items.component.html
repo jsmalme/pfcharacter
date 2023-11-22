@@ -9,7 +9,7 @@
     </mat-card>
     <br>
     <mat-grid-list [cols]="1" [rowHeight]="acItemHeight" gutterSize="10px" class="justify-content-center">
-        <ng-container *ngFor="let item of acItemsFormGroups;  let i = index">
+        <ng-container *ngFor="let item of ac_itemsFormGroups;  let i = index">
             <mat-grid-tile>
                 <mat-card class="h-100 w-100" [ngClass]="{'equipped': item.controls['equipped'].value}">
                     <app-ac-list-item [acItemForm]="$any(item)" [index]="i"

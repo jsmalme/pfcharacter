@@ -1,9 +1,9 @@
 export const CarryCapacityTable: ICarryCapacity[] = [
 ]
 
-interface ICarryCapacity{
+interface ICarryCapacity {
     strengthScore: number | undefined;
-    lightLoad: number | undefined;
-    mediumLoad: {min: number, max: number};
-    heavyLoad: {min: number, max: number};
+    light_load: number | undefined;
+    mediumLoad: { min: number, max: number };
+    heavy_load: { min: number, max: number };
 }

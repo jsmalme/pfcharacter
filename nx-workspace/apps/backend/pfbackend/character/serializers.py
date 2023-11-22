@@ -101,6 +101,20 @@ class CombatInfoSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Weapon validation failed.")
 
         return combat_info
+    
+    def update(self, instance, validated_data):
+        weapons_data = validated_data.pop('weapons', [])
+        combat_info = super().update(instance, validated_data)
+
+        for weapon_data in weapons_data:
+            weapon_serializer = WeaponSerializer(data=weapon_data)
+            if weapon_serializer.is_valid():
+                weapon_instance = weapon_serializer.save()
+                combat_info.weapons.add(weapon_instance)
+            else:
+                raise serializers.ValidationError("Weapon validation failed.")
+
+        return combat_info
 
 class MoneySerializer(serializers.ModelSerializer):
     class Meta:

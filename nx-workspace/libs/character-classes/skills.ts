@@ -13,7 +13,7 @@ export class Skill {
     racial: number = 0;
     trait: number = 0;
     misc: number = 0;
-    checkPenalty: number = 0;
+    check_penalty: number = 0;
 
     constructor(id: string, ability: string, trained: boolean = false, skillName: boolean = false) {
         this.id = id;
