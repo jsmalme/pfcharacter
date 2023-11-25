@@ -1,5 +1,4 @@
 export class Skill {
-    character_id: number;
     id: string;
     name: string;
     class_skill: boolean = false;

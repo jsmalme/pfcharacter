@@ -15,7 +15,7 @@ import { DeleteItemDialogComponent } from '../delete-item-dialog/delete-wepon-di
 export class WeaponComponent {
 
   static fb: FormBuilder;
-  @Input() index: number | undefined;
+  @Input() index: number | null;
   @Output() deleteWeaponEvent = new EventEmitter();
   @Input() public weaponForm!: FormGroup;
 

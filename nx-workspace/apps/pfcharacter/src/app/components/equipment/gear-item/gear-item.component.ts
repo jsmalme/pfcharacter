@@ -12,7 +12,7 @@ import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon
 export class GearItemComponent {
 
   static fb: FormBuilder;
-  @Input() index: number | undefined;
+  @Input() index: number | null;
   @Output() deleteGearItemEvent = new EventEmitter();
   @Input() public gearItemForm: FormGroup;
 
@@ -20,7 +20,7 @@ export class GearItemComponent {
     const fb = new FormBuilder().nonNullable;
     return fb.group({
       name: ['', Validators.maxLength(50)],
-      weight: [undefined as number | undefined, Validators.max(5000)],
+      weight: [null as number | null, Validators.max(5000)],
       quantity: [1, Validators.max(5000)],
     });
   }

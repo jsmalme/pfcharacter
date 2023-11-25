@@ -66,8 +66,8 @@ export class CalcTotService {
 
   //-------------------------------------------------------------------------------
   //Ability Mod Background Color Calc
-  calculateModColor(modNum: number | undefined) {
-    if (modNum === undefined) {
+  calculateModColor(modNum: number | null) {
+    if (modNum === null) {
       return "808080";
     }
     if (modNum < 0) {

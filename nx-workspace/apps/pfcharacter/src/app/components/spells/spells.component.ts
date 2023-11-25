@@ -49,8 +49,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  setSpellStatsForm(stats: SpellStat[] | undefined, spells: Spell[] | undefined): void {
-    if (stats === undefined || spells === undefined) {
+  setSpellStatsForm(stats: SpellStat[] | null, spells: Spell[] | null): void {
+    if (stats === null || spells === null) {
       return;
     }
     stats.map((stat, index) => {
@@ -66,7 +66,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         this.updateSpellStat(stat, index);
       });
 
-      this.store.updateSpellStats(stats?.spell_stats);
+      this.store.updateSpellStats(stats.spell_stats);
     });
   }
 
@@ -102,7 +102,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     return new Array(spellStat.get('used')?.value ?? 0).fill(0);
   }
 
-  sortSpells(spells: Spell[] | undefined) {
+  sortSpells(spells: Spell[] | null) {
     if (!spells) {
       return;
     }

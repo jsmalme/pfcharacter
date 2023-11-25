@@ -18,7 +18,7 @@ export class RollComponent implements OnInit {
   character$: Observable<Character>
   abilities: AbilitySelection[] = [];
   ability_mod = new AbilitySelection('None', 0);
-  customMod = undefined;
+  customMod = null;
   quantity = 1;
 
   die: DiceChip[] = [
@@ -96,9 +96,9 @@ export class RollComponent implements OnInit {
 
 export class AbilitySelection {
   name: string;
-  mod: number | undefined;
+  mod: number | null;
 
-  constructor(name: string, mod: number | undefined) {
+  constructor(name: string, mod: number | null) {
     this.name = name;
     this.mod = mod;
   }

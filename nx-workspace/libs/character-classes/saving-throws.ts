@@ -8,13 +8,13 @@ export interface ISavingThrows {
 }
 
 export interface IThrow {
-  base: number | undefined;
-  ability: number | undefined;
-  magic: number | undefined;
-  misc: number | undefined;
-  temp: number | undefined;
-  other: number | undefined;
-  total: number | undefined;
+  base: number | null;
+  ability: number | null;
+  magic: number | null;
+  misc: number | null;
+  temp: number | null;
+  other: number | null;
+  total: number | null;
 }
 
 export class Throw implements IThrow {
@@ -24,15 +24,15 @@ export class Throw implements IThrow {
     }
   }
 
-  base: number | undefined = undefined;
-  ability: number | undefined = undefined;
-  magic: number | undefined = undefined;
-  misc: number | undefined = undefined;
-  temp: number | undefined = undefined;
-  other: number | undefined = undefined;
-  total: number | undefined = undefined;
+  base: number | null = null;
+  ability: number | null = null;
+  magic: number | null = null;
+  misc: number | null = null;
+  temp: number | null = null;
+  other: number | null = null;
+  total: number | null = null;
 
-  updateMod(mod: number | undefined) {
+  updateMod(mod: number | null) {
     this.ability = mod;
     this.updateTotal();
   }

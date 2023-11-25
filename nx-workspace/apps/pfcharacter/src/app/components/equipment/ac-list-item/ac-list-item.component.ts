@@ -16,7 +16,7 @@ export class AcListItemComponent {
   static fb: FormBuilder;
   acTypeEnum = acTypeEnum;
   acTypes = Object.values(this.acTypeEnum);
-  @Input() index: number | undefined;
+  @Input() index: number | null;
   @Output() deleteAcItemEvent = new EventEmitter();
   @Input() public acItemForm: FormGroup;
 
@@ -24,13 +24,13 @@ export class AcListItemComponent {
     const fb = new FormBuilder().nonNullable;
     return fb.group({
       name: ['', Validators.maxLength(20)],
-      bonus: [undefined as number | undefined, Validators.max(100)],
-      type: [undefined as acTypeEnum | undefined],
-      check_pen: [undefined as number | undefined, Validators.max(100)],
+      bonus: [null as number | null, Validators.max(100)],
+      type: [null as acTypeEnum | null],
+      check_pen: [null as number | null, Validators.max(100)],
       spell_failure: ['', Validators.maxLength(4)],
       properties: ['', Validators.maxLength(50)],
-      weight: [undefined as number | undefined, Validators.max(5000)],
-      max_dex: [undefined as number | undefined, Validators.max(100)],
+      weight: [null as number | null, Validators.max(5000)],
+      max_dex: [null as number | null, Validators.max(100)],
       equipped: [false]
     });
   }

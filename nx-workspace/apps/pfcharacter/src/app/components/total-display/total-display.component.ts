@@ -8,8 +8,8 @@ import { FormGroup, FormGroupDirective } from '@angular/forms';
   styleUrls: ['./total-display.component.scss'],
 })
 
-export class TotalDisplayComponent{
+export class TotalDisplayComponent {
   @Input() isValid: boolean | undefined;
-  @Input() total: number | undefined;
-  @Input()showGreyZeros: boolean | undefined;
+  @Input() total: number | null;
+  @Input() showGreyZeros: boolean | null;
 }

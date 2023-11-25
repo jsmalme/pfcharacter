@@ -6,6 +6,6 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./confirm-dialog.component.scss'],
 })
 export class ConfirmDialogComponent {
-  @Input() title: string | undefined;
-  @Input() message: string | undefined;
+  @Input() title: string | null;
+  @Input() message: string | null;
 }

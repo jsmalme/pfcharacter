@@ -21,7 +21,7 @@ export class WeightCapacityComponent implements OnInit, AfterViewInit, OnDestroy
   burdenEnum = burdenEnum;
   current_burden: burdenEnum = burdenEnum.light;
   destroy$ = new Subject<void>();
-  totalWeight: number | undefined = 0;
+  totalWeight: number | null = 0;
 
   constructor(
     private store: CharacterDataService,

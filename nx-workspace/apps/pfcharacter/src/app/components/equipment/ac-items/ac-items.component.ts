@@ -48,7 +48,7 @@ export class AcItemsComponent implements OnInit, OnDestroy {
 
 
   setAcItemsFormGroup(items: AcItem[]): void {
-    if (items === undefined) {
+    if (items === null) {
       return;
     }
     items.map((item) => {

@@ -23,8 +23,8 @@ import { AcItem } from 'libs/character-classes/equipment';
 })
 
 export class CombatComponent implements OnInit {
-  gridWatcher: Subscription | undefined;
-  sizeMod: number | undefined;
+  gridWatcher: Subscription | null;
+  sizeMod: number | null;
   character$: Observable<Character>;
   combat_infoForm: FormGroup;
   weaponForm: FormGroup;
@@ -113,8 +113,8 @@ export class CombatComponent implements OnInit {
     this.combat_infoForm.patchValue(info, { emitEvent: false });
   }
 
-  calculateAcDexMod(dex: number | undefined, ac_items: AcItem[]) {
-    if (dex === undefined || ac_items === undefined) {
+  calculateAcDexMod(dex: number | null, ac_items: AcItem[]) {
+    if (dex === null || ac_items === null) {
       return;
     }
     let max_dex = dex ?? 0;
@@ -127,7 +127,7 @@ export class CombatComponent implements OnInit {
   }
 
   calculateArmorAndShield(ac_items: AcItem[]) {
-    if (ac_items === undefined) {
+    if (ac_items === null) {
       return;
     }
     ac_items.forEach(item => {
@@ -146,7 +146,7 @@ export class CombatComponent implements OnInit {
 
   //weapons ---------------------------------------------------------
   setWeaponArray(weapons: Weapon[]) {
-    if (weapons === undefined) {
+    if (weapons === null) {
       return;
     }
     weapons.map(weapon => {
