@@ -19,6 +19,7 @@ export class CharacterListComponent implements OnInit {
   characters$ = new Observable<Character[]>;
 
   ngOnInit(): void {
+    console.log(this.authService.getUser());
     this.characters$ = this.characterService.getPlayerCharacters(this.authService.getUser().id);
   }
 

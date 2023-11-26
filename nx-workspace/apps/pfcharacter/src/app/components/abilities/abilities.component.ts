@@ -164,7 +164,7 @@ export class AbilitiesComponent implements OnInit {
 
   initSavingThrowForm(): FormGroup {
     return this.fb.group({
-      forForm: this.fb.group({
+      fortForm: this.fb.group({
         base: ['', maxNumberValidator()],
         magic: ['', maxNumberValidator()],
         misc: ['', maxNumberValidator()],

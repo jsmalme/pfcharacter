@@ -29,9 +29,8 @@ export class GeneralComponent implements OnInit {
     });
 
     this.generalInfoForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      console.log('hello?', info);
       this.store.updateGeneralInfo(info);
-    })
+    });
   }
 
   setFormGroup(info: GeneralInfo) {

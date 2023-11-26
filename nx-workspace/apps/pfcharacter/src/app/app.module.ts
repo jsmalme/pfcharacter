@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 //Angular Material
@@ -31,6 +30,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -133,6 +134,7 @@ import { CharacterComponent } from './components/character/character.component';
     DragDropModule,
     MatChipsModule,
     FormsModule,
+    MatMenuModule
   ],
   providers: [
     AuthGuardService,

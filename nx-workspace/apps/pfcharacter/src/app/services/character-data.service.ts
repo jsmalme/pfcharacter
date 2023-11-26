@@ -7,12 +7,12 @@ import { CombatInfo } from '../../../../../libs/character-classes/combat-info';
 import { Throw } from '../../../../../libs/character-classes/saving-throws';
 import { Skill } from '../../../../../libs/character-classes/skills';
 import { CalcTotService } from './calc-tot.service';
-import { BehaviorSubject, concatMap, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, concatMap, of, tap, take } from 'rxjs';
 import { CharacterService } from './character-http.service';
 import { SnackbarService } from './snackbar.service';
 import { Weapon } from 'libs/character-classes/weapon';
 import * as _ from "lodash";
-import { AcItem, Gear, Money, burdenEnum } from 'libs/character-classes/equipment';
+import { AcItem, Equipment, Gear, Money, burdenEnum } from 'libs/character-classes/equipment';
 import { Spell, SpellStat } from 'libs/character-classes/spells';
 import { Feat, SpecialAbility } from 'libs/character-classes/feats-abilities';
 import { BADHINTS } from 'dns';
@@ -73,14 +73,22 @@ export class CharacterDataService {
     this.tempChar.abilities.str.update(info);
     this.tempChar.equipment.weight_caps.updateCarryCapacities(info, this.tempChar.general_info.size ?? SizeEnum.medium);
     this.updateSkillAbilities(this.tempChar.abilities, this.skills, 'Str', ['Climb', 'Swim']);
-    this.character.next(this.tempChar);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      abilities: this.tempChar.abilities,
+      equipment: this.tempChar.equipment,
+      skills: this.tempChar.skills
+    };
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateDex(info: Ability) {
@@ -90,14 +98,21 @@ export class CharacterDataService {
     const dexSkills = ['Acrobatics', 'Disable Device', 'Escape Artist', 'Fly', 'Ride', 'Sleight of Hand', 'Stealth'];
     this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skills, 'Dex', dexSkills);
 
-    this.character.next(this.tempChar);
+    const patchData = {
+      abilities: this.tempChar.abilities,
+      saving_throws: this.tempChar.saving_throws,
+      skills: this.tempChar.skills
+    };
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateCon(info: Ability) {
@@ -105,14 +120,20 @@ export class CharacterDataService {
     this.tempChar.abilities.con.update(info);
     this.tempChar.saving_throws.fort.updateMod(this.tempChar.abilities.con.useMod);
 
-    this.character.next(this.tempChar);
+    const patchData = {
+      abilities: this.tempChar.abilities,
+      saving_throws: this.tempChar.saving_throws
+    };
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateInt(info: Ability) {
@@ -123,14 +144,20 @@ export class CharacterDataService {
       'Knowledge (Religion)', 'Linguistics', 'Spellcraft'];
     this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skills, 'Int', intSkills);
 
-    this.character.next(this.tempChar);
+    const patchData = {
+      abilities: this.tempChar.abilities,
+      skills: this.tempChar.skills
+    };
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateWis(info: Ability) {
@@ -141,14 +168,21 @@ export class CharacterDataService {
     const wisSkills = ['Heal', 'Perception', 'Profession1', 'Profession2', 'Sense Motive', 'Survival'];
     this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skills, 'Wis', wisSkills);
 
-    this.character.next(this.tempChar);
+    const patchData = {
+      abilities: this.tempChar.abilities,
+      saving_throws: this.tempChar.saving_throws,
+      skills: this.tempChar.skills
+    }
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateCha(info: Ability) {
@@ -157,14 +191,20 @@ export class CharacterDataService {
     const chaSkills = ['Bluff', 'Diplomacy', 'Disguise', 'Handle Animal', 'Intimidate', 'Perform1', 'Perform2', 'Use Magic Device'];
     this.updateSkillAbilities(this.tempChar.abilities, this.tempChar.skills, 'Cha', chaSkills);
 
-    this.character.next(this.tempChar);
+    const patchData = {
+      abilities: this.tempChar.abilities,
+      skills: this.tempChar.skills
+    };
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
   //------------------------------------------------------
   //combat page updates-----------------------------------
@@ -172,14 +212,20 @@ export class CharacterDataService {
     this.tempRollback();
     this.tempChar.combat_info = Object.assign(this.tempChar.combat_info, info);
     this.tempChar.combat_info.getCombatInfoTotals(this.tempChar.abilities, acDex, acArmor, acShield);
-    this.character.next(this.tempChar);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      combat_info: this.tempChar.combat_info
+    }
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateWeapons(weapons: Weapon[]) {
@@ -193,16 +239,22 @@ export class CharacterDataService {
       const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, weapons, this.tempChar.equipment.ac_items);
       this.checkBurdenUpdateSkills(totalWeight, this.tempChar.equipment.total_ac_penalty);
     }
-
     this.tempChar.combat_info.weapons = weapons;
-    this.character.next(this.tempChar);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      combat_info: this.tempChar.combat_info,
+      equipment: this.tempChar.equipment
+    }
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
   //------------------------------------------------------
 
@@ -220,11 +272,13 @@ export class CharacterDataService {
 
     patchData = { ...patchData, general_info: this.tempChar.general_info };
 
-    this.http.updateCharacter(patchData, this.tempChar.id).pipe(
-    ).subscribe({
-      error: (e) => {
-        this.snackBar.openSnackBar(e);
-        this.character.next(this.rollback);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
       }
     });
   }
@@ -242,14 +296,20 @@ export class CharacterDataService {
         this.tempChar.saving_throws.will.update(info);
         break;
     }
-    this.character.next(this.tempChar);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      saving_throws: this.tempChar.saving_throws
+    }
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
   //-----------------------------------------------------------
 
@@ -263,28 +323,39 @@ export class CharacterDataService {
     this.tempRollback();
     this.tempChar.skills = skills;
 
-    this.character.next(this.tempChar);
+    const patchData = {
+      skills: this.tempChar.skills
+    }
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
   //----------------------------------------------------------------
   //Equipment updates -----------------------------------------------
   updateMoney(info: Money) {
     this.tempRollback();
     this.tempChar.equipment.money = info;
-    this.character.next(this.tempChar);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      equipment: this.tempChar.equipment
+    }
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateGear(info: Gear[]) {
@@ -298,21 +369,27 @@ export class CharacterDataService {
       const totalWeight = this.totService.getTotalWeight(info, this.tempChar.combat_info.weapons, this.tempChar.equipment.ac_items);
       this.checkBurdenUpdateSkills(totalWeight, this.tempChar.equipment.total_ac_penalty);
     }
-
     this.tempChar.equipment.gear = info;
-    this.character.next(this.tempChar);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      equipment: this.tempChar.equipment
+    }
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateAcItems(info: AcItem[]) {
     this.tempRollback();
 
+    let patchData = {};
     //compare weight totals and get check penalties
     let newWeight = 0;
     let newAcPenalty = 0;
@@ -329,24 +406,34 @@ export class CharacterDataService {
     if (newWeight !== this.tempChar.equipment.ac_items_weight) {
       this.tempChar.equipment.ac_items_weight = newWeight;
       const totalWeight = this.totService.getTotalWeight(this.tempChar.equipment.gear, this.tempChar.combat_info.weapons, info);
-      this.checkBurdenUpdateSkills(totalWeight, newAcPenalty);
+      if (this.checkBurdenUpdateSkills(totalWeight, newAcPenalty)) {
+        patchData = { skills: this.tempChar.skills };
+      }
     }
 
     //if there is a difference in ac penalty update the skills
     else if (this.tempChar.equipment.total_ac_penalty !== newAcPenalty) {
       this.updateSkillcheck_penalty(this.tempChar.equipment.current_burden, newAcPenalty);
+      patchData = { skills: this.tempChar.skills };
     }
 
     this.tempChar.equipment.total_ac_penalty = newAcPenalty;
     this.tempChar.equipment.ac_items = info;
-    this.character.next(this.tempChar);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    patchData = {
+      ...patchData,
+      equipment: this.tempChar.equipment
+    };
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
   //----------------------------------------------------------------
   //Spell Updates --------------------------------------------------
@@ -357,29 +444,58 @@ export class CharacterDataService {
     this.tempChar.spells.spell_list[spellIndex].usedCount = spellCount;
     this.tempChar.spells.spell_stats[spell.level].used = totalCount;
 
-    this.character.next(this.tempChar);
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      spells: this.tempChar.spells
+    };
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   resetSpellCounts() {
     this.tempRollback();
-
     this.tempChar.spells.spell_list.forEach(spell => spell.usedCount = 0);
     this.tempChar.spells.spell_stats.forEach(stat => stat.used = 0);
 
-    this.character.next(this.tempChar);
+    const patchData = {
+      spells: this.tempChar.spells
+    };
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   addSpell(spell: Spell) {
     this.tempRollback();
     this.tempChar.spells.spell_list.push(spell);
 
-    this.character.next(this.tempChar);
+    const patchData = {
+      spells: this.tempChar.spells
+    };
+
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateSpell(spell: Spell) {
@@ -392,29 +508,38 @@ export class CharacterDataService {
       return s;
     });
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      spells: this.tempChar.spells
+    };
 
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   deleteSpell(spell: Spell | null) {
     this.tempRollback();
-
     this.tempChar.spells.spell_list = this.tempChar.spells.spell_list.filter(s => s.name !== spell?.name);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      spells: this.tempChar.spells
+    };
 
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateSpellStats(stats: SpellStat[] | undefined) {
@@ -422,17 +547,21 @@ export class CharacterDataService {
       return;
     }
     this.tempRollback();
-
     this.tempChar.spells.spell_stats = stats;
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      spells: this.tempChar.spells
+    };
 
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   //----------------------------------------------------------------
@@ -441,28 +570,38 @@ export class CharacterDataService {
     this.tempRollback();
     this.tempChar.feats.push(feat);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      feats: this.tempChar.feats
+    };
 
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   deleteFeat(feat: Feat | null) {
     this.tempRollback();
     this.tempChar.feats = this.tempChar.feats.filter(f => f.name !== feat?.name);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      feats: this.tempChar.feats
+    };
 
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateFeat(feat: Feat) {
@@ -475,57 +614,76 @@ export class CharacterDataService {
       return f;
     });
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      feats: this.tempChar.feats
+    }
 
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateFeatList(feats: Feat[]) {
     this.tempRollback();
     this.tempChar.feats = feats;
 
+    const patchData = {
+      feats: this.tempChar.feats
+    };
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
-
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   addSpecialAbility(specialAbility: SpecialAbility) {
     this.tempRollback();
     this.tempChar.special_abilities.push(specialAbility);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      special_abilities: this.tempChar.special_abilities
+    };
 
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   deleteSpecialAbility(specialAbility: SpecialAbility | null) {
     this.tempRollback();
     this.tempChar.special_abilities = this.tempChar.special_abilities.filter(sa => sa.name !== specialAbility?.name);
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      special_abilities: this.tempChar.special_abilities
+    };
 
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateSpecialAbility(specialAbility: SpecialAbility) {
@@ -538,29 +696,38 @@ export class CharacterDataService {
       return sa;
     });
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
+    const patchData = {
+      special_abilities: this.tempChar.special_abilities
+    }
 
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   updateSpecailAbilityList(special_abilities: SpecialAbility[]) {
     this.tempRollback();
     this.tempChar.special_abilities = special_abilities;
 
+    const patchData = {
+      special_abilities: this.tempChar.special_abilities
+    };
 
-    // this.http.updateCharacter(this.tempChar).subscribe({
-    //   error: (e) => {
-    //     this.snackBar.openSnackBar(e);
-    //     this.character.next(this.rollback);
-    //   }
-    // });
-
-    this.character.next(this.tempChar);
+    this.http.updateCharacter(patchData, this.tempChar.id).pipe(catchError((err) => {
+      this.snackBar.openSnackBar(err);
+      this.character.next(this.rollback);
+      return of(null);
+    })).subscribe({
+      next: () => {
+        this.character.next(this.tempChar);
+      }
+    });
   }
 
   //----------------------------------------------------------------
@@ -621,11 +788,13 @@ export class CharacterDataService {
     this.tempChar.skills = this.totService.getSkillsTotals(updatedSkills, dex_strSkills);
   }
 
-  checkBurdenUpdateSkills(totalWeight: number, accheck_penalty: number) {
+  checkBurdenUpdateSkills(totalWeight: number, accheck_penalty: number): boolean {
     const newBurden = this.totService.calculateEncumbrance(this.tempChar.equipment.weight_caps, totalWeight);
     if (newBurden !== this.tempChar.equipment.current_burden) {
       this.tempChar.equipment.current_burden = newBurden;
       this.updateSkillcheck_penalty(newBurden, accheck_penalty);
+      return true;
     }
+    return false;
   }
 }

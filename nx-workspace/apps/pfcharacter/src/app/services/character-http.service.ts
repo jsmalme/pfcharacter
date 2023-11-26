@@ -44,7 +44,7 @@ export class CharacterService {
 
   addPlayerCharacter(playerId: number): Observable<Character> {
     const character = new Character();
-    character.player_id = playerId; //set current playerId
+    character.player = playerId; //set current playerId
 
     return this.http.post<ICharacter>(`${baseUrl}/characters/`, character).pipe(
       map((data) => {

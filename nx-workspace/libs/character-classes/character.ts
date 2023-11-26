@@ -9,7 +9,7 @@ import { Feat, SpecialAbility } from "./feats-abilities";
 
 export interface ICharacter {
   id: number;
-  player_id: number;
+  player: number;
   abilities: IAbilities;
   general_info: GeneralInfo;
   combat_info: ICombatInfo;
@@ -22,7 +22,7 @@ export interface ICharacter {
 }
 export class Character {
   id: number;
-  player_id: number;
+  player: number;
   general_info: GeneralInfo;
   combat_info: CombatInfo;
   abilities: Abilities;
@@ -35,7 +35,7 @@ export class Character {
   constructor(char?: ICharacter) {
     if (char) {
       this.id = char?.id;
-      this.player_id = char?.player_id;
+      this.player = char?.player;
       this.abilities = new Abilities(char.abilities);
       this.general_info = new GeneralInfo(char.general_info);
       this.combat_info = new CombatInfo(char.combat_info);
