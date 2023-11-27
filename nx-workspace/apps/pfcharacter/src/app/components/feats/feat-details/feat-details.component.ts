@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -14,7 +15,7 @@ export class FeatDetailsComponent implements OnInit {
   featTypes = Object.values(FeatTypeEnum);
   featForm = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(50)]],
-    benefit: ['', Validators.required, Validators.maxLength(500)],
+    benefit: ['', [Validators.required, Validators.maxLength(500)]],
     type: [FeatTypeEnum.general],
     prerequisites: ['', Validators.maxLength(100)],
   });

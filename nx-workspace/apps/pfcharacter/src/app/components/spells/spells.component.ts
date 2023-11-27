@@ -2,7 +2,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CharacterDataService } from '../../services/character-data.service';
 import { AbstractControl, FormArray, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { Observable, Subject, debounceTime, first, takeUntil } from 'rxjs';
+import { Observable, Subject, debounceTime, first, skip, takeUntil } from 'rxjs';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatDialog } from '@angular/material/dialog';
 import { DrawerExpansionService } from '../../services/drawer-expansion.service';
@@ -190,7 +190,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
           }
         }
         if (isUpdate) {
-          this.character$.pipe(first()).subscribe((char: Character) => {
+          this.character$.pipe(skip(1), first()).subscribe((char: Character) => {
             this.sortSpells(char.spells.spell_list);
             this.patchSpellStatForm(char.spells.spell_stats[result.level], this.sortedSpells[result.level], result.level);
           });

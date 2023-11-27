@@ -1,4 +1,5 @@
-import { debounce } from 'rxjs';
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+import { debounce, skip } from 'rxjs';
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Character } from 'libs/character-classes/character';
@@ -75,7 +76,7 @@ export class FeatListComponent implements OnInit {
           }
         }
         if (isUpdate) {
-          this.character$.pipe(first()).subscribe((char: Character) => {
+          this.character$.pipe(skip(1), first()).subscribe((char: Character) => {
             this.featList = char.feats;
           });
         }

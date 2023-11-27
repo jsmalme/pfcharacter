@@ -16,15 +16,21 @@
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav #sidenav [mode]="'over'" position="end" [opened]="sidenavOpened" (closed)="closeSidenav()">
             <mat-nav-list>
-                <mat-list-item routerLink="/general" (click)="sidenav.toggle()">General</mat-list-item>
-                <mat-list-item routerLink="/abilities" (click)="sidenav.toggle()">Abilities/Saving</mat-list-item>
-                <mat-list-item routerLink="/skills" (click)="sidenav.toggle()">Skills</mat-list-item>
-                <mat-list-item routerLink="/equipment" (click)="sidenav.toggle()">Equipment</mat-list-item>
-                <mat-list-item routerLink="/combat" (click)="sidenav.toggle()">Combat</mat-list-item>
-                <mat-list-item routerLink="/feats" (click)="sidenav.toggle()">Feats+</mat-list-item>
-                <mat-list-item routerLink="/spells" (click)="sidenav.toggle()">Spells</mat-list-item>
+                <mat-list-item routerLinkActive="selected-tab" [routerLink]="['/character', 'general']"
+                    (click)="sidenav.toggle()">General</mat-list-item>
+                <mat-list-item routerLinkActive="selected-tab" [routerLink]="['/character', 'abilities']"
+                    (click)="sidenav.toggle()">Abilities/Saving</mat-list-item>
+                <mat-list-item routerLinkActive="selected-tab" [routerLink]="['/character', 'skills']"
+                    (click)="sidenav.toggle()">Skills</mat-list-item>
+                <mat-list-item routerLinkActive="selected-tab" [routerLink]="['/character', 'equipment']"
+                    (click)="sidenav.toggle()">Equipment</mat-list-item>
+                <mat-list-item routerLinkActive="selected-tab" [routerLink]="['/character', 'combat']"
+                    (click)="sidenav.toggle()">Combat</mat-list-item>
+                <mat-list-item routerLinkActive="selected-tab" [routerLink]="['/character', 'feats']"
+                    (click)="sidenav.toggle()">Feats+</mat-list-item>
+                <mat-list-item routerLinkActive="selected-tab" [routerLink]="['/character', 'spells']"
+                    (click)="sidenav.toggle()">Spells</mat-list-item>
                 <mat-list-item (click)="openRollDialog(); sidenav.toggle()">Roll</mat-list-item>
-                <!-- <mat-list-item>Settings</mat-list-item> -->
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
