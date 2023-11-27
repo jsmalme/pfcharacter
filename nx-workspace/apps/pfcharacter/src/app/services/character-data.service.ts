@@ -62,7 +62,7 @@ export class CharacterDataService {
     this.isCharacterLoaded.next(true);
   }
 
-  resetCharacter() {
+  clearCharacter() {
     this.character.next(new Character());
     this.isCharacterLoaded.next(false);
   }

@@ -8,9 +8,25 @@
             <button mat-button [routerLink]="['/character', 'equipment']"
                 routerLinkActive="selected-tab">Equipment</button>
             <button mat-button [routerLink]="['/character', 'combat']" routerLinkActive="selected-tab">Combat</button>
-            <button mat-button [routerLink]="['/character', 'feats']" routerLinkActive="selected-tab">Feats +</button>
+            <button mat-button [routerLink]="['/character', 'feats']" routerLinkActive="selected-tab">Feats
+                +</button>
             <button mat-button [routerLink]="['/character', 'spells']" routerLinkActive="selected-tab">Spells</button>
-            <button mat-button mat-button routerLinkActive="selected-tab">Roll</button>
+            <button mat-button (click)="openRollDialog()">Roll</button>
+        </div>
+        <div class="d-non d-md-block ms-auto">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="navigateToCharacterList()">
+                    <mat-icon>groups</mat-icon>
+                    <span>My Characters</span>
+                </button>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Log Out</span>
+                </button>
+            </mat-menu>
         </div>
         <div class="d-md-none ms-auto">
             <button mat-icon-button (click)="toggleSidenav()">
