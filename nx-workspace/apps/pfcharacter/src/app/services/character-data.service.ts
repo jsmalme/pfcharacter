@@ -204,7 +204,6 @@ export class CharacterDataService {
     let patchData = {};
     if (generalInfo.size !== null && generalInfo.size !== this.rollback.general_info.size) {
       this.tempChar.combat_info.updateSize(generalInfo.size);
-      this.tempChar.equipment.money.cp = 10;
       this.tempChar.equipment.weight_caps.updateCarryCapacities(this.tempChar.abilities.str, generalInfo.size);
       patchData = { combat_info: this.tempChar.combat_info, equipment: this.tempChar.equipment };
     }
