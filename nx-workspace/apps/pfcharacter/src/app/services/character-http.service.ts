@@ -1,8 +1,11 @@
+import { Player } from './../../../../../libs/character-classes/player';
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character, ICharacter } from 'libs/character-classes/character';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
+
+const baseUrl = 'http://127.0.0.1:8000';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +13,6 @@ import { catchError, map, Observable, tap, throwError } from 'rxjs';
 export class CharacterService {
 
   constructor(private http: HttpClient) { }
-  private characterUrl = 'api/character/1';
-
 
   private handleError(err: HttpErrorResponse) {
     let errorMessage: string;
@@ -23,8 +24,17 @@ export class CharacterService {
     return throwError(() => errorMessage);
   }
 
-  getCharacter(): Observable<Character> {
-    return this.http.get<ICharacter>(this.characterUrl).pipe(
+  getPlayerCharacters(playerId: number): Observable<Character[]> {
+    return this.http.get<Player>(`${baseUrl}/players/${playerId}/`).pipe(
+      map((data) => {
+        return data.characters.map((char) => new Character(char));
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  getCharacter(characterId: number): Observable<Character> {
+    return this.http.get<ICharacter>(`${baseUrl}/characters/${characterId}/`).pipe(
       map((data) => {
         return new Character(data);
       }),
@@ -32,10 +42,28 @@ export class CharacterService {
     );
   }
 
-  updateCharacter(character: ICharacter): Observable<ICharacter> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.characterUrl} + ${character.id}`;
-    return this.http.put<ICharacter>(url, character, { headers: headers }).pipe(
+  addPlayerCharacter(playerId: number): Observable<Character> {
+    const character = new Character();
+    character.player = playerId; //set current playerId
+
+    return this.http.post<ICharacter>(`${baseUrl}/characters/`, character).pipe(
+      map((data) => {
+        return new Character(data);
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  updateCharacter(patchData: any, characterId: number): Observable<any> {
+    const url = `${baseUrl}/characters/${characterId}/`;
+    return this.http.patch(url, patchData).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  deleteCharacter(characterId: number): Observable<any> {
+    const url = `${baseUrl}/characters/${characterId}/`;
+    return this.http.delete(url).pipe(
       catchError(err => this.handleError(err))
     );
   }

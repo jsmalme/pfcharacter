@@ -9,50 +9,54 @@ import { Feat, SpecialAbility } from "./feats-abilities";
 
 export interface ICharacter {
   id: number;
+  player: number;
   abilities: IAbilities;
-  generalInfo: GeneralInfo;
-  combatInfo: ICombatInfo;
-  savingThrows: ISavingThrows;
+  general_info: GeneralInfo;
+  combat_info: ICombatInfo;
+  saving_throws: ISavingThrows;
   equipment: IEquipment;
-  skillList: Skill[];
+  skills: Skill[];
   spells: ISpells;
   feats: Feat[];
-  specialAbilities: SpecialAbility[];
+  special_abilities: SpecialAbility[];
 }
 export class Character {
   id: number;
-  generalInfo: GeneralInfo;
-  combatInfo: CombatInfo;
+  player: number;
+  general_info: GeneralInfo;
+  combat_info: CombatInfo;
   abilities: Abilities;
-  savingThrows: SavingThrows;
-  skillList: Skill[];
+  saving_throws: SavingThrows;
+  skills: Skill[];
   equipment: Equipment;
   spells: Spells;
   feats: Feat[];
-  specialAbilities: SpecialAbility[];
+  special_abilities: SpecialAbility[];
   constructor(char?: ICharacter) {
     if (char) {
+      this.id = char?.id;
+      this.player = char?.player;
       this.abilities = new Abilities(char.abilities);
-      this.generalInfo = new GeneralInfo(char.generalInfo);
-      this.combatInfo = new CombatInfo(char.combatInfo);
-      this.savingThrows = new SavingThrows(char.savingThrows);
+      this.general_info = new GeneralInfo(char.general_info);
+      this.combat_info = new CombatInfo(char.combat_info);
+      this.saving_throws = new SavingThrows(char.saving_throws);
       this.equipment = new Equipment(char.equipment);
       this.spells = new Spells(char.spells);
-      this.skillList = char.skillList;
+      this.skills = char.skills;
       this.feats = char.feats;
-      this.specialAbilities = char.specialAbilities;
+      this.special_abilities = char.special_abilities;
     }
     else {
       this.abilities = new Abilities();
-      this.generalInfo = new GeneralInfo();
-      this.combatInfo = new CombatInfo();
-      this.savingThrows = new SavingThrows();
+      this.general_info = new GeneralInfo();
+      this.combat_info = new CombatInfo();
+      this.saving_throws = new SavingThrows();
       this.equipment = new Equipment();
       this.spells = new Spells();
-      this.equipment.weightCaps = new WeightCapacity();
+      this.equipment.weight_caps = new WeightCapacity();
       this.feats = [];
-      this.specialAbilities = [];
-      this.skillList = [
+      this.special_abilities = [];
+      this.skills = [
         new Skill('Acrobatics', 'Dex'),
         new Skill('Appraise', 'Int'),
         new Skill('Bluff', 'Cha'),

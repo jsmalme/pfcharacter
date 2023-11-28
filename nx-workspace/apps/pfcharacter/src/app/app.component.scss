@@ -14,6 +14,6 @@ $accent-palette: map.get($color-config, 'accent');
     right: 0;
   }
 
-  .selected-tab{
-    background-color: mat.get-color-from-palette($accent-palette);
+.selected-tab{
+    background-color: mat.get-color-from-palette($accent-palette) !important;
 }

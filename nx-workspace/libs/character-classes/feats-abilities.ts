@@ -2,9 +2,9 @@
 export class Feat {
     name: string;
     type: FeatTypeEnum;
-    prerequisites: string | undefined;
-    benefit: string | undefined;
-    constructor(feat: Feat | undefined) {
+    prerequisites: string | null;
+    benefit: string | null;
+    constructor(feat: Feat | null) {
         if (feat) {
             this.name = feat.name;
             this.type = feat.type;
@@ -22,7 +22,7 @@ export class Feat {
 
 export class SpecialAbility {
     name: string;
-    benefit: string | undefined;
+    benefit: string | null;
 }
 
 export enum FeatTypeEnum {

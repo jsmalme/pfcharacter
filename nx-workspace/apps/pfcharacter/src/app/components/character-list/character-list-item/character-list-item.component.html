@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-10 col-xl-11 text-truncate">
+        <p class="h2">{{character.general_info.character_name || 'No Name'}}</p>
+    </div>
+    <div class="col-2 col-xl-1 d-flex mb-2 justify-content-end">
+        <button mat-icon-button color="warn" (click)="deleteCharacter()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="col-8 col-sm-6">
+        <p class="h5">{{character.general_info.class_level || 'Unknown class & level'}}</p>
+    </div>
+    <div class="col-4 col-sm-6">
+        <p class="h5">{{character.general_info.race || 'Unknown race'}}</p>
+    </div>
+    <br>
+    <br>
+    <div class="row ms-1 ms-xl-3">
+        <div class="col-2">
+            <p class="h6">Str</p>
+            <p class="h6 fw-bold" [style.color]="this.calcService.calculateModColor(character.abilities.str.mod)">
+                {{character.abilities.str.ability}}</p>
+        </div>
+        <div class="col-2">
+            <p class="h6">Dex</p>
+            <p class="h6" [style.color]="this.calcService.calculateModColor(character.abilities.dex.mod)">
+                {{character.abilities.dex.ability}}</p>
+        </div>
+        <div class="col-2">
+            <p class="h6">Con</p>
+            <p class="h6" [style.color]="this.calcService.calculateModColor(character.abilities.con.mod)">
+                {{character.abilities.con.ability}}</p>
+        </div>
+        <div class="col-2">
+            <p class="h6">Int</p>
+            <p class="h6" [style.color]="this.calcService.calculateModColor(character.abilities.int.mod)">
+                {{character.abilities.int.ability}}</p>
+        </div>
+        <div class="col-2">
+            <p class="h6">Wis</p>
+            <p class="h6" [style.color]="this.calcService.calculateModColor(character.abilities.wis.mod)">
+                {{character.abilities.wis.ability}}</p>
+        </div>
+        <div class="col-2">
+            <p class="h6">Cha</p>
+            <p class="h6" [style.color]="this.calcService.calculateModColor(character.abilities.cha.mod)">
+                {{character.abilities.cha.ability}}</p>
+        </div>
+    </div>
+    <div class="col-12">
+        <button mat-raised-button class="w-100" color="primary" (click)="playCharacter()">
+            Play
+        </button>
+    </div>
+</div>

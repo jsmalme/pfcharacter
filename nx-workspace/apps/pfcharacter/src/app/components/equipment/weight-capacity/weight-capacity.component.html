@@ -13,31 +13,31 @@
                     <mat-form-field class="w-100 text-center highlighted-form-field" appearance="outline"
                         color="accent">
                         <mat-label>Light Load</mat-label>
-                        <span *ngIf="currentBurden === burdenEnum.light"
+                        <span *ngIf="current_burden === burdenEnum.light"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                             <span class="material-icons">done</span>
                         </span>
-                        <input #lightLoad matInput readonly formControlName="lightLoad">
+                        <input #light_load matInput readonly formControlName="light_load">
                     </mat-form-field>
                 </div>
                 <div class="col-4">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Medium Load</mat-label>
-                        <span *ngIf="currentBurden === burdenEnum.medium"
+                        <span *ngIf="current_burden === burdenEnum.medium"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
                             <span class="material-icons">done</span>
                         </span>
-                        <input #medLoad matInput readonly formControlName="medLoad">
+                        <input #med_load matInput readonly formControlName="med_load">
                     </mat-form-field>
                 </div>
                 <div class="col-4">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Heavy Load</mat-label>
-                        <span *ngIf="currentBurden === burdenEnum.heavy"
+                        <span *ngIf="current_burden === burdenEnum.heavy"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             <span class="material-icons">done</span>
                         </span>
-                        <input #heavyLoad matInput readonly formControlName="heavyLoad">
+                        <input #heavy_load matInput readonly formControlName="heavy_load">
                     </mat-form-field>
                 </div>
             </div>
@@ -45,26 +45,26 @@
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Lift Over Head</mat-label>
-                        <input matInput readonly formControlName="liftOverHead">
+                        <input matInput readonly formControlName="lift_over_head">
                     </mat-form-field>
                 </div>
 
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Lift Off Ground</mat-label>
-                        <input matInput readonly formControlName="liftOffGround">
+                        <input matInput readonly formControlName="lift_off_ground">
                     </mat-form-field>
                 </div>
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Drag/Push</mat-label>
-                        <input matInput readonly formControlName="dragOrPush">
+                        <input matInput readonly formControlName="drag_or_push">
                     </mat-form-field>
                 </div>
                 <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Total Weight</mat-label>
-                        <input matInput readonly formControlName="currentBurden">
+                        <input matInput readonly formControlName="current_burden">
                     </mat-form-field>
                 </div>
             </div>

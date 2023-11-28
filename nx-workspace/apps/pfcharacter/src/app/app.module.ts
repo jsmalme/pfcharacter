@@ -5,9 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { CharacterDataService } from './services/character-data.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 //Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -32,6 +30,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 //components
 import { AbilitiesComponent } from './components/abilities/abilities.component';
@@ -42,7 +42,6 @@ import { WeaponComponent } from './components/weapon/weapon.component';
 import { TotalDisplayComponent } from './components/total-display/total-display.component';
 import { DeleteItemDialogComponent } from './components/delete-item-dialog/delete-wepon-dialog.component';
 import { SkillsComponent } from './components/skills/skills.component';
-import { InMemoryDataService } from './services/in-memory-data.service';
 import { EquipmentComponent } from './components/equipment/equipment.component';
 import { GearComponent } from './components/equipment/gear/gear.component';
 import { AcItemsComponent } from './components/equipment/ac-items/ac-items.component';
@@ -58,10 +57,17 @@ import { FeatListComponent } from './components/feats/feat-list/feat-list.compon
 import { SpecialAbilitiesComponent } from './components/feats/special-abilities/special-abilities.component';
 import { FeatDetailsComponent } from './components/feats/feat-details/feat-details.component';
 import { SpecialAbilityDetailsComponent } from './components/feats/special-ability-details/special-ability-details.component';
-import { SummaryComponent } from './components/summary/summary.component';
+import { LoginComponent } from './components/login/login.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { RollComponent } from './components/roll/roll.component';
 import { RollResultComponent } from './components/roll-result/roll-result.component';
 import { FormsModule } from '@angular/forms';
+import { AuthGuardService } from './services/auth-gaurd.service';
+import { CreateAccountComponent } from './components/create-account/create-account.component';
+import { InterceptorService } from './services/interceptor.service';
+import { CharacterListComponent } from './components/character-list/character-list.component';
+import { CharacterListItemComponent } from './components/character-list/character-list-item/character-list-item.component';
+import { CharacterComponent } from './components/character/character.component';
 
 @NgModule({
   declarations: [
@@ -89,9 +95,14 @@ import { FormsModule } from '@angular/forms';
     SpecialAbilitiesComponent,
     FeatDetailsComponent,
     SpecialAbilityDetailsComponent,
-    SummaryComponent,
+    LoginComponent,
+    ToolbarComponent,
     RollComponent,
     RollResultComponent,
+    CreateAccountComponent,
+    CharacterListComponent,
+    CharacterListItemComponent,
+    CharacterComponent,
   ],
   imports: [
     HttpClientModule,
@@ -123,11 +134,12 @@ import { FormsModule } from '@angular/forms';
     DragDropModule,
     MatChipsModule,
     FormsModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
-      dataEncapsulation: false,
-    }),
+    MatMenuModule
   ],
-  providers: [],
+  providers: [
+    AuthGuardService,
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

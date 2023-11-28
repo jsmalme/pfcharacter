@@ -1,6 +1,6 @@
 <div class="container comp-top-margin" style="margin-bottom: 20px;">
   <ng-container *ngIf="character$ | async as char">
-    <form [formGroup]="combatInfoForm" autocomplete="off">
+    <form [formGroup]="combat_infoForm" autocomplete="off">
       <mat-card class="mat-elevation-z2">
         <mat-card-title class="primary-background rounded-top mat-elevation-z1"
           style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
@@ -81,7 +81,7 @@
                   <h2>Initiative</h2>
                 </div>
                 <div class="col-lg-6 col-9">
-                  <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.initiativeTotal">
+                  <app-total-display [isValid]="combat_infoForm.valid" [total]="char.combat_info.initiativeTotal">
                   </app-total-display>
                 </div>
               </div>
@@ -112,7 +112,7 @@
                   <h2>CMB</h2>
                 </div>
                 <div class="col-lg-6 col-9">
-                  <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.cmbTotal">
+                  <app-total-display [isValid]="combat_infoForm.valid" [total]="char.combat_info.cmbTotal">
                   </app-total-display>
                 </div>
               </div>
@@ -122,7 +122,7 @@
                 <div class="col-lg-2 col-3">
                   <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                     <mat-label>BAB+</mat-label>
-                    <input matInput inputmode="numeric" type="number" value="{{char.combatInfo.bab}}"
+                    <input matInput inputmode="numeric" type="number" value="{{char.combat_info.bab}}"
                       disabled="disabled">
                   </mat-form-field>
                 </div>
@@ -136,7 +136,7 @@
                 <div class="col-lg-2 col-3">
                   <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                     <mat-label>Size+</mat-label>
-                    <input matInput inputmode="numeric" type="number" value="{{char.combatInfo.cmSizeMod}}"
+                    <input matInput inputmode="numeric" type="number" value="{{char.combat_info.cmSizeMod}}"
                       disabled="disabled">
                   </mat-form-field>
                 </div>
@@ -157,7 +157,7 @@
                   <h2>CMD</h2>
                 </div>
                 <div class="col-lg-6 col-9">
-                  <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.cmdTotal">
+                  <app-total-display [isValid]="combat_infoForm.valid" [total]="char.combat_info.cmdTotal">
                   </app-total-display>
                 </div>
               </div>
@@ -167,7 +167,7 @@
                 <div class="col-lg-2 col-4">
                   <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                     <mat-label>BAB+</mat-label>
-                    <input matInput inputmode="numeric" type="number" value="{{char.combatInfo.bab}}"
+                    <input matInput inputmode="numeric" type="number" value="{{char.combat_info.bab}}"
                       disabled="disabled">
                   </mat-form-field>
                 </div>
@@ -188,7 +188,7 @@
                 <div class="col-lg-2 col-4">
                   <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                     <mat-label>Size+</mat-label>
-                    <input matInput inputmode="numeric" type="number" value="{{char.combatInfo.cmSizeMod}}"
+                    <input matInput inputmode="numeric" type="number" value="{{char.combat_info.cmSizeMod}}"
                       disabled="disabled">
                   </mat-form-field>
                 </div>
@@ -215,7 +215,7 @@
                 <h2>AC</h2>
               </div>
               <div class="col-lg-6 col-9">
-                <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.acTotal">
+                <app-total-display [isValid]="combat_infoForm.valid" [total]="char.combat_info.acTotal">
                 </app-total-display>
               </div>
             </div>
@@ -257,7 +257,7 @@
                   <div class="col-3">
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                       <mat-label>Size+</mat-label>
-                      <input matInput inputmode="numeric" type="number" value="{{char.combatInfo.acSizeMod}}"
+                      <input matInput inputmode="numeric" type="number" value="{{char.combat_info.acSizeMod}}"
                         disabled="disabled">
                     </mat-form-field>
                   </div>
@@ -304,7 +304,7 @@
                     <h2>Touch</h2>
                   </div>
                   <div class="col-lg-4 col-8">
-                    <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.acTouch">
+                    <app-total-display [isValid]="combat_infoForm.valid" [total]="char.combat_info.acTouch">
                     </app-total-display>
                   </div>
                 </div>
@@ -315,7 +315,7 @@
                     <h2>Flat-Footed</h2>
                   </div>
                   <div class="col-lg-4 col-6">
-                    <app-total-display [isValid]="combatInfoForm.valid" [total]="char.combatInfo.acFlat">
+                    <app-total-display [isValid]="combat_infoForm.valid" [total]="char.combat_info.acFlat">
                     </app-total-display>
                   </div>
                 </div>

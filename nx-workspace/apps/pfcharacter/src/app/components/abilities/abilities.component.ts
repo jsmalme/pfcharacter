@@ -19,9 +19,9 @@ import { Character } from 'libs/character-classes/character';
 })
 export class AbilitiesComponent implements OnInit {
   abilitiesForm!: FormGroup;
-  savingThrowsForm!: FormGroup;
+  saving_throwsForm!: FormGroup;
   abilities!: Abilities;
-  savingThrows!: SavingThrows;
+  saving_throws!: SavingThrows;
   character$: Observable<Character>;
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
 
@@ -30,11 +30,11 @@ export class AbilitiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.abilitiesForm = this.initAbilitiesForm();
-    this.savingThrowsForm = this.initSavingThrowForm();
+    this.saving_throwsForm = this.initSavingThrowForm();
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
       this.setAbilitiesForm(char.abilities);
-      this.setSavingThrowsForm(char.savingThrows);
+      this.setSavingThrowsForm(char.saving_throws);
     });
 
     //abilities change listeners
@@ -76,22 +76,22 @@ export class AbilitiesComponent implements OnInit {
     });
 
     //saving throw change listeners
-    this.savingThrowsForm.get('forForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if (!checkValidForm(this.savingThrowsForm, 'forForm')) {
+    this.saving_throwsForm.get('forForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+      if (!checkValidForm(this.saving_throwsForm, 'forForm')) {
         return;
       }
       this.store.updateSavingThrows(info, 'FOR');
     });
 
-    this.savingThrowsForm.get('refForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if (!checkValidForm(this.savingThrowsForm, 'refForm')) {
+    this.saving_throwsForm.get('refForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+      if (!checkValidForm(this.saving_throwsForm, 'refForm')) {
         return;
       }
       this.store.updateSavingThrows(info, 'REF');
     });
 
-    this.savingThrowsForm.get('willForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if (!checkValidForm(this.savingThrowsForm, 'willForm')) {
+    this.saving_throwsForm.get('willForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+      if (!checkValidForm(this.saving_throwsForm, 'willForm')) {
         return;
       }
       this.store.updateSavingThrows(info, 'WILL');
@@ -164,7 +164,7 @@ export class AbilitiesComponent implements OnInit {
 
   initSavingThrowForm(): FormGroup {
     return this.fb.group({
-      forForm: this.fb.group({
+      fortForm: this.fb.group({
         base: ['', maxNumberValidator()],
         magic: ['', maxNumberValidator()],
         misc: ['', maxNumberValidator()],
@@ -189,13 +189,13 @@ export class AbilitiesComponent implements OnInit {
   }
 
   setSavingThrowsForm(throws: SavingThrows) {
-    this.savingThrowsForm.patchValue({
-      forForm: {
-        base: throws.for.base,
-        magic: throws.for.magic,
-        misc: throws.for.misc,
-        temp: throws.for.temp,
-        other: throws.for.other
+    this.saving_throwsForm.patchValue({
+      fortForm: {
+        base: throws.fort.base,
+        magic: throws.fort.magic,
+        misc: throws.fort.misc,
+        temp: throws.fort.temp,
+        other: throws.fort.other
       },
       refForm: {
         base: throws.ref.base,

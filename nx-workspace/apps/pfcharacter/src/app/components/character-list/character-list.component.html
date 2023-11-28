@@ -1,0 +1,34 @@
+<div class="container comp-top-margin">
+    <ng-container *ngIf="characters$ | async as chars">
+        <mat-card class="mat-elevation-z2 pb-0">
+            <mat-card-title class="primary-background rounded-top mat-elevation-z1"
+                style="margin-top: -16px; margin-left: -16px; margin-right: -16px;">
+                <div class="container" style="padding-top: 12px; padding-bottom: 12px;">
+                    Characters
+                </div>
+            </mat-card-title>
+        </mat-card>
+        <br>
+        <mat-grid-list [cols]="cols" [rowHeight]="characterObjectHeight" gutterSize="10px"
+            class="justify-content-center">
+            <ng-container *ngFor="let char of chars;  let i = index">
+                <mat-grid-tile>
+                    <mat-card class="h-100 w-100">
+                        <app-character-list-item [character]="char"
+                            (deleteCharacterEvent)="deleteCharacter($event)"></app-character-list-item>
+                    </mat-card>
+                </mat-grid-tile>
+            </ng-container>
+            <mat-grid-tile>
+                <mat-card class="h-100 w-100">
+                    <div class="h-100 w-100 d-flex justify-content-center align-items-center">
+                        <button mat-raised-button color="primary" (click)="addNewCharacter()">
+                            <mat-icon>add</mat-icon>
+                            Add Character
+                        </button>
+                    </div>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </ng-container>
+</div>

@@ -1,0 +1,52 @@
+<mat-toolbar color="primary" class="sticky-top">
+    <mat-toolbar-row class="d-flex justify-content-between">
+        <div class="d-none d-md-block d-flex justify-content-between" *ngIf="isCharacterLoaded$ | async">
+            <button mat-button [routerLink]="['/character', 'general']" routerLinkActive="selected-tab">General</button>
+            <button mat-button [routerLink]="['/character', 'abilities']"
+                routerLinkActive="selected-tab">Abilities/Saving</button>
+            <button mat-button [routerLink]="['/character', 'skills']" routerLinkActive="selected-tab">Skills</button>
+            <button mat-button [routerLink]="['/character', 'equipment']"
+                routerLinkActive="selected-tab">Equipment</button>
+            <button mat-button [routerLink]="['/character', 'combat']" routerLinkActive="selected-tab">Combat</button>
+            <button mat-button [routerLink]="['/character', 'feats']" routerLinkActive="selected-tab">Feats
+                +</button>
+            <button mat-button [routerLink]="['/character', 'spells']" routerLinkActive="selected-tab">Spells</button>
+            <button mat-button (click)="openRollDialog()">Roll</button>
+        </div>
+        <div class="d-none d-md-block ms-auto">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="navigateToCharacterList()">
+                    <mat-icon>groups</mat-icon>
+                    <span>My Characters</span>
+                </button>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Log Out</span>
+                </button>
+            </mat-menu>
+        </div>
+        <div class="d-md-none me-auto">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="navigateToCharacterList()">
+                    <mat-icon>groups</mat-icon>
+                    <span>My Characters</span>
+                </button>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Log Out</span>
+                </button>
+            </mat-menu>
+        </div>
+        <div *ngIf="isCharacterLoaded$ | async" class="d-md-none ms-auto">
+            <button mat-icon-button (click)="toggleSidenav()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

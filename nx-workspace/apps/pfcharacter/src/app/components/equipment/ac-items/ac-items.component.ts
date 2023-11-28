@@ -1,11 +1,10 @@
-import { InMemoryDataService } from './../../../services/in-memory-data.service';
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
 import { Character } from 'libs/character-classes/character';
 import { AcItem } from 'libs/character-classes/equipment';
-import { Observable, Subject, debounce, debounceTime, first, takeUntil } from 'rxjs';
+import { Observable, Subject, debounceTime, first, takeUntil } from 'rxjs';
 import { CharacterDataService } from '../../../services/character-data.service';
 import { AcListItemComponent } from '../ac-list-item/ac-list-item.component';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
@@ -20,8 +19,8 @@ export class AcItemsComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   acItemHeight = '15em';
 
-  acItemsForm = this.fb.group({
-    acItems: this.fb.array([])
+  ac_itemsForm = this.fb.group({
+    ac_items: this.fb.array([])
   });
 
   constructor(
@@ -33,7 +32,7 @@ export class AcItemsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
-      this.setAcItemsFormGroup(char.equipment.acItems);
+      this.setAcItemsFormGroup(char.equipment.ac_items);
     });
 
     this.breakpointObserver.observe(['(min-width:992px)'])
@@ -49,19 +48,19 @@ export class AcItemsComponent implements OnInit, OnDestroy {
 
 
   setAcItemsFormGroup(items: AcItem[]): void {
-    if (items === undefined) {
+    if (items === null) {
       return;
     }
     items.map((item) => {
-      this.acItems.push(this.acItemToFormControl(item));
+      this.ac_items.push(this.acItemToFormControl(item));
     });
 
-    this.acItemsForm.valueChanges.pipe(debounceTime(1000), takeUntil(this.destroy$)).subscribe((info) => {
-      if (!this.acItemsForm.valid) {
+    this.ac_itemsForm.valueChanges.pipe(debounceTime(1000), takeUntil(this.destroy$)).subscribe((info) => {
+      if (!this.ac_itemsForm.valid) {
         return;
       }
 
-      this.store.updateAcItems(info.acItems as AcItem[]);
+      this.store.updateAcItems(info.ac_items as AcItem[]);
     });
   }
 
@@ -70,28 +69,28 @@ export class AcItemsComponent implements OnInit, OnDestroy {
       name: [item.name, Validators.maxLength(20)],
       bonus: [item.bonus, Validators.max(100)],
       type: [item.type],
-      checkPen: [item.checkPen, Validators.max(100)],
-      spellFailure: [item.spellFailure, Validators.max(100)],
+      check_pen: [item.check_pen, Validators.max(100)],
+      spell_failure: [item.spell_failure, Validators.max(100)],
       properties: [item.properties, Validators.maxLength(50)],
       weight: [item.weight, Validators.max(5000)],
-      maxDex: [item.maxDex, Validators.max(100)],
+      max_dex: [item.max_dex, Validators.max(100)],
       equipped: [item.equipped]
     });
   }
 
-  get acItems(): FormArray {
-    return this.acItemsForm.controls.acItems as FormArray;
+  get ac_items(): FormArray {
+    return this.ac_itemsForm.controls.ac_items as FormArray;
   }
 
-  get acItemsFormGroups(): FormGroup[] {
-    return this.acItems.controls as FormGroup[];
+  get ac_itemsFormGroups(): FormGroup[] {
+    return this.ac_items.controls as FormGroup[];
   }
 
   addAcItem() {
-    this.acItems.push(AcListItemComponent.createAcListItem());
+    this.ac_items.push(AcListItemComponent.createAcListItem());
   }
 
   deleteAcItem(index: number) {
-    this.acItems.removeAt(index);
+    this.ac_items.removeAt(index);
   }
 }

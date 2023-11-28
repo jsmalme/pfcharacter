@@ -8,11 +8,11 @@ export interface IAbilities {
 }
 
 export interface IAbility {
-  ability: number | undefined;
-  mod: number | undefined;
-  tempAdj: number | undefined;
-  tempMod: number | undefined;
-  useMod: number | undefined;
+  ability: number | null;
+  mod: number | null;
+  tempAdj: number | null;
+  tempMod: number | null;
+  useMod: number | null;
 }
 
 export class Ability implements IAbility {
@@ -24,24 +24,31 @@ export class Ability implements IAbility {
       this.tempMod = ability.tempMod;
       this.useMod = ability.useMod;
     }
+    else {
+      this.ability = 0;
+      this.mod = 0;
+      this.tempAdj = null;
+      this.tempMod = null;
+      this.useMod = 0;
+    }
   }
-  ability: number | undefined = undefined;
-  mod: number | undefined = undefined;
-  tempAdj: number | undefined = undefined;
-  tempMod: number | undefined = undefined;
-  useMod: number | undefined = undefined;
+  ability: number | null = null;
+  mod: number | null = null;
+  tempAdj: number | null = null;
+  tempMod: number | null = null;
+  useMod: number | null = null;
 
   update(info: Ability) {
     this.ability = info.ability;
     this.tempAdj = info.tempAdj;
     this.mod = this.calculateAbilityScore(info.ability);
     this.tempMod = this.calculateAbilityScore(info.tempAdj);
-    this.useMod = info.tempAdj ? this.tempMod : (info.ability ? this.mod : undefined);
+    this.useMod = info.tempAdj ? this.tempMod : (info.ability ? this.mod : null);
   }
 
-  private calculateAbilityScore(score: number | undefined): number | undefined {
-    if (score === undefined || "") {
-      return undefined;
+  private calculateAbilityScore(score: number | null): number | null {
+    if (score === null || "") {
+      return null;
     }
     return Math.floor((score - 10) / 2);
   }
@@ -67,31 +74,31 @@ export class Abilities implements IAbilities {
 }
 
 export class ChaScore {
-  cha: number | undefined;
-  chaTempAdj: number | undefined;
+  cha: number | null;
+  chaTempAdj: number | null;
 }
 
 export class WisScore {
-  wis: number | undefined;
-  wisTempAdj: number | undefined;
+  wis: number | null;
+  wisTempAdj: number | null;
 }
 
 export class IntScore {
-  int: number | undefined;
-  intTempAdj: number | undefined;
+  int: number | null;
+  intTempAdj: number | null;
 }
 
 export class ConScore {
-  con: number | undefined;
-  conTempAdj: number | undefined;
+  con: number | null;
+  conTempAdj: number | null;
 }
 
 export class DexScore {
-  dex: number | undefined;
-  dexTempAdj: number | undefined;
+  dex: number | null;
+  dexTempAdj: number | null;
 }
 
 export class StrScore {
-  str: number | undefined;
-  strTempAdj: number | undefined;
+  str: number | null;
+  strTempAdj: number | null;
 }

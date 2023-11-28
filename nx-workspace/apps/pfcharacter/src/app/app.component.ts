@@ -1,8 +1,8 @@
-import { SnackbarService } from './services/snackbar.service';
 import { RollComponent } from './components/roll/roll.component';
 import { CharacterDataService } from './services/character-data.service';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { DrawerExpansionService } from './services/drawer-expansion.service';
+import { AuthService } from './services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -12,14 +12,22 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AppComponent implements OnInit {
   title = 'pfcharacter';
+  sidenavOpened = false;
+  loggedInUser$ = this.auth.loggedInUser$.asObservable();
 
   constructor(private store: CharacterDataService,
-    private dialog: MatDialog,
-    private snackbar: MatSnackBar
-  ) { }
+    private snackbar: MatSnackBar,
+    private sidenav: DrawerExpansionService,
+    private auth: AuthService) { }
 
   ngOnInit() {
-    this.store.loadCharacter();
+    this.sidenav.sideNavOpen$.subscribe((state: boolean) => {
+      this.sidenavOpened = state;
+    });
+  }
+
+  closeSidenav() {
+    this.sidenav.sideNavOpen$.next(false);
   }
 
   openRollDialog() {

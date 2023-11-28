@@ -4,30 +4,30 @@ import { Abilities } from 'libs/character-classes/abilities';
 import { Weapon } from "./weapon";
 
 export interface ICombatInfo {
-  hpTotal: number | undefined;
-  hpCurrent: number | undefined;
-  hpNonLethal: string | undefined;
-  bab: number | undefined;
-  cmSizeMod: number | undefined;
-  acSizeMod: number | undefined;
-  spellResistance: string | undefined;
-  damageReduction: string | undefined;
-  initiativeTotal: number | undefined;
-  initiativeMiscMod: number | undefined;
-  cmbTotal: number | undefined;
-  cmbBabMod: number | undefined;
-  cmbMiscMod: number | undefined;
-  cmdTotal: number | undefined;
-  cmdBabMod: number | undefined;
-  cmdMiscMod: number | undefined;
-  acTotal: number | undefined;
-  acNaturalArmorMod: number | undefined;
-  acDeflectMod: number | undefined;
-  acMiscMod: number | undefined;
-  acTouch: number | undefined;
-  acFlat: number | undefined;
+  hpTotal: number | null;
+  hpCurrent: number | null;
+  hpNonLethal: string | null;
+  bab: number | null;
+  cmSizeMod: number | null;
+  acSizeMod: number | null;
+  spellResistance: string | null;
+  damageReduction: string | null;
+  initiativeTotal: number | null;
+  initiativeMiscMod: number | null;
+  cmbTotal: number | null;
+  cmbBabMod: number | null;
+  cmbMiscMod: number | null;
+  cmdTotal: number | null;
+  cmdBabMod: number | null;
+  cmdMiscMod: number | null;
+  acTotal: number | null;
+  acNaturalArmorMod: number | null;
+  acDeflectMod: number | null;
+  acMiscMod: number | null;
+  acTouch: number | null;
+  acFlat: number | null;
   weapons: Array<Weapon>;
-  weaponsWeight: number | undefined;
+  weaponsWeight: number | null;
 }
 export class CombatInfo implements ICombatInfo {
   constructor(info?: ICombatInfo) {
@@ -35,29 +35,29 @@ export class CombatInfo implements ICombatInfo {
       Object.assign(this, info);
     }
   }
-  hpTotal: number | undefined = undefined;
-  hpCurrent: number | undefined = undefined;
-  hpNonLethal: string | undefined = undefined;
-  bab: number | undefined = undefined;
-  cmSizeMod: number | undefined = undefined;
-  acSizeMod: number | undefined = undefined;
-  spellResistance: string | undefined = undefined;
-  damageReduction: string | undefined = undefined;
-  initiativeTotal: number | undefined = undefined;
-  initiativeMiscMod: number | undefined = undefined;
-  cmbTotal: number | undefined = undefined;
-  cmbBabMod: number | undefined = undefined;
-  cmbMiscMod: number | undefined = undefined;
-  cmdTotal: number | undefined = undefined;
-  cmdBabMod: number | undefined = undefined;
-  cmdMiscMod: number | undefined = undefined;
-  acTotal: number | undefined = undefined;
-  acNaturalArmorMod: number | undefined = undefined;
-  acDeflectMod: number | undefined = undefined;
-  acMiscMod: number | undefined = undefined;
-  acTouch: number | undefined = undefined;
-  acFlat: number | undefined = undefined;
-  weaponsWeight: number | undefined;
+  hpTotal: number | null = null;
+  hpCurrent: number | null = null;
+  hpNonLethal: string | null = null;
+  bab: number | null = null;
+  cmSizeMod: number | null = null;
+  acSizeMod: number | null = null;
+  spellResistance: string | null = null;
+  damageReduction: string | null = null;
+  initiativeTotal: number | null = null;
+  initiativeMiscMod: number | null = null;
+  cmbTotal: number | null = null;
+  cmbBabMod: number | null = null;
+  cmbMiscMod: number | null = null;
+  cmdTotal: number | null = null;
+  cmdBabMod: number | null = null;
+  cmdMiscMod: number | null = null;
+  acTotal: number | null = null;
+  acNaturalArmorMod: number | null = null;
+  acDeflectMod: number | null = null;
+  acMiscMod: number | null = null;
+  acTouch: number | null = null;
+  acFlat: number | null = null;
+  weaponsWeight: number | null;
   weapons: Array<Weapon> = [];
 
   updateSize(size: SizeEnum) {

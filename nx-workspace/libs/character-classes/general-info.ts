@@ -1,37 +1,37 @@
 export class GeneralInfo {
-    constructor(info?: GeneralInfo){
-        if(info){
+    constructor(info?: GeneralInfo) {
+        if (info) {
             Object.assign(this, info);
         }
     }
-    characterName: string | undefined = undefined;
-    playerName: string | undefined = undefined;
-    alignment: string | undefined = undefined;
-    classLevel: string | undefined = undefined;
-    deity: string | undefined = undefined;
-    homeland: string | undefined = undefined;
-    race: string | undefined = undefined;
-    size: SizeEnum | undefined = undefined
-    gender: string | undefined = undefined;
-    age: number | undefined = undefined; 
-    height: string | undefined = undefined;
-    weight: string | undefined = undefined;
-    hair: string | undefined = undefined;
-    eyes: string | undefined = undefined;
-    baseSpeed: string | undefined = undefined;
-    armorSpeed: string | undefined = undefined;
-    flyManeuver: string | undefined = undefined;
-    swimSpeed: string | undefined = undefined;
-    climbSpeed: string | undefined = undefined;
-    burrowSpeed: string | undefined = undefined;
-    speedTempMods: string | undefined = undefined;
-    languages: string | undefined = undefined;
-    notes: string | undefined = undefined;
+    character_name: string | null = null;
+    player_name: string | null = null;
+    alignment: string | null = null;
+    class_level: string | null = null;
+    deity: string | null = null;
+    homeland: string | null = null;
+    race: string | null = null;
+    size: SizeEnum | null = null
+    gender: string | null = null;
+    age: number | null = null;
+    height: string | null = null;
+    weight: string | null = null;
+    hair: string | null = null;
+    eyes: string | null = null;
+    base_speed: string | null = null;
+    armor_speed: string | null = null;
+    fly_maneuver: string | null = null;
+    swim_speed: string | null = null;
+    climb_speed: string | null = null;
+    burrow_speed: string | null = null;
+    speed_temp_mods: string | null = null;
+    languages: string | null = null;
+    notes: string | null = null;
 }
 
 export enum SizeEnum {
-    small = "Small", 
-    medium = "Medium", 
+    small = "Small",
+    medium = "Medium",
     large = "Large",
     tiny = "Tiny",
     diminutive = "Diminutive",

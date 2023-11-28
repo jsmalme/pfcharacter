@@ -12,7 +12,7 @@ import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon
 })
 export class SpellDetailsComponent implements OnInit {
   spellForm = this.fb.group({
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.maxLength(50)]],
     level: [null as number | null, [Validators.required, Validators.max(9)]],
     castTime: [''],
     components: [''],
@@ -20,7 +20,7 @@ export class SpellDetailsComponent implements OnInit {
     area: [''],
     duration: [''],
     description: [''],
-    shortDescription: ['', Validators.required],
+    shortDescription: ['', [Validators.required, Validators.maxLength(255)]],
     link: [''],
     school: [''],
     savingThrow: [''],

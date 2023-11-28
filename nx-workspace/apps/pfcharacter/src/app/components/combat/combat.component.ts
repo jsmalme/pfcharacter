@@ -23,10 +23,10 @@ import { AcItem } from 'libs/character-classes/equipment';
 })
 
 export class CombatComponent implements OnInit {
-  gridWatcher: Subscription | undefined;
-  sizeMod: number | undefined;
+  gridWatcher: Subscription | null;
+  sizeMod: number | null;
   character$: Observable<Character>;
-  combatInfoForm: FormGroup;
+  combat_infoForm: FormGroup;
   weaponForm: FormGroup;
   counter = 0;
   acDexScore = 0;
@@ -46,22 +46,22 @@ export class CombatComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.combatInfoForm = this.initCombatForm();
+    this.combat_infoForm = this.initCombatForm();
     this.weaponForm = this.initWeaponForm();
 
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
       this.weaponForm = this.initWeaponForm();
-      this.calculateAcDexMod(char.abilities.dex.useMod, char.equipment.acItems);
-      this.calculateArmorAndShield(char.equipment.acItems);
-      char.combatInfo.getCombatInfoTotals(char.abilities, this.acDexScore, this.acArmor, this.acShield);
-      this.setFormGroup(char.combatInfo);
-      this.setWeaponArray(char.combatInfo.weapons);
+      this.calculateAcDexMod(char.abilities.dex.useMod, char.equipment.ac_items);
+      this.calculateArmorAndShield(char.equipment.ac_items);
+      char.combat_info.getCombatInfoTotals(char.abilities, this.acDexScore, this.acArmor, this.acShield);
+      this.setFormGroup(char.combat_info);
+      this.setWeaponArray(char.combat_info.weapons);
     });
 
     //combat form change listener
-    this.combatInfoForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if (!this.combatInfoForm?.valid) {
+    this.combat_infoForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+      if (!this.combat_infoForm?.valid) {
         return;
       }
       this.store.updateCombatInfo(info, this.acDexScore, this.acArmor, this.acShield);
@@ -110,27 +110,27 @@ export class CombatComponent implements OnInit {
   }
 
   setFormGroup(info: CombatInfo) {
-    this.combatInfoForm.patchValue(info, { emitEvent: false });
+    this.combat_infoForm.patchValue(info, { emitEvent: false });
   }
 
-  calculateAcDexMod(dex: number | undefined, acItems: AcItem[]) {
-    if (dex === undefined || acItems === undefined) {
+  calculateAcDexMod(dex: number | null, ac_items: AcItem[]) {
+    if (dex === null || ac_items === null) {
       return;
     }
-    let maxDex = dex ?? 0;
-    acItems.forEach(item => {
-      if (item.equipped && item.maxDex && item.maxDex < maxDex) {
-        maxDex = item.maxDex;
+    let max_dex = dex ?? 0;
+    ac_items.forEach(item => {
+      if (item.equipped && item.max_dex && item.max_dex < max_dex) {
+        max_dex = item.max_dex;
       }
     });
-    this.acDexScore = maxDex;
+    this.acDexScore = max_dex;
   }
 
-  calculateArmorAndShield(acItems: AcItem[]) {
-    if (acItems === undefined) {
+  calculateArmorAndShield(ac_items: AcItem[]) {
+    if (ac_items === null) {
       return;
     }
-    acItems.forEach(item => {
+    ac_items.forEach(item => {
       if (item.equipped) {
         //note: bonuses don't stack take the highest ac bonus from your equipment for shield and ac and apply it
         if (item.type == acTypeEnum.shield) {
@@ -146,7 +146,7 @@ export class CombatComponent implements OnInit {
 
   //weapons ---------------------------------------------------------
   setWeaponArray(weapons: Weapon[]) {
-    if (weapons === undefined) {
+    if (weapons === null) {
       return;
     }
     weapons.map(weapon => {

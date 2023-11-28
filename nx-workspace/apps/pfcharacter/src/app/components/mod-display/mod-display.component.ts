@@ -10,9 +10,9 @@ import { CalcTotService } from '../../services/calc-tot.service';
 })
 export class ModDisplayComponent implements OnInit {
 
-  @Input() score: string | undefined = '';
+  @Input() score: string | null = '';
   @Input() control!: string;
-  @Input() mod: number | undefined = 0;
+  @Input() mod: number | null = 0;
   form!: FormGroup;
 
   constructor(private rootFormGroup: FormGroupDirective,

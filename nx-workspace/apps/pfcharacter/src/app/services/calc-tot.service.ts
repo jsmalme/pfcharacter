@@ -14,23 +14,23 @@ export class CalcTotService {
   constructor() { }
   //SKILLS------------------------------------------------------------------------
   getSkillTotal(skill: Skill): number {
-    return strUnToNum(skill.abilityMod) +
+    return strUnToNum(skill.ability_mod) +
       strUnToNum(skill.ranks) +
       strUnToNum(skill.racial) +
       strUnToNum(skill.misc) +
-      strUnToNum(skill.checkPenalty) +
-      (skill.classSkill ? 3 : 0);
+      strUnToNum(skill.check_penalty) +
+      (skill.class_skill ? 3 : 0);
   }
 
-  getSkillsTotals(skillList: Skill[], skillIds: string[] = []): Skill[] {
+  getSkillsTotals(skills: Skill[], skillIds: string[] = []): Skill[] {
     if (skillIds.length === 0) {
-      return skillList.map(skill => {
+      return skills.map(skill => {
         skill.total = this.getSkillTotal(skill);
         return skill
       });
     }
     else {
-      return skillList.map(skill => {
+      return skills.map(skill => {
         if (skillIds.some(s => s === skill.id)) {
           skill.total = this.getSkillTotal(skill);
         }
@@ -40,24 +40,24 @@ export class CalcTotService {
   }
 
   //EQUIPMENT------------------------------------------------------------------------
-  getTotalWeight(gear: Gear[], weapons: Weapon[], acItems: AcItem[]): number {
+  getTotalWeight(gear: Gear[], weapons: Weapon[], ac_items: AcItem[]): number {
     let totalWeight = 0;
     gear.forEach(g => totalWeight += (g.weight ?? 0) * (g.quantity ?? 0));
     weapons.forEach(w => totalWeight += w.weight ?? 0);
-    acItems.forEach(a => totalWeight += a.weight ?? 0);
+    ac_items.forEach(a => totalWeight += a.weight ?? 0);
     return totalWeight;
   }
 
 
   calculateEncumbrance(info: IWeightCapacity, totalWeight: number) {
     if (totalWeight && info) {
-      if (totalWeight <= (info.lightLoad ?? 0)) {
+      if (totalWeight <= (info.light_load ?? 0)) {
         return burdenEnum.light;
       }
-      else if (totalWeight >= (info.medLoad?.min || 0) && totalWeight <= (info.medLoad?.max || 0)) {
+      else if (totalWeight >= (info.med_load?.min || 0) && totalWeight <= (info.med_load?.max || 0)) {
         return burdenEnum.medium;
       }
-      else if (totalWeight >= (info.heavyLoad?.min || 0)) {
+      else if (totalWeight >= (info.heavy_load?.min || 0)) {
         return burdenEnum.heavy;
       }
     }
@@ -66,8 +66,8 @@ export class CalcTotService {
 
   //-------------------------------------------------------------------------------
   //Ability Mod Background Color Calc
-  calculateModColor(modNum: number | undefined) {
-    if (modNum === undefined) {
+  calculateModColor(modNum: number | null) {
+    if (modNum === null) {
       return "808080";
     }
     if (modNum < 0) {

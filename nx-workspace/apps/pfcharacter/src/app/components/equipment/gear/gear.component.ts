@@ -39,7 +39,7 @@ export class GearComponent implements OnInit {
   }
 
   setGearFormGroup(items: Gear[]): void {
-    if (items === undefined) {
+    if (items === null) {
       return;
     }
     items.map((item) => {

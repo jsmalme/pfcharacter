@@ -1,24 +1,24 @@
 export interface ISpells {
-    modifiers: string | undefined;
-    domains_specialty: string | undefined;
-    spellList: Array<Spell>;
-    stats: Array<SpellStat>;
+    modifiers: string | null;
+    domains_specialty: string | null;
+    spell_list: Array<Spell>;
+    spell_stats: Array<SpellStat>;
 }
 
 export class Spell {
     name: string;
     level: number;
-    castTime: string | undefined;
-    components: string | undefined;
-    range: string | undefined;
-    area: string | undefined;
-    duration: string | undefined;
-    description: string | undefined;
+    castTime: string | null;
+    components: string | null;
+    range: string | null;
+    area: string | null;
+    duration: string | null;
+    description: string | null;
     shortDescription: string;
-    link: string | undefined;
-    school: string | undefined;
-    savingThrow: string | undefined;
-    spellResistance: string | undefined;
+    link: string | null;
+    school: string | null;
+    savingThrow: string | null;
+    spellResistance: string | null;
     usedCount: number = 0;
 }
 
@@ -33,14 +33,17 @@ export class SpellStat {
 }
 
 export class Spells implements ISpells {
-    modifiers: string | undefined = undefined;
-    domains_specialty: string | undefined = undefined;
-    spellList: Array<Spell> = new Array<Spell>();
-    stats: Array<SpellStat> = new Array<SpellStat>(10);
+    modifiers: string | null = null;
+    domains_specialty: string | null = null;
+    spell_list: Array<Spell> = new Array<Spell>();
+    spell_stats: Array<SpellStat> = new Array<SpellStat>(10);
 
     constructor(spells?: ISpells) {
         if (spells) {
             Object.assign(this, spells);
+        }
+        else {
+            this.spell_stats = new Array<SpellStat>(10).fill(new SpellStat());
         }
     }
 }

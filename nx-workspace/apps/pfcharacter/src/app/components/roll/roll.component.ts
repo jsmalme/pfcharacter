@@ -17,8 +17,8 @@ import { Abilities } from 'libs/character-classes/abilities';
 export class RollComponent implements OnInit {
   character$: Observable<Character>
   abilities: AbilitySelection[] = [];
-  abilityMod = new AbilitySelection('None', 0);
-  customMod = undefined;
+  ability_mod = new AbilitySelection('None', 0);
+  customMod = null;
   quantity = 1;
 
   die: DiceChip[] = [
@@ -54,7 +54,7 @@ export class RollComponent implements OnInit {
     });
 
     this.dialog.open(RollResultComponent, {
-      data: { rolls: rollResults, modifier: this.abilityMod, customMod: this.customMod ?? 0, diceType: diceType}
+      data: { rolls: rollResults, modifier: this.ability_mod, customMod: this.customMod ?? 0, diceType: diceType }
     });
   }
 
@@ -96,9 +96,9 @@ export class RollComponent implements OnInit {
 
 export class AbilitySelection {
   name: string;
-  mod: number | undefined;
+  mod: number | null;
 
-  constructor(name: string, mod: number | undefined) {
+  constructor(name: string, mod: number | null) {
     this.name = name;
     this.mod = mod;
   }
