@@ -5,7 +5,7 @@
             <div class="container-fluid" style="padding-top: 12px; padding-bottom: 12px">
                 <div class="row">
                     <div class="col-12 col-sm-auto me-auto">
-                        Abilities
+                        Abilities/Traits
                     </div>
                     <div class="col-auto ms-sm-auto me-xs-auto">
                         <div class="row">
@@ -51,7 +51,7 @@
         </mat-card-title>
         <div *ngIf="abilitiesList.length === 0" class="row text-center">
             <div class="col-12 pt-3 rounded grey-bg">
-                <h2>No Special Abilites</h2>
+                <h2>No Special Abilites or Traits</h2>
             </div>
         </div>
         <mat-accordion multi cdkDropList [cdkDropListData]="abilitiesList" (cdkDropListDropped)="drop($event)">

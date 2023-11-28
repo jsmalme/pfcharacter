@@ -1,6 +1,10 @@
-<span *ngIf="isValid" class="badge badge-pill badge-total" [ngClass]="showGreyZeros && total === 0 ? 'grey-bg' : null">
+<span *ngIf="isValid && showBlockIcon" class="badge badge-pill grey-bg mb-1">
+    <mat-icon>block</mat-icon>
+</span>
+<span *ngIf="isValid && !showBlockIcon" class="badge badge-pill badge-total"
+    [ngClass]="showGreyZeros && total === 0 ? 'grey-bg' : null">
     <span *ngIf="(total || 0) >= 0">+</span>{{total || 0}}
-</span> 
+</span>
 <span *ngIf="!isValid" class="badge badge-pill badge-total error">
-    x 
+    x
 </span>

@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -19,7 +20,7 @@ export class SpellDetailsComponent implements OnInit {
     range: [''],
     area: [''],
     duration: [''],
-    description: [''],
+    description: ['', Validators.maxLength(2000)],
     shortDescription: ['', [Validators.required, Validators.maxLength(255)]],
     link: [''],
     school: [''],

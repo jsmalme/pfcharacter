@@ -124,6 +124,7 @@ export class SkillsComponent implements OnInit, AfterViewInit {
         ranks: this.fb.control(skill.ranks, maxNumberValidator()),
         racial: this.fb.control(skill.racial, maxNumberValidator()),
         misc: this.fb.control(skill.misc, maxNumberValidator()),
+        trained_skill: this.fb.control(skill.trained_skill),
         check_penalty: this.fb.control(skill.check_penalty)
       }))
     )

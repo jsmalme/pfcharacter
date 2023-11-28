@@ -77,7 +77,7 @@ export class AbilitiesComponent implements OnInit {
 
     //saving throw change listeners
     this.saving_throwsForm.get('fortForm')?.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
-      if (!checkValidForm(this.saving_throwsForm, 'forForm')) {
+      if (!checkValidForm(this.saving_throwsForm, 'fortForm')) {
         return;
       }
       this.store.updateSavingThrows(info, 'FOR');

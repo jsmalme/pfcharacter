@@ -1,6 +1,8 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormGroup, FormGroupDirective } from '@angular/forms';
+import { Skill } from 'libs/character-classes/skills';
 
 @Component({
   selector: 'app-total-display',
@@ -8,8 +10,17 @@ import { FormGroup, FormGroupDirective } from '@angular/forms';
   styleUrls: ['./total-display.component.scss'],
 })
 
-export class TotalDisplayComponent {
+export class TotalDisplayComponent implements OnChanges {
   @Input() isValid: boolean | undefined;
   @Input() total: number | null;
   @Input() showGreyZeros: boolean | null;
+  @Input() skill: Skill | null = null;
+  showBlockIcon = false;
+
+  ngOnChanges(): void {
+    if (this.skill) {
+      this.showBlockIcon = this.skill.trained_skill && this.skill.ranks < 1;
+    }
+  }
+
 }
