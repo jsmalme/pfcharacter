@@ -14,7 +14,8 @@ import { CharacterListComponent } from './components/character-list/character-li
 import { CharacterComponent } from './components/character/character.component';
 
 const appRoutes: Routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'logout', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'characters', component: CharacterListComponent, canActivate: [AuthGuard] },

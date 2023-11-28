@@ -3,7 +3,7 @@ import { Character } from './../../../../../../libs/character-classes/character'
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CharacterService } from '../../services/character-http.service';
-import { Observable, skip, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { CharacterDataService } from '../../services/character-data.service';
 
@@ -20,7 +20,7 @@ export class CharacterListComponent implements OnInit {
 
   cols = 2;
   isMobileScreen = false;
-  characterObjectHeight = '16em';
+  characterObjectHeight = '18em';
   characters$ = new Observable<Character[]>;
 
   ngOnInit(): void {
