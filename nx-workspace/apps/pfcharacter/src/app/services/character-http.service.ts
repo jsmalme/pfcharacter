@@ -60,4 +60,11 @@ export class CharacterService {
       catchError(err => this.handleError(err))
     );
   }
+
+  deleteCharacter(characterId: number): Observable<any> {
+    const url = `${baseUrl}/characters/${characterId}/`;
+    return this.http.delete(url).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
 }

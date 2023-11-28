@@ -66,6 +66,10 @@ export class CharacterDataService {
     this.isCharacterLoaded.next(false);
   }
 
+  deleteCharacter(characterId: number) {
+    return this.http.deleteCharacter(characterId);
+  }
+
   //ability/saving updaters--------------------------------------
   updateStr(info: Ability) {
     this.tempRollback();
