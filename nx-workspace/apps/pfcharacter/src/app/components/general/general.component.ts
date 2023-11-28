@@ -1,8 +1,8 @@
 /* eslint-disable @angular-eslint/component-selector */
 import { Character } from './../../../../../../libs/character-classes/character';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { GeneralInfo, SizeEnum } from '../../../../../../libs/character-classes/general-info';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GeneralInfo } from '../../../../../../libs/character-classes/general-info';
 import { CharacterDataService } from '../../services/character-data.service';
 import { debounceTime, Observable } from 'rxjs';
 

@@ -3,7 +3,7 @@ import { Observable, first } from 'rxjs';
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Abilities, ChaScore, ConScore, DexScore, IntScore, StrScore, WisScore } from '../../../../../../libs/character-classes/abilities';
+import { Abilities } from '../../../../../../libs/character-classes/abilities';
 import { CharacterDataService } from '../../services/character-data.service';
 import { debounceTime } from 'rxjs';
 import { SavingThrows } from '../../../../../../libs/character-classes/saving-throws';

@@ -1,6 +1,6 @@
 import { Player } from './../../../../../libs/character-classes/player';
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character, ICharacter } from 'libs/character-classes/character';
 import { catchError, map, Observable, throwError } from 'rxjs';

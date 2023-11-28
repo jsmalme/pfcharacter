@@ -1,7 +1,6 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormGroup, FormGroupDirective } from '@angular/forms';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Skill } from 'libs/character-classes/skills';
 
 @Component({
