@@ -8,7 +8,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import CharacterSerializer, PlayerCreateSerializer, PlayerSerializer
 from .models import Character, Player
 Player = get_user_model()
@@ -23,6 +23,8 @@ def login(request):
     return Response({'token': token.key, 'player': serializer.data}, status=status.HTTP_200_OK)
 
 class SignupView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = PlayerCreateSerializer(data=request.data)
         if serializer.is_valid():
