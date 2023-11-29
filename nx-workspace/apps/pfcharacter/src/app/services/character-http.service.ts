@@ -67,4 +67,11 @@ export class CharacterService {
       catchError(err => this.handleError(err))
     );
   }
+
+  filterFeats(value: string): Observable<any> {
+    const url = `${baseUrl}/feats/?name=${value}`;
+    return this.http.get(url).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
 }

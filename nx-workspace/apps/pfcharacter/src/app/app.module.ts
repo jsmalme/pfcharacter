@@ -31,6 +31,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { A11yModule } from '@angular/cdk/a11y';
 
 
@@ -136,7 +137,8 @@ import { CharacterComponent } from './components/character/character.component';
     MatChipsModule,
     FormsModule,
     MatMenuModule,
-    A11yModule
+    A11yModule,
+    MatAutocompleteModule
   ],
   providers: [
     AuthGuardService,

@@ -5,6 +5,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Feat, FeatTypeEnum } from 'libs/character-classes/feats-abilities';
 import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon-dialog.component';
+import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
+import { CharacterService } from '../../../services/character-http.service';
 
 @Component({
   selector: 'app-feat-details',
@@ -12,6 +14,7 @@ import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon
   styleUrls: ['./feat-details.component.scss'],
 })
 export class FeatDetailsComponent implements OnInit {
+  filteredOptions = new Observable<Feat[]>();
   featTypes = Object.values(FeatTypeEnum);
   featForm = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(50)]],
@@ -21,6 +24,7 @@ export class FeatDetailsComponent implements OnInit {
   });
 
   constructor(
+    private characterService: CharacterService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<FeatDetailsComponent>,
     public dialog: MatDialog,
@@ -29,7 +33,16 @@ export class FeatDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.data.isNew) {
+      this.featForm.controls.name.disable();
       this.featForm.patchValue(this.data.feat);
+    }
+
+    if (this.data.isNew) {
+      this.featForm.controls.name.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe((value) => {
+        if (value && value.length > 0) {
+          this.filteredOptions = this.characterService.filterFeats(value);
+        }
+      });
     }
   }
 
@@ -47,6 +60,18 @@ export class FeatDetailsComponent implements OnInit {
       if (result) {
         this.dialogRef.close({ delete: true });
       }
+    });
+  }
+
+  featSelected(feat: Feat) {
+    console.log(feat);
+    if (!Object.values(FeatTypeEnum).includes(feat.type)) {
+      feat.type = FeatTypeEnum.other;
+    }
+    this.featForm.patchValue({
+      benefit: feat.benefit,
+      type: feat.type,
+      prerequisites: feat.prerequisites,
     });
   }
 }

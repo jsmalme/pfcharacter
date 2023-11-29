@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Character, Player
+from .models import Character, Player, Feat, Spell
 
 class PlayerCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,6 +22,16 @@ class PlayerSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'characters']
         extra_kwargs = {'password': {'write_only': True}}
 
+class FeatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feat
+        fields = '__all__'
+
+class SpellSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Spell
+        fields = '__all__'
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -31,8 +41,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # ...
         return token
     
-
-
 
 # class GeneralInfoSerializer(serializers.ModelSerializer):
 #     class Meta:

@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
@@ -9,8 +10,8 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import CharacterSerializer, PlayerCreateSerializer, PlayerSerializer
-from .models import Character, Player
+from .serializers import CharacterSerializer, PlayerCreateSerializer, PlayerSerializer, FeatSerializer, SpellSerializer
+from .models import Character, Player, Feat, Spell
 Player = get_user_model()
 
 @api_view(['POST'])
@@ -43,6 +44,32 @@ class PlayerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Player.objects.all().order_by('-date_joined')
     serializer_class = PlayerSerializer
+
+class FeatViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Feat.objects.all()
+    serializer_class = FeatSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        name = self.request.query_params.get('name')
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset[:10] #limit to 10 results
+        return queryset
+
+class SpellViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Spell.objects.all()
+    serializer_class = SpellSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        name = self.request.query_params.get('name')
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset[:10] #limit to 10 results
+        return queryset
 
 
 # class GeneralInfoViewSet(viewsets.ModelViewSet):
