@@ -61,7 +61,7 @@ export class GeneralComponent implements OnInit {
       burrow_speed: ['', Validators.maxLength(50)],
       speed_temp_mods: ['', Validators.maxLength(50)],
       languages: ['', Validators.maxLength(50)],
-      notes: ['', Validators.maxLength(2000)],
+      notes: ['', Validators.maxLength(5000)],
     });
   }
 }

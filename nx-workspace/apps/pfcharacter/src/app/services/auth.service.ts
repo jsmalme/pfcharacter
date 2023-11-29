@@ -23,11 +23,8 @@ export class AuthService {
     return this.http.post(`${baseUrl}/login/`, credentials);
   }
 
-  refreshToken() {
-    const refreshHeaders = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.jwt.refresh,
-    })
-    return this.http.post(`${baseUrl}/token/refresh/`, {}, { headers: refreshHeaders });
+  refreshToken(localStorage: string | null = null) {
+    return this.http.post(`${baseUrl}/token/refresh/`, { refresh: localStorage ?? this.jwt.refresh });
   }
 
   public getRefreshToken(): string {
