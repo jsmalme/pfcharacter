@@ -24,7 +24,6 @@ export class ToolbarComponent {
   ) { }
 
   toggleSidenav() {
-    console.log(!this.sidenav.sideNavOpen$.value);
     this.sidenav.sideNavOpen$.next(!this.sidenav.sideNavOpen$.value);
   }
 

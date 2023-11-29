@@ -44,14 +44,10 @@ export class CharacterService {
 
   addPlayerCharacter(playerId: number): Observable<Character> {
     const character = new Character();
-
-    console.log(character);
-
     character.player = playerId; //set current playerId
 
     return this.http.post<ICharacter>(`${baseUrl}/characters/`, character).pipe(
       map((data) => {
-        console.log(data);
         return new Character(data);
       }),
       catchError(err => this.handleError(err))

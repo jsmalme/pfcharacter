@@ -1,7 +1,7 @@
 import { CalcTotService } from './../../../services/calc-tot.service';
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Character } from 'libs/character-classes/character';
 import { CharacterDataService } from '../../../services/character-data.service';
@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './character-list-item.component.html',
   styleUrls: ['./character-list-item.component.scss'],
 })
-export class CharacterListItemComponent implements OnInit {
+export class CharacterListItemComponent {
   @Input() character: Character;
   @Output() deleteCharacterEvent = new EventEmitter();
 
@@ -23,10 +23,6 @@ export class CharacterListItemComponent implements OnInit {
     private dialog: MatDialog,
     public calcService: CalcTotService,
   ) { }
-
-  ngOnInit(): void {
-    console.log(this.character);
-  }
 
   deleteCharacter() {
     this.dialog.open(DeleteItemDialogComponent, {
