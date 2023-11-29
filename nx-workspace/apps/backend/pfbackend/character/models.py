@@ -6,8 +6,6 @@ from django.core.validators import MaxValueValidator
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from rest_framework.authtoken.models import Token    
 
-
-
 class PlayerManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -45,6 +43,16 @@ class Character(models.Model):
 
     def __str__(self):
         return f"Character {self.id}"
+    
+class Feat(models.Model):
+    name = models.CharField(max_length=50)
+    type = models.CharField(max_length=50)
+    description = models.TextField(max_length=2000, blank=True, null=True)
+    prerequisites = models.CharField(max_length=500, blank=True, null=True)
+    benefit = models.TextField(max_length=2000, blank=True, null=True)
+    goal = models.TextField(max_length=2000, blank=True, null=True)
+    completion_benefit = models.TextField(max_length=2000, blank=True, null=True)
+
 
 # class GeneralInfo(models.Model):
 #     character_name = models.CharField(max_length=50, blank=True, null=True)
