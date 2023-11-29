@@ -53,6 +53,27 @@ class Feat(models.Model):
     goal = models.TextField(max_length=2000, blank=True, null=True)
     completion_benefit = models.TextField(max_length=2000, blank=True, null=True)
 
+class Spell(models.Model):
+    name = models.CharField(max_length=50)
+    school = models.CharField(max_length=50)
+    level = models.CharField(max_length=500)
+    cast_time = models.CharField(max_length=100)
+    components = models.CharField(max_length=500)
+    range = models.CharField(max_length=200)
+    area = models.CharField(max_length=500, blank=True, null=True)
+    duration = models.CharField(max_length=200)
+    saving_throw = models.CharField(max_length=200, blank=True, null=True)
+    spell_resistance = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(max_length=5000)
+    short_description = models.CharField(max_length=500)
+    link = models.CharField(max_length=500, blank=True, null=True)
+
+
+
+    
+
+    
+
 
 # class GeneralInfo(models.Model):
 #     character_name = models.CharField(max_length=50, blank=True, null=True)

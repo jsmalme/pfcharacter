@@ -15,7 +15,7 @@ export class FeatDetailsComponent implements OnInit {
   featTypes = Object.values(FeatTypeEnum);
   featForm = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(50)]],
-    benefit: ['', [Validators.required, Validators.maxLength(2000)]],
+    benefit: ['', [Validators.required, Validators.maxLength(5000)]],
     type: [FeatTypeEnum.general],
     prerequisites: ['', Validators.maxLength(100)],
   });

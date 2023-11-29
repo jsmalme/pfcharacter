@@ -20,7 +20,7 @@ export class SpellDetailsComponent implements OnInit {
     range: [''],
     area: [''],
     duration: [''],
-    description: ['', Validators.maxLength(2000)],
+    description: ['', Validators.maxLength(5000)],
     shortDescription: ['', [Validators.required, Validators.maxLength(255)]],
     link: [''],
     school: [''],
