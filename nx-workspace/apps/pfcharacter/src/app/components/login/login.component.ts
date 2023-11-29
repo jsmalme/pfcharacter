@@ -4,6 +4,8 @@ import { AuthService } from '../../services/auth.service';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { loadavg } from 'os';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'nx-workspace-login',
@@ -11,6 +13,7 @@ import { loadavg } from 'os';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  invalidCredentialsError = false;
   loginForm = this.fb.group({
     email: ['', Validators.required],
     password: ['', Validators.required],
@@ -48,7 +51,15 @@ export class LoginComponent implements OnInit {
       });
     }
     else {
-      this.auth.logIn(this.loginForm.value as UserCredentials).subscribe((res: any) => {
+      this.auth.logIn(this.loginForm.value as UserCredentials).pipe(
+        catchError((err) => {
+          this.invalidCredentialsError = true;
+          return of(err);
+        })
+      ).subscribe((res: any) => {
+        if (res instanceof HttpErrorResponse === true) {
+          return;
+        }
         if (this.loginForm.controls.rememberMe.value) {
           localStorage.setItem('pfCharacterEmail', this.loginForm.controls.email.value);
           localStorage.setItem('refreshToken', res.refresh);

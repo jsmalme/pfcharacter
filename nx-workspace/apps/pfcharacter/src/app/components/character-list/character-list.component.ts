@@ -28,8 +28,6 @@ export class CharacterListComponent implements OnInit {
     if (this.isMobileScreen) {
       this.cols = 1;
     }
-
-    console.log(this.authService.getUser());
     this.characters$ = this.characterService.getPlayerCharacters(this.authService.getUser().id);
   }
 
