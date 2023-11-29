@@ -56,6 +56,9 @@ class FeatViewSet(viewsets.ModelViewSet):
         if name:
             queryset = queryset.filter(name__icontains=name)
             queryset = queryset[:10] #limit to 10 results
+            for feat in queryset:
+                if feat.type == 'Mythic':
+                    feat.name += ' (Mythic)'
         return queryset
 
 class SpellViewSet(viewsets.ModelViewSet):

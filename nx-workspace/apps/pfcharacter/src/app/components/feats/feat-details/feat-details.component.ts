@@ -64,7 +64,6 @@ export class FeatDetailsComponent implements OnInit {
   }
 
   featSelected(feat: Feat) {
-    console.log(feat);
     if (!Object.values(FeatTypeEnum).includes(feat.type)) {
       feat.type = FeatTypeEnum.other;
     }
