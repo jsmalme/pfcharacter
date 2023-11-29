@@ -8,17 +8,17 @@ export interface ISpells {
 export class Spell {
     name: string;
     level: number;
-    castTime: string | null;
+    cast_time: string | null;
     components: string | null;
     range: string | null;
     area: string | null;
     duration: string | null;
     description: string | null;
-    shortDescription: string;
+    short_description: string;
     link: string | null;
     school: string | null;
-    savingThrow: string | null;
-    spellResistance: string | null;
+    saving_throw: string | null;
+    spell_resistance: string | null;
     usedCount: number = 0;
 }
 

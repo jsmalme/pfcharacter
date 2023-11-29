@@ -42,6 +42,9 @@ export class FeatDetailsComponent implements OnInit {
         if (value && value.length > 0) {
           this.filteredOptions = this.characterService.filterFeats(value);
         }
+        else {
+          this.filteredOptions = new Observable<Feat[]>();
+        }
       });
     }
   }
