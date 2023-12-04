@@ -1,3 +1,4 @@
+import mailchimp_transactional as MailchimpTransactional
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render
@@ -9,6 +10,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+from mailchimp_transactional.api_client import ApiClientError
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import CharacterSerializer, PlayerCreateSerializer, PlayerSerializer, FeatSerializer, SpellSerializer
 from .models import Character, Player, Feat, Spell
@@ -22,6 +24,19 @@ def login(request):
     token, created = Token.objects.get_or_create(user=player)
     serializer = PlayerSerializer(player)
     return Response({'token': token.key, 'player': serializer.data}, status=status.HTTP_200_OK)
+
+
+# @api_view(['POST'])
+# def send_reset_password_email(request):
+#     def sendEmail():
+#         try:
+#             mailchimp = MailchimpTransactional.Client('md-KMg8cP3O9HvLQFTmELPwiw')
+#             response = mailchimp.users.ping()
+#             print('API called successfully: {}'.format(response))
+#         except ApiClientError as error:
+#             print('An exception occurred: {}'.format(error.text))
+#     sendEmail()
+
 
 class SignupView(APIView):
     authentication_classes = []
