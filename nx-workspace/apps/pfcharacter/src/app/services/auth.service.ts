@@ -1,12 +1,12 @@
 import { LoggedInUser, UserCreation } from './../models/auth';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserCredentials } from '../models/auth';
 import { BehaviorSubject } from 'rxjs';
 import { InterceptorService } from './interceptor.service';
 import { JwtService } from './jwt.service';
 
-const baseUrl = 'http://127.0.0.1:8000';
+const baseUrl = 'https://django.d20character.com';
 
 @Injectable({
   providedIn: 'root'
