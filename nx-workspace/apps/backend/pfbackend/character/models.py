@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.validators import MaxValueValidator
+from django.core import validators
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from rest_framework.authtoken.models import Token    
 
@@ -22,10 +22,13 @@ class PlayerManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
 
         return self.create_user(email, password, **extra_fields)
+    
+class CustomUserNameField(models.CharField):
+    default_validators = [validators.validate_slug]
 
 class Player(AbstractUser):
     email = models.EmailField(unique=True)
-    username = models.CharField(max_length=150)
+    username = CustomUserNameField(max_length=150, validators=[validators.validate_unicode_slug]),
     objects = PlayerManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
