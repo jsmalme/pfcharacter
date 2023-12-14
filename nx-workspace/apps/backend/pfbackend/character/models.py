@@ -11,7 +11,7 @@ class PlayerManager(BaseUserManager):
         if not email:
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
-        user = self.model(email=email, username=username **extra_fields)
+        user = self.model(email=email, display_name=username **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         Token.objects.create(user=user)
@@ -26,6 +26,7 @@ class PlayerManager(BaseUserManager):
 class Player(AbstractUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=150)
+    display_name = models.CharField(max_length=150, blank=True, null=True)
     objects = PlayerManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
