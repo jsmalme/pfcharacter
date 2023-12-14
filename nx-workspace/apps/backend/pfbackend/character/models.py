@@ -29,6 +29,7 @@ class CustomUserNameField(models.CharField):
 class Player(AbstractUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=150)
+    display_name = models.CharField(max_length=150, blank=True, null=True)
     objects = PlayerManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
