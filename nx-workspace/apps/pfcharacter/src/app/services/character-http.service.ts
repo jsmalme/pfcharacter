@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { Character, ICharacter } from 'libs/character-classes/character';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
-const baseUrl = 'http://127.0.0.1:8000';
+const baseUrl = 'https://django.d20character.com';
 
 @Injectable({
   providedIn: 'root'
