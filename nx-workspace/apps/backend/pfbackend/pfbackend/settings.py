@@ -163,6 +163,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "https://d20character.com",
     "http://d20character.com",
-    "www.d20character.com",
-    "django.d20character.com"
+    "http://www.d20character.com",
+    "https://www.d20character.com",
 ]
