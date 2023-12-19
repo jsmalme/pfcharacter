@@ -12,6 +12,9 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
+                <div class="mb-3" *ngIf="this.featForm.controls.name.errors?.['nameExists']">
+                    <mat-error>This character already has this feat.</mat-error>
+                </div>
             </div>
             <div *ngIf="!data.isNew" class="col-12 col-md-8">
                 <mat-form-field color="accent" class="input-header w-100">

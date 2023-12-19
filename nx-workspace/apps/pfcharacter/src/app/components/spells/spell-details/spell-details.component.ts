@@ -39,7 +39,7 @@ export class SpellDetailsComponent implements OnInit {
     public dialogRef: MatDialogRef<SpellDetailsComponent>,
     public dialog: MatDialog,
 
-    @Inject(MAT_DIALOG_DATA) public data: { spell: Spell, new: boolean }) { }
+    @Inject(MAT_DIALOG_DATA) public data: { spell: Spell, new: boolean, spells: Spell[] }) { }
 
   ngOnInit(): void {
     if (!this.data.new) {
@@ -63,7 +63,12 @@ export class SpellDetailsComponent implements OnInit {
     if (!this.spellForm.valid) {
       return;
     }
-    this.dialogRef.close(this.spellForm.value);
+    if (this.data.new && this.data.spells.some(s => s.name.toLowerCase() === this.spellForm.controls.name.value?.toLowerCase())) {
+      this.spellForm.controls.name.setErrors({ nameExists: true });
+      return;
+    }
+
+    this.dialogRef.close(this.spellForm.getRawValue());
   }
 
   delete() {

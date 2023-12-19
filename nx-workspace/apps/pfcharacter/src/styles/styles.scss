@@ -10,7 +10,11 @@ $warn-palette: map.get($color-config, 'warn');
 $is-dark-theme: map.get($color-config, 'is-dark');
 
 
-html, body { height: 100%; }
+html { height: 100%; }
+.nx-workspace-root {
+    display: flex;
+    min-height: 100vh;
+}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .comp-top-margin{
     margin-top: 3vh;

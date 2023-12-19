@@ -54,7 +54,7 @@ export class FeatListComponent implements OnInit {
       minWidth: '50vw',
       disableClose: true,
       autoFocus: false,
-      data: { feat: feat, isNew: isNew }
+      data: { feat: feat, isNew: isNew, featList: this.featList }
     }).afterClosed().pipe(first()).subscribe((result) => {
       let isUpdate = false;
       if (result) {

@@ -20,6 +20,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   character$: Observable<Character>;
   destroy$ = new Subject<void>();
+  spells: Spell[] = [];
   sortedSpells: Record<number, Spell[]> = {};
   drawerStatus: Record<number, boolean> = {};
   spell_statsForm = this.fb.group({
@@ -38,6 +39,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     this.isMobileScreen = window.innerWidth < 577;
     this.character$ = this.store.characterUpdate$;
     this.character$.pipe(first()).subscribe((char: Character) => {
+      this.spells = char.spells.spell_list;
       this.sortSpells(char.spells.spell_list);
       this.setSpellStatsForm(char.spells.spell_stats, char.spells.spell_list);
     });
@@ -168,7 +170,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
       maxWidth: this.isMobileScreen ? '100vw' : 'auto',
       disableClose: true,
       autoFocus: false,
-      data: { spell: spell, new: isNew }
+      data: { spell: spell, new: isNew, spells: this.spells }
     }).afterClosed().pipe(first()).subscribe((result) => {
       let isUpdate = false;
       if (result) {
@@ -191,6 +193,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }
         if (isUpdate) {
           this.character$.pipe(skip(1), first()).subscribe((char: Character) => {
+            this.spells = char.spells.spell_list;
             this.sortSpells(char.spells.spell_list);
             this.patchSpellStatForm(char.spells.spell_stats[result.level], this.sortedSpells[result.level], result.level);
           });

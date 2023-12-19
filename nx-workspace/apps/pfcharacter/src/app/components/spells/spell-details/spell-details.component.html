@@ -12,6 +12,9 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
+                <div class="mb-3" *ngIf="this.spellForm.controls.name.errors?.['nameExists']">
+                    <mat-error>This character already knows this spell.</mat-error>
+                </div>
             </div>
             <div *ngIf="!data.new" class="col-12">
                 <mat-form-field color="accent" class="input-header w-100">

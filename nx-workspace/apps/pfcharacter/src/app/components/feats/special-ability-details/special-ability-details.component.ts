@@ -20,11 +20,12 @@ export class SpecialAbilityDetailsComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<FeatDetailsComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: { specialAbility: SpecialAbility, isNew: boolean }
+    @Inject(MAT_DIALOG_DATA) public data: { specialAbility: SpecialAbility, isNew: boolean, abilitiesList: SpecialAbility[] }
   ) { }
 
   ngOnInit(): void {
     if (!this.data.isNew) {
+      this.specialAbilityForm.controls.name.disable();
       this.specialAbilityForm.patchValue(this.data.specialAbility);
     }
   }
@@ -33,7 +34,12 @@ export class SpecialAbilityDetailsComponent implements OnInit {
     if (!this.specialAbilityForm.valid) {
       return;
     }
-    this.dialogRef.close(this.specialAbilityForm.value);
+    if (this.data.isNew && this.data.abilitiesList.some(a => a.name.toLowerCase() === this.specialAbilityForm.controls.name.value?.toLowerCase())) {
+      this.specialAbilityForm.controls.name.setErrors({ nameExists: true });
+      return;
+    }
+
+    this.dialogRef.close(this.specialAbilityForm.getRawValue());
   }
 
   delete() {

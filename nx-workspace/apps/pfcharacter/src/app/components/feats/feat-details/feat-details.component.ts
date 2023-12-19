@@ -28,7 +28,7 @@ export class FeatDetailsComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<FeatDetailsComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: { feat: Feat, isNew: boolean }
+    @Inject(MAT_DIALOG_DATA) public data: { feat: Feat, isNew: boolean, featList: Feat[] }
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +53,11 @@ export class FeatDetailsComponent implements OnInit {
     if (!this.featForm.valid) {
       return;
     }
-    this.dialogRef.close(this.featForm.value);
+    if (this.data.isNew && this.data.featList.some(f => f.name.toLowerCase() === this.featForm.controls.name.value?.toLowerCase())) {
+      this.featForm.controls.name.setErrors({ nameExists: true });
+      return;
+    }
+    this.dialogRef.close(this.featForm.getRawValue());
   }
 
   delete() {

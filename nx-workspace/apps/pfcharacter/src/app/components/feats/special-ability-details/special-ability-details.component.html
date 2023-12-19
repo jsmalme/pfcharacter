@@ -6,6 +6,9 @@
                     <mat-label>Name</mat-label>
                     <input matInput type="text" formControlName="name">
                 </mat-form-field>
+                <div class="mb-3" *ngIf="this.specialAbilityForm.controls.name.errors?.['nameExists']">
+                    <mat-error>This character already has this ability/trait.</mat-error>
+                </div>
             </div>
         </div>
         <mat-dialog-content>

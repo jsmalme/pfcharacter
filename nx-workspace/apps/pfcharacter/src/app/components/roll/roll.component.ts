@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Character } from './../../../../../../libs/character-classes/character';
 import { MatDialog } from '@angular/material/dialog';
