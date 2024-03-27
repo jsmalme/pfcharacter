@@ -32,6 +32,10 @@ export class ToolbarComponent {
     this.router.navigate(['/characters']);
   }
 
+  navigateToProfile() {
+    this.router.navigate(['/profile']);
+  }
+
   logout() {
     this.store.clearCharacter();
     this.authService.logOut();

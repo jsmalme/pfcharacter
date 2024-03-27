@@ -10,7 +10,7 @@ class PlayerManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):
         if not email:
             raise ValueError('The Email field must be set')
-        email = self.normalize_email(email)
+        email = self.normalize_email(email).lower()
         user = self.model(email=email, display_name=username **extra_fields)
         user.set_password(password)
         user.save(using=self._db)

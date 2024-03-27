@@ -10,11 +10,10 @@
             <br>
             <div class="row">
                 <div class="col-4">
-                    <mat-form-field class="w-100 text-center highlighted-form-field" appearance="outline"
-                        color="accent">
+                    <mat-form-field class="w-100 text-center highlighted-form-field" appearance="outline">
                         <mat-label>Light Load</mat-label>
                         <span *ngIf="current_burden === burdenEnum.light"
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success small-badge">
                             <span class="material-icons">done</span>
                         </span>
                         <input #light_load matInput readonly formControlName="light_load">
@@ -24,7 +23,7 @@
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Medium Load</mat-label>
                         <span *ngIf="current_burden === burdenEnum.medium"
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning small-badge">
                             <span class="material-icons">done</span>
                         </span>
                         <input #med_load matInput readonly formControlName="med_load">
@@ -34,7 +33,7 @@
                     <mat-form-field class="w-100 text-center" appearance="outline" color="accent">
                         <mat-label>Heavy Load</mat-label>
                         <span *ngIf="current_burden === burdenEnum.heavy"
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger small-badge">
                             <span class="material-icons">done</span>
                         </span>
                         <input #heavy_load matInput readonly formControlName="heavy_load">

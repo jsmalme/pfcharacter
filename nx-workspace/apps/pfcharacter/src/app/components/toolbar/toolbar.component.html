@@ -13,6 +13,9 @@
             <button mat-button [routerLink]="['/character', 'spells']" routerLinkActive="selected-tab">Spells</button>
             <button mat-button (click)="openRollDialog()">Roll</button>
         </div>
+        <div *ngIf="(isCharacterLoaded$ | async) === false">
+            <h3>Patfinder 1e Character Sheet</h3>
+        </div>
         <div class="d-none d-md-block ms-auto">
             <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>account_circle</mat-icon>
@@ -22,6 +25,10 @@
                     <mat-icon>groups</mat-icon>
                     <span>My Characters</span>
                 </button>
+                <!-- <button mat-menu-item (click)="navigateToProfile()">
+                    <mat-icon>manage_accounts</mat-icon>
+                    <span>Profile</span>
+                </button> -->
                 <button mat-menu-item (click)="logout()">
                     <mat-icon>logout</mat-icon>
                     <span>Log Out</span>
@@ -37,6 +44,10 @@
                     <mat-icon>groups</mat-icon>
                     <span>My Characters</span>
                 </button>
+                <!-- <button mat-menu-item (click)="navigateToProfile()">
+                    <mat-icon>manage_accounts</mat-icon>
+                    <span>Profile</span>
+                </button> -->
                 <button mat-menu-item (click)="logout()">
                     <mat-icon>logout</mat-icon>
                     <span>Log Out</span>
