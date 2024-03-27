@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
       });
     }
     else {
+      this.loginForm.value.email = this.loginForm.value.email?.toLowerCase();
       this.auth.logIn(this.loginForm.value as UserCredentials).pipe(
         catchError((err) => {
           this.invalidCredentialsError = true;
@@ -61,7 +62,7 @@ export class LoginComponent implements OnInit {
           return;
         }
         if (this.loginForm.controls.rememberMe.value) {
-          localStorage.setItem('pfCharacterEmail', this.loginForm.controls.email.value);
+          localStorage.setItem('pfCharacterEmail', this.loginForm.value.email ?? '');
           localStorage.setItem('refreshToken', res.refresh);
         }
         else {
