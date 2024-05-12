@@ -8,7 +8,7 @@ import { CharacterDataService } from '../../../services/character-data.service';
 import { Feat } from 'libs/character-classes/feats-abilities';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { FeatDetailsComponent } from '../feat-details/feat-details.component';
 import { DrawerExpansionService } from '../../../services/drawer-expansion.service';
 import * as _ from 'lodash';

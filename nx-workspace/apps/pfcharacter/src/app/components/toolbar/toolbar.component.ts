@@ -5,7 +5,7 @@ import { CharacterDataService } from '../../services/character-data.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { RollComponent } from '../roll/roll.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 @Component({
   selector: 'app-toolbar',

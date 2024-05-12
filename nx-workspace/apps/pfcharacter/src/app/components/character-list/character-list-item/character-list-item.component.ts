@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Character } from 'libs/character-classes/character';
 import { CharacterDataService } from '../../../services/character-data.service';
 import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-character-list-item',

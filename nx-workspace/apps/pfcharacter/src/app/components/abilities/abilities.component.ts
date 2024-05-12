@@ -7,7 +7,7 @@ import { Abilities } from '../../../../../../libs/character-classes/abilities';
 import { CharacterDataService } from '../../services/character-data.service';
 import { debounceTime } from 'rxjs';
 import { SavingThrows } from '../../../../../../libs/character-classes/saving-throws';
-import { MatFormField } from '@angular/material/form-field';
+import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
 import { maxNumberValidator } from '../../functions/validators';
 import { checkValidForm } from '../../functions/check-valid-form';
 import { Character } from 'libs/character-classes/character';

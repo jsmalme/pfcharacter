@@ -4,7 +4,7 @@ import { CharacterDataService } from '../../services/character-data.service';
 import { AbstractControl, FormArray, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Observable, Subject, debounceTime, first, skip, takeUntil } from 'rxjs';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DrawerExpansionService } from '../../services/drawer-expansion.service';
 import { SpellDetailsComponent } from './spell-details/spell-details.component';
 import * as _ from "lodash";

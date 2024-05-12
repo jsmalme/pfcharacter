@@ -6,7 +6,7 @@ import { Character } from 'libs/character-classes/character';
 import { SpecialAbility } from 'libs/character-classes/feats-abilities';
 import { Observable, first, skip } from 'rxjs';
 import { CharacterDataService } from '../../../services/character-data.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DrawerExpansionService } from '../../../services/drawer-expansion.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'lodash';

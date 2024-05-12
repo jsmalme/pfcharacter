@@ -3,7 +3,7 @@ import { CharacterDataService } from './services/character-data.service';
 import { Component, OnInit } from '@angular/core';
 import { DrawerExpansionService } from './services/drawer-expansion.service';
 import { AuthService } from './services/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 @Component({
   selector: 'nx-workspace-root',

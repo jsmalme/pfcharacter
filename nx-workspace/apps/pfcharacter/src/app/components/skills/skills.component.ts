@@ -6,7 +6,7 @@ import { Skill } from '../../../../../../libs/character-classes/skills';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { maxNumberValidator } from '../../functions/validators';
 import { debounceTime, distinctUntilChanged, first, Observable } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from '@angular/material/sort';
 import { CalcTotService } from '../../services/calc-tot.service';

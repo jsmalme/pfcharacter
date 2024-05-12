@@ -3,7 +3,7 @@ import { Character } from 'libs/character-classes/character';
 import { FormBuilder, NonNullableFormBuilder, Validators } from '@angular/forms';
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { MatFormField } from '@angular/material/form-field';
+import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
 import { CharacterDataService } from '../../../services/character-data.service';
 import { Observable, debounceTime, first } from 'rxjs';
 import { Money } from 'libs/character-classes/equipment';

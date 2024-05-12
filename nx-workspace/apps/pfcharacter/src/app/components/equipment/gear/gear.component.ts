@@ -3,7 +3,7 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CharacterDataService } from '../../../services/character-data.service';
-import { MatFormField } from '@angular/material/form-field';
+import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
 import { Observable, first } from 'rxjs';
 import { Character } from 'libs/character-classes/character';
 import { Gear } from 'libs/character-classes/equipment';

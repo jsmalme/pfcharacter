@@ -1,10 +1,10 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Character } from './../../../../../../libs/character-classes/character';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Component, OnInit } from '@angular/core';
 import { RollResultComponent } from '../roll-result/roll-result.component';
-import { MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatLegacySnackBarRef as MatSnackBarRef } from '@angular/material/legacy-snack-bar';
 import { Observable, first } from 'rxjs';
 import { CharacterDataService } from '../../services/character-data.service';
 import { Abilities } from 'libs/character-classes/abilities';

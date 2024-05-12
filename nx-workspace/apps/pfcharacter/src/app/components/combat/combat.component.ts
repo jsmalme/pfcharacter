@@ -7,7 +7,7 @@ import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CharacterDataService } from '../../services/character-data.service';
 import { CombatInfo } from '../../../../../../libs/character-classes/combat-info';
 import { Subscription, debounceTime, Subject, Observable, first, takeUntil } from 'rxjs';
-import { MatFormField } from '@angular/material/form-field';
+import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
 import { maxNumberValidator } from '../../functions/validators';
 
 import { WeaponComponent } from '../weapon/weapon.component';
