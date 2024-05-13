@@ -26,7 +26,6 @@ import {
 } from 'libs/character-classes/equipment';
 import { Spell, SpellStat } from 'libs/character-classes/spells';
 import { Feat, SpecialAbility } from 'libs/character-classes/feats-abilities';
-import * as path from 'path';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +35,7 @@ export class CharacterDataService {
     private totService: CalcTotService,
     private http: CharacterService,
     private snackBar: SnackbarService
-  ) {}
+  ) { }
 
   private isCharacterLoaded = new BehaviorSubject<boolean>(false);
   private character = new BehaviorSubject<Character>(new Character());

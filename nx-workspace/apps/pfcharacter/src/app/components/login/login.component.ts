@@ -3,7 +3,6 @@ import { UserCredentials } from '../../models/auth';
 import { AuthService } from '../../services/auth.service';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { loadavg } from 'os';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 
