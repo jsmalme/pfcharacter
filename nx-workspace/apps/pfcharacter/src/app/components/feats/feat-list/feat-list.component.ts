@@ -1,4 +1,4 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 import { debounce, skip } from 'rxjs';
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -28,8 +28,8 @@ export class FeatListComponent implements OnInit {
   constructor(
     private store: CharacterDataService,
     private dialog: MatDialog,
-    private featDrawer: DrawerExpansionService,
-  ) { }
+    private featDrawer: DrawerExpansionService
+  ) {}
 
   ngOnInit(): void {
     this.isMobileScreen = window.innerWidth < 577;
@@ -37,8 +37,7 @@ export class FeatListComponent implements OnInit {
     this.character$.pipe().subscribe((char: Character) => {
       if (this.featDrawer.featDrawerStatus) {
         this.drawerStatus = this.featDrawer.featDrawerStatus;
-      }
-      else {
+      } else {
         char.feats.forEach((feat) => {
           this.drawerStatus[feat.name] = false;
         });
@@ -49,39 +48,42 @@ export class FeatListComponent implements OnInit {
   }
 
   addOrViewFeat(feat: Feat | null, isNew: boolean = false) {
-    this.dialog.open(FeatDetailsComponent, {
-      maxWidth: this.isMobileScreen ? '100vw' : 'auto',
-      minWidth: '50vw',
-      disableClose: true,
-      autoFocus: false,
-      data: { feat: feat, isNew: isNew, featList: this.featList }
-    }).afterClosed().pipe(first()).subscribe((result) => {
-      let isUpdate = false;
-      if (result) {
-        if (isNew) {
-          this.store.addFeat(result);
-          isUpdate = true;
-        }
-        else {
-          if (result.delete) {
-            this.store.deleteFeat(feat);
+    this.dialog
+      .open(FeatDetailsComponent, {
+        maxWidth: this.isMobileScreen ? '100vw' : 'auto',
+        minWidth: '50vw',
+        disableClose: true,
+        autoFocus: false,
+        data: { feat: feat, isNew: isNew, featList: this.featList },
+      })
+      .afterClosed()
+      .pipe(first())
+      .subscribe((result) => {
+        let isUpdate = false;
+        if (result) {
+          if (isNew) {
+            this.store.addFeat(result);
             isUpdate = true;
+          } else {
+            if (result.delete) {
+              this.store.deleteFeat(feat);
+              isUpdate = true;
+            } else if (!_.isEqual(result, feat)) {
+              this.store.updateFeat(result);
+              isUpdate = true;
+            } else {
+              return;
+            }
           }
-          else if (!_.isEqual(result, feat)) {
-            this.store.updateFeat(result);
-            isUpdate = true;
-          }
-          else {
-            return;
+          if (isUpdate) {
+            this.character$
+              .pipe(skip(1), first())
+              .subscribe((char: Character) => {
+                this.featList = char.feats;
+              });
           }
         }
-        if (isUpdate) {
-          this.character$.pipe(skip(1), first()).subscribe((char: Character) => {
-            this.featList = char.feats;
-          });
-        }
-      }
-    });
+      });
   }
 
   drop(event: CdkDragDrop<Feat[]>) {
@@ -102,5 +104,4 @@ export class FeatListComponent implements OnInit {
     }
     this.featDrawer.featDrawerStatus[featName] = false;
   }
-
 }

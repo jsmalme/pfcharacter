@@ -1,7 +1,13 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { CharacterDataService } from '../../../services/character-data.service';
 import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
 import { Observable, first } from 'rxjs';
@@ -22,10 +28,7 @@ export class GearComponent implements OnInit {
     gearItems: this.fb.array<Gear>([]),
   });
 
-  constructor(
-    private store: CharacterDataService,
-    private fb: FormBuilder
-  ) { }
+  constructor(private store: CharacterDataService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
@@ -43,11 +46,13 @@ export class GearComponent implements OnInit {
       return;
     }
     items.map((item) => {
-      this.gearItems.push(this.fb.group({
-        name: [item.name, Validators.maxLength(50)],
-        weight: [item.weight, Validators.max(5000)],
-        quantity: [item.quantity, Validators.max(5000)],
-      }));
+      this.gearItems.push(
+        this.fb.group({
+          name: [item.name, Validators.maxLength(50)],
+          weight: [item.weight, Validators.max(5000)],
+          quantity: [item.quantity, Validators.max(5000)],
+        })
+      );
     });
 
     this.gearForm.valueChanges.subscribe((info) => {
@@ -58,7 +63,6 @@ export class GearComponent implements OnInit {
       this.store.updateGear(info.gearItems as Gear[]);
     });
   }
-
 
   deleteGearItem(index: number) {
     this.gearItems.removeAt(index);

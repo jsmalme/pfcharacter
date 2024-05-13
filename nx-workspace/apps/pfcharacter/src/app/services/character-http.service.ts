@@ -1,5 +1,5 @@
 import { Player } from './../../../../../libs/character-classes/player';
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Character, ICharacter } from 'libs/character-classes/character';
@@ -8,11 +8,10 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 const baseUrl = 'https://django.d20character.com';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CharacterService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private handleError(err: HttpErrorResponse) {
     let errorMessage: string;
@@ -29,17 +28,19 @@ export class CharacterService {
       map((data) => {
         return data.characters.map((char) => new Character(char));
       }),
-      catchError(err => this.handleError(err))
+      catchError((err) => this.handleError(err))
     );
   }
 
   getCharacter(characterId: number): Observable<Character> {
-    return this.http.get<ICharacter>(`${baseUrl}/characters/${characterId}/`).pipe(
-      map((data) => {
-        return new Character(data);
-      }),
-      catchError(err => this.handleError(err))
-    );
+    return this.http
+      .get<ICharacter>(`${baseUrl}/characters/${characterId}/`)
+      .pipe(
+        map((data) => {
+          return new Character(data);
+        }),
+        catchError((err) => this.handleError(err))
+      );
   }
 
   addPlayerCharacter(playerId: number): Observable<Character> {
@@ -50,36 +51,31 @@ export class CharacterService {
       map((data) => {
         return new Character(data);
       }),
-      catchError(err => this.handleError(err))
+      catchError((err) => this.handleError(err))
     );
   }
 
   updateCharacter(patchData: any, characterId: number): Observable<any> {
     const url = `${baseUrl}/characters/${characterId}/`;
-    return this.http.patch(url, patchData).pipe(
-      catchError(err => this.handleError(err))
-    );
+    return this.http
+      .patch(url, patchData)
+      .pipe(catchError((err) => this.handleError(err)));
   }
 
   deleteCharacter(characterId: number): Observable<any> {
     const url = `${baseUrl}/characters/${characterId}/`;
-    return this.http.delete(url).pipe(
-      catchError(err => this.handleError(err))
-    );
+    return this.http
+      .delete(url)
+      .pipe(catchError((err) => this.handleError(err)));
   }
 
   filterFeats(value: string): Observable<any> {
     const url = `${baseUrl}/feats/?name=${value}`;
-    return this.http.get(url).pipe(
-      catchError(err => this.handleError(err))
-    );
+    return this.http.get(url).pipe(catchError((err) => this.handleError(err)));
   }
 
   filterSpells(value: string): Observable<any> {
     const url = `${baseUrl}/spells/?name=${value}`;
-    return this.http.get(url).pipe(
-      catchError(err => this.handleError(err))
-
-    );
+    return this.http.get(url).pipe(catchError((err) => this.handleError(err)));
   }
 }

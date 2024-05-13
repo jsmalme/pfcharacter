@@ -1,4 +1,4 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Character } from './../../../../../../libs/character-classes/character';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
@@ -14,9 +14,8 @@ import { Abilities } from 'libs/character-classes/abilities';
   templateUrl: './roll.component.html',
   styleUrls: ['./roll.component.scss'],
 })
-
 export class RollComponent implements OnInit {
-  character$: Observable<Character>
+  character$: Observable<Character>;
   abilities: AbilitySelection[] = [];
   ability_mod = new AbilitySelection('None', 0);
   customMod = null;
@@ -29,13 +28,13 @@ export class RollComponent implements OnInit {
     { type: 'D10', selected: false, value: 10 },
     { type: 'D12', selected: false, value: 12 },
     { type: 'D20', selected: true, value: 20 },
-    { type: 'D100', selected: false, value: 100 }
-  ]
+    { type: 'D100', selected: false, value: 100 },
+  ];
   constructor(
     private dialog: MatDialog,
     private snackBarRef: MatSnackBarRef<RollComponent>,
     private store: CharacterDataService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.character$ = this.store.characterUpdate$;
@@ -47,7 +46,7 @@ export class RollComponent implements OnInit {
   roll() {
     let rollResults: number[] = [];
     let diceType = '';
-    this.die.forEach(d => {
+    this.die.forEach((d) => {
       if (d.selected) {
         diceType = d.type;
         rollResults = this.rollDie(d.value);
@@ -55,7 +54,12 @@ export class RollComponent implements OnInit {
     });
 
     this.dialog.open(RollResultComponent, {
-      data: { rolls: rollResults, modifier: this.ability_mod, customMod: this.customMod ?? 0, diceType: diceType }
+      data: {
+        rolls: rollResults,
+        modifier: this.ability_mod,
+        customMod: this.customMod ?? 0,
+        diceType: diceType,
+      },
     });
   }
 
@@ -68,11 +72,10 @@ export class RollComponent implements OnInit {
   }
 
   changeSelection(die: DiceChip) {
-    this.die.forEach(d => {
+    this.die.forEach((d) => {
       if (d.type !== die.type) {
         d.selected = false;
-      }
-      else {
+      } else {
         d.selected = true;
       }
     });
@@ -86,8 +89,8 @@ export class RollComponent implements OnInit {
       new AbilitySelection('Constitution', abilities.con.useMod),
       new AbilitySelection('Intelligence', abilities.int.useMod),
       new AbilitySelection('Wisdom', abilities.wis.useMod),
-      new AbilitySelection('Charisma', abilities.cha.useMod)
-    ]
+      new AbilitySelection('Charisma', abilities.cha.useMod),
+    ];
   }
 
   close() {

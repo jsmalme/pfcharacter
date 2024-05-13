@@ -1,4 +1,4 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,7 +12,6 @@ import { acTypeEnum } from 'libs/character-classes/equipment';
   styleUrls: ['./ac-list-item.component.scss'],
 })
 export class AcListItemComponent {
-
   static fb: FormBuilder;
   acTypeEnum = acTypeEnum;
   acTypes = Object.values(this.acTypeEnum);
@@ -31,19 +30,27 @@ export class AcListItemComponent {
       properties: ['', Validators.maxLength(50)],
       weight: [null as number | null, Validators.max(5000)],
       max_dex: [null as number | null, Validators.max(100)],
-      equipped: [false]
+      equipped: [false],
     });
   }
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {}
 
   deleteAcListItem() {
-    this.dialog.open(DeleteItemDialogComponent, {
-      data: { title: 'Delete AC Item', message: `Are you sure you want to delete this AC item ${this.acItemForm.get('name')?.value}?` }
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteAcItemEvent.emit(this.index);
-      }
-    });
+    this.dialog
+      .open(DeleteItemDialogComponent, {
+        data: {
+          title: 'Delete AC Item',
+          message: `Are you sure you want to delete this AC item ${
+            this.acItemForm.get('name')?.value
+          }?`,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.deleteAcItemEvent.emit(this.index);
+        }
+      });
   }
 }

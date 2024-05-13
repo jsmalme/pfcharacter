@@ -1,6 +1,13 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
-import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
 import { Character } from 'libs/character-classes/character';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -14,7 +21,9 @@ import { WeightCapacity, burdenEnum } from 'libs/character-classes/equipment';
   templateUrl: './weight-capacity.component.html',
   styleUrls: ['./weight-capacity.component.scss'],
 })
-export class WeightCapacityComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WeightCapacityComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChildren(MatFormField) formFields!: QueryList<MatFormField>;
   character$: Observable<Character>;
   carryingCapacityForm: FormGroup;
@@ -26,16 +35,26 @@ export class WeightCapacityComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(
     private store: CharacterDataService,
     private totService: CalcTotService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
-    this.character$.pipe(takeUntil(this.destroy$)).subscribe((char: Character) => {
-      this.carryingCapacityForm = this.initCarryingCapacityForm();
-      this.totalWeight = this.totService.getTotalWeight(char.equipment.gear, char.combat_info.weapons, char.equipment.ac_items);
-      this.setCarryingCapacityForm(char.equipment.weight_caps);
-      this.current_burden = this.totService.calculateEncumbrance(char.equipment.weight_caps, this.totalWeight);
-    });
+    this.character$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((char: Character) => {
+        this.carryingCapacityForm = this.initCarryingCapacityForm();
+        this.totalWeight = this.totService.getTotalWeight(
+          char.equipment.gear,
+          char.combat_info.weapons,
+          char.equipment.ac_items
+        );
+        this.setCarryingCapacityForm(char.equipment.weight_caps);
+        this.current_burden = this.totService.calculateEncumbrance(
+          char.equipment.weight_caps,
+          this.totalWeight
+        );
+      });
   }
 
   ngAfterViewInit(): void {
@@ -48,21 +67,25 @@ export class WeightCapacityComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   fixTheOutlines() {
-    setTimeout(() => this.formFields.forEach(ff => {
-      ff.updateOutlineGap()
-    }), 500);
+    setTimeout(
+      () =>
+        this.formFields.forEach((ff) => {
+          ff.updateOutlineGap();
+        }),
+      500
+    );
   }
 
   initCarryingCapacityForm(): FormGroup {
     return this.fb.group({
-      light_load: ['',],
+      light_load: [''],
       med_load: [''],
       heavy_load: [''],
       lift_over_head: [''],
       lift_off_ground: [''],
       drag_or_push: [''],
-      current_burden: ['']
-    })
+      current_burden: [''],
+    });
   }
 
   setCarryingCapacityForm(info: WeightCapacity) {
@@ -73,7 +96,7 @@ export class WeightCapacityComponent implements OnInit, AfterViewInit, OnDestroy
       drag_or_push: `${info.drag_or_push} lbs`,
       lift_off_ground: `${info.lift_off_ground} lbs`,
       lift_over_head: `${info.lift_over_head} lbs`,
-      current_burden: this.totalWeight
-    })
+      current_burden: this.totalWeight,
+    });
   }
 }

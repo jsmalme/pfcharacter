@@ -1,7 +1,13 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  MaxLengthValidator,
+  Validators,
+} from '@angular/forms';
 import { Character } from 'libs/character-classes/character';
 import { AcItem } from 'libs/character-classes/equipment';
 import { Observable, Subject, debounceTime, first, takeUntil } from 'rxjs';
@@ -20,14 +26,14 @@ export class AcItemsComponent implements OnInit, OnDestroy {
   acItemHeight = '15em';
 
   ac_itemsForm = this.fb.group({
-    ac_items: this.fb.array([])
+    ac_items: this.fb.array([]),
   });
 
   constructor(
     private store: CharacterDataService,
     private fb: FormBuilder,
     private breakpointObserver: BreakpointObserver
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
@@ -35,9 +41,12 @@ export class AcItemsComponent implements OnInit, OnDestroy {
       this.setAcItemsFormGroup(char.equipment.ac_items);
     });
 
-    this.breakpointObserver.observe(['(min-width:992px)'])
+    this.breakpointObserver
+      .observe(['(min-width:992px)'])
       .subscribe((state: BreakpointState) => {
-        state.matches ? this.acItemHeight = '15em' : this.acItemHeight = '19em';
+        state.matches
+          ? (this.acItemHeight = '15em')
+          : (this.acItemHeight = '19em');
       });
   }
 
@@ -45,7 +54,6 @@ export class AcItemsComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
 
   setAcItemsFormGroup(items: AcItem[]): void {
     if (items === null) {
@@ -55,13 +63,15 @@ export class AcItemsComponent implements OnInit, OnDestroy {
       this.ac_items.push(this.acItemToFormControl(item));
     });
 
-    this.ac_itemsForm.valueChanges.pipe(debounceTime(1000), takeUntil(this.destroy$)).subscribe((info) => {
-      if (!this.ac_itemsForm.valid) {
-        return;
-      }
+    this.ac_itemsForm.valueChanges
+      .pipe(debounceTime(1000), takeUntil(this.destroy$))
+      .subscribe((info) => {
+        if (!this.ac_itemsForm.valid) {
+          return;
+        }
 
-      this.store.updateAcItems(info.ac_items as AcItem[]);
-    });
+        this.store.updateAcItems(info.ac_items as AcItem[]);
+      });
   }
 
   acItemToFormControl(item: AcItem): FormGroup {
@@ -74,7 +84,7 @@ export class AcItemsComponent implements OnInit, OnDestroy {
       properties: [item.properties, Validators.maxLength(50)],
       weight: [item.weight, Validators.max(5000)],
       max_dex: [item.max_dex, Validators.max(100)],
-      equipped: [item.equipped]
+      equipped: [item.equipped],
     });
   }
 

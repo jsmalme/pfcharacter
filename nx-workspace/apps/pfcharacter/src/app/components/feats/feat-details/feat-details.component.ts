@@ -1,8 +1,12 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { Feat, FeatTypeEnum } from 'libs/character-classes/feats-abilities';
 import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon-dialog.component';
 import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -28,8 +32,9 @@ export class FeatDetailsComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<FeatDetailsComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: { feat: Feat, isNew: boolean, featList: Feat[] }
-  ) { }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { feat: Feat; isNew: boolean; featList: Feat[] }
+  ) {}
 
   ngOnInit(): void {
     if (!this.data.isNew) {
@@ -38,14 +43,15 @@ export class FeatDetailsComponent implements OnInit {
     }
 
     if (this.data.isNew) {
-      this.featForm.controls.name.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe((value) => {
-        if (value && value.length > 0) {
-          this.filteredOptions = this.characterService.filterFeats(value);
-        }
-        else {
-          this.filteredOptions = new Observable<Feat[]>();
-        }
-      });
+      this.featForm.controls.name.valueChanges
+        .pipe(debounceTime(500), distinctUntilChanged())
+        .subscribe((value) => {
+          if (value && value.length > 0) {
+            this.filteredOptions = this.characterService.filterFeats(value);
+          } else {
+            this.filteredOptions = new Observable<Feat[]>();
+          }
+        });
     }
   }
 
@@ -53,7 +59,14 @@ export class FeatDetailsComponent implements OnInit {
     if (!this.featForm.valid) {
       return;
     }
-    if (this.data.isNew && this.data.featList.some(f => f.name.toLowerCase() === this.featForm.controls.name.value?.toLowerCase())) {
+    if (
+      this.data.isNew &&
+      this.data.featList.some(
+        (f) =>
+          f.name.toLowerCase() ===
+          this.featForm.controls.name.value?.toLowerCase()
+      )
+    ) {
       this.featForm.controls.name.setErrors({ nameExists: true });
       return;
     }
@@ -61,13 +74,19 @@ export class FeatDetailsComponent implements OnInit {
   }
 
   delete() {
-    this.dialog.open(DeleteItemDialogComponent, {
-      data: { title: 'Delete Feat', message: `Are you sure you want remove ${this.featForm.controls.name.value} from your feat list?` }
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        this.dialogRef.close({ delete: true });
-      }
-    });
+    this.dialog
+      .open(DeleteItemDialogComponent, {
+        data: {
+          title: 'Delete Feat',
+          message: `Are you sure you want remove ${this.featForm.controls.name.value} from your feat list?`,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.dialogRef.close({ delete: true });
+        }
+      });
   }
 
   featSelected(feat: Feat) {

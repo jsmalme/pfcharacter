@@ -1,5 +1,5 @@
 import { CalcTotService } from './../../../services/calc-tot.service';
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
@@ -21,17 +21,25 @@ export class CharacterListItemComponent {
     private router: Router,
     private store: CharacterDataService,
     private dialog: MatDialog,
-    public calcService: CalcTotService,
-  ) { }
+    public calcService: CalcTotService
+  ) {}
 
   deleteCharacter() {
-    this.dialog.open(DeleteItemDialogComponent, {
-      data: { title: `Delete Character ${this.character.general_info.character_name || 'No name'}`, message: `Are you sure you want to delete this character? All information will be permanently lost!` }
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteCharacterEvent.emit(this.character.id);
-      }
-    });
+    this.dialog
+      .open(DeleteItemDialogComponent, {
+        data: {
+          title: `Delete Character ${
+            this.character.general_info.character_name || 'No name'
+          }`,
+          message: `Are you sure you want to delete this character? All information will be permanently lost!`,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.deleteCharacterEvent.emit(this.character.id);
+        }
+      });
   }
 
   playCharacter(): void {

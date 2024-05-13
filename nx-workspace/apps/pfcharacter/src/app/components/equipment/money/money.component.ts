@@ -1,6 +1,10 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 import { Character } from 'libs/character-classes/character';
-import { FormBuilder, NonNullableFormBuilder, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  NonNullableFormBuilder,
+  Validators,
+} from '@angular/forms';
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
@@ -22,11 +26,12 @@ export class MoneyComponent implements OnInit {
     sp: [0 as number | null],
     gp: [0 as number | null],
     pp: [0 as number | null],
-  })
+  });
 
   constructor(
     private store: CharacterDataService,
-    private fb: NonNullableFormBuilder) { }
+    private fb: NonNullableFormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.character$ = this.store.characterUpdate$;
@@ -34,7 +39,7 @@ export class MoneyComponent implements OnInit {
       this.setMoneyForm(char.equipment.money);
     });
 
-    this.moneyForm.valueChanges.pipe(debounceTime(1000)).subscribe(info => {
+    this.moneyForm.valueChanges.pipe(debounceTime(1000)).subscribe((info) => {
       if (!this.moneyForm.valid) {
         return;
       }
@@ -43,18 +48,24 @@ export class MoneyComponent implements OnInit {
   }
 
   setMoneyForm(money: Money) {
-    this.moneyForm.setValue({
-      cp: money.cp,
-      sp: money.sp,
-      gp: money.gp,
-      pp: money.pp
-    }, { emitEvent: false });
+    this.moneyForm.setValue(
+      {
+        cp: money.cp,
+        sp: money.sp,
+        gp: money.gp,
+        pp: money.pp,
+      },
+      { emitEvent: false }
+    );
   }
 
-
   fixTheOutlines() {
-    setTimeout(() => this.formFields.forEach(ff => {
-      ff.updateOutlineGap()
-    }), 100);
+    setTimeout(
+      () =>
+        this.formFields.forEach((ff) => {
+          ff.updateOutlineGap();
+        }),
+      100
+    );
   }
 }

@@ -1,4 +1,4 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
@@ -28,8 +28,8 @@ export class SpecialAbilitiesComponent implements OnInit {
   constructor(
     private store: CharacterDataService,
     private dialog: MatDialog,
-    private drawerService: DrawerExpansionService,
-  ) { }
+    private drawerService: DrawerExpansionService
+  ) {}
 
   ngOnInit(): void {
     this.isMobileScreen = window.innerWidth < 577;
@@ -38,8 +38,7 @@ export class SpecialAbilitiesComponent implements OnInit {
     this.character$.pipe(first()).subscribe((char: Character) => {
       if (this.drawerService.specialAbilityDrawerStatus) {
         this.drawerStatus = this.drawerService.specialAbilityDrawerStatus;
-      }
-      else {
+      } else {
         char.special_abilities.forEach((ability) => {
           this.drawerStatus[ability.name] = false;
         });
@@ -50,45 +49,60 @@ export class SpecialAbilitiesComponent implements OnInit {
   }
 
   addOrViewAbility(ability: SpecialAbility | null, isNew: boolean = false) {
-    this.dialog.open(SpecialAbilityDetailsComponent, {
-      maxWidth: this.isMobileScreen ? '100vw' : 'auto',
-      width: this.isMobileScreen ? '100vw' : 'auto',
-      minWidth: this.isMediumScreen ? '80vw' : this.isMobileScreen ? '100vw' : '60vw',
-      disableClose: true,
-      autoFocus: false,
-      data: { specialAbility: ability, isNew: isNew, abilitiesList: this.abilitiesList }
-    }).afterClosed().pipe(first()).subscribe((result) => {
-      let isUpdate = false;
-      if (result) {
-        if (isNew) {
-          this.store.addSpecialAbility(result);
-          isUpdate = true;
-        }
-        else {
-          if (result.delete) {
-            this.store.deleteSpecialAbility(ability);
+    this.dialog
+      .open(SpecialAbilityDetailsComponent, {
+        maxWidth: this.isMobileScreen ? '100vw' : 'auto',
+        width: this.isMobileScreen ? '100vw' : 'auto',
+        minWidth: this.isMediumScreen
+          ? '80vw'
+          : this.isMobileScreen
+          ? '100vw'
+          : '60vw',
+        disableClose: true,
+        autoFocus: false,
+        data: {
+          specialAbility: ability,
+          isNew: isNew,
+          abilitiesList: this.abilitiesList,
+        },
+      })
+      .afterClosed()
+      .pipe(first())
+      .subscribe((result) => {
+        let isUpdate = false;
+        if (result) {
+          if (isNew) {
+            this.store.addSpecialAbility(result);
             isUpdate = true;
+          } else {
+            if (result.delete) {
+              this.store.deleteSpecialAbility(ability);
+              isUpdate = true;
+            } else if (!_.isEqual(result, ability)) {
+              this.store.updateSpecialAbility(result);
+              isUpdate = true;
+            } else {
+              return;
+            }
           }
-          else if (!_.isEqual(result, ability)) {
-            this.store.updateSpecialAbility(result);
-            isUpdate = true;
-          }
-          else {
-            return;
+          if (isUpdate) {
+            this.character$
+              .pipe(skip(1), first())
+              .subscribe((char: Character) => {
+                //skip the initial value recieved (behavior subject) wait for the second value (updated char)
+                this.abilitiesList = char.special_abilities;
+              });
           }
         }
-        if (isUpdate) {
-          this.character$.pipe(skip(1), first()).subscribe((char: Character) => { //skip the initial value recieved (behavior subject) wait for the second value (updated char)
-            this.abilitiesList = char.special_abilities;
-          });
-        }
-      }
-    });
+      });
   }
 
-
   drop(event: CdkDragDrop<SpecialAbility[]>) {
-    moveItemInArray(this.abilitiesList, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.abilitiesList,
+      event.previousIndex,
+      event.currentIndex
+    );
     //this.store.updateSpecialAbilitiesList(this.abilitiesList);
   }
 

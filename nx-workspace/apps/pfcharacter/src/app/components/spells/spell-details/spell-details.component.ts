@@ -1,13 +1,16 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { Spell } from 'libs/character-classes/spells';
 import { DeleteItemDialogComponent } from '../../delete-item-dialog/delete-wepon-dialog.component';
 import { Observable } from 'rxjs';
 import { CharacterService } from '../../../services/character-http.service';
-
 
 @Component({
   selector: 'nx-workspace-spell-details',
@@ -34,12 +37,15 @@ export class SpellDetailsComponent implements OnInit {
     usedCount: [0],
   });
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private characterService: CharacterService,
     public dialogRef: MatDialogRef<SpellDetailsComponent>,
     public dialog: MatDialog,
 
-    @Inject(MAT_DIALOG_DATA) public data: { spell: Spell, new: boolean, spells: Spell[] }) { }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { spell: Spell; new: boolean; spells: Spell[] }
+  ) {}
 
   ngOnInit(): void {
     if (!this.data.new) {
@@ -48,14 +54,15 @@ export class SpellDetailsComponent implements OnInit {
     }
 
     if (this.data.new) {
-      this.spellForm.controls.name.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe((value) => {
-        if (value && value.length > 0) {
-          this.filteredOptions = this.characterService.filterSpells(value);
-        }
-        else {
-          this.filteredOptions = new Observable<SpellAutoComplete[]>();
-        }
-      });
+      this.spellForm.controls.name.valueChanges
+        .pipe(debounceTime(500), distinctUntilChanged())
+        .subscribe((value) => {
+          if (value && value.length > 0) {
+            this.filteredOptions = this.characterService.filterSpells(value);
+          } else {
+            this.filteredOptions = new Observable<SpellAutoComplete[]>();
+          }
+        });
     }
   }
 
@@ -63,7 +70,14 @@ export class SpellDetailsComponent implements OnInit {
     if (!this.spellForm.valid) {
       return;
     }
-    if (this.data.new && this.data.spells.some(s => s.name.toLowerCase() === this.spellForm.controls.name.value?.toLowerCase())) {
+    if (
+      this.data.new &&
+      this.data.spells.some(
+        (s) =>
+          s.name.toLowerCase() ===
+          this.spellForm.controls.name.value?.toLowerCase()
+      )
+    ) {
       this.spellForm.controls.name.setErrors({ nameExists: true });
       return;
     }
@@ -72,13 +86,22 @@ export class SpellDetailsComponent implements OnInit {
   }
 
   delete() {
-    this.dialog.open(DeleteItemDialogComponent, {
-      data: { title: 'Delete Spell', message: `Are you sure you want remove ${this.spellForm.controls.name.value} from your spell list?` }
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        this.dialogRef.close({ delete: true, level: this.spellForm.controls.level.value });
-      }
-    });
+    this.dialog
+      .open(DeleteItemDialogComponent, {
+        data: {
+          title: 'Delete Spell',
+          message: `Are you sure you want remove ${this.spellForm.controls.name.value} from your spell list?`,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.dialogRef.close({
+            delete: true,
+            level: this.spellForm.controls.level.value,
+          });
+        }
+      });
   }
 
   spellSelected(spell: SpellAutoComplete) {

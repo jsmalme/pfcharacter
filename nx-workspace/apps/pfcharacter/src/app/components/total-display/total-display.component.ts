@@ -1,4 +1,4 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable @nx/enforce-module-boundaries */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, Input, OnChanges } from '@angular/core';
 import { Skill } from 'libs/character-classes/skills';
@@ -8,7 +8,6 @@ import { Skill } from 'libs/character-classes/skills';
   templateUrl: './total-display.component.html',
   styleUrls: ['./total-display.component.scss'],
 })
-
 export class TotalDisplayComponent implements OnChanges {
   @Input() isValid: boolean | undefined;
   @Input() total: number | null;
@@ -21,5 +20,4 @@ export class TotalDisplayComponent implements OnChanges {
       this.showBlockIcon = this.skill.trained_skill && this.skill.ranks < 1;
     }
   }
-
 }
